@@ -1,0 +1,956 @@
+2025-08-17 16:14:11.365 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 16:14:11.372 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 21284 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 16:14:11.373 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 16:14:12.359 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.359 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.359 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.360 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.360 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.360 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.360 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.360 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:14:12.360 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 16:14:13.037 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 16:14:13.125 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 16:14:13.127 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 16:14:13.141 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 16:14:13.141 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 16:14:13.141 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 16:14:13.141 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 16:14:13.175 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 16:14:15.514 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 16:14:16.219 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.748 seconds (JVM running for 7.272)
+2025-08-17 16:15:26.287 [http-nio-10010-exec-1] ERROR com.maxinhai.platform.utils.HttpClientUtils - GET请求异常, url: https://missav.live/dm34/cn/madou?page=1
+org.apache.http.conn.ConnectTimeoutException: Connect to missav.live:443 [missav.live/172.67.72.106, missav.live/104.26.7.107, missav.live/104.26.6.107, missav.live/2606:4700:20:0:0:0:681a:76b, missav.live/2606:4700:20:0:0:0:681a:66b, missav.live/2606:4700:20:0:0:0:ac43:486a] failed: connect timed out
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:151)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
+	at com.maxinhai.platform.utils.HttpClientUtils.doGet(HttpClientUtils.java:52)
+	at com.maxinhai.platform.utils.HttpClientUtils.doGet(HttpClientUtils.java:38)
+	at com.maxinhai.platform.controller.NacosConfigController.interfaceCall(NacosConfigController.java:194)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.cloud.context.scope.GenericScope$LockedScopedProxyFactoryBean.invoke(GenericScope.java:485)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.maxinhai.platform.controller.NacosConfigController$$EnhancerBySpringCGLIB$$e8030489.interfaceCall(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1789)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.base/java.net.PlainSocketImpl.waitForConnect(Native Method)
+	at java.base/java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:107)
+	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:412)
+	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:255)
+	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:237)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.base/java.net.Socket.connect(Socket.java:608)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:368)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 72 common frames omitted
+2025-08-17 16:16:18.126 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 16:16:18.126 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 16:16:18.126 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 16:16:18.127 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 16:16:18.299 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 16:16:18.300 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 16:16:18.306 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 16:16:18.306 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 16:16:18.310 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 16:16:18.310 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 16:16:42.933 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 16:16:42.939 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 22612 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 16:16:42.940 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:16:43.646 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 16:16:44.178 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 16:16:44.243 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 16:16:44.244 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 16:16:44.258 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 16:16:44.258 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 16:16:44.258 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 16:16:44.258 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 16:16:44.299 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 16:16:46.285 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 16:16:46.885 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.496 seconds (JVM running for 5.968)
+2025-08-17 16:16:50.222 [http-nio-10010-exec-1] ERROR com.maxinhai.platform.utils.HttpClientUtils - GET请求异常, url: https://missav.live/dm34/cn/madou?page=1
+org.apache.http.conn.ConnectTimeoutException: Connect to missav.live:443 [missav.live/172.67.72.106, missav.live/104.26.7.107, missav.live/104.26.6.107, missav.live/2606:4700:20:0:0:0:681a:76b, missav.live/2606:4700:20:0:0:0:681a:66b, missav.live/2606:4700:20:0:0:0:ac43:486a] failed: connect timed out
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:151)
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108)
+	at com.maxinhai.platform.utils.HttpClientUtils.doGet(HttpClientUtils.java:52)
+	at com.maxinhai.platform.utils.HttpClientUtils.doGet(HttpClientUtils.java:38)
+	at com.maxinhai.platform.controller.NacosConfigController.interfaceCall(NacosConfigController.java:194)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.cloud.context.scope.GenericScope$LockedScopedProxyFactoryBean.invoke(GenericScope.java:485)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.maxinhai.platform.controller.NacosConfigController$$EnhancerBySpringCGLIB$$56b4e008.interfaceCall(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1789)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+Caused by: java.net.SocketTimeoutException: connect timed out
+	at java.base/java.net.PlainSocketImpl.waitForConnect(Native Method)
+	at java.base/java.net.PlainSocketImpl.socketConnect(PlainSocketImpl.java:107)
+	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:412)
+	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:255)
+	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:237)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.base/java.net.Socket.connect(Socket.java:608)
+	at org.apache.http.conn.ssl.SSLConnectionSocketFactory.connectSocket(SSLConnectionSocketFactory.java:368)
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)
+	... 72 common frames omitted
+2025-08-17 16:17:30.709 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 16:17:30.709 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 16:17:30.710 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 16:17:30.710 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 16:17:30.884 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 16:17:30.884 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 16:17:30.890 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 16:17:30.890 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 16:17:30.895 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 16:17:30.896 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 16:17:35.746 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 16:17:35.756 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 10000 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 16:17:35.756 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 16:17:36.463 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.463 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.463 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.464 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.464 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.464 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.464 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.464 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:17:36.464 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 16:17:36.998 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 16:17:37.063 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 16:17:37.064 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 16:17:37.078 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 16:17:37.078 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 16:17:37.078 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 16:17:37.078 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 16:17:37.125 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 16:17:39.093 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 16:17:39.709 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.541 seconds (JVM running for 6.019)
+2025-08-17 16:17:44.786 [http-nio-10010-exec-1] ERROR com.maxinhai.platform.utils.OkHttpClientUtils - GET请求异常, url: https://missav.live/dm34/cn/madou?page=1
+java.net.SocketException: Connection reset
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:186)
+	at java.base/java.net.SocketInputStream.read(SocketInputStream.java:140)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:484)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:478)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.decode(SSLSocketInputRecord.java:160)
+	at java.base/sun.security.ssl.SSLTransport.decode(SSLTransport.java:111)
+	at java.base/sun.security.ssl.SSLSocketImpl.decode(SSLSocketImpl.java:1383)
+	at java.base/sun.security.ssl.SSLSocketImpl.readHandshakeRecord(SSLSocketImpl.java:1296)
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:416)
+	at java.base/sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:388)
+	at okhttp3.internal.connection.RealConnection.connectTls(RealConnection.java:336)
+	at okhttp3.internal.connection.RealConnection.establishProtocol(RealConnection.java:300)
+	at okhttp3.internal.connection.RealConnection.connect(RealConnection.java:185)
+	at okhttp3.internal.connection.ExchangeFinder.findConnection(ExchangeFinder.java:224)
+	at okhttp3.internal.connection.ExchangeFinder.findHealthyConnection(ExchangeFinder.java:108)
+	at okhttp3.internal.connection.ExchangeFinder.find(ExchangeFinder.java:88)
+	at okhttp3.internal.connection.Transmitter.newExchange(Transmitter.java:169)
+	at okhttp3.internal.connection.ConnectInterceptor.intercept(ConnectInterceptor.java:41)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:142)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:117)
+	at okhttp3.internal.cache.CacheInterceptor.intercept(CacheInterceptor.java:94)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:142)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:117)
+	at okhttp3.internal.http.BridgeInterceptor.intercept(BridgeInterceptor.java:93)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:142)
+	at okhttp3.internal.http.RetryAndFollowUpInterceptor.intercept(RetryAndFollowUpInterceptor.java:88)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:142)
+	at okhttp3.internal.http.RealInterceptorChain.proceed(RealInterceptorChain.java:117)
+	at okhttp3.RealCall.getResponseWithInterceptorChain(RealCall.java:229)
+	at okhttp3.RealCall.execute(RealCall.java:81)
+	at com.maxinhai.platform.utils.OkHttpClientUtils.doGet(OkHttpClientUtils.java:43)
+	at com.maxinhai.platform.utils.OkHttpClientUtils.doGet(OkHttpClientUtils.java:27)
+	at com.maxinhai.platform.controller.NacosConfigController.interfaceCall(NacosConfigController.java:197)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:282)
+	at org.springframework.cloud.context.scope.GenericScope$LockedScopedProxyFactoryBean.invoke(GenericScope.java:485)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.maxinhai.platform.controller.NacosConfigController$$EnhancerBySpringCGLIB$$db74a355.interfaceCall(<generated>)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1071)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:964)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:670)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:779)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:197)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:135)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:360)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1789)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2025-08-17 16:18:54.993 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 16:18:54.993 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 16:18:54.994 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 16:18:55.022 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 16:18:55.178 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 16:18:55.178 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 16:18:55.183 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 16:18:55.183 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 16:18:55.187 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 16:18:55.188 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 16:19:00.447 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 16:19:00.452 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 23284 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 16:19:00.454 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 16:19:01.184 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:01.185 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 16:19:01.714 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 16:19:01.779 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 16:19:01.780 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 16:19:01.794 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 16:19:01.794 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 16:19:01.795 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 16:19:01.795 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 16:19:01.836 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 16:19:03.779 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 16:19:04.378 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.516 seconds (JVM running for 5.98)
+2025-08-17 16:19:30.834 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 16:19:30.834 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 16:19:30.835 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 16:19:30.835 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 16:19:31.006 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 16:19:31.006 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 16:19:31.010 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 16:19:31.011 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 16:19:31.015 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 16:19:31.015 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 16:19:36.640 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 16:19:36.646 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 23732 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 16:19:36.648 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 16:19:37.343 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 16:19:37.344 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 16:19:37.870 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 16:19:37.940 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 16:19:37.941 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 16:19:37.955 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 16:19:37.955 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 16:19:37.955 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 16:19:37.955 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 16:19:37.997 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 16:19:40.137 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 16:19:40.740 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.642 seconds (JVM running for 6.12)
+2025-08-17 16:32:39.620 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 16:32:39.620 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 16:32:39.621 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 16:32:39.622 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:23:43.669 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:23:43.682 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 26684 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:23:43.683 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:23:44.808 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.808 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.808 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.808 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.808 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.809 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.809 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.809 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:23:44.809 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:23:45.585 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:23:45.690 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:23:45.693 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:23:45.709 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:23:45.709 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:23:45.709 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:23:45.709 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:23:45.770 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:23:48.351 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:23:48.981 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 7.146 seconds (JVM running for 7.857)
+2025-08-17 18:24:09.992 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:24:09.995 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:24:51.313 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:24:51.313 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:24:54.881 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:24:54.881 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:24:54.907 [http-nio-10010-exec-8] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:24:54.907 [http-nio-10010-exec-8] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:40.425 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:25:40.426 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:25:40.426 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:25:40.427 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:25:50.096 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:25:50.103 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 23316 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:25:50.104 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:25:50.811 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:25:51.354 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:25:51.416 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:25:51.418 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:25:51.431 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:25:51.431 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:25:51.431 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:25:51.431 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:25:51.458 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:25:53.422 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:25:54.001 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.418 seconds (JVM running for 5.9)
+2025-08-17 18:25:57.740 [http-nio-10010-exec-5] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.742 [http-nio-10010-exec-5] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:57.751 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.751 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:57.756 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.756 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.756 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:57.756 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.756 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:57.757 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:57.772 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.772 [http-nio-10010-exec-9] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:25:57.772 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:25:57.772 [http-nio-10010-exec-9] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:26:27.398 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:26:27.398 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:26:27.399 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:26:27.400 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:26:27.566 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 18:26:27.566 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 18:26:27.571 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 18:26:27.571 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 18:26:27.575 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 18:26:27.576 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 18:26:31.809 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:26:31.819 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 25104 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:26:31.820 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:26:32.506 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:26:33.037 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:26:33.103 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:26:33.105 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:26:33.115 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:26:33.116 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:26:33.116 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:26:33.116 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:26:33.141 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:26:35.078 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:26:35.712 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.415 seconds (JVM running for 5.868)
+2025-08-17 18:26:39.387 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:26:39.390 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:26:39.596 [http-nio-10010-exec-9] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:26:39.597 [http-nio-10010-exec-9] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:27:10.720 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:27:10.720 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:27:10.720 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:27:10.722 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:27:10.896 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 18:27:10.897 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 18:27:10.902 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 18:27:10.902 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 18:27:10.906 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 18:27:10.906 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 18:27:15.207 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:27:15.211 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 7212 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:27:15.212 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:27:15.907 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:27:15.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:27:16.448 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:27:16.510 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:27:16.512 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:27:16.524 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:27:16.524 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:27:16.524 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:27:16.524 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:27:16.549 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:27:18.545 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:27:19.132 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.435 seconds (JVM running for 5.921)
+2025-08-17 18:27:29.214 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:27:29.217 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:27:29.423 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:27:29.423 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:27:39.912 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:27:39.912 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:27:43.058 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:27:43.058 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:27:43.217 [http-nio-10010-exec-8] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:27:43.217 [http-nio-10010-exec-8] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:28:21.204 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:28:21.204 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:28:21.205 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:28:21.206 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:28:21.365 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 18:28:21.366 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 18:28:21.370 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 18:28:21.371 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 18:28:21.374 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 18:28:21.374 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 18:28:25.615 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:28:25.621 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 13784 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:28:25.622 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.332 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.333 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:28:26.333 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:28:26.865 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:28:26.930 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:28:26.932 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:28:26.945 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:28:26.945 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:28:26.945 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:28:26.945 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:28:26.983 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:28:28.982 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:28:29.554 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.471 seconds (JVM running for 5.931)
+2025-08-17 18:28:29.843 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:28:29.846 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:29:05.686 [http-nio-10010-exec-5] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:29:05.687 [http-nio-10010-exec-5] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:29:09.165 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:29:09.166 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:29:18.254 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:29:18.254 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token异常处理 -----------
+2025-08-17 18:29:31.854 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:29:31.854 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:29:31.855 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:29:31.856 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:29:32.014 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 18:29:32.014 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 18:29:32.019 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 18:29:32.020 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 18:29:32.024 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 18:29:32.024 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 18:29:36.299 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:29:36.308 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 9136 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:29:36.309 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.995 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:29:36.996 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:29:37.523 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:29:37.591 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:29:37.592 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:29:37.605 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:29:37.605 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:29:37.605 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:29:37.605 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:29:37.633 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:29:39.663 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:29:40.289 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.495 seconds (JVM running for 5.954)
+2025-08-17 18:29:42.601 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:31:06.294 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:31:06.312 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doCreateSession
+2025-08-17 18:31:06.313 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doLogin
+2025-08-17 18:31:12.869 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:31:31.563 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:41:42.184 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:41:42.815 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:41:43.235 [http-nio-10010-exec-8] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:41:43.458 [http-nio-10010-exec-9] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:49:37.708 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:49:37.709 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:49:37.708 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:49:37.711 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:49:37.873 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 18:49:37.874 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 18:49:37.880 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 18:49:37.880 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 18:49:37.884 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 18:49:37.884 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 18:49:45.770 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:49:45.779 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 16400 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:49:45.780 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.691 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:49:46.692 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:49:47.265 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:49:47.350 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:49:47.353 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:49:47.370 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:49:47.371 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:49:47.371 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:49:47.371 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:49:47.436 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:49:49.930 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:49:50.673 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.452 seconds (JVM running for 6.915)
+2025-08-17 18:50:17.242 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:50:17.993 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doCreateSession
+2025-08-17 18:50:18.064 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doLogin
+2025-08-17 18:51:05.978 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 18:51:05.979 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 18:51:05.979 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 18:51:05.980 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 18:51:06.286 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 18:51:06.326 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 18:51:06.344 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 18:51:06.344 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 18:51:06.351 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 18:51:06.351 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 18:51:11.003 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 18:51:11.010 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 8316 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 18:51:11.012 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 18:51:11.705 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 18:51:11.706 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 18:51:12.234 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 18:51:12.296 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 18:51:12.298 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 18:51:12.313 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 18:51:12.313 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 18:51:12.313 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 18:51:12.313 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 18:51:12.353 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 18:51:14.267 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 18:51:14.907 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.422 seconds (JVM running for 5.946)
+2025-08-17 18:51:35.293 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:51:36.068 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doLogin
+2025-08-17 18:54:19.045 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:54:19.076 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doLogin
+2025-08-17 18:55:46.272 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:55:46.774 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:55:47.004 [http-nio-10010-exec-8] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:55:47.156 [http-nio-10010-exec-9] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 18:55:48.972 [http-nio-10010-exec-7] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:03:03.712 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 19:03:03.712 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 19:03:03.714 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 19:03:03.714 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 19:03:04.007 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 19:03:04.007 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 19:03:04.013 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 19:03:04.013 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 19:03:04.019 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 19:03:04.019 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 19:03:11.333 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 19:03:11.344 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 2932 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 19:03:11.345 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 19:03:12.220 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.220 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.220 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.220 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.220 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.221 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.221 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.221 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:03:12.221 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 19:03:12.985 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 19:03:13.063 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 19:03:13.065 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 19:03:13.083 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 19:03:13.084 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 19:03:13.084 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 19:03:13.084 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 19:03:13.115 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 19:03:15.373 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 19:03:16.008 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.66 seconds (JVM running for 7.181)
+2025-08-17 19:03:27.479 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:03:28.383 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.listener.CustomTokenListener - ---------- 自定义侦听器实现 doLogin
+2025-08-17 19:03:32.492 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:03:36.200 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:13:02.099 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 19:13:02.099 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 19:13:02.099 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 19:13:02.101 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 19:13:02.394 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 19:13:02.395 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 19:13:02.401 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 19:13:02.402 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 19:13:02.407 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 19:13:02.407 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 19:18:13.984 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 26160 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 19:18:13.986 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 19:18:13.998 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 19:18:14.908 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 19:18:15.432 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 19:18:15.502 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 19:18:15.503 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 19:18:15.517 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 19:18:15.518 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 19:18:15.518 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 19:18:15.518 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 19:18:15.548 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 19:18:17.847 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 19:18:18.697 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.308 seconds (JVM running for 6.797)
+2025-08-17 19:19:27.257 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:19:28.006 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 自定义侦听器实现 doCreateSession
+2025-08-17 19:19:28.078 [http-nio-10010-exec-1] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 自定义侦听器实现 doLogin
+2025-08-17 19:19:57.252 [http-nio-10010-exec-2] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:19:58.180 [http-nio-10010-exec-3] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:20:03.339 [http-nio-10010-exec-4] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 19:34:44.583 [http-nio-10010-exec-6] INFO  com.maxinhai.platform.config.SaTokenConfigure - ---------- 进入Sa-Token全局认证 -----------
+2025-08-17 21:04:52.750 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 21:04:52.750 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 21:04:52.751 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 21:04:52.753 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 21:04:53.103 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 21:04:53.104 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 21:04:53.109 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 21:04:53.109 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 21:04:53.111 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 21:04:53.113 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 21:18:23.228 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 21:18:23.236 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 27416 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 21:18:23.237 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:18:24.130 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 21:18:24.780 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 21:18:24.862 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 21:18:24.864 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 21:18:24.877 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 21:18:24.877 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 21:18:24.877 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 21:18:24.877 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 21:18:24.923 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 21:18:26.984 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 21:18:27.654 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.067 seconds (JVM running for 6.564)
+2025-08-17 21:22:47.136 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 21:22:47.136 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 21:22:47.136 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 21:22:47.137 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 21:22:47.463 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 21:22:47.463 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 21:22:47.469 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 21:22:47.469 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 21:22:47.473 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 21:22:47.474 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 21:22:52.396 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 21:22:52.401 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 9340 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 21:22:52.402 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 21:22:53.281 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:22:53.282 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 21:22:53.864 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 21:22:53.942 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 21:22:53.944 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 21:22:53.957 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 21:22:53.958 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 21:22:53.958 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 21:22:53.958 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 21:22:54.005 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 21:22:56.240 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 21:22:56.932 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.147 seconds (JVM running for 6.627)
+2025-08-17 21:54:07.908 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 21:54:07.908 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 21:54:07.908 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 21:54:07.910 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 21:54:08.212 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 21:54:08.212 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 21:54:08.217 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 21:54:08.217 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 21:54:08.218 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 21:54:08.219 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 21:55:12.606 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 21:55:12.619 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 27304 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 21:55:12.620 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.644 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:55:13.645 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 21:55:14.186 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 21:55:14.260 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 21:55:14.261 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 21:55:14.274 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 21:55:14.275 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 21:55:14.275 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 21:55:14.275 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 21:55:14.320 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 21:55:16.441 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 21:55:17.077 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.728 seconds (JVM running for 7.356)
+2025-08-17 21:58:27.289 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 21:58:27.289 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 21:58:27.289 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 21:58:27.291 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 21:58:27.626 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource start closing ....
+2025-08-17 21:58:27.630 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown initiated...
+2025-08-17 21:58:27.636 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - slave - Shutdown completed.
+2025-08-17 21:58:27.636 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown initiated...
+2025-08-17 21:58:27.641 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - master - Shutdown completed.
+2025-08-17 21:58:27.641 [SpringApplicationShutdownHook] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource all closed success,bye
+2025-08-17 21:58:33.091 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 21:58:33.100 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 21832 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 21:58:33.102 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 21:58:33.873 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 21:58:33.874 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 21:58:34.531 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 21:58:34.614 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 21:58:34.616 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 21:58:34.630 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 21:58:34.630 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 21:58:34.630 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 21:58:34.630 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 21:58:34.673 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 21:58:36.992 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 21:58:37.620 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 6.188 seconds (JVM running for 6.727)
+2025-08-17 23:07:32.567 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Start destroying Publisher
+2025-08-17 23:07:32.568 [Thread-6] WARN  com.alibaba.nacos.common.notify.NotifyCenter - [NotifyCenter] Destruction of the end
+2025-08-17 23:07:32.567 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Start destroying common HttpClient
+2025-08-17 23:07:32.570 [Thread-1] WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder - [HttpClientBeanHolder] Destruction of the end
+2025-08-17 23:09:08.499 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.5.Final
+2025-08-17 23:09:08.505 [main] INFO  com.maxinhai.platform.SystemApplication - Starting SystemApplication using Java 11.0.26 on DESKTOP-8Q1FO7G with PID 20780 (C:\JavaProject\cloud-platform\cloud-platform-system\target\classes started by MaXinHai in C:\JavaProject\cloud-platform)
+2025-08-17 23:09:08.506 [main] INFO  com.maxinhai.platform.SystemApplication - No active profile set, falling back to 1 default profile: "default"
+2025-08-17 23:09:09.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'codeRuleMapper' and 'com.maxinhai.platform.mapper.CodeRuleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dataDictMapper' and 'com.maxinhai.platform.mapper.DataDictMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'dictTypeMapper' and 'com.maxinhai.platform.mapper.DictTypeMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'menuMapper' and 'com.maxinhai.platform.mapper.MenuMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMapper' and 'com.maxinhai.platform.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.253 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'roleMenuRelMapper' and 'com.maxinhai.platform.mapper.RoleMenuRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.254 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userMapper' and 'com.maxinhai.platform.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.254 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - Skipping MapperFactoryBean with name 'userRoleRelMapper' and 'com.maxinhai.platform.mapper.UserRoleRelMapper' mapperInterface. Bean already defined with the same name!
+2025-08-17 23:09:09.254 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.maxinhai.platform.mapper]' package. Please check your configuration.
+2025-08-17 23:09:09.796 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-08-17 23:09:09.864 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-08-17 23:09:09.866 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Starting...
+2025-08-17 23:09:09.877 [main] INFO  com.zaxxer.hikari.HikariDataSource - slave - Start completed.
+2025-08-17 23:09:09.878 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-08-17 23:09:09.878 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-08-17 23:09:09.878 [main] INFO  c.b.dynamic.datasource.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-08-17 23:09:09.922 [main] INFO  c.g.y.a.MybatisPlusJoinAutoConfiguration - MPJSqlInjector init
+2025-08-17 23:09:11.850 [main] WARN  o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2025-08-17 23:09:12.513 [main] INFO  com.maxinhai.platform.SystemApplication - Started SystemApplication in 5.578 seconds (JVM running for 6.037)

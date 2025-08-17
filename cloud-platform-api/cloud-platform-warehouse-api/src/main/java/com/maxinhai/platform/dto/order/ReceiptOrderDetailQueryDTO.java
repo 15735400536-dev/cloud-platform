@@ -1,0 +1,19 @@
+package com.maxinhai.platform.dto.order;
+
+import com.maxinhai.platform.dto.PageSearch;
+import com.maxinhai.platform.vo.order.ReceiptOrderDetailVO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+@Data
+@ApiModel("DTO")
+public class ReceiptOrderDetailQueryDTO extends PageSearch<ReceiptOrderDetailVO> {
+
+    /**
+     * 入库单ID
+     */
+    @ApiModelProperty("入库单ID")
+    private String receiptOrderId;
+
+}
