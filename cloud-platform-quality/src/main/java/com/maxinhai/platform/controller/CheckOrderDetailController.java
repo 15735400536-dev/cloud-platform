@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/checkOrderDetail")
@@ -55,4 +56,16 @@ public class CheckOrderDetailController {
         return AjaxResult.success();
     }
 
+    @GetMapping("/getCheckItemList/{checkOrderId}")
+    @ApiOperation(value = "根据质检单ID查询检测项列表", notes = "根据质检单ID查询检测项列表")
+    public AjaxResult<CheckOrderDetailVO> getCheckItemList(@PathVariable("checkOrderId") String checkOrderId) {
+        return AjaxResult.success(checkOrderDetailService.getCheckItemList(checkOrderId));
+    }
+
+    @PostMapping("/filing")
+    @ApiOperation(value = "填写质检单", notes = "填写质检单")
+    public AjaxResult<Void> filing(@RequestBody List<CheckOrderDetailEditDTO> itemList) {
+        checkOrderDetailService.filing(itemList);
+        return AjaxResult.success();
+    }
 }

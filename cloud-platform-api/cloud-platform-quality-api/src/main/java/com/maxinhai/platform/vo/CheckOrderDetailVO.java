@@ -1,5 +1,6 @@
 package com.maxinhai.platform.vo;
 
+import com.maxinhai.platform.enums.CheckStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -40,5 +41,17 @@ public class CheckOrderDetailVO {
      * 最大值
      */
     private BigDecimal maxValue;
+    /**
+     * 检测值
+     */
+    private BigDecimal checkValue;
+    /**
+     * 检测结果: 合格、不合格
+     */
+    private String checkResult;
+    /**
+     * 检测状态: 0.待检测 1.已检测
+     */
+    private CheckStatus status;
 
 }

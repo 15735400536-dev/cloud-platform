@@ -1,6 +1,7 @@
 package com.maxinhai.platform.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.maxinhai.platform.enums.CheckStatus;
 import com.maxinhai.platform.enums.ControlType;
 import lombok.Data;
 
@@ -49,6 +50,6 @@ public class CheckOrderDetail extends RecordEntity {
     /**
      * 检测状态: 0.待检测 1.已检测
      */
-    private Integer status;
+    private CheckStatus status;
 
 }
