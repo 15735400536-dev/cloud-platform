@@ -2,12 +2,16 @@ package com.maxinhai.platform.bo;
 
 import com.maxinhai.platform.enums.CheckType;
 import com.maxinhai.platform.enums.ControlType;
-import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
-public class CheckTemplateItemBO {
+/**
+ * @ClassName：CheckOrderDetailBO
+ * @Author: XinHai.Ma
+ * @Date: 2025/8/19 15:47
+ * @Description: 必须描述类做什么事情, 实现什么功能
+ */
+public class CheckOrderDetailBO {
 
     /**
      * 检测模板ID

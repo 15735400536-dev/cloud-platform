@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum CheckType {
 
+    ALL(-1, "全部"),
     SELF_CHECK(1, "自检"),
     MUTUAL_CHECK(2, "互检"),
     SPECIAL_CHECK(3, "专检");
