@@ -8,9 +8,9 @@ import lombok.Data;
 @ApiModel("新增DTO")
 public class ProductionLineAddDTO {
 
-    @ApiModelProperty("编码")
+    @ApiModelProperty("产线编码")
     private String code;
-    @ApiModelProperty("名称")
+    @ApiModelProperty("产线名称")
     private String name;
 
 }

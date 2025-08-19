@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel("DTO")
+@ApiModel("编码规则编辑DTO")
 public class CodeRuleEditDTO {
 
     @ApiModelProperty("主键ID")
