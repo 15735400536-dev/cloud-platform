@@ -18,6 +18,14 @@ public class CheckTemplateItemBO {
      */
     private CheckType checkType;
     /**
+     * 工序ID
+     */
+    private String operationId;
+    /**
+     * 工序编码
+     */
+    private String operationCode;
+    /**
      * 检测项ID
      */
     private String itemId;

@@ -1,5 +1,6 @@
 package com.maxinhai.platform.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.maxinhai.platform.enums.CheckStatus;
 import com.maxinhai.platform.enums.CheckType;
@@ -41,6 +42,11 @@ public class CheckOrder extends RecordEntity {
      * 工序ID
      */
     private String operationId;
+    /**
+     * 工序编码
+     */
+    @TableField(exist = false)
+    private String operationCode;
     /**
      * 检测状态: 0.待检测 1.已检测
      */
