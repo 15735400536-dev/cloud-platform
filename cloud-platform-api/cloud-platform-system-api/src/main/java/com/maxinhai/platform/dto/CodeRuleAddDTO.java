@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel("DTO")
+@ApiModel("编码规则新增DTO")
 public class CodeRuleAddDTO {
 
     /**

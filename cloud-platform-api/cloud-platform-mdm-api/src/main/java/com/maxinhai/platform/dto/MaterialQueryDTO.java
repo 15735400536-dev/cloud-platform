@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("数据字典新增DTO")
+@ApiModel("物料新增DTO")
 public class MaterialQueryDTO extends PageSearch<MaterialVO> {
 
     @ApiModelProperty("物料编码")

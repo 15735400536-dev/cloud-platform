@@ -7,12 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("分页查询DTO")
+@ApiModel("工位分页查询DTO")
 public class WorkCellQueryDTO extends PageSearch<WorkCellVO> {
 
-    @ApiModelProperty("编码")
+    @ApiModelProperty("工位编码")
     private String code;
-    @ApiModelProperty("名称")
+    @ApiModelProperty("工位名称")
     private String name;
 
 }

@@ -10,5 +10,9 @@ public class FactoryVO {
 
     @ApiModelProperty("主键ID")
     private String id;
+    @ApiModelProperty("编码")
+    private String code;
+    @ApiModelProperty("名称")
+    private String name;
 
 }
