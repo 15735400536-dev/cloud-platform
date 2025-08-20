@@ -14,30 +14,11 @@
     <description>系统管理</description>
 
     <dependencies>
-        <!-- Spring Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- Spring Boot Actuator（健康检查等） -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
 <!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
 <!--        </dependency>-->
-
-        <!-- 测试依赖 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Spring Boot Starter JDBC -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.maxinhai</groupId>
@@ -46,27 +27,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.maxinhai</groupId>
-            <artifactId>cloud-platform-apidoc</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.maxinhai</groupId>-->
-<!--            <artifactId>cloud-platform-redis</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-
-        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
             <version>3.3.2</version> <!-- 使用最新版本 -->
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-logging</artifactId>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>

@@ -12,26 +12,24 @@
     <artifactId>cloud-platform-warehouse</artifactId>
 
     <dependencies>
-        <!-- Spring Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.maxinhai</groupId>
-            <artifactId>cloud-platform-core</artifactId>
+            <artifactId>cloud-platform-mybatisplus</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.maxinhai</groupId>
             <artifactId>cloud-platform-apidoc</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.maxinhai</groupId>
             <artifactId>cloud-platform-warehouse-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>com.maxinhai</groupId>
             <artifactId>cloud-platform-mdm-api</artifactId>

@@ -12,6 +12,7 @@ import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.po.User;
 import com.maxinhai.platform.po.UserRoleRel;
 import com.maxinhai.platform.utils.AjaxResult;
+import com.maxinhai.platform.utils.LoginUserContext;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,7 @@ public class LoginController {
         }
         // 调用Sa-Token登录方法
         StpUtil.login(user.getId());
+        LoginUserContext.setItemKey("account", user.getAccount());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return AjaxResult.success("login success", tokenInfo.getTokenValue());
     }
@@ -75,7 +77,9 @@ public class LoginController {
             throw new RuntimeException("密码错误!");
         }
         StpUtil.login(user.getId());
-        return AjaxResult.success("login success");
+        LoginUserContext.setItemKey("account", user.getAccount());
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return AjaxResult.success("login success", tokenInfo.getTokenValue());
     }
 
     @GetMapping("/logout")
@@ -83,6 +87,7 @@ public class LoginController {
     public AjaxResult<String> logout() {
         // 检测是否登录
         if(StpUtil.isLogin()) {
+            LoginUserContext.remove();
             // 退出登录
             StpUtil.logout();
         }

@@ -19,15 +19,29 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.4</version>
         </dependency>
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
             <version>3.5.0</version>
         </dependency>
+
         <dependency>
             <groupId>com.github.yulichang</groupId>
             <artifactId>mybatis-plus-join</artifactId>
             <version>1.4.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.maxinhai</groupId>
+            <artifactId>cloud-platform-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

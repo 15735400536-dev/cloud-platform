@@ -30,7 +30,7 @@
             <artifactId>sa-token-fastjson2</artifactId>
             <version>1.44.0</version>
         </dependency>
-
+        <!-- 技术模块 -->
         <dependency>
             <groupId>com.maxinhai</groupId>
             <artifactId>cloud-platform-redis</artifactId>

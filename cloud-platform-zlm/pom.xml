@@ -12,11 +12,6 @@
     <artifactId>cloud-platform-zlm</artifactId>
 
     <dependencies>
-        <!-- Spring Web -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.maxinhai</groupId>
             <artifactId>cloud-platform-core</artifactId>
