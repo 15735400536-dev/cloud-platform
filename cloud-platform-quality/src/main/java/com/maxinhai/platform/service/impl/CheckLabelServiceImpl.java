@@ -14,6 +14,7 @@ import com.maxinhai.platform.enums.CheckType;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.*;
 import com.maxinhai.platform.po.*;
+import com.maxinhai.platform.po.technology.Operation;
 import com.maxinhai.platform.service.CheckLabelService;
 import com.maxinhai.platform.utils.DocxUtils;
 import com.maxinhai.platform.vo.CheckLabelVO;
@@ -87,8 +88,12 @@ public class CheckLabelServiceImpl extends ServiceImpl<CheckLabelMapper, CheckLa
     @Override
     public Map<String, String> getLabelValueMap(String checkOrderId) {
         // 查询质检单
-        CheckOrder checkOrder = checkOrderMapper.selectOne(new LambdaQueryWrapper<CheckOrder>()
-                .select(CheckOrder::getId, CheckOrder::getCheckType, CheckOrder::getCheckTemplateId)
+        CheckOrder checkOrder = checkOrderMapper.selectJoinOne(CheckOrder.class, new MPJLambdaWrapper<CheckOrder>()
+                .innerJoin(Product.class, Product::getId, CheckOrder::getProductId)
+                .innerJoin(Operation.class, Operation::getId, CheckOrder::getOperationId)
+                .select(CheckOrder::getId, CheckOrder::getCheckType, CheckOrder::getCheckTemplateId, CheckOrder::getOperationId)
+                .selectAs(Product::getCode, CheckOrder::getProductCode)
+                .selectAs(Operation::getCode, CheckOrder::getOperationCode)
                 .eq(CheckOrder::getId, checkOrderId));
         // 查询质检单明细
         List<CheckOrderDetail> checkOrderDetailList = checkOrderDetailMapper.selectList(new LambdaQueryWrapper<CheckOrderDetail>()
@@ -133,6 +138,7 @@ public class CheckLabelServiceImpl extends ServiceImpl<CheckLabelMapper, CheckLa
         List<CheckTemplateItemBO> itemBOList = templateItemRelMapper.selectJoinList(CheckTemplateItemBO.class, new MPJLambdaWrapper<CheckTemplateItemRel>()
                 .innerJoin(CheckTemplate.class, CheckTemplate::getId, CheckTemplateItemRel::getTemplateId)
                 .innerJoin(CheckItem.class, CheckItem::getId, CheckTemplateItemRel::getItemId)
+                .innerJoin(Operation.class, Operation::getId, CheckTemplate::getOperationId)
                 // 查询条件
                 .eq(CheckTemplate::getProductId, productId)
                 .eq(Objects.nonNull(checkType), CheckTemplate::getCheckType, checkType)
@@ -140,11 +146,13 @@ public class CheckLabelServiceImpl extends ServiceImpl<CheckLabelMapper, CheckLa
                 .selectAs(CheckTemplateItemRel::getTemplateId, CheckTemplateItemBO::getTemplateId)
                 .selectAs(CheckTemplateItemRel::getItemId, CheckTemplateItemBO::getItemId)
                 .selectAs(CheckTemplate::getCheckType, CheckTemplateItemBO::getCheckType)
+                .selectAs(CheckTemplate::getOperationId, CheckTemplateItemBO::getOperationId)
                 .selectAs(CheckItem::getItemCode, CheckTemplateItemBO::getItemCode)
                 .selectAs(CheckItem::getItemName, CheckTemplateItemBO::getItemName)
                 .selectAs(CheckItem::getControlType, CheckTemplateItemBO::getControlType)
                 .selectAs(CheckItem::getMinValue, CheckTemplateItemBO::getMinValue)
                 .selectAs(CheckItem::getMaxValue, CheckTemplateItemBO::getMaxValue)
+                .selectAs(Operation::getCode, CheckTemplateItemBO::getOperationCode)
                 // 排序
                 .orderByAsc(CheckTemplateItemRel::getCreateTime));
         // 4.生成标签
@@ -184,6 +192,7 @@ public class CheckLabelServiceImpl extends ServiceImpl<CheckLabelMapper, CheckLa
      */
     private void handleQualitative(Product product, CheckOrder checkOrder, CheckOrderDetail detail, Map<String, String> labelValueMap) {
         // 编码规则：产品编码_检测类型_工序编码_检测项编码_字段
+        // 检测结果
         String labelKey = new StringBuffer(product.getCode().toUpperCase()).append("_")
                 .append(checkOrder.getCheckType().getKey()).append("_")
                 .append(checkOrder.getOperationCode().toUpperCase()).append("_")
@@ -200,27 +209,28 @@ public class CheckLabelServiceImpl extends ServiceImpl<CheckLabelMapper, CheckLa
      */
     private void handleQuantitative(Product product, CheckOrder checkOrder, CheckOrderDetail detail, Map<String, String> labelValueMap) {
         // 编码规则：产品编码_检测类型_工序编码_检测项编码_字段
+        // 下限
         String minValueKey = new StringBuffer(product.getCode().toUpperCase()).append("_")
                 .append(checkOrder.getCheckType().getKey()).append("_")
                 .append(checkOrder.getOperationCode().toUpperCase()).append("_")
                 .append(detail.getItemCode().toUpperCase()).append("_")
                 .append("min_value".toUpperCase()).toString();
         labelValueMap.put(minValueKey, StrUtil.isEmpty(detail.getCheckResult()) ? "" : detail.getMinValue().toString());
-
+        // 上限
         String maxValueKey = new StringBuffer(product.getCode().toUpperCase()).append("_")
                 .append(checkOrder.getCheckType().getKey()).append("_")
                 .append(checkOrder.getOperationCode().toUpperCase()).append("_")
                 .append(detail.getItemCode().toUpperCase()).append("_")
                 .append("max_value".toUpperCase()).toString();
         labelValueMap.put(maxValueKey, StrUtil.isEmpty(detail.getCheckResult()) ? "" : detail.getMaxValue().toString());
-
+        // 检测数值
         String checkValueKey = new StringBuffer(product.getCode().toUpperCase()).append("_")
                 .append(checkOrder.getCheckType().getKey()).append("_")
                 .append(checkOrder.getOperationCode().toUpperCase()).append("_")
                 .append(detail.getItemCode().toUpperCase()).append("_")
                 .append("check_value".toUpperCase()).toString();
         labelValueMap.put(checkValueKey, StrUtil.isEmpty(detail.getCheckResult()) ? "" : detail.getCheckValue().toString());
-
+        // 检测结果
         String checkResultKey = new StringBuffer(product.getCode().toUpperCase()).append("_")
                 .append(checkOrder.getCheckType().getKey()).append("_")
                 .append(checkOrder.getOperationCode().toUpperCase()).append("_")
@@ -234,6 +244,7 @@ public class CheckLabelServiceImpl extends ServiceImpl<CheckLabelMapper, CheckLa
      */
     private void handleManualInput(Product product, CheckOrder checkOrder, CheckOrderDetail detail, Map<String, String> labelValueMap) {
         // 编码规则：产品编码_检测类型_工序编码_检测项编码_字段
+        // 检测结果
         String labelKey = new StringBuffer(product.getCode().toUpperCase()).append("_")
                 .append(checkOrder.getCheckType().getKey()).append("_")
                 .append(checkOrder.getOperationCode().toUpperCase()).append("_")

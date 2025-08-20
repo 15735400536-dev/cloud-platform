@@ -34,6 +34,8 @@ public class CheckOrder extends RecordEntity {
      * 产品ID
      */
     private String productId;
+    @TableField(exist = false)
+    private String productCode;
     /**
      * 检测结果: 合格、不合格
      */
