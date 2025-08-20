@@ -36,7 +36,7 @@ public class Inventory extends RecordEntity {
      */
     private String materialId;
     /**
-     * 批次号c
+     * 批次号
      */
     private String batchNo;
     /**

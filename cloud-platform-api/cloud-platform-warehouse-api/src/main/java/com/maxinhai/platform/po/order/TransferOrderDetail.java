@@ -22,9 +22,34 @@ public class TransferOrderDetail extends RecordEntity {
      */
     private String materialId;
     /**
+     * 源仓库ID
+     */
+    private String sourceWarehouseId;
+    /**
+     * 源库区ID
+     */
+    private String sourceAreaId;
+    /**
+     * 源货架ID
+     */
+    private String sourceRackId;
+    /**
      * 源货位ID
      */
     private String sourceLocationId;
+
+    /**
+     * 目标仓库ID
+     */
+    private String targetWarehouseId;
+    /**
+     * 目标库区ID
+     */
+    private String targetAreaId;
+    /**
+     * 目标货架ID
+     */
+    private String targetRackId;
     /**
      * 目标货位ID
      */

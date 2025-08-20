@@ -20,4 +20,10 @@ public interface ReceiptOrderService extends IService<ReceiptOrder> {
 
     void add(ReceiptOrderAddDTO param);
 
+    /**
+     * 根据出库单ID出库
+     * @param id
+     */
+    void receipt(String id);
+
 }
