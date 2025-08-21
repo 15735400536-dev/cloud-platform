@@ -20,6 +20,7 @@
         <module>cloud-platform-equipment-api</module>
         <module>cloud-platform-quality-api</module>
         <module>cloud-platform-zlm-api</module>
+        <module>cloud-platform-report-api</module>
     </modules>
 
     <dependencies>

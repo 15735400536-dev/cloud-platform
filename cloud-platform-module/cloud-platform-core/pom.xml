@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <scope>test</scope> <!-- test作用域的依赖仅在当前模块的测试代码中有效，该依赖不会传递给其他模块 -->
         </dependency>
 
         <!-- Freemarker -->

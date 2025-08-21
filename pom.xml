@@ -22,6 +22,8 @@
         <module>cloud-platform-warehouse</module>
         <module>cloud-platform-quality</module>
         <module>cloud-platform-zlm</module>
+        <module>cloud-platform-report</module>
+        <module>cloud-platform-starter</module>
     </modules>
 
     <properties>
