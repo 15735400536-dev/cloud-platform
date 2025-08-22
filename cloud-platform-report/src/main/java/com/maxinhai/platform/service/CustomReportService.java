@@ -6,6 +6,7 @@ import com.maxinhai.platform.dto.CustomReportAddDTO;
 import com.maxinhai.platform.dto.CustomReportEditDTO;
 import com.maxinhai.platform.dto.CustomReportQueryDTO;
 import com.maxinhai.platform.po.CustomReport;
+import com.maxinhai.platform.vo.CustomReportPreviewVO;
 import com.maxinhai.platform.vo.CustomReportVO;
 
 public interface CustomReportService extends IService<CustomReport> {
@@ -19,5 +20,12 @@ public interface CustomReportService extends IService<CustomReport> {
     void edit(CustomReportEditDTO param);
 
     void add(CustomReportAddDTO param);
+
+    /**
+     * 根据报表ID预览报表
+     * @param reportId 报表ID
+     * @return
+     */
+    CustomReportPreviewVO preview(String reportId);
 
 }

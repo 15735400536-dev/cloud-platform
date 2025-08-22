@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.CustomReportQueryDTO;
 import com.maxinhai.platform.service.CustomReportService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.CustomReportPreviewVO;
 import com.maxinhai.platform.vo.CustomReportVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,6 +60,12 @@ public class ReportController {
     public AjaxResult<Void> removeCustomReport(@RequestBody String[] ids) {
         reportService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/preview/{reportId}")
+    @ApiOperation(value = "根据报表ID预览报表", notes = "根据报表ID预览报表")
+    public AjaxResult<CustomReportPreviewVO> preview(@PathVariable("reportId") String reportId) {
+        return AjaxResult.success(reportService.preview(reportId));
     }
 
 }

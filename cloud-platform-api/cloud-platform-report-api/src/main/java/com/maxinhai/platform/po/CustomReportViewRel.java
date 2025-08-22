@@ -21,5 +21,9 @@ public class CustomReportViewRel extends RecordEntity {
      * 视图ID
      */
     private String viewId;
+    /**
+     * 顺序号
+     */
+    private Integer sort;
 
 }
