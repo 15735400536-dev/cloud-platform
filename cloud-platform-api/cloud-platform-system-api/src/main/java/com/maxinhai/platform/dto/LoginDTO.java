@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@ApiModel("用户登录DTO")
+@ApiModel(description = "用户登录DTO")
 public class LoginDTO {
 
     @NotBlank(message = "账号不能为空")

@@ -1,7 +1,8 @@
 package com.maxinhai.platform.dto;
 
-import com.baomidou.mybatisplus.annotation.DbType;
+import com.maxinhai.platform.enums.DbType;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -11,20 +12,23 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "数据源新增DTO")
 public class CustomDataSourceAddDTO {
 
     /**
      * 数据源标识
      */
+    @ApiModelProperty(value = "数据源标识")
     private String key;
     /**
      * 数据库类型（MySQL、PgSQL、Oracle、SqlServer）
      */
+    @ApiModelProperty(value = "数据库类型（MySQL、PgSQL、Oracle、SqlServer）")
     private DbType type;
     /**
      * 数据库驱动：com.mysql.cj.jdbc.Driver
      */
+    @ApiModelProperty(value = "数据库驱动：com.mysql.cj.jdbc.Driver")
     private String driverClassName;
     /**
      * 连接地址：jdbc:mysql://localhost:3306/testdb?useUnicode=true
@@ -32,18 +36,22 @@ public class CustomDataSourceAddDTO {
      * &useSSL=false
      * &serverTimezone=Asia/Shanghai
      */
+    @ApiModelProperty(value = "连接地址")
     private String url;
     /**
      * 用户名：root
      */
+    @ApiModelProperty(value = "用户名：root")
     private String username;
     /**
      * 密码：root
      */
+    @ApiModelProperty(value = "密码：root")
     private String password;
     /**
-     * 数据库：123456
+     * 数据库：postgres
      */
+    @ApiModelProperty(value = "数据库：postgres")
     private String database;
 
 }

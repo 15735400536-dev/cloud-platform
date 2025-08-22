@@ -14,10 +14,10 @@ import java.util.List;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "查询条件编辑DTO")
 public class CustomConditionEditDTO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
     /**
      * 查询字段

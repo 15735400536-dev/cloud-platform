@@ -1,7 +1,7 @@
 package com.maxinhai.platform.po;
 
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.maxinhai.platform.enums.DbType;
 import lombok.Data;
 
 /**

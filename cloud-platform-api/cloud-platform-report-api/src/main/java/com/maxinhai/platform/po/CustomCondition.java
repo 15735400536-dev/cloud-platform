@@ -1,12 +1,15 @@
 package com.maxinhai.platform.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.google.common.collect.Lists;
 import com.maxinhai.platform.enums.ConditionEnum;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.handler.StrListArrayTypeHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -46,6 +49,8 @@ public class CustomCondition extends RecordEntity {
     /**
      * 范围
      */
+    // 指定字段类型为ARRAY，使用自定义类型处理器
+    @TableField(jdbcType = JdbcType.ARRAY, typeHandler = StrListArrayTypeHandler.class)
     private List<String> range;
     /**
      * 查询SQL

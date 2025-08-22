@@ -11,7 +11,7 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("上传文件分页查询DTO")
+@ApiModel(description = "上传文件分页查询DTO")
 public class UploadFileQueryDTO extends PageSearch<UploadFileVO>{
 
     private String fileName;

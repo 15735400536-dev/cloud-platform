@@ -13,22 +13,22 @@ import java.util.Date;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("上传文件VO")
+@ApiModel(description = "上传文件VO")
 public class UploadFileVO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
-    @ApiModelProperty("文件名称")
+    @ApiModelProperty(value = "文件名称")
     private String fileName;
-    @ApiModelProperty("文件类型")
+    @ApiModelProperty(value = "文件类型")
     private String fileType;
-    @ApiModelProperty("文件大小")
+    @ApiModelProperty(value = "文件大小")
     private Long fileSize;
-    @ApiModelProperty("文件路径")
+    @ApiModelProperty(value = "文件路径")
     private String filePath;
-    @ApiModelProperty("访问地址")
+    @ApiModelProperty(value = "访问地址")
     private String fileUrl;
-    @ApiModelProperty("上传时间")
+    @ApiModelProperty(value = "上传时间")
     private Date uploadTime;
 
     public String getFilePath() {

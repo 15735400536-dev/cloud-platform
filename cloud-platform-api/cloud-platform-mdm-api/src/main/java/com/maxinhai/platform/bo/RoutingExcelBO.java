@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel("工艺路线Excel导入BO")
+@ApiModel(description = "工艺路线Excel导入BO")
 public class RoutingExcelBO {
 
     @ExcelProperty(value = "产品编码")

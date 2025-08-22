@@ -8,10 +8,10 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel("VO")
+@ApiModel(description = "VO")
 public class CheckOrderDetailVO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
     /**
      * 检测单ID

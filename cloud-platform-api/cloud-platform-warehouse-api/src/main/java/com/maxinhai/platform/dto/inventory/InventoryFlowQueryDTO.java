@@ -13,38 +13,38 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "DTO")
 public class InventoryFlowQueryDTO extends PageSearch<InventoryFlowVO> {
 
     /**
      * 仓库ID
      */
-    @ApiModelProperty("仓库ID")
+    @ApiModelProperty(value = "仓库ID")
     private String warehouseId;
     /**
      * 库区ID
      */
-    @ApiModelProperty("库区ID")
+    @ApiModelProperty(value = "库区ID")
     private String areaId;
     /**
      * 货架ID
      */
-    @ApiModelProperty("货架ID")
+    @ApiModelProperty(value = "货架ID")
     private String rackId;
     /**
      * 货位ID
      */
-    @ApiModelProperty("货位ID")
+    @ApiModelProperty(value = "货位ID")
     private String locationId;
     /**
      * 物料ID
      */
-    @ApiModelProperty("物料ID")
+    @ApiModelProperty(value = "物料ID")
     private String materialId;
     /**
      * 批次号
      */
-    @ApiModelProperty("批次号")
+    @ApiModelProperty(value = "批次号")
     private String batchNo;
 
 }

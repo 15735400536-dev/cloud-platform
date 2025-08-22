@@ -7,23 +7,23 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("订单分页查询DTO")
+@ApiModel(description = "订单分页查询DTO")
 public class OrderQueryDTO extends PageSearch<OrderVO> {
 
     /**
      * 订单编码
      */
-    @ApiModelProperty("订单编码")
+    @ApiModelProperty(value = "订单编码")
     private String orderCode;
     /**
      * 订单类型
      */
-    @ApiModelProperty("订单类型")
+    @ApiModelProperty(value = "订单类型")
     private Integer orderType;
     /**
      * 订单状态
      */
-    @ApiModelProperty("订单状态")
+    @ApiModelProperty(value = "订单状态")
     private OrderStatus orderStatus;
 
 }

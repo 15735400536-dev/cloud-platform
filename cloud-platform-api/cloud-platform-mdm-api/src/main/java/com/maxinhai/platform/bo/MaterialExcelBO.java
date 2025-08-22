@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
-@ApiModel("物料Excel导入BO")
+@ApiModel(description = "物料Excel导入BO")
 public class MaterialExcelBO {
 
     @ExcelProperty(value = "物料编码")

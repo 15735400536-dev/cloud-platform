@@ -12,7 +12,7 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "视图分页查询DTO")
 public class CustomViewQueryDTO extends PageSearch<CustomViewVO> {
 
     /**

@@ -7,12 +7,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("分页查询DTO")
+@ApiModel(description = "分页查询DTO")
 public class ProductionLineQueryDTO extends PageSearch<ProductionLineVO> {
 
-    @ApiModelProperty("产线编码")
+    @ApiModelProperty(value = "产线编码")
     private String code;
-    @ApiModelProperty("产线名称")
+    @ApiModelProperty(value = "产线名称")
     private String name;
 
 }

@@ -7,18 +7,18 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("数据字典新增DTO")
+@ApiModel(description = "数据字典新增DTO")
 public class RoutingQueryDTO extends PageSearch<RoutingVO> {
 
     /**
      * 工艺路线编码
      */
-    @ApiModelProperty("工艺路线编码")
+    @ApiModelProperty(value = "工艺路线编码")
     private String code;
     /**
      * 工艺路线名称
      */
-    @ApiModelProperty("工艺路线名称")
+    @ApiModelProperty(value = "工艺路线名称")
     private String name;
 
 }

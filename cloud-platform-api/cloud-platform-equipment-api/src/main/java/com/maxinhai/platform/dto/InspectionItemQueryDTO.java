@@ -5,6 +5,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 @Data
-@ApiModel("分页查询DTO")
+@ApiModel(description = "分页查询DTO")
 public class InspectionItemQueryDTO extends PageSearch<InspectionItemVO>{
 }

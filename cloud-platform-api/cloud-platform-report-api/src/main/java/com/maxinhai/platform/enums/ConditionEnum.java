@@ -24,6 +24,7 @@ public enum ConditionEnum {
     ilike_right("ILIKE", "右边模糊查询（不区分大小写）"),
     between("BETWEEN", "闭区间"),
     not_between("NOT BETWEEN","不在闭区间");
+
     @EnumValue
     private String key;
     @JsonValue

@@ -10,6 +10,6 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "DTO")
 public class IssueDTO {
 }

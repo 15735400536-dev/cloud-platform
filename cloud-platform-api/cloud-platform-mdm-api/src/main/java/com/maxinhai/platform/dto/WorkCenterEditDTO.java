@@ -5,20 +5,20 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("加工中心编辑DTO")
+@ApiModel(description = "加工中心编辑DTO")
 public class WorkCenterEditDTO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
     /**
      * 加工中心编码
      */
-    @ApiModelProperty("加工中心编码")
+    @ApiModelProperty(value = "加工中心编码")
     private String code;
     /**
      * 加工中心名称
      */
-    @ApiModelProperty("加工中心名称")
+    @ApiModelProperty(value = "加工中心名称")
     private String name;
 
 }

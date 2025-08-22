@@ -6,12 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("用户分页查询DTO")
+@ApiModel(description = "用户分页查询DTO")
 public class UserQueryDTO extends PageSearch<UserVO> {
 
-    @ApiModelProperty("账号")
+    @ApiModelProperty(value = "账号")
     private String account;
-    @ApiModelProperty("用户名")
+    @ApiModelProperty(value = "用户名")
     private String username;
 
 }

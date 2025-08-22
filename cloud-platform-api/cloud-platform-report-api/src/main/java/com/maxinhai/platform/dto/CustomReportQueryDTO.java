@@ -11,7 +11,7 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "报表分页查询DTO")
 public class CustomReportQueryDTO extends PageSearch<CustomReportVO> {
 
     /**

@@ -5,12 +5,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("车间新增DTO")
+@ApiModel(description = "车间新增DTO")
 public class WorkshopAddDTO {
 
-    @ApiModelProperty("车间编码")
+    @ApiModelProperty(value = "车间编码")
     private String code;
-    @ApiModelProperty("车间名称")
+    @ApiModelProperty(value = "车间名称")
     private String name;
 
 }

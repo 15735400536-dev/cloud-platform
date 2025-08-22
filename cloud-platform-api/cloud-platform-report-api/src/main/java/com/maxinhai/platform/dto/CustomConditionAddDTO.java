@@ -2,6 +2,7 @@ package com.maxinhai.platform.dto;
 
 import com.maxinhai.platform.enums.ConditionEnum;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -13,36 +14,43 @@ import java.util.List;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "查询条件新增DTO")
 public class CustomConditionAddDTO {
 
     /**
      * 查询字段
      */
+    @ApiModelProperty(value = "查询字段")
     private String field;
     /**
      * 条件：大于、大于等于、小于、小于等于、等于、不等于、在范围、不在范围
      */
+    @ApiModelProperty(value = "条件：大于、大于等于、小于、小于等于、等于、不等于、在范围、不在范围")
     private ConditionEnum condition;
     /**
      * 下限
      */
+    @ApiModelProperty(value = "下限")
     private String minVal;
     /**
      * 上限
      */
+    @ApiModelProperty(value = "上限")
     private String maxVal;
     /**
      * 标准数值
      */
+    @ApiModelProperty(value = "标准数值")
     private String standardVal;
     /**
      * 范围
      */
+    @ApiModelProperty(value = "范围")
     private List<String> range;
     /**
      * 查询SQL
      */
+    @ApiModelProperty(value = "查询SQL")
     private String sqlId;
 
 }

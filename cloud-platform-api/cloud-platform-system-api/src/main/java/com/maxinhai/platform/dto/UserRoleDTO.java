@@ -7,12 +7,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel("用户绑定角色DTO")
+@ApiModel(description = "用户绑定角色DTO")
 public class UserRoleDTO {
 
-    @ApiModelProperty("用户ID")
+    @ApiModelProperty(value = "用户ID")
     private String userId;
-    @ApiModelProperty("角色ID集合")
+    @ApiModelProperty(value = "角色ID集合")
     private List<String> roleIds;
 
 }
