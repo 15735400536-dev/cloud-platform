@@ -99,7 +99,7 @@ public class ReportContext implements CommandLineRunner {
      * @param reportId
      * @return
      */
-    private CustomReportBO getReport(String reportId) {
+    public CustomReportBO getReport(String reportId) {
         return context.get(reportId);
     }
 
@@ -175,13 +175,18 @@ public class ReportContext implements CommandLineRunner {
      * @return
      */
     private List<CustomView> loadView() {
-        return viewMapper.selectJoinList(CustomView.class, new MPJLambdaWrapper<CustomView>()
-                .innerJoin(CustomReportViewRel.class, CustomReportViewRel::getViewId, CustomView::getId)
-                .innerJoin(CustomReport.class, CustomReport::getId, CustomReportViewRel::getReportId)
+        return viewMapper.selectList(new LambdaQueryWrapper<CustomView>()
                 // 查询字段
-                .select(CustomView::getId, CustomView::getKey, CustomView::getTitle, CustomView::getType, CustomView::getSqlId)
+                .select(CustomView::getId, CustomView::getKey, CustomView::getTitle, CustomView::getType, CustomView::getSqlId, CustomView::getReportId)
                 // 排序
-                .orderByAsc(CustomReportViewRel::getReportId, CustomReportViewRel::getSort));
+                .orderByAsc(CustomView::getCreateTime));
+//        return viewMapper.selectJoinList(CustomView.class, new MPJLambdaWrapper<CustomView>()
+//                .innerJoin(CustomReportViewRel.class, CustomReportViewRel::getViewId, CustomView::getId)
+//                .innerJoin(CustomReport.class, CustomReport::getId, CustomReportViewRel::getReportId)
+//                // 查询字段
+//                .select(CustomView::getId, CustomView::getKey, CustomView::getTitle, CustomView::getType, CustomView::getSqlId)
+//                // 排序
+//                .orderByAsc(CustomReportViewRel::getReportId, CustomReportViewRel::getSort));
     }
 
     /**
@@ -191,7 +196,7 @@ public class ReportContext implements CommandLineRunner {
      */
     private List<CustomSql> loadSql() {
         return sqlMapper.selectList(new LambdaQueryWrapper<CustomSql>()
-                .select(CustomSql::getId, CustomSql::getDataSourceId, CustomSql::getDataSourceId));
+                .select(CustomSql::getId, CustomSql::getDataSourceId, CustomSql::getSql));
     }
 
     /**
@@ -201,7 +206,7 @@ public class ReportContext implements CommandLineRunner {
      */
     private List<CustomDataSource> loadDataSource() {
         return dataSourceMapper.selectList(new LambdaQueryWrapper<CustomDataSource>()
-                .select(CustomDataSource::getId, CustomDataSource::getKey, CustomDataSource::getType,
+                .select(CustomDataSource::getId, CustomDataSource::getKey, CustomDataSource::getType, CustomDataSource::getDatabase,
                         CustomDataSource::getUrl, CustomDataSource::getDriverClassName, CustomDataSource::getUsername, CustomDataSource::getPassword));
     }
 

@@ -1,6 +1,6 @@
 package com.maxinhai.platform.bo;
 
-import com.baomidou.mybatisplus.annotation.DbType;
+import com.maxinhai.platform.enums.DbType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

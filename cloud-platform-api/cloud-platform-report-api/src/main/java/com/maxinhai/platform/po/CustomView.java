@@ -1,6 +1,5 @@
 package com.maxinhai.platform.po;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.maxinhai.platform.enums.ChartType;
 import lombok.Data;
@@ -34,7 +33,6 @@ public class CustomView extends RecordEntity {
     /**
      * 报表ID
      */
-    @TableField(exist = false)
     private String reportId;
 
 }
