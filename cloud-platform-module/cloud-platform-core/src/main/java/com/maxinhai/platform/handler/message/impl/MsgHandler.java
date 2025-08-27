@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @Component
-public abstract class MsgHandler {
+public class MsgHandler {
 
     /**
      * 处理器集合
@@ -46,18 +46,23 @@ public abstract class MsgHandler {
 
     /**
      * 消息分发
-     *
-     * @param event 消息事件
      */
     @Scheduled(initialDelay = 3000, fixedRate = 1000)
-    public void distribute(MsgEvent event) {
-        IMsgHandler handler = handlerMap.get(event.getKey());
-        if (Objects.nonNull(handler)) {
-            log.error("无效处理器标识: {}", event.getKey());
+    public void distribute() {
+        int size = eventQueue.size();
+        if (size == 0) {
             return;
         }
+        for (int i = 0; i < size; i++) {
+            MsgEvent event = eventQueue.poll();
+            IMsgHandler handler = handlerMap.get(event.getKey());
+            if (Objects.nonNull(handler)) {
+                log.error("无效处理器标识: {}", event.getKey());
+                return;
+            }
 
-        handler.handle(event);
+            handler.handle(event);
+        }
     }
 
     /**
