@@ -7,4 +7,10 @@ import lombok.Data;
 @Data
 @ApiModel(description = "分页查询DTO")
 public class InspectionPlanQueryDTO extends PageSearch<InspectionPlanVO> {
+
+    /**
+     * 计划编码
+     */
+    private String planCode;
+
 }
