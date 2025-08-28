@@ -14,8 +14,11 @@ import com.maxinhai.platform.service.EquipmentService;
 import com.maxinhai.platform.vo.EquipmentVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -59,5 +62,15 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
     public void add(EquipmentAddDTO param) {
         Equipment equipment = BeanUtil.toBean(param, Equipment.class);
         equipmentMapper.insert(equipment);
+    }
+
+    @Override
+    public void importExcel(MultipartFile file) {
+
+    }
+
+    @Override
+    public void exportExcel(HttpServletRequest request, HttpServletResponse response) {
+
     }
 }

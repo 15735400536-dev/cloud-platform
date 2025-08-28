@@ -69,7 +69,7 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
         // 实际项目中这里会调用Service层将数据保存到数据库
         List<String> materialCodeList = dataList.stream().map(MaterialExcelBO::getCode).collect(Collectors.toList());
         // 没有内容不执行后面操作
-        if(CollectionUtils.isEmpty(materialCodeList)){
+        if (CollectionUtils.isEmpty(materialCodeList)) {
             return;
         }
         // 数据库存在导入物料，抛异常
@@ -78,7 +78,7 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
                         .in(Material::getCode, materialCodeList)).stream()
                 .map(Material::getCode)
                 .collect(Collectors.toList());
-        if(!CollectionUtils.isEmpty(existCodeList)){
+        if (!CollectionUtils.isEmpty(existCodeList)) {
             throw new BusinessException("物料编码【" + StringUtils.collectionToDelimitedString(materialCodeList, ",") + "】已存在！");
         }
         // 保存数据
