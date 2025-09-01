@@ -21,7 +21,7 @@ public interface IssueOrderService extends IService<IssueOrder> {
     void add(IssueOrderAddDTO param);
 
     /**
-     * 根据入库单ID入库
+     * 根据出库单ID入库
      * @param id
      */
     void issue(String id);

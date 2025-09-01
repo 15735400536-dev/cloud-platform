@@ -55,4 +55,10 @@ public class ReceiptOrderController {
         return AjaxResult.success();
     }
 
+    @GetMapping("/receipt/{orderId}")
+    @ApiOperation(value = "根据入库单ID入库", notes = "根据入库单ID入库")
+    public AjaxResult<Void> receipt(@PathVariable("orderId") String orderId) {
+        receiptOrderService.receipt(orderId);
+        return AjaxResult.success();
+    }
 }
