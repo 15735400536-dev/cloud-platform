@@ -22,6 +22,7 @@
         <module>cloud-platform-connector</module>
         <module>cloud-platform-sa-token</module>
         <module>cloud-platform-webservice</module>
+        <module>cloud-platform-jpa</module>
     </modules>
 
     <dependencies>
