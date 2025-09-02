@@ -28,4 +28,10 @@ public interface SystemFeignClient {
     AjaxResult<List<String>> generateCode(@PathVariable("codeRule") String codeRule,
                                           @PathVariable("batchSize") Integer batchSize);
 
+    @GetMapping("/existByUsername/{username}")
+    AjaxResult<Boolean> existByUsername(@PathVariable("username") String username);
+
+    @GetMapping("/existByAccount/{account}")
+    AjaxResult<Boolean> existByAccount(@PathVariable("account") String account);
+
 }

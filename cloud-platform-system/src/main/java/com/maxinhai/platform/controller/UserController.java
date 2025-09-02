@@ -100,6 +100,20 @@ public class UserController {
         return AjaxResult.success(userService.getRoles(userId));
     }
 
+    @GetMapping("/existByUsername/{username}")
+    @ApiOperation(value = "用户是否存在", notes = "根据用户名判断用户是否存在")
+    public AjaxResult<Boolean> existByUsername(@PathVariable("username") String username) {
+        long count = userService.count(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+        return AjaxResult.success(count > 0);
+    }
+
+    @GetMapping("/existByAccount/{account}")
+    @ApiOperation(value = "用户是否存在", notes = "根据账户判断用户是否存在")
+    public AjaxResult<Boolean> existByAccount(@PathVariable("account") String account) {
+        long count = userService.count(new LambdaQueryWrapper<User>().eq(User::getAccount, account));
+        return AjaxResult.success(count > 0);
+    }
+
     @Resource
     private JdbcTemplate jdbcTemplate;
 

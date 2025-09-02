@@ -35,6 +35,16 @@ public class SystemFeignFallbackFactory implements FallbackFactory<SystemFeignCl
             public AjaxResult<List<String>> generateCode(String codeRule, Integer batchSize) {
                 return AjaxResult.fail("服务调用失败!");
             }
+
+            @Override
+            public AjaxResult<Boolean> existByUsername(String username) {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<Boolean> existByAccount(String account) {
+                return AjaxResult.fail("服务调用失败!");
+            }
         };
     }
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <!-- 变更集ID：唯一标识，作者：开发人员 -->
+    <changeSet id="1" author="dev">
+        <!-- 创建用户表 -->
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="create_time" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- 插入初始数据 -->
+        <insert tableName="user">
+            <column name="username" value="admin"/>
+            <column name="password" value="123456"/>
+            <column name="email" value="admin@example.com"/>
+        </insert>
+
+        <!-- 标记此变更集执行后的数据状态（用于回滚） -->
+        <rollback>
+            <delete tableName="user" where="username='admin'"/>
+            <dropTable tableName="user"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

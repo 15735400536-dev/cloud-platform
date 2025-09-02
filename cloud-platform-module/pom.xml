@@ -23,6 +23,7 @@
         <module>cloud-platform-sa-token</module>
         <module>cloud-platform-webservice</module>
         <module>cloud-platform-jpa</module>
+        <module>cloud-platform-liquibase</module>
     </modules>
 
     <dependencies>
