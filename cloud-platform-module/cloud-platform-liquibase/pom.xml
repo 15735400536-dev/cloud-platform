@@ -5,22 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.maxinhai</groupId>
-        <artifactId>cloud-platform</artifactId>
+        <artifactId>cloud-platform-module</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cloud-platform-equipment</artifactId>
+    <artifactId>cloud-platform-liquibase</artifactId>
+    <description>数据库备份</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.maxinhai</groupId>
-            <artifactId>cloud-platform-equipment-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.maxinhai</groupId>
-            <artifactId>cloud-platform-feign</artifactId>
+            <artifactId>cloud-platform-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

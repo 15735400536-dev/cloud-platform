@@ -55,4 +55,10 @@ public class TransferOrderController {
         return AjaxResult.success();
     }
 
+    @GetMapping("/transfer/{orderId}")
+    @ApiOperation(value = "根据移库单ID移库", notes = "根据移库单ID移库")
+    public AjaxResult<Void> transfer(@PathVariable("orderId") String orderId) {
+        transferOrderService.transfer(orderId);
+        return AjaxResult.success();
+    }
 }

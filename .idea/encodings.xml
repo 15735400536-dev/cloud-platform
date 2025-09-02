@@ -33,6 +33,10 @@
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-connector/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-jpa/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-jpa/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-liquibase/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-liquibase/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mybatisplus/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mybatisplus/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-redis/src/main/java" charset="UTF-8" />

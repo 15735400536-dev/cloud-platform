@@ -3,6 +3,7 @@ package com.maxinhai.platform.service;
 import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.po.LoginUser;
 import com.maxinhai.platform.vo.UserVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+@Slf4j
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Resource

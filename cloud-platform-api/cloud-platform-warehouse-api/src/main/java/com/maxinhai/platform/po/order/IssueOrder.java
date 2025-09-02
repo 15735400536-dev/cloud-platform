@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 入库单表
+ * 出库单表
  */
 @Data
 @TableName("wms_issue_order")

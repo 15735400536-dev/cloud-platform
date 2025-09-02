@@ -55,4 +55,10 @@ public class IssueOrderController {
         return AjaxResult.success();
     }
 
+    @GetMapping("/issue/{orderId}")
+    @ApiOperation(value = "根据出库单ID出库", notes = "根据出库单ID出库")
+    public AjaxResult<Void> issue(@PathVariable("orderId") String orderId) {
+        issueOrderService.issue(orderId);
+        return AjaxResult.success();
+    }
 }
