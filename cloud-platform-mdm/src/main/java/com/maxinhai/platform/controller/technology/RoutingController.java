@@ -26,7 +26,7 @@ public class RoutingController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询工艺路线信息", notes = "根据查询条件分页查询工艺路线信息")
-    public AjaxResult<Page<RoutingVO>> searchByPage(@RequestBody RoutingQueryDTO param) {
+    public AjaxResult<PageResult<RoutingVO>> searchByPage(@RequestBody RoutingQueryDTO param) {
         return AjaxResult.success(PageResult.convert(routingService.searchByPage(param)));
     }
 

@@ -24,6 +24,7 @@
         <module>cloud-platform-zlm</module>
         <module>cloud-platform-report</module>
         <module>cloud-platform-starter</module>
+        <module>cloud-platform-zlmediakit</module>
     </modules>
 
     <properties>

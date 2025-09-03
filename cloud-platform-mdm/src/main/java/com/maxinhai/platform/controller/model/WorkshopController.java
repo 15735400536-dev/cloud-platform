@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller.model;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.model.WorkshopAddDTO;
 import com.maxinhai.platform.dto.model.WorkshopEditDTO;
 import com.maxinhai.platform.dto.model.WorkshopQueryDTO;
@@ -24,7 +23,7 @@ public class WorkshopController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询车间信息", notes = "根据查询条件分页查询车间信息")
-    public AjaxResult<Page<WorkshopVO>> searchByPage(@RequestBody WorkshopQueryDTO param) {
+    public AjaxResult<PageResult<WorkshopVO>> searchByPage(@RequestBody WorkshopQueryDTO param) {
         return AjaxResult.success(PageResult.convert(workshopService.searchByPage(param)));
     }
 

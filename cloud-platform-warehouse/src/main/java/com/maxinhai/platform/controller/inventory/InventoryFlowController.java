@@ -28,7 +28,7 @@ public class InventoryFlowController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询库存流水信息", notes = "根据查询条件分页查询库存流水信息")
-    public AjaxResult<Page<InventoryFlowVO>> searchByPage(@RequestBody InventoryFlowQueryDTO param) {
+    public AjaxResult<PageResult<InventoryFlowVO>> searchByPage(@RequestBody InventoryFlowQueryDTO param) {
         return AjaxResult.success(PageResult.convert(inventoryFlowService.searchByPage(param)));
     }
 

@@ -3,7 +3,6 @@ package com.maxinhai.platform.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
@@ -40,7 +39,7 @@ public class UserController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询用户信息", notes = "根据查询条件分页查询用户信息")
-    public AjaxResult<Page<UserVO>> searchByPage(@RequestBody UserQueryDTO param) {
+    public AjaxResult<PageResult<UserVO>> searchByPage(@RequestBody UserQueryDTO param) {
         return AjaxResult.success(PageResult.convert(userService.searchByPage(param)));
     }
 
@@ -96,7 +95,7 @@ public class UserController {
 
     @GetMapping("/getRoles/{userId}")
     @ApiOperation(value = "根据userId查询绑定角色", notes = "根据userId查询绑定角色")
-    public AjaxResult<RoleVO> getRoles(@PathVariable("userId") String userId) {
+    public AjaxResult<List<RoleVO>> getRoles(@PathVariable("userId") String userId) {
         return AjaxResult.success(userService.getRoles(userId));
     }
 

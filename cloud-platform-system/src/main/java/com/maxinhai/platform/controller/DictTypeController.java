@@ -23,7 +23,7 @@ public class DictTypeController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询字典类型信息", notes = "根据查询条件分页查询字典类型信息")
-    public AjaxResult<DictTypeVO> searchByPage(@RequestBody DictTypeQueryDTO param) {
+    public AjaxResult<PageResult<DictTypeVO>> searchByPage(@RequestBody DictTypeQueryDTO param) {
         return AjaxResult.success(PageResult.convert(dictTypeService.searchByPage(param)));
     }
 

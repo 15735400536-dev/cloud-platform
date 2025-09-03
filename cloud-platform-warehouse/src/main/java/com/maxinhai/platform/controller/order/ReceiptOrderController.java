@@ -24,7 +24,7 @@ public class ReceiptOrderController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询入库单信息", notes = "根据查询条件分页查询入库单信息")
-    public AjaxResult<Page<ReceiptOrderVO>> searchByPage(@RequestBody ReceiptOrderQueryDTO param) {
+    public AjaxResult<PageResult<ReceiptOrderVO>> searchByPage(@RequestBody ReceiptOrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(receiptOrderService.searchByPage(param)));
     }
 

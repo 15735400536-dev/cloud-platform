@@ -24,7 +24,7 @@ public class ProductController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询产品信息", notes = "根据查询条件分页查询产品信息")
-    public AjaxResult<Page<ProductVO>> searchByPage(@RequestBody ProductQueryDTO param) {
+    public AjaxResult<PageResult<ProductVO>> searchByPage(@RequestBody ProductQueryDTO param) {
         return AjaxResult.success(PageResult.convert(productService.searchByPage(param)));
     }
 

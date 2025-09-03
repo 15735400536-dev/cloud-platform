@@ -30,7 +30,7 @@ public class SqlController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询SQL语句信息", notes = "根据查询条件分页查询SQL语句信息")
-    public AjaxResult<Page<CustomSqlVO>> searchByPage(@RequestBody CustomSqlQueryDTO param) {
+    public AjaxResult<PageResult<CustomSqlVO>> searchByPage(@RequestBody CustomSqlQueryDTO param) {
         return AjaxResult.success(PageResult.convert(sqlService.searchByPage(param)));
     }
 

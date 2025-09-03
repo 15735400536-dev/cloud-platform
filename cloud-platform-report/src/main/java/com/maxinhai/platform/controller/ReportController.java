@@ -31,7 +31,7 @@ public class ReportController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询报表信息", notes = "根据查询条件分页查询报表信息")
-    public AjaxResult<Page<CustomReportVO>> searchByPage(@RequestBody CustomReportQueryDTO param) {
+    public AjaxResult<PageResult<CustomReportVO>> searchByPage(@RequestBody CustomReportQueryDTO param) {
         return AjaxResult.success(PageResult.convert(reportService.searchByPage(param)));
     }
 

@@ -1,0 +1,20 @@
+server:
+  port: 20080
+spring:
+  application:
+    name: cloud-platform-zlmediakit
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+    sentinel:
+      filter:
+        enabled: false  # 关闭 Sentinel 对所有接口的拦截
+  config:
+    import:
+      - "nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}"
+#      - "nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}"
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ANT_PATH_MATCHER  # 切换为Ant路径匹配器，兼容Springfox

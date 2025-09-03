@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.CheckLabelQueryDTO;
 import com.maxinhai.platform.enums.CheckType;
 import com.maxinhai.platform.po.CheckLabel;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName：ElectronicResumeController
@@ -31,7 +31,7 @@ public class ElectronicResumeController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询电子履历标签信息", notes = "根据查询条件分页查询电子履历标签信息")
-    public AjaxResult<Page<CheckLabelVO>> searchByPage(@RequestBody CheckLabelQueryDTO param) {
+    public AjaxResult<PageResult<CheckLabelVO>> searchByPage(@RequestBody CheckLabelQueryDTO param) {
         return AjaxResult.success(PageResult.convert(checkLabelService.searchByPage(param)));
     }
 
@@ -58,7 +58,7 @@ public class ElectronicResumeController {
 
     @GetMapping("/getLabelValueMap/{checkOrderId}")
     @ApiOperation(value = "获取电子履历标签以及对应数值", notes = "根据质检单ID获取电子履历标签以及对应数值")
-    public AjaxResult<List<CheckLabel>> getLabelValueMap(@PathVariable("checkOrderId") String checkOrderId) {
+    public AjaxResult<Map<String, String>> getLabelValueMap(@PathVariable("checkOrderId") String checkOrderId) {
         return AjaxResult.success(checkLabelService.getLabelValueMap(checkOrderId));
     }
 

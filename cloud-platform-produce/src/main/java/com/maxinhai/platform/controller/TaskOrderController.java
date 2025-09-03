@@ -36,7 +36,7 @@ public class TaskOrderController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询派工单信息", notes = "根据查询条件分页查询派工单信息")
-    public AjaxResult<Page<TaskOrderVO>> searchByPage(@RequestBody TaskOrderQueryDTO param) {
+    public AjaxResult<PageResult<TaskOrderVO>> searchByPage(@RequestBody TaskOrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(taskOrderService.searchByPage(param)));
     }
 
