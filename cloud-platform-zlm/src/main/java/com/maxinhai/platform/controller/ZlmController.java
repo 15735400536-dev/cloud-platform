@@ -24,7 +24,7 @@ public class ZlmController {
     private static ServiceConfigDTO serviceConfig = null;
     static {
         if(Objects.isNull(serviceConfig)){
-            serviceConfig = new ServiceConfigDTO("127.0.0.1", 8080, "EQPSv4wFVeS7e7hJ9YyC3s1Zbs8Njn78");
+            serviceConfig = new ServiceConfigDTO("127.0.0.1", 5080, "W79jBgTtkW8fJ5wMh1PqBiljsCnE0qzO");
         }
     }
 
