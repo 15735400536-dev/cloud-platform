@@ -24,7 +24,7 @@ public class CheckItemController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询检测项信息", notes = "根据查询条件分页查询检测项信息")
-    public AjaxResult<Page<CheckItemVO>> searchByPage(@RequestBody CheckItemQueryDTO param) {
+    public AjaxResult<PageResult<CheckItemVO>> searchByPage(@RequestBody CheckItemQueryDTO param) {
         return AjaxResult.success(PageResult.convert(checkItemService.searchByPage(param)));
     }
 

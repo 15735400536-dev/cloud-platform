@@ -5,13 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.dto.MenuAddDTO;
 import com.maxinhai.platform.dto.MenuEditDTO;
 import com.maxinhai.platform.dto.MenuQueryDTO;
-import com.maxinhai.platform.po.Menu;
 import com.maxinhai.platform.excel.MenuExcel;
+import com.maxinhai.platform.po.Menu;
 import com.maxinhai.platform.service.MenuService;
-import com.maxinhai.platform.vo.MenuVO;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.EasyExcelUtils;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.MenuTreeVO;
+import com.maxinhai.platform.vo.MenuVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class MenuController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询菜单信息", notes = "根据查询条件分页查询菜单信息")
-    public AjaxResult<MenuVO> searchByPage(@RequestBody MenuQueryDTO page) {
+    public AjaxResult<PageResult<MenuVO>> searchByPage(@RequestBody MenuQueryDTO page) {
         return AjaxResult.success(PageResult.convert(menuService.searchByPage(page)));
     }
 
@@ -81,7 +82,7 @@ public class MenuController {
 
     @GetMapping("/getMenuTree}")
     @ApiOperation(value = "获取菜单树状结构", notes = "获取菜单树状结构")
-    public AjaxResult<MenuVO> getMenuTree() {
+    public AjaxResult<List<MenuTreeVO>> getMenuTree() {
         return AjaxResult.success(menuService.getMenuTree());
     }
 }

@@ -24,7 +24,7 @@ public class CheckOrderController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询检测单信息", notes = "根据查询条件分页查询检测单信息")
-    public AjaxResult<Page<CheckOrderVO>> searchByPage(@RequestBody CheckOrderQueryDTO param) {
+    public AjaxResult<PageResult<CheckOrderVO>> searchByPage(@RequestBody CheckOrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(checkOrderService.searchByPage(param)));
     }
 

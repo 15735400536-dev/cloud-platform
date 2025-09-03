@@ -24,7 +24,7 @@ public class CheckTemplateController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询检测模板信息", notes = "根据查询条件分页查询检测模板信息")
-    public AjaxResult<Page<CheckTemplateVO>> searchByPage(@RequestBody CheckTemplateQueryDTO param) {
+    public AjaxResult<PageResult<CheckTemplateVO>> searchByPage(@RequestBody CheckTemplateQueryDTO param) {
         return AjaxResult.success(PageResult.convert(checkTemplateService.searchByPage(param)));
     }
 

@@ -22,7 +22,7 @@ public class StocktakingController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询盘点单信息", notes = "根据查询条件分页查询盘点单信息")
-    public AjaxResult<Page<StocktakingVO>> searchByPage(@RequestBody StocktakingQueryDTO param) {
+    public AjaxResult<PageResult<StocktakingVO>> searchByPage(@RequestBody StocktakingQueryDTO param) {
         return AjaxResult.success(PageResult.convert(stocktakingService.searchByPage(param)));
     }
 

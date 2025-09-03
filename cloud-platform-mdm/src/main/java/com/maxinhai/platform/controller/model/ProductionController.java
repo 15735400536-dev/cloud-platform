@@ -24,7 +24,7 @@ public class ProductionController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询产线信息", notes = "根据查询条件分页查询产线信息")
-    public AjaxResult<Page<ProductionLineVO>> searchByPage(@RequestBody ProductionLineQueryDTO param) {
+    public AjaxResult<PageResult<ProductionLineVO>> searchByPage(@RequestBody ProductionLineQueryDTO param) {
         return AjaxResult.success(PageResult.convert(productionLineService.searchByPage(param)));
     }
 

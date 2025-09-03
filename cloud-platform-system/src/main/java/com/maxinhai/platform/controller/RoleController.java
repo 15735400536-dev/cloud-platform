@@ -36,7 +36,7 @@ public class RoleController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询角色信息", notes = "根据查询条件分页查询角色信息")
-    public AjaxResult<RoleVO> searchByPage(@RequestBody RoleQueryDTO param) {
+    public AjaxResult<PageResult<RoleVO>> searchByPage(@RequestBody RoleQueryDTO param) {
         return AjaxResult.success(PageResult.convert(roleService.searchByPage(param)));
     }
 

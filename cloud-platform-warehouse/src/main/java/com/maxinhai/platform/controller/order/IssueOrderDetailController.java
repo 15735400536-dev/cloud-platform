@@ -24,7 +24,7 @@ public class IssueOrderDetailController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询出库单信息", notes = "根据查询条件分页查询出库单信息")
-    public AjaxResult<Page<IssueOrderDetailVO>> searchByPage(@RequestBody IssueOrderDetailQueryDTO param) {
+    public AjaxResult<PageResult<IssueOrderDetailVO>> searchByPage(@RequestBody IssueOrderDetailQueryDTO param) {
         return AjaxResult.success(PageResult.convert(issueOrderDetailService.searchByPage(param)));
     }
 

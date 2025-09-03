@@ -30,7 +30,7 @@ public class ViewController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询视图信息", notes = "根据视图分页查询视图信息")
-    public AjaxResult<Page<CustomViewVO>> searchByPage(@RequestBody CustomViewQueryDTO param) {
+    public AjaxResult<PageResult<CustomViewVO>> searchByPage(@RequestBody CustomViewQueryDTO param) {
         return AjaxResult.success(PageResult.convert(viewService.searchByPage(param)));
     }
 

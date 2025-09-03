@@ -26,7 +26,7 @@ public class WorkCenterController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询加工中心信息", notes = "根据查询条件分页查询加工中心信息")
-    public AjaxResult<Page<WorkCenterVO>> searchByPage(@RequestBody WorkCenterQueryDTO param) {
+    public AjaxResult<PageResult<WorkCenterVO>> searchByPage(@RequestBody WorkCenterQueryDTO param) {
         return AjaxResult.success(PageResult.convert(workCenterService.searchByPage(param)));
     }
 

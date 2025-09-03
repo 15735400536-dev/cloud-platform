@@ -96,7 +96,7 @@ public class LoginController {
 
     @GetMapping("/isLogin")
     @ApiOperation(value = "获取当前会话是否已经登录", notes = "获取当前会话是否已经登录")
-    public AjaxResult<String> isLogin() {
+    public AjaxResult<Boolean> isLogin() {
         return AjaxResult.success(StpUtil.isLogin());
     }
 

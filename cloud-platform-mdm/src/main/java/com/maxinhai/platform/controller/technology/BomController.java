@@ -26,7 +26,7 @@ public class BomController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询BOM信息", notes = "根据查询条件分页查询BOM信息")
-    public AjaxResult<Page<BomVO>> searchByPage(@RequestBody BomQueryDTO param) {
+    public AjaxResult<PageResult<BomVO>> searchByPage(@RequestBody BomQueryDTO param) {
         return AjaxResult.success(PageResult.convert(bomService.searchByPage(param)));
     }
 

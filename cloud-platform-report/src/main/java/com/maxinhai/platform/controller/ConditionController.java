@@ -30,7 +30,7 @@ public class ConditionController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询查询条件信息", notes = "根据查询条件分页查询查询条件信息")
-    public AjaxResult<Page<CustomConditionVO>> searchByPage(@RequestBody CustomConditionQueryDTO param) {
+    public AjaxResult<PageResult<CustomConditionVO>> searchByPage(@RequestBody CustomConditionQueryDTO param) {
         return AjaxResult.success(PageResult.convert(conditionService.searchByPage(param)));
     }
 

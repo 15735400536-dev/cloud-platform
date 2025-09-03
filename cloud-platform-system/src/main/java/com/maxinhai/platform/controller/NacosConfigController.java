@@ -126,7 +126,7 @@ public class NacosConfigController {
 
     @GetMapping("/call")
     @ApiOperation(value = "多线程测试", notes = "多线程测试")
-    public AjaxResult<Void> call() throws Exception {
+    public AjaxResult<Integer> call() throws Exception {
         // 初始化数值
         stringHandler.set("qty", 0);
 

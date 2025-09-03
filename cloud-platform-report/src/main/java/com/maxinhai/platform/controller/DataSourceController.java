@@ -30,7 +30,7 @@ public class DataSourceController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询数据源信息", notes = "根据查询条件分页查询数据源信息")
-    public AjaxResult<Page<CustomDataSourceVO>> searchByPage(@RequestBody CustomDataSourceQueryDTO param) {
+    public AjaxResult<PageResult<CustomDataSourceVO>> searchByPage(@RequestBody CustomDataSourceQueryDTO param) {
         return AjaxResult.success(PageResult.convert(dataSourceService.searchByPage(param)));
     }
 

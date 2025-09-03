@@ -24,7 +24,7 @@ public class TransferOrderDetailController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询移库单信息", notes = "根据查询条件分页查询移库单信息")
-    public AjaxResult<Page<TransferOrderVO>> searchByPage(@RequestBody TransferOrderQueryDTO param) {
+    public AjaxResult<PageResult<TransferOrderVO>> searchByPage(@RequestBody TransferOrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(transferOrderService.searchByPage(param)));
     }
 
