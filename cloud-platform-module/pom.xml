@@ -26,6 +26,7 @@
         <module>cloud-platform-liquibase</module>
         <module>cloud-platform-mongodb</module>
         <module>cloud-platform-elasticsearch</module>
+        <module>cloud-platform-minio</module>
     </modules>
 
     <dependencies>

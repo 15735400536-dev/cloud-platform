@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+  minio1:
+    image: minio/minio
+    container_name: minio1
+    restart: always
+    ports:
+      - "9001:9000"    # 节点1 API端口
+      - "9011:9001"    # 节点1控制台端口
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    volumes:
+      - D:/fileStorage/data/minio/node1:/data1
+    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+    networks:
+      - minio-net
+
+  minio2:
+    image: minio/minio
+    container_name: minio2
+    restart: always
+    ports:
+      - "9002:9000"
+      - "9012:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    volumes:
+      - /data/minio/node2:/data2
+    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+    networks:
+      - minio-net
+
+  minio3:
+    image: minio/minio
+    container_name: minio3
+    restart: always
+    ports:
+      - "9003:9000"
+      - "9013:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    volumes:
+      - /data/minio/node3:/data3
+    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+    networks:
+      - minio-net
+
+  minio4:
+    image: minio/minio
+    container_name: minio4
+    restart: always
+    ports:
+      - "9004:9000"
+      - "9014:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    volumes:
+      - /data/minio/node4:/data4
+    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+    networks:
+      - minio-net
+
+networks:
+  minio-net:
+    driver: bridge
