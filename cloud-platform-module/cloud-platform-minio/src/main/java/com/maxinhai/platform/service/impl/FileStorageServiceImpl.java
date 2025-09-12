@@ -47,9 +47,6 @@ public class FileStorageServiceImpl implements FileStorageService {
     @Value("${file.allowed-types}")
     private String allowedTypes;
 
-    // Redis中文件信息的key前缀
-//    private static final String FILE_INFO_KEY_PREFIX = "file:info:";
-
     @Override
     public FileStorage uploadFile(MultipartFile file, String uploader) {
         try {
