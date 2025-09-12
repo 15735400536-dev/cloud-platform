@@ -1,0 +1,71 @@
+version: '3'  # 注意：2.29不是有效版本，3及以上更通用
+services:
+  minio1:
+    image: minio/minio
+    container_name: minio1
+    restart: always
+    ports:
+      - "9001:9000"
+      - "9011:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
+    volumes:
+      - D:/fileStorage/data/minio/node1:/data1  # 仅挂载当前节点的存储目录
+    # 集群地址列表包含所有节点的自身路径（每个节点只提供自己的/dataX）
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
+    networks:
+      - minio-net
+
+  minio2:
+    image: minio/minio
+    container_name: minio2
+    restart: always
+    ports:
+      - "9002:9000"
+      - "9012:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
+    volumes:
+      - D:/fileStorage/data/minio/node2:/data2  # 仅挂载当前节点的存储目录
+    # 所有节点的command保持一致，均包含完整的集群地址列表
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
+    networks:
+      - minio-net
+
+  minio3:
+    image: minio/minio
+    container_name: minio3
+    restart: always
+    ports:
+      - "9003:9000"
+      - "9013:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
+    volumes:
+      - D:/fileStorage/data/minio/node3:/data3  # 仅挂载当前节点的存储目录
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
+    networks:
+      - minio-net
+
+  minio4:
+    image: minio/minio
+    container_name: minio4
+    restart: always
+    ports:
+      - "9004:9000"
+      - "9014:9001"
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
+    volumes:
+      - D:/fileStorage/data/minio/node4:/data4  # 仅挂载当前节点的存储目录
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
+    networks:
+      - minio-net
+
+networks:
+  minio-net:
+    driver: bridge

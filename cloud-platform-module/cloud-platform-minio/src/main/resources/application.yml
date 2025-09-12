@@ -1,0 +1,12 @@
+# MinIO配置
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket-name: file-bucket  # 存储文件的桶名称
+  url-expire: 3600  # 临时URL有效期(秒)
+
+# 自定义文件存储路径配置
+file:
+  prefix: files/  # MinIO中的文件存储前缀
+  allowed-types: image/jpeg,image/png,image/gif,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
