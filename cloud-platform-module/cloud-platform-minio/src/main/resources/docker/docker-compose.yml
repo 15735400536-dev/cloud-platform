@@ -1,18 +1,19 @@
-version: '2.29'
+version: '3'  # 注意：2.29不是有效版本，3及以上更通用
 services:
   minio1:
     image: minio/minio
     container_name: minio1
     restart: always
     ports:
-      - "9001:9000"    # 节点1 API端口
-      - "9011:9001"    # 节点1控制台端口
+      - "9001:9000"
+      - "9011:9001"
     environment:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - D:/fileStorage/data/minio/node1:/data1
-    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+      - D:/fileStorage/data/minio/node1:/data1  # 仅挂载当前节点的存储目录
+    # 集群地址列表包含所有节点的自身路径（每个节点只提供自己的/dataX）
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
     networks:
       - minio-net
 
@@ -27,8 +28,9 @@ services:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - D:/fileStorage/data/minio/node2:/data2
-    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+      - D:/fileStorage/data/minio/node2:/data2  # 仅挂载当前节点的存储目录
+    # 所有节点的command保持一致，均包含完整的集群地址列表
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
     networks:
       - minio-net
 
@@ -43,8 +45,8 @@ services:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - D:/fileStorage/data/minio/node3:/data3
-    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+      - D:/fileStorage/data/minio/node3:/data3  # 仅挂载当前节点的存储目录
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
     networks:
       - minio-net
 
@@ -59,8 +61,8 @@ services:
       - MINIO_ROOT_USER=admin
       - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - D:/fileStorage/data/minio/node4:/data4
-    command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
+      - D:/fileStorage/data/minio/node4:/data4  # 仅挂载当前节点的存储目录
+    command: server http://minio1:9000/data1 http://minio2:9000/data2 http://minio3:9000/data3 http://minio4:9000/data4 --console-address ":9001"
     networks:
       - minio-net
 

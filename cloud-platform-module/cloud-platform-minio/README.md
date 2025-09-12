@@ -35,3 +35,9 @@
 | .rar| RAR 压缩包|application/vnd.rar|高压缩率文件打包|
 | .7z| 7Z 压缩包|application/x-7z-compressed	|高效压缩格式|
 | .tar.gz/.tgz| GZIP 压缩的 TAR 包	|application/gzip|Linux 系统常用压缩格式|
+
+### minio访问地址：
+http://localhost:9011
+http://localhost:9012
+http://localhost:9013
+http://localhost:9014
