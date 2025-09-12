@@ -2,6 +2,7 @@ package com.maxinhai.platform.service.impl;
 
 import com.maxinhai.platform.config.MinIOConfig;
 import com.maxinhai.platform.exception.FileStorageException;
+import com.maxinhai.platform.mapper.FileStorageMapper;
 import com.maxinhai.platform.po.FileStorage;
 import com.maxinhai.platform.service.FileStorageService;
 import io.minio.*;
@@ -9,7 +10,6 @@ import io.minio.http.Method;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName：FileStorageServiceImpl
@@ -34,13 +33,13 @@ import java.util.concurrent.TimeUnit;
 public class FileStorageServiceImpl implements FileStorageService {
 
     @Resource
+    private FileStorageMapper fileStorageMapper;
+
+    @Resource
     private MinioClient minioClient;
 
     @Resource
     private MinIOConfig minIOConfig;
-
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
 
     @Value("${file.prefix}")
     private String filePrefix;
@@ -49,7 +48,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private String allowedTypes;
 
     // Redis中文件信息的key前缀
-    private static final String FILE_INFO_KEY_PREFIX = "file:info:";
+//    private static final String FILE_INFO_KEY_PREFIX = "file:info:";
 
     @Override
     public FileStorage uploadFile(MultipartFile file, String uploader) {
@@ -87,7 +86,6 @@ public class FileStorageServiceImpl implements FileStorageService {
 
             // 6. 构建文件信息
             FileStorage fileStorage = FileStorage.builder()
-                    .id(fileId)
                     .fileName(fileName)
                     .originalName(originalFilename)
                     .suffix(suffix)
@@ -98,14 +96,8 @@ public class FileStorageServiceImpl implements FileStorageService {
                     .uploader(uploader)
                     .url(getFileUrl(objectName))
                     .build();
-
-            // 7. 缓存文件信息到Redis（有效期7天）
-            redisTemplate.opsForValue().set(
-                    FILE_INFO_KEY_PREFIX + fileId,
-                    fileStorage,
-                    7,
-                    TimeUnit.DAYS
-            );
+            // 7.保存到数据库
+            fileStorageMapper.insert(fileStorage);
 
             log.info("文件上传成功: {}", fileStorage);
             return fileStorage;
@@ -151,8 +143,8 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public FileStorage getFileInfo(String fileId) {
-        // 1. 先从Redis获取
-        FileStorage fileStorage = (FileStorage) redisTemplate.opsForValue().get(FILE_INFO_KEY_PREFIX + fileId);
+        // 1. 从数据库获取
+        FileStorage fileStorage = fileStorageMapper.selectById(fileId);
 
         // 2. 如果Redis中没有，可能是缓存过期，可以从数据库获取（这里简化处理，实际项目可能需要持久化到数据库）
         if (fileStorage == null) {
@@ -180,8 +172,8 @@ public class FileStorageServiceImpl implements FileStorageService {
                             .build()
             );
 
-            // 3. 从Redis删除缓存
-            redisTemplate.delete(FILE_INFO_KEY_PREFIX + fileId);
+            // 3. 从数据库删除
+            fileStorageMapper.deleteById(fileId);
 
             log.info("文件删除成功: {}", fileId);
             return true;
