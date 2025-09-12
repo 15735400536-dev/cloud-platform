@@ -6,7 +6,7 @@ import lombok.Getter;
  * @ClassName：FileException
  * @Author: XinHai.Ma
  * @Date: 2025/9/12 11:05
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 文件存储异常
  */
 @Getter
 public class FileStorageException extends RuntimeException {

@@ -1,4 +1,4 @@
-version: '3.8'
+version: '2.29'
 services:
   minio1:
     image: minio/minio
@@ -8,8 +8,8 @@ services:
       - "9001:9000"    # 节点1 API端口
       - "9011:9001"    # 节点1控制台端口
     environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin123
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
       - D:/fileStorage/data/minio/node1:/data1
     command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
@@ -24,10 +24,10 @@ services:
       - "9002:9000"
       - "9012:9001"
     environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin123
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - /data/minio/node2:/data2
+      - D:/fileStorage/data/minio/node2:/data2
     command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
     networks:
       - minio-net
@@ -40,10 +40,10 @@ services:
       - "9003:9000"
       - "9013:9001"
     environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin123
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - /data/minio/node3:/data3
+      - D:/fileStorage/data/minio/node3:/data3
     command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
     networks:
       - minio-net
@@ -56,10 +56,10 @@ services:
       - "9004:9000"
       - "9014:9001"
     environment:
-      - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin123
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=MaXinHai!970923
     volumes:
-      - /data/minio/node4:/data4
+      - D:/fileStorage/data/minio/node4:/data4
     command: server http://minio{1...4}:9000/data{1...4} --console-address ":9001"
     networks:
       - minio-net
