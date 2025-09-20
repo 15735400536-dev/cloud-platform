@@ -1,0 +1,63 @@
+# application.yml
+server:
+  port: 20011
+spring:
+  application:
+    name: cloud-platform-news
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+  config:
+    import:
+      - "nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}"
+#      - "nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}"
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/jpa
+    username: postgres
+    password: MaXinHai!970923
+  jpa:
+    hibernate:
+      ddl-auto: update  # 自动创建、更新数据表结构
+    show-sql: true      # 打印SQL语句
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true  # 格式化SQL语句
+
+springdoc:
+  # SpringDoc的API包扫描路径，如果不配置，SpringDoc 自动扫描整个项目类路径，它会自动识别所有 @RestController、@RequestMapping 等注解，生成 API 文档
+  packages-to-scan: com.maxinhai.platform.controller
+swagger-ui:
+  # 是否开启swagger界面，依赖OpenApi，默认为true，如果要开启需要OpenApi同时开启
+  enabled: true
+  # 内置 Swagger UI 的访问路径，默认值为/swagger-ui/index.html
+  path: /swagger-ui/index.html
+  # 指定OpenAPI文档的URL（注意这里一定要与api-docs.path保持一致，否则会请求失败）
+  url: /v3/api-docs
+  # 是否禁用Swagger UI自带的示例接口（如 Petstore 等默认接口），默认值为false，仅展示当前项目的 API
+  disable-swagger-default-url: false
+api-docs:
+  # 是否启用OpenAPI文档端点，默认为true
+  enabled: true
+  # OpenAPI 3规范的文档访问路径，默认值为/v3/api-docs
+  path: /api-docs
+
+xxl:
+  job:
+    admin:
+      addresses: http://192.168.1.5:8080/xxl-job-admin  # 调度中心地址
+    executor:
+      appname: xxl-job-executor-news  # 执行器名称，需与调度中心配置一致
+      address: http://192.168.1.5:10012/ # 执行器地址，默认为空自动注册
+      ip: 192.168.1.5 # 执行器IP，默认为空自动获取
+      port: 10012  # 执行器端口
+      logpath: /data/applogs/xxl-job/jobhandler  # 日志路径
+      logretentiondays: 30  # 日志保留天数
+    accessToken:  # 调度中心与执行器的通信令牌，非空时需一致
