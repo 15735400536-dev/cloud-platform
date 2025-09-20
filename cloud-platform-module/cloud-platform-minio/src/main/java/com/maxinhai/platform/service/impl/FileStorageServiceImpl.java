@@ -48,7 +48,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     private String allowedTypes;
 
     @Override
-    public FileStorage uploadFile(MultipartFile file, String uploader) {
+    public FileStorage uploadFile(MultipartFile file) {
         try {
             // 1. 检查文件是否为空
             if (file.isEmpty()) {
@@ -90,7 +90,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                     .fileSize(file.getSize())
                     .filePath(objectName)
                     .uploadTime(LocalDateTime.now())
-                    .uploader(uploader)
+                    .uploader("anonymous")
                     .url(getFileUrl(objectName))
                     .build();
             // 7.保存到数据库

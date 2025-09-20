@@ -11,10 +11,9 @@ public interface FileStorageService {
     /**
      * 上传文件
      * @param file 上传的文件
-     * @param uploader 上传者
      * @return 文件信息
      */
-    FileStorage uploadFile(MultipartFile file, String uploader);
+    FileStorage uploadFile(MultipartFile file);
 
     /**
      * 下载文件

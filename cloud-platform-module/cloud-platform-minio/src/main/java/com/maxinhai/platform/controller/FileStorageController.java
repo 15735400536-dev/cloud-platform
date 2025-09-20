@@ -12,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @ClassName：FileStorageController
@@ -32,18 +32,10 @@ public class FileStorageController {
 
     @PostMapping("/upload")
     @ApiOperation(value = "上传文件", notes = "支持多种类型文件上传")
-    public AjaxResult<Map<String, Object>> uploadFile(
-            @ApiParam(value = "上传的文件", required = true) @RequestParam("file") MultipartFile file,
-            @ApiParam(value = "上传者") @RequestParam(value = "uploader", required = false) String uploader) {
-
-        FileStorage fileStorage = fileStorageService.uploadFile(file, uploader);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("success", true);
-        result.put("message", "文件上传成功");
-        result.put("data", fileStorage);
-
-        return AjaxResult.success(result);
+    public AjaxResult<FileStorage> uploadFile(
+            @ApiParam(value = "上传的文件", required = true) @RequestParam("file") MultipartFile file) {
+        FileStorage fileStorage = fileStorageService.uploadFile(file);
+        return AjaxResult.success("文件上传成功", fileStorage);
     }
 
     @GetMapping("/download/{fileId}")
@@ -51,42 +43,23 @@ public class FileStorageController {
     public AjaxResult<Void> downloadFile(
             @ApiParam(value = "文件ID", required = true) @PathVariable String fileId,
             HttpServletResponse response) {
-
         fileStorageService.downloadFile(fileId, response);
         return AjaxResult.success();
     }
 
-    @GetMapping("/{fileId}")
+    @GetMapping("/getFileInfo/{fileId}")
     @ApiOperation(value = "获取文件信息", notes = "根据文件ID获取文件详细信息")
-    public AjaxResult<Map<String, Object>> getFileInfo(
-            @ApiParam(value = "文件ID", required = true) @PathVariable String fileId) {
-
+    public AjaxResult<FileStorage> getFileInfo(@ApiParam(value = "文件ID", required = true) @PathVariable String fileId) {
         FileStorage fileStorage = fileStorageService.getFileInfo(fileId);
-
-        Map<String, Object> result = new HashMap<>();
-        if (fileStorage != null) {
-            result.put("success", true);
-            result.put("data", fileStorage);
-        } else {
-            result.put("success", false);
-            result.put("message", "文件不存在或已过期");
-        }
-
-        return AjaxResult.success(result);
+        boolean flag = Objects.nonNull(fileStorage);
+        return AjaxResult.build(flag, flag ? "获取文件信息成功" : "文件不存在或已过期", fileStorage);
     }
 
-    @DeleteMapping("/{fileId}")
+    @DeleteMapping("/deleteFile/{fileId}")
     @ApiOperation(value = "删除文件", notes = "根据文件ID删除文件")
-    public AjaxResult<Map<String, Object>> deleteFile(
-            @ApiParam(value = "文件ID", required = true) @PathVariable String fileId) {
-
+    public AjaxResult<Map<String, Object>> deleteFile(@ApiParam(value = "文件ID", required = true) @PathVariable String fileId) {
         boolean deleted = fileStorageService.deleteFile(fileId);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("success", deleted);
-        result.put("message", deleted ? "文件删除成功" : "文件删除失败");
-
-        return AjaxResult.success(result);
+        return AjaxResult.build(deleted, deleted ? "文件删除成功" : "文件删除失败");
     }
 
 }
