@@ -18,7 +18,7 @@ public class ZlmApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        zlmClient.setServerConfig(new ServiceConfigDTO("192.168.1.18", 8080, "EQPSv4wFVeS7e7hJ9YyC3s1Zbs8Njn78"));
+//        zlmClient.setServerConfig(new ServiceConfigDTO("127.0.0.1", 8080, "EQPSv4wFVeS7e7hJ9YyC3s1Zbs8Njn78"));
 //        log.info("设置服务器配置完成");
     }
 }

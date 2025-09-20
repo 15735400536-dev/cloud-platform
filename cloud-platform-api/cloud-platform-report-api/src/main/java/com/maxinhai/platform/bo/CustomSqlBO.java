@@ -1,10 +1,12 @@
 package com.maxinhai.platform.bo;
 
+import com.maxinhai.platform.po.CustomCondition;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName：CustomSqlBO
@@ -34,5 +36,32 @@ public class CustomSqlBO {
      * 自定义查询条件
      */
     private List<CustomConditionBO> conditionList;
+
+    /**
+     * 构建条件查询语句
+     *
+     * @param conditionList 查询条件
+     * @return
+     */
+    public String buildQuerySql(List<CustomCondition> conditionList) {
+        return new StringBuffer("SELECT * FROM (")
+                .append(this.sql)
+                .append(") WHERE ")
+                .append(conditionList.stream().map(condition -> condition.build()).collect(Collectors.joining()))
+                .toString();
+    }
+
+    /**
+     * 构建条件查询语句
+     *
+     * @return
+     */
+    public String buildQuerySql() {
+        return new StringBuffer("SELECT * FROM (")
+                .append(this.sql)
+                .append(") WHERE ")
+                .append(this.conditionList.stream().map(condition -> condition.build()).collect(Collectors.joining()))
+                .toString();
+    }
 
 }

@@ -56,7 +56,7 @@ public class MsgHandler {
         for (int i = 0; i < size; i++) {
             MsgEvent event = eventQueue.poll();
             IMsgHandler handler = handlerMap.get(event.getKey());
-            if (Objects.nonNull(handler)) {
+            if (Objects.isNull(handler)) {
                 log.error("无效处理器标识: {}", event.getKey());
                 return;
             }

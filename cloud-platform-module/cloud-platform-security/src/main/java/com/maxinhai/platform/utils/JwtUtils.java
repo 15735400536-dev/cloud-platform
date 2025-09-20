@@ -5,7 +5,6 @@ import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -23,13 +22,13 @@ public class JwtUtils {
     /**
      * 密钥
      */
-    @Value("${platform.jwt.secret}")
+    @Value("${platform.jwt.secret: maxinhai}")
     private String jwtSecret;
 
     /**
      * 过期时间，单位毫秒
      */
-    @Value("${platform.jwt.expireTime}")
+    @Value("${platform.jwt.expireTime: 3600000}")
     private int jwtExpireTime;
 
     // 生成JWT令牌

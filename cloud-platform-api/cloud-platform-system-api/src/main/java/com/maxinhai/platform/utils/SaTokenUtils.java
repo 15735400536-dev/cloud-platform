@@ -1,6 +1,7 @@
 package com.maxinhai.platform.utils;
 
-import cn.dev33.satoken.stp.StpUtil;
+//import cn.dev33.satoken.stp.StpUtil;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.mapper.UserMapper;
 import com.maxinhai.platform.po.User;
@@ -23,7 +24,7 @@ public class SaTokenUtils {
      * @return
      */
     public static User getLoginUser() {
-        String userId = StpUtil.getLoginIdAsString();
+        String userId = "system"; //StpUtil.getLoginIdAsString();
         return userMapper.selectOne(new LambdaQueryWrapper<User>()
                 .select(User::getId, User::getAccount, User::getUsername, User::getPhone, User::getEmail)
                 .eq(User::getId, userId));

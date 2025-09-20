@@ -22,7 +22,7 @@ public class TokenServiceImpl {
     private RedisTemplate<String, Object> redisTemplate;
 
     // Redis中存储用户令牌的键前缀
-    private static final String USER_TOKEN_KEY_PREFIX = "user:token:";
+    private static final String USER_TOKEN_KEY_PREFIX = "auth:token:";
 
     // 令牌过期时间（与JWT过期时间一致）
     @Resource

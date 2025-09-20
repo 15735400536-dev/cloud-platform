@@ -1,0 +1,310 @@
+{
+  "material_list": {
+    "basic_info": {
+      "model": "小米SU7 Max 2024款（四驱超长续航高阶智驾版）",
+      "bom_version": "V1.1",
+      "revision_date": "2025-09-17",
+      "total_material_count": 28,
+      "applicable_scenario": "量产阶段物料采购与生产装配"
+    },
+    "items": [
+      {
+        "material_code": "PWR-BAT-001",
+        "material_name": "电池包总成",
+        "specification": "101kWh 800V高压平台，CTP技术",
+        "material": "NCM811三元电芯+小米泰坦合金壳体",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "三电系统-电池",
+        "supplier": "宁德时代（电芯）、小米汽车（PACK集成）",
+        "key_params": "能量密度255Wh/kg，CLTC续航800km，10%-80%快充19分钟"
+      },
+      {
+        "material_code": "PWR-MTR-001",
+        "material_name": "前感应异步电机",
+        "specification": "220kW/338N·m，转速18000rpm",
+        "material": "35WW250硅钢片+无氧铜线绕组",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "三电系统-驱动电机",
+        "supplier": "联合汽车电子",
+        "key_params": "效率≥97.5%，适配800V高压平台"
+      },
+      {
+        "material_code": "PWR-MTR-002",
+        "material_name": "后永磁同步电机",
+        "specification": "275kW/500N·m，转速21000rpm",
+        "material": "960MPa超高强度硅钢+钕铁硼永磁体",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "三电系统-驱动电机",
+        "supplier": "汇川技术",
+        "key_params": "功率密度6.78kW/kg，搭配SiC电控"
+      },
+      {
+        "material_code": "PWR-CTRL-001",
+        "material_name": "碳化硅电机控制器",
+        "specification": "英飞凌SiC MOSFET，开关频率100kHz",
+        "material": "SiC芯片+铝合金散热壳体",
+        "unit": "个",
+        "quantity": 2,
+        "belong_module": "三电系统-电控",
+        "supplier": "汇川技术（集成）",
+        "key_params": "效率≥98.5%，支持0-100km/h加速2.78s"
+      },
+      {
+        "material_code": "PWR-OBC-001",
+        "material_name": "双向车载充电机",
+        "specification": "6.6kW交流充电+22kW直流放电",
+        "material": "IGBT模块+耐高温绝缘材料",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "三电系统-充电",
+        "supplier": "特来电（联合研发）",
+        "key_params": "输入电压200-480V，功率因数≥0.99"
+      },
+      {
+        "material_code": "PWR-PDU-001",
+        "material_name": "高压配电箱",
+        "specification": "800V高压分配，集成熔断器/继电器",
+        "material": "阻燃尼龙+铜排",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "三电系统-高压配电",
+        "supplier": "宁波均胜电子",
+        "key_params": "防护等级IP67，耐温-40℃~125℃"
+      },
+      {
+        "material_code": "BDY-MAIN-001",
+        "material_name": "一体化压铸后底板",
+        "specification": "72合1结构，扭转刚度51000N·m/°",
+        "material": "小米泰坦合金（抗拉强度≥350MPa）",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "车身结构",
+        "supplier": "小米汽车（自研）+ 力劲科技（压铸）",
+        "key_params": "焊接点减少80%，轻量化系数2.1"
+      },
+      {
+        "material_code": "CHS-SUSP-001",
+        "material_name": "闭式空气悬架系统",
+        "specification": "高度调节范围-100mm~+100mm",
+        "material": "高强度钢+航空级铝合金",
+        "unit": "套",
+        "quantity": 1,
+        "belong_module": "底盘系统-悬架",
+        "supplier": "拓普集团",
+        "key_params": "调节速度50mm/s，承载能力≥500kg"
+      },
+      {
+        "material_code": "CHS-DAMP-001",
+        "material_name": "CDC连续阻尼可变减振器",
+        "specification": "20级阻尼调节，响应时间≤5ms",
+        "material": "不锈钢缸体+液压油",
+        "unit": "个",
+        "quantity": 4,
+        "belong_module": "底盘系统-减振",
+        "supplier": "采埃孚",
+        "key_params": "支持舒适/运动/越野3种模式"
+      },
+      {
+        "material_code": "CHS-STEER-001",
+        "material_name": "电动助力转向系统",
+        "specification": "传动比14:1，转向力矩0-15N·m",
+        "material": "铝合金壳体+齿轮钢",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "底盘系统-转向",
+        "supplier": "耐世特",
+        "key_params": "随速助力调节，转向精度±0.5°"
+      },
+      {
+        "material_code": "BRK-CALIPER-001",
+        "material_name": "前四活塞制动卡钳",
+        "specification": "搭配打孔通风盘，100-0km/h制动33.3m",
+        "material": "锻造铝合金（ADC12）",
+        "unit": "套",
+        "quantity": 1,
+        "belong_module": "制动系统",
+        "supplier": "布雷博",
+        "key_params": "制动力矩≥3500N·m，耐高温300℃"
+      },
+      {
+        "material_code": "BRK-ESP-001",
+        "material_name": "电子稳定程序（ESP）",
+        "specification": "ESP 10.0，全解耦电子驻车",
+        "material": "MCU芯片+液压阀体",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "制动系统",
+        "supplier": "博世",
+        "key_params": "支持ABS/EBD/ESC/TCS功能"
+      },
+      {
+        "material_code": "ADAS-CHIP-001",
+        "material_name": "英伟达Drive Orin芯片",
+        "specification": "单颗算力254 TOPS，7nm工艺",
+        "material": "硅基芯片+陶瓷散热基板",
+        "unit": "颗",
+        "quantity": 2,
+        "belong_module": "智能驾驶-算力",
+        "supplier": "英伟达",
+        "key_params": "支持L2+级自动驾驶，功耗50W/颗"
+      },
+      {
+        "material_code": "ADAS-CHIP-002",
+        "material_name": "地平线征程6芯片",
+        "specification": "算力560 TOPS，12nm工艺",
+        "material": "硅基芯片+金属散热壳体",
+        "unit": "颗",
+        "quantity": 1,
+        "belong_module": "智能驾驶-算力",
+        "supplier": "地平线",
+        "key_params": "专注激光雷达点云处理，功耗35W"
+      },
+      {
+        "material_code": "ADAS-LIDAR-001",
+        "material_name": "禾赛AT128激光雷达",
+        "specification": "128线，探测距离200m",
+        "material": "激光发射模块+CMOS接收芯片",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "智能驾驶-传感器",
+        "supplier": "禾赛科技",
+        "key_params": "点云密度153万点/秒，角分辨率0.1°"
+      },
+      {
+        "material_code": "ADAS-RADAR-001",
+        "material_name": "4D毫米波雷达",
+        "specification": "探测距离300m，角度分辨率1°",
+        "material": "射频芯片+天线阵列",
+        "unit": "个",
+        "quantity": 3,
+        "belong_module": "智能驾驶-传感器",
+        "supplier": "速腾聚创",
+        "key_params": "支持测速/测距/测角/测高，抗干扰等级IP6K9K"
+      },
+      {
+        "material_code": "ADAS-CAM-001",
+        "material_name": "索尼IMX900摄像头",
+        "specification": "800万像素，8K超视距识别",
+        "material": "CMOS图像传感器+光学玻璃镜头",
+        "unit": "个",
+        "quantity": 11,
+        "belong_module": "智能驾驶-传感器",
+        "supplier": "索尼（传感器）+ 舜宇光学（镜头）",
+        "key_params": "视场角120°（环视）/25°（前视），低光灵敏度0.1lux"
+      },
+      {
+        "material_code": "ADAS-LOC-001",
+        "material_name": "北斗+GPS双模定位模块",
+        "specification": "定位精度±0.1m，亚米级导航",
+        "material": "定位芯片+天线",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "智能驾驶-定位",
+        "supplier": "华测导航",
+        "key_params": "冷启动时间≤30s，支持RTK差分定位"
+      },
+      {
+        "material_code": "ADAS-IMU-001",
+        "material_name": "惯性测量单元（IMU）",
+        "specification": "六轴（3轴加速度+3轴角速度）",
+        "material": "MEMS传感器+金属外壳",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "智能驾驶-定位",
+        "supplier": "星网宇达",
+        "key_params": "角速度精度0.01°/s，加速度精度0.001g"
+      },
+      {
+        "material_code": "IC-CHIP-001",
+        "material_name": "高通骁龙8295座舱芯片",
+        "specification": "5nm工艺，算力30 TOPS",
+        "material": "硅基芯片+石墨烯散热膜",
+        "unit": "颗",
+        "quantity": 1,
+        "belong_module": "智能座舱-算力",
+        "supplier": "高通",
+        "key_params": "支持多屏交互、AI语音、4K视频解码"
+      },
+      {
+        "material_code": "IC-SCREEN-001",
+        "material_name": "中控OLED屏",
+        "specification": "16.1英寸，3K分辨率（2880×1620）",
+        "material": "OLED面板+康宁大猩猩玻璃",
+        "unit": "个",
+        "quantity": 1,
+        "belong_module": "智能座舱-显示",
+        "supplier": "蓝思科技（组装）+ 三星（面板）",
+        "key_params": "触控采样率240Hz，色域99% DCI-P3，亮度800nits"
+      },
+      {
+        "material_code": "IC-AUDIO-001",
+        "material_name": "杜比全景声音响系统",
+        "specification": "25扬声器，7.1.4声道",
+        "material": "钕铁硼磁钢喇叭+铝合金外壳",
+        "unit": "套",
+        "quantity": 1,
+        "belong_module": "智能座舱-音频",
+        "supplier": "歌尔股份",
+        "key_params": "声场定位精度±1cm，最大输出功率1500W"
+      },
+      {
+        "material_code": "TMS-VALVE-001",
+        "material_name": "八通阀热泵系统",
+        "specification": "-30℃~50℃宽温域工作",
+        "material": "黄铜阀体+步进电机",
+        "unit": "套",
+        "quantity": 1,
+        "belong_module": "热管理系统",
+        "supplier": "三花智控",
+        "key_params": "热泵COP≥3.0（环境5℃），流量调节精度±2L/min"
+      },
+      {
+        "material_code": "ACC-WC-001",
+        "material_name": "手机无线充电板",
+        "specification": "50W功率，支持Qi 2.0协议",
+        "material": "线圈+耐高温塑料外壳",
+        "unit": "个",
+        "quantity": 2,
+        "belong_module": "车内附件",
+        "supplier": "小米生态链企业（紫米）",
+        "key_params": "兼容小米澎湃P2/P2 Pro快充，充电效率≥85%"
+      },
+      {
+        "material_code": "ACC-DOOR-001",
+        "material_name": "电动吸合门执行器",
+        "specification": "关门力≤5N，响应时间≤0.3s",
+        "material": "直流电机+塑料齿轮组",
+        "unit": "个",
+        "quantity": 4,
+        "belong_module": "车内附件",
+        "supplier": "拓普集团",
+        "key_params": "使用寿命≥10万次，防护等级IP65"
+      },
+      {
+        "material_code": "ACC-TIRE-001",
+        "material_name": "高性能运动轮胎",
+        "specification": "245/45 R19（前）/265/40 R19（后）",
+        "material": "橡胶+碳纤维增强层",
+        "unit": "条",
+        "quantity": 4,
+        "belong_module": "底盘附件",
+        "supplier": "米其林（PS5系列）",
+        "key_params": "滚动阻力系数≤6.5kg/t，湿地抓地力A级"
+      },
+      {
+        "material_code": "ACC-BRAKEDISC-001",
+        "material_name": "打孔通风制动盘",
+        "specification": "直径380mm（前）/350mm（后）",
+        "material": "铸铁（HT300）+ 防锈涂层",
+        "unit": "个",
+        "quantity": 4,
+        "belong_module": "制动附件",
+        "supplier": "布雷博",
+        "key_params": "散热效率提升30%，耐高温600℃"
+      }
+    ]
+  }
+}

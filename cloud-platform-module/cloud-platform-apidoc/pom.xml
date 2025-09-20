@@ -31,7 +31,30 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version> <!-- 兼容 Spring Boot 2.6.x -->
+<!--            <exclusions>-->
+<!--                &lt;!&ndash; 排除旧版SpringFox &ndash;&gt;-->
+<!--                <exclusion>-->
+<!--                    <groupId>io.springfox</groupId>-->
+<!--                    <artifactId>springfox-boot-starter</artifactId>-->
+<!--                </exclusion>-->
+<!--                &lt;!&ndash; 排除可能冲突的 Springfox 子依赖（若有） &ndash;&gt;-->
+<!--                <exclusion>-->
+<!--                    <groupId>io.springfox</groupId>-->
+<!--                    <artifactId>springfox-swagger2</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>io.springfox</groupId>-->
+<!--                    <artifactId>springfox-swagger-ui</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
+
+        <!-- 手动引入兼容的SpringFox版本 -->
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-boot-starter</artifactId>-->
+<!--            <version>3.0.0</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

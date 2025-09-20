@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.model.ProductionLineAddDTO;
 import com.maxinhai.platform.dto.model.ProductionLineEditDTO;
 import com.maxinhai.platform.dto.model.ProductionLineQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.model.ProductionLineMapper;
 import com.maxinhai.platform.po.model.ProductionLine;
 import com.maxinhai.platform.po.model.Workshop;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,6 +28,8 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
 
     @Resource
     private ProductionLineMapper productionLineMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<ProductionLineVO> searchByPage(ProductionLineQueryDTO param) {
@@ -56,13 +60,15 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
 
     @Override
     public void edit(ProductionLineEditDTO param) {
-        ProductionLine user = BeanUtil.toBean(param, ProductionLine.class);
-        productionLineMapper.updateById(user);
+        ProductionLine productionLine = BeanUtil.toBean(param, ProductionLine.class);
+        productionLineMapper.updateById(productionLine);
     }
 
     @Override
     public void add(ProductionLineAddDTO param) {
-        ProductionLine user = BeanUtil.toBean(param, ProductionLine.class);
-        productionLineMapper.insert(user);
+        ProductionLine productionLine = BeanUtil.toBean(param, ProductionLine.class);
+        List<String> codeList = systemFeignClient.generateCode("productionLine", 1).getData();
+        productionLine.setCode(codeList.get(0));
+        productionLineMapper.insert(productionLine);
     }
 }

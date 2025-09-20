@@ -2,10 +2,12 @@ package com.maxinhai.platform.bo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.maxinhai.platform.enums.ConditionEnum;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.handler.StrListArrayTypeHandler;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.apache.ibatis.type.JdbcType;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -49,5 +51,69 @@ public class CustomConditionBO {
      * 查询SQL
      */
     private String sqlId;
+
+    /**
+     * 构建查询条件
+     *
+     * @return
+     */
+    public String build() {
+        StringBuffer buffer = new StringBuffer(" ");
+        buffer.append(field);
+        buffer.append(" ");
+        switch (condition) {
+            case eq:
+                buffer.append(condition.getKey()).append(" ").append(standardVal);
+                break;
+            case ne:
+                buffer.append(condition.getKey()).append(" ").append(standardVal);
+                break;
+            case gt:
+                buffer.append(condition.getKey()).append(" ").append(standardVal);
+                break;
+            case ge:
+                buffer.append(condition.getKey()).append(" ").append(standardVal);
+                break;
+            case lt:
+                buffer.append(condition.getKey()).append(" ").append(standardVal);
+                break;
+            case le:
+                buffer.append(condition.getKey()).append(" ").append(standardVal);
+                break;
+            case in:
+                buffer.append(condition.getKey()).append(" (").append(StringUtils.collectionToDelimitedString(range, ",")).append(") ");
+                break;
+            case not_in:
+                buffer.append(condition.getKey()).append(" (").append(StringUtils.collectionToDelimitedString(range, ",")).append(") ");
+                break;
+            case between:
+                buffer.append(condition.getKey()).append(" ").append(minVal).append(" AND ").append(maxVal);
+                break;
+            case not_between:
+                buffer.append(condition.getKey()).append(" ").append(minVal).append(" AND ").append(maxVal);
+                break;
+            case like:
+                buffer.append(condition.getKey()).append(" '%").append(standardVal).append("%'");
+                break;
+            case like_left:
+                buffer.append(condition.getKey()).append(" '%").append(standardVal).append("'");
+                break;
+            case like_right:
+                buffer.append(condition.getKey()).append(" '").append(standardVal).append("%'");
+                break;
+            case ilike:
+                buffer.append(condition.getKey()).append(" '%").append(standardVal).append("%'");
+                break;
+            case ilike_left:
+                buffer.append(condition.getKey()).append(" '%").append(standardVal).append("'");
+                break;
+            case ilike_right:
+                buffer.append(condition.getKey()).append(" '").append(standardVal).append("%'");
+                break;
+            default:
+                throw new BusinessException("未知查询条件!");
+        }
+        return buffer.append(" ").toString();
+    }
 
 }

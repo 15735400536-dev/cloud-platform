@@ -15,3 +15,4 @@
 | cloud-platform-warehouse | 仓库管理模块   | 10050 |
 | cloud-platform-quality   | 质量管理模块   | 10060 |
 | cloud-platform-zlm       | zlm流媒体服务 | 10070 |
+| cloud-platform-admin     | 监控服务     | 10000 |

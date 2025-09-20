@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -194,7 +195,7 @@ public class NacosConfigController {
     @ApiOperation(value = "使用httpclient调用接口", notes = "使用httpclient调用接口")
     public AjaxResult<Void> interfaceCall() {
         String pageResult = okHttpClientUtils.doGet("https://www.baidu.com/");
-        FileUtil.writeUtf8String(pageResult, "C:\\JavaProject\\cloud-platform\\response\\baidu.html");
+        FileUtil.writeUtf8String(pageResult, System.getProperty("user.dir") + File.separator + "response" + File.separator + "baidu.html");
         return AjaxResult.success();
     }
 

@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Date: 2025/8/21 14:10
  * @Description: 文件配置类，设置上传限制和静态资源映射
  */
-@Configuration
+//@Configuration
 public class FileConfig implements WebMvcConfigurer {
 
     @Value("${file.upload.path}")

@@ -12,5 +12,7 @@ public class ProductionLineAddDTO {
     private String code;
     @ApiModelProperty(value = "产线名称")
     private String name;
+    @ApiModelProperty(value = "车间ID")
+    private String workshopId;
 
 }

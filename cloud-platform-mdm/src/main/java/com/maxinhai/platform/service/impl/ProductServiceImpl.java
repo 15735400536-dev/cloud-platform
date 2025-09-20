@@ -9,6 +9,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.ProductAddDTO;
 import com.maxinhai.platform.dto.ProductEditDTO;
 import com.maxinhai.platform.dto.ProductQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.ProductMapper;
 import com.maxinhai.platform.po.Product;
 import com.maxinhai.platform.service.ProductService;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,6 +29,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     @Resource
     private ProductMapper productMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<ProductVO> searchByPage(ProductQueryDTO param) {
@@ -68,6 +72,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Override
     public void add(ProductAddDTO param) {
         Product product = BeanUtil.toBean(param, Product.class);
+        List<String> codeList = systemFeignClient.generateCode("product", 1).getData();
+        product.setCode(codeList.get(0));
         productMapper.insert(product);
     }
 

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/cloud-platform-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-api/cloud-platform-equipment-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-api/cloud-platform-equipment-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-api/cloud-platform-mdm-api/src/main/java" charset="UTF-8" />
@@ -29,12 +31,16 @@
     <file url="file://$PROJECT_DIR$/cloud-platform-mdm/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-apidoc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-apidoc/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-auth/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-auth/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-connector/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-connector/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-core/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-core/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-elasticsearch/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-elasticsearch/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-flyway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-flyway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-jpa/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-jpa/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-liquibase/src/main/java" charset="UTF-8" />
@@ -43,6 +49,8 @@
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-minio/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mongodb/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mongodb/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mybatis-flex/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mybatis-flex/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mybatisplus/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-mybatisplus/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-redis/src/main/java" charset="UTF-8" />
@@ -53,10 +61,26 @@
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-security/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-webservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-webservice/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-xxl-job/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-module/cloud-platform-xxl-job/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-module/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-produce/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-produce/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-alarm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-alarm/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-diary/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-diary/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-friendcircle/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-friendcircle/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-missav/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-missav/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-news/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-news/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-novel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/cloud-platform-novel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cloud-platform-project/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-quality/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-quality/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cloud-platform-report/src/main/java" charset="UTF-8" />

@@ -7,6 +7,103 @@
 
     <!-- 变更集ID：唯一标识，作者：开发人员 -->
     <changeSet id="1" author="dev">
+        <!-- 创建t_diary表 -->
+        <createTable tableName="t_diary">
+            <column name="id" type="varchar(32)" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="del_flag" type="int4(10)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="title" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="content" type="text(2147483647)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="diary_type_id" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <!-- 创建t_diary_type表 -->
+        <createTable tableName="t_diary_type">
+            <column name="id" type="varchar(32)" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="del_flag" type="int4(10)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <!-- 创建sys_user表 -->
+        <createTable tableName="sys_user">
+            <column name="id" type="varchar(32)" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="del_flag" type="int4(10)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="account" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="username" type="varchar(100)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="password" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="sex" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="phone" type="varchar(11)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(11)" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+
         <!-- 创建用户表 -->
         <createTable tableName="user">
             <column name="id" type="BIGINT" autoIncrement="true">

@@ -14,5 +14,7 @@ public class WorkshopQueryDTO extends PageSearch<WorkshopVO> {
     private String code;
     @ApiModelProperty(value = "车间名称")
     private String name;
+    @ApiModelProperty(value = "工厂ID")
+    private String factoryId;
 
 }

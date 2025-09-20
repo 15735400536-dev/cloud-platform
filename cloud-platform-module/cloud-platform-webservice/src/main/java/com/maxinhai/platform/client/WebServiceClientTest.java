@@ -34,7 +34,7 @@ public class WebServiceClientTest {
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 
         // 设置服务地址
-        factory.setAddress("http://localhost:8080/services/userService?wsdl");
+        factory.setAddress("http://localhost:20011/ws/demoService?wsdl");
 
         // 设置服务接口
         factory.setServiceClass(DemoService.class);
@@ -62,7 +62,7 @@ public class WebServiceClientTest {
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 
         // 设置服务地址
-        factory.setAddress("http://localhost:8080/services/userService?wsdl");
+        factory.setAddress("http://localhost:20011/ws/demoService?wsdl");
 
         // 设置服务接口
         factory.setServiceClass(DemoService.class);

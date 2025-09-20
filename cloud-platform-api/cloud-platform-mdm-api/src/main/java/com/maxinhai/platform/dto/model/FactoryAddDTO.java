@@ -12,5 +12,7 @@ public class FactoryAddDTO {
     private String code;
     @ApiModelProperty(value = "工厂名称")
     private String name;
+    @ApiModelProperty(value = "工厂地址")
+    private String address;
 
 }

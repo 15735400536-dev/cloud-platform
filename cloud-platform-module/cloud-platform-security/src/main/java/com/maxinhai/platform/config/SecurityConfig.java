@@ -4,6 +4,7 @@ import com.maxinhai.platform.exception.JwtAuthenticationEntryPoint;
 import com.maxinhai.platform.filter.JwtAuthenticationFilter;
 import com.maxinhai.platform.filter.JwtAuthorizationFilter;
 import com.maxinhai.platform.service.UserDetailsServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,7 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,10 +20,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.annotation.Resource;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) // 启用方法级别的权限控制
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig
+        //extends WebSecurityConfigurerAdapter
+{
 
     @Resource
     private UserDetailsServiceImpl userDetailsService;
@@ -46,7 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.cors().disable()
+                //.and()
+                .csrf().disable()
                 // 未授权处理
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 无状态会话，不创建Session
@@ -55,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll() // 登录注册接口允许匿名访问
                 .antMatchers("/api/test/**").permitAll() // 测试接口
+                .antMatchers(getReleasePaths()).permitAll() // 放行资源路径
                 .anyRequest().authenticated(); // 其他所有接口需要认证
 
         // 添加JWT登录过滤器
@@ -63,6 +69,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    public String[] getReleasePaths() {
+        String[] paths = {
+                "/doc.html",
+                "/webjars/**",
+                "/swagger-resources",
+                "/v2/api-docs",
+                "/favicon.ico",
+                "/error",
+                "/actuator/health/**"
+        };
+        return paths;
     }
 
 }

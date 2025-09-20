@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller.model;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.model.ProductionLineAddDTO;
 import com.maxinhai.platform.dto.model.ProductionLineEditDTO;
 import com.maxinhai.platform.dto.model.ProductionLineQueryDTO;
@@ -17,7 +16,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/productionLine")
 @Api(tags = "产线管理接口")
-public class ProductionController {
+public class ProductionLineController {
 
     @Resource
     private ProductionLineService productionLineService;

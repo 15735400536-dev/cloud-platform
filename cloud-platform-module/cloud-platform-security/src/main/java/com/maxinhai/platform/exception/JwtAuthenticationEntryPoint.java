@@ -1,5 +1,7 @@
 package com.maxinhai.platform.exception;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maxinhai.platform.utils.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -22,8 +24,15 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        log.error("Unauthorized error: {}", authException.getMessage());
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
+        log.error("Path: {}, Unauthorized error: {}", request.getRequestURI(), authException.getMessage());
+
+//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Please Login");
+
+        AjaxResult ajaxResult = AjaxResult.fail(HttpServletResponse.SC_UNAUTHORIZED, "Please Login", "");
+        // 设置响应内容
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(new ObjectMapper().writeValueAsString(ajaxResult));
     }
 
 }

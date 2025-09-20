@@ -31,12 +31,4 @@ public class UploadFileVO {
     @ApiModelProperty(value = "上传时间")
     private Date uploadTime;
 
-    public String getFilePath() {
-        return this.filePath;
-    }
-
-    public String getFileUrl() {
-        return this.fileUrl;
-    }
-
 }

@@ -43,4 +43,13 @@ public class StringHandler {
         return redisTemplate.delete(key);
     }
 
+    /**
+     * 验证key是否存在
+     * @param key
+     * @return
+     */
+    public Boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
 }

@@ -3,10 +3,14 @@ package com.maxinhai.platform.config;
 import com.maxinhai.platform.handler.ServerPasswordCallback;
 import com.maxinhai.platform.service.DemoService;
 import org.apache.cxf.Bus;
+import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.transport.servlet.CXFServlet;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.wss4j.dom.WSConstants;
 import org.apache.wss4j.dom.handler.WSHandlerConstants;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,8 +28,8 @@ import java.util.Map;
 @Configuration
 public class WebServiceConfig {
 
-    @Resource
-    private Bus bus;
+//    @Resource
+//    private Bus bus;
 
     @Resource
     private DemoService demoService;
@@ -33,12 +37,27 @@ public class WebServiceConfig {
     @Resource
     private ServerPasswordCallback serverPasswordCallback;
 
+    @Value("${server.port}")
+    private String port;
+
+    @Bean(name = Bus.DEFAULT_BUS_ID)
+    public SpringBus springBus() {
+        return new SpringBus();
+    }
+
+    @Bean(name = "wsBean")
+    public ServletRegistrationBean dispatcherServlet() {
+        ServletRegistrationBean wbsServlet = new ServletRegistrationBean(new CXFServlet(), "/ws/*");
+        return wbsServlet;
+    }
+
     // 发布WebService服务
     @Bean
-    public Endpoint endpoint() {
+    public Endpoint endpoint(SpringBus bus) {
         EndpointImpl endpoint = new EndpointImpl(bus, demoService);
         // 服务发布地址
         endpoint.publish("/demoService");
+        System.out.println("服务发布成功! 地址为：http://localhost:" + port + "/ws/demoService?wsdl");
         return endpoint;
     }
 

@@ -335,19 +335,19 @@ public class ZlmClientImpl implements ZlmClient {
         request.put("secret", param.getSecret());
         request.put("hook.enable", "1");
         request.put("api.secret", param.getSecret());
-        request.put("hook.on_play", String.format("http://%s:%d/index/hook/on_play", "192.168.1.18", 10070));
-        request.put("hook.on_publish", String.format("http://%s:%d/index/hook/on_publish", "192.168.1.18", 10070));
-        request.put("hook.on_record_mp4", String.format("http://%s:%d/index/hook/on_record_mp4", "192.168.1.18", 10070));
-        request.put("hook.on_record_ts", String.format("http://%s:%d/index/hook/on_record_ts", "192.168.1.18", 10070));
-        request.put("hook.on_rtp_server_timeout", String.format("http://%s:%d/index/hook/on_rtp_server_timeout", "192.168.1.18", 10070));
-        request.put("hook.on_rtsp_auth", String.format("http://%s:%d/on_rtsp_auth", "192.168.1.18", 10070));
-        request.put("hook.on_send_rtp_stopped", String.format("http://%s:%d/index/hook/on_send_rtp_stopped", "192.168.1.18", 10070));
-        request.put("hook.on_server_exited", String.format("http://%s:%d/index/hook/on_server_exited", "192.168.1.18", 10070));
-        request.put("hook.on_server_keepalive", String.format("http://%s:%d/index/hook/on_server_keepalive", "192.168.1.18", 10070));
-        request.put("hook.on_server_started", String.format("http://%s:%d/index/hook/on_server_started", "192.168.1.18", 10070));
-        request.put("hook.on_stream_changed", String.format("http://%s:%d/index/hook/on_stream_changed", "192.168.1.18", 10070));
-        request.put("hook.on_stream_none_reader", String.format("http://%s:%d/index/hook/on_stream_none_reader", "192.168.1.18", 10070));
-        request.put("hook.on_stream_not_found", String.format("http://%s:%d/index/hook/on_stream_not_found", "192.168.1.18", 10070));
+        request.put("hook.on_play", String.format("http://%s:%d/index/hook/on_play", "127.0.0.1", 10070));
+        request.put("hook.on_publish", String.format("http://%s:%d/index/hook/on_publish", "127.0.0.1", 10070));
+        request.put("hook.on_record_mp4", String.format("http://%s:%d/index/hook/on_record_mp4", "127.0.0.1", 10070));
+        request.put("hook.on_record_ts", String.format("http://%s:%d/index/hook/on_record_ts", "127.0.0.1", 10070));
+        request.put("hook.on_rtp_server_timeout", String.format("http://%s:%d/index/hook/on_rtp_server_timeout", "127.0.0.1", 10070));
+        request.put("hook.on_rtsp_auth", String.format("http://%s:%d/on_rtsp_auth", "127.0.0.1", 10070));
+        request.put("hook.on_send_rtp_stopped", String.format("http://%s:%d/index/hook/on_send_rtp_stopped", "127.0.0.1", 10070));
+        request.put("hook.on_server_exited", String.format("http://%s:%d/index/hook/on_server_exited", "127.0.0.1", 10070));
+        request.put("hook.on_server_keepalive", String.format("http://%s:%d/index/hook/on_server_keepalive", "127.0.0.1", 10070));
+        request.put("hook.on_server_started", String.format("http://%s:%d/index/hook/on_server_started", "127.0.0.1", 10070));
+        request.put("hook.on_stream_changed", String.format("http://%s:%d/index/hook/on_stream_changed", "127.0.0.1", 10070));
+        request.put("hook.on_stream_none_reader", String.format("http://%s:%d/index/hook/on_stream_none_reader", "127.0.0.1", 10070));
+        request.put("hook.on_stream_not_found", String.format("http://%s:%d/index/hook/on_stream_not_found", "127.0.0.1", 10070));
         request.put("hook.on_http_access", "");
 
         // 封装请求头和请求体

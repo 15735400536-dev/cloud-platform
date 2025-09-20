@@ -5,18 +5,24 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.maxinhai.platform.bo.CustomDataSourceBO;
+import com.maxinhai.platform.bo.CustomSqlBO;
 import com.maxinhai.platform.dto.CustomSqlAddDTO;
 import com.maxinhai.platform.dto.CustomSqlEditDTO;
 import com.maxinhai.platform.dto.CustomSqlQueryDTO;
 import com.maxinhai.platform.mapper.CustomSqlMapper;
 import com.maxinhai.platform.po.CustomSql;
 import com.maxinhai.platform.service.CustomSqlService;
+import com.maxinhai.platform.utils.JdbcUtils;
 import com.maxinhai.platform.vo.CustomSqlVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -63,5 +69,17 @@ public class CustomSqlServiceImpl extends ServiceImpl<CustomSqlMapper, CustomSql
     public void add(CustomSqlAddDTO param) {
         CustomSql sql = BeanUtil.toBean(param, CustomSql.class);
         sqlMapper.insert(sql);
+    }
+
+    @Override
+    public void executeSql(CustomSqlBO sql) {
+        CustomDataSourceBO dataSource = sql.getDataSource();
+        JdbcUtils.setDatasource(dataSource.getUrl(), dataSource.getDriverClassName(), dataSource.getUsername(), dataSource.getPassword());
+        String querySql = sql.buildQuerySql();
+        try {
+            List<Map<String, Object>> resultList = JdbcUtils.selectList(querySql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

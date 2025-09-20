@@ -65,12 +65,32 @@ public class ListHandler {
     }
 
     /**
+     * 从List左侧（头部）移除并返回多个元素（6.2.0版本之后支持该语法）
+     * @param key
+     * @param count
+     * @return
+     */
+    public List<Object> batchLeftPop(String key, long count) {
+        return redisTemplate.opsForList().leftPop(key, count);
+    }
+
+    /**
      * 从List右侧（尾部）移除并返回最后一个元素
      * @param key 键
      * @return 移除的元素
      */
     public Object rightPop(String key) {
         return redisTemplate.opsForList().rightPop(key);
+    }
+
+    /**
+     * 从List右侧（尾部）移除并返回多个元素（6.2.0版本之后支持该语法）
+     * @param key
+     * @param count
+     * @return
+     */
+    public List<Object>  batchRightPop(String key, long count) {
+        return redisTemplate.opsForList().rightPop(key, count);
     }
 
     /**

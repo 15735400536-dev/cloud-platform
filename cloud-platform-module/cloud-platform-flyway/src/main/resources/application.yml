@@ -1,0 +1,14 @@
+# Flyway 配置
+flyway:
+  # 启用 Flyway
+  enabled: true
+  # 数据库编码
+  encoding: UTF-8
+  # 迁移脚本存放路径 (默认就是这个路径)
+  locations: classpath:flyway
+  # 基准版本 (首次迁移前的版本)
+  baseline-version: 1
+  # 是否在无迁移历史表时执行基准迁移
+  baseline-on-migrate: true
+  # 迁移时是否验证
+  validate-on-migrate: true

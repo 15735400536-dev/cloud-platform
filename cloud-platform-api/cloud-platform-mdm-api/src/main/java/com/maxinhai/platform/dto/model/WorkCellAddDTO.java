@@ -12,5 +12,15 @@ public class WorkCellAddDTO {
     private String code;
     @ApiModelProperty(value = "工位名称")
     private String name;
+    /**
+     * 加工中心ID
+     */
+    @ApiModelProperty(value = "加工中心ID")
+    private String workCenterId;
+    /**
+     * 产线ID
+     */
+    @ApiModelProperty(value = "产线ID")
+    private String productionLineId;
 
 }

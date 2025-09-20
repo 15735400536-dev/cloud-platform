@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.model.WorkshopAddDTO;
 import com.maxinhai.platform.dto.model.WorkshopEditDTO;
 import com.maxinhai.platform.dto.model.WorkshopQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.model.WorkshopMapper;
 import com.maxinhai.platform.po.model.Factory;
 import com.maxinhai.platform.po.model.Workshop;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,6 +28,8 @@ public class WorkshopServiceImpl extends ServiceImpl<WorkshopMapper, Workshop> i
 
     @Resource
     private WorkshopMapper workshopMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<WorkshopVO> searchByPage(WorkshopQueryDTO param) {
@@ -64,13 +68,15 @@ public class WorkshopServiceImpl extends ServiceImpl<WorkshopMapper, Workshop> i
 
     @Override
     public void edit(WorkshopEditDTO param) {
-        Workshop user = BeanUtil.toBean(param, Workshop.class);
-        workshopMapper.updateById(user);
+        Workshop workshop = BeanUtil.toBean(param, Workshop.class);
+        workshopMapper.updateById(workshop);
     }
 
     @Override
     public void add(WorkshopAddDTO param) {
-        Workshop user = BeanUtil.toBean(param, Workshop.class);
-        workshopMapper.insert(user);
+        Workshop workshop = BeanUtil.toBean(param, Workshop.class);
+        List<String> codeList = systemFeignClient.generateCode("workshop", 1).getData();
+        workshop.setCode(codeList.get(0));
+        workshopMapper.insert(workshop);
     }
 }

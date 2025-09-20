@@ -1,0 +1,142 @@
+{
+  "motor_bom": {
+    "bom_info": {
+      "bom_version": "V1.0",
+      "applicable_motor_type": "三相异步电动机（11kW/380V）",
+      "compile_date": "2024-05-20",
+      "remark": "适用于工业驱动场景基础款电机，不含定制化附件"
+    },
+    "material_list": [
+      {
+        "material_id": "MAT-001",
+        "material_name": "定子硅钢片",
+        "spec_model": "0.35mm 30Q130（冷轧无取向硅钢）",
+        "material": "30Q130硅钢",
+        "unit": "kg",
+        "single_motor_quantity": 12.5,
+        "usage": "叠压成型定子铁芯，降低铁损",
+        "remark": "需满足磁导率≥1.8T（50Hz）"
+      },
+      {
+        "material_id": "MAT-002",
+        "material_name": "定子绕组铜线",
+        "spec_model": "Φ1.5mm 无氧铜（漆包线，155级耐温）",
+        "material": "T2无氧铜+聚酰亚胺漆层",
+        "unit": "kg",
+        "single_motor_quantity": 4.8,
+        "usage": "绕制定子线圈，传递电能产生磁场",
+        "remark": "漆膜耐击穿电压≥1.5kV"
+      },
+      {
+        "material_id": "MAT-003",
+        "material_name": "转子铁芯（叠压件）",
+        "spec_model": "Φ180mm（内径30mm/外径180mm），0.5mm 50W350硅钢",
+        "material": "50W350硅钢",
+        "unit": "个",
+        "single_motor_quantity": 1,
+        "usage": "转子核心部件，与定子磁场作用产生转矩",
+        "remark": "叠压系数≥0.95"
+      },
+      {
+        "material_id": "MAT-004",
+        "material_name": "电机转轴",
+        "spec_model": "Φ30mm×280mm（台阶轴），45#钢调质处理",
+        "material": "45#优质碳素结构钢（HRC28-32）",
+        "unit": "根",
+        "single_motor_quantity": 1,
+        "usage": "传递转子转矩至外部负载，支撑转子转动",
+        "remark": "轴颈表面粗糙度Ra≤0.8μm"
+      },
+      {
+        "material_id": "MAT-005",
+        "material_name": "深沟球轴承",
+        "spec_model": "6206-2RS（内径30mm/外径62mm/宽度16mm）",
+        "material": "GCr15轴承钢（内外圈）+高纯度润滑脂",
+        "unit": "套",
+        "single_motor_quantity": 2,
+        "usage": "减少转轴与端盖间的摩擦，保证转子灵活转动",
+        "remark": "额定动负荷25.5kN，静负荷14.0kN"
+      },
+      {
+        "material_id": "MAT-006",
+        "material_name": "电机端盖（前/后）",
+        "spec_model": "前端盖：Φ250mm×40mm；后端盖：Φ250mm×35mm（铝合金压铸）",
+        "material": "ADC12铝合金",
+        "unit": "套",
+        "single_motor_quantity": 1,
+        "usage": "密封电机内部，支撑轴承，固定定子",
+        "remark": "表面阳极氧化处理，防腐蚀"
+      },
+      {
+        "material_id": "MAT-007",
+        "material_name": "绝缘纸",
+        "spec_model": "6630聚酰亚胺薄膜（0.15mm厚）",
+        "material": "聚酰亚胺",
+        "unit": "m²",
+        "single_motor_quantity": 0.8,
+        "usage": "定子槽内绝缘，隔离绕组与铁芯",
+        "remark": "耐温等级H级（180℃）"
+      },
+      {
+        "material_id": "MAT-008",
+        "material_name": "电机机壳",
+        "spec_model": "Φ280mm×320mm（铸铁，立式安装）",
+        "material": "HT200灰铸铁",
+        "unit": "个",
+        "single_motor_quantity": 1,
+        "usage": "容纳定子、转子，保护内部部件，散热",
+        "remark": "壁厚≥8mm，表面喷漆（RAL7035浅灰）"
+      },
+      {
+        "material_id": "MAT-009",
+        "material_name": "冷却风扇",
+        "spec_model": "Φ120mm（塑料离心式，适配转轴转速1480r/min）",
+        "material": "PA6+30%玻纤",
+        "unit": "个",
+        "single_motor_quantity": 1,
+        "usage": "强制风冷，降低电机运行温度",
+        "remark": "耐温≥120℃，动平衡等级G6.3"
+      },
+      {
+        "material_id": "MAT-010",
+        "material_name": "接线盒",
+        "spec_model": "IP54防护等级（铸铁材质，3进3出接线柱）",
+        "material": "HT150灰铸铁",
+        "unit": "个",
+        "single_motor_quantity": 1,
+        "usage": "电机外部接线接口，保护接线端子",
+        "remark": "内置铜制接线柱（M8规格）"
+      },
+      {
+        "material_id": "MAT-011",
+        "material_name": "绝缘漆",
+        "spec_model": "1032三聚氰胺醇酸绝缘漆（H级）",
+        "material": "三聚氰胺树脂+醇酸树脂",
+        "unit": "L",
+        "single_motor_quantity": 0.5,
+        "usage": "定子绕组浸漆，增强绝缘性能与机械强度",
+        "remark": "干燥后漆膜硬度≥HB"
+      },
+      {
+        "material_id": "MAT-012",
+        "material_name": "紧固件（螺栓/螺母/垫片）",
+        "spec_model": "螺栓：M8×25mm（8.8级高强度）；螺母：M8（8级）；垫片：Φ8mm（弹簧垫圈+平垫圈）",
+        "material": "40Cr（螺栓）+Q235（垫片）",
+        "unit": "套",
+        "single_motor_quantity": 12,
+        "usage": "固定端盖、机壳、接线盒等部件",
+        "remark": "螺栓表面镀锌（蓝白锌）防腐蚀"
+      },
+      {
+        "material_id": "MAT-013",
+        "material_name": "轴承端盖密封圈",
+        "spec_model": "Φ30mm×Φ45mm×7mm（丁腈橡胶NBR）",
+        "material": "NBR丁腈橡胶（硬度70±5 Shore A）",
+        "unit": "个",
+        "single_motor_quantity": 2,
+        "usage": "密封轴承端盖，防止灰尘、油污进入轴承",
+        "remark": "耐油温度范围-30℃~120℃"
+      }
+    ]
+  }
+}

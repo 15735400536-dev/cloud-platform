@@ -15,13 +15,13 @@ import java.util.List;
 public class LiquibaseTableGenerator {
 
     // 数据库连接信息
-    private static final String URL = "jdbc:mysql://localhost:3306/your_db";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String URL = "jdbc:postgresql://localhost:5432/cloud-platform";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "MaXinHai!970923";
 
     public static void main(String[] args) throws SQLException {
         // 要生成的表名列表
-        List<String> tableNames = List.of("user", "order", "product");
+        List<String> tableNames = List.of("t_diary", "t_diary_type", "sys_user");
 
         try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
             DatabaseMetaData metaData = conn.getMetaData();

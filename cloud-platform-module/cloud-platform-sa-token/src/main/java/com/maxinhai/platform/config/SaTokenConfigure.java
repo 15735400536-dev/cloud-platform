@@ -11,6 +11,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Sa-Token 配置类
@@ -44,14 +48,39 @@ public class SaTokenConfigure {
         return new SaServletFilter()
 
                 // 指定 拦截路由 与 放行路由
-                .addInclude("/**").addExclude("/doc.html", "/webjars/**", "/swagger-resources", "/v2/api-docs", "/favicon.ico")    /* 排除掉 /favicon.ico */
+                .addInclude("/**")
+                .addExclude("/doc.html", "/webjars/**", "/swagger-resources", "/v2/api-docs", "/favicon.ico",
+                        "/actuator/health",    // 无末尾斜杠的端点（部分环境默认路径）
+                        "/actuator/health/",   // 有末尾斜杠的端点
+                        "/actuator/trace",   // 若有子路径（如 /actuator/health/details），也可一并排除
+                        "/actuator/caches",
+                        "/actuator/loggers",
+                        "/actuator/flyway",
+                        "/actuator/logfile",
+                        "/actuator/refresh",
+                        "/actuator/env",
+                        "/actuator/liquibase",
+                        "/actuator/heapdump",
+                        "/actuator/scheduledtasks",
+                        "/actuator/mappings",
+                        "/actuator/threaddump",
+                        "/actuator/metrics",
+                        "/actuator/auditevents"
+                )    /* 排除掉 /favicon.ico */
 
                 // 认证函数: 每次请求执行
                 .setAuth(obj -> {
                     log.debug("---------- 进入Sa-Token全局认证 -----------");
 
                     // 登录认证 -- 拦截所有路由，并排除/user/doLogin 用于开放登录
-                    SaRouter.match("/**", "/user/login", () -> StpUtil.checkLogin());
+                    SaRouter.match("/**", "/user/login", () -> {
+                        String header = getHeader(getCurrentRequest(), "sa-token");
+                        if(header != null && "internal".equals(header)) {
+                            // 内部请求，无需token校验
+                        } else {
+                            StpUtil.checkLogin();
+                        }
+                    });
 
                     // 更多拦截处理方式，请参考“路由拦截式鉴权”章节 */
                 })
@@ -77,6 +106,33 @@ public class SaTokenConfigure {
                             // 禁用浏览器内容嗅探
                             .setHeader("X-Content-Type-Options", "nosniff");
                 });
+    }
+
+    /**
+     * 获取当前请求
+     *
+     * @return
+     */
+    public HttpServletRequest getCurrentRequest() {
+        // 获取当前请求上下文
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            throw new RuntimeException("无当前请求上下文");  // 非Web环境或无请求时返回
+        }
+
+        HttpServletRequest request = attributes.getRequest();
+        return request;
+    }
+
+    /**
+     * 根据name获取value
+     *
+     * @param request
+     * @param headerName
+     * @return
+     */
+    public String getHeader(HttpServletRequest request, String headerName) {
+        return request.getHeader(headerName);
     }
 
 }

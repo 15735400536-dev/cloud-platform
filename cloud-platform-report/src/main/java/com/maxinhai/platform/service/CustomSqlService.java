@@ -2,6 +2,7 @@ package com.maxinhai.platform.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.bo.CustomSqlBO;
 import com.maxinhai.platform.dto.CustomSqlAddDTO;
 import com.maxinhai.platform.dto.CustomSqlEditDTO;
 import com.maxinhai.platform.dto.CustomSqlQueryDTO;
@@ -19,5 +20,7 @@ public interface CustomSqlService extends IService<CustomSql> {
     void edit(CustomSqlEditDTO param);
 
     void add(CustomSqlAddDTO param);
+
+    void executeSql(CustomSqlBO sql);
 
 }

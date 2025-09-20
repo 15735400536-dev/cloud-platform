@@ -113,11 +113,21 @@ public class UserController {
         return AjaxResult.success(count > 0);
     }
 
+    @GetMapping("/findByAccount/{account}")
+    @ApiOperation(value = "根据账号获取用户信息", notes = "根据账号获取用户信息")
+    public AjaxResult<UserVO> findByAccount(@PathVariable("account") String account) {
+        User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getAccount, account));
+        if (user == null) {
+            return AjaxResult.success("用户不存在!");
+        }
+        return AjaxResult.success(BeanUtil.toBean(user, UserVO.class));
+    }
+
     @Resource
     private JdbcTemplate jdbcTemplate;
 
     //@Scheduled(initialDelay = 5000, fixedDelay = 60000)
-    //@Scheduled(cron = "0 30 22 * * ?")
+    //@Scheduled(cron = "0 0 * * * ?")
     public void initUserData() throws InterruptedException {
         Map<String, Date> dateMap = jdbcTemplate.queryForObject("SELECT " +
                 "  MAX(create_time AT TIME ZONE 'Asia/Shanghai') AS max_time, " +
@@ -139,7 +149,7 @@ public class UserController {
                             "WHERE create_time >= ? " +
                             "AND create_time <= ? " +
                             "ORDER BY nickname, create_time DESC",
-                    new Object[]{ beginTime, endTime },
+                    new Object[]{beginTime, endTime},
                     (rs, rowNum) -> {
                         User user = new User();
                         user.setAccount(rs.getString("account"));
