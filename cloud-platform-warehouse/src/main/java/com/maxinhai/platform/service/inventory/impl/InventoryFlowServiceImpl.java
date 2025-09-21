@@ -18,7 +18,6 @@ import com.maxinhai.platform.po.order.IssueOrderDetail;
 import com.maxinhai.platform.po.order.ReceiptOrderDetail;
 import com.maxinhai.platform.po.order.TransferOrderDetail;
 import com.maxinhai.platform.service.inventory.InventoryFlowService;
-import com.maxinhai.platform.utils.LoginUserContext;
 import com.maxinhai.platform.vo.inventory.InventoryFlowVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -111,7 +110,7 @@ public class InventoryFlowServiceImpl extends ServiceImpl<InventoryFlowMapper, I
         inventoryFlow.setAfterQt(afterQt);
         inventoryFlow.setChangeQty(orderDetail.getActualQty());
         inventoryFlow.setOperateType(OperateType.INVENTORY_ADJUSTMENT);
-        inventoryFlow.setOperatorId(LoginUserContext.getItemValue("userId"));
+        inventoryFlow.setOperatorId("anonymous");
         inventoryFlow.setOperateTime(new Date());
         inventoryFlowMapper.insert(inventoryFlow);
     }
@@ -131,7 +130,7 @@ public class InventoryFlowServiceImpl extends ServiceImpl<InventoryFlowMapper, I
         inventoryFlow.setAfterQt(afterQt);
         inventoryFlow.setChangeQty(orderDetail.getActualQty());
         inventoryFlow.setOperateType(OperateType.RECEIPT);
-        inventoryFlow.setOperatorId(LoginUserContext.getItemValue("userId"));
+        inventoryFlow.setOperatorId("anonymous");
         inventoryFlow.setOperateTime(new Date());
         inventoryFlowMapper.insert(inventoryFlow);
     }
@@ -151,7 +150,7 @@ public class InventoryFlowServiceImpl extends ServiceImpl<InventoryFlowMapper, I
         inventoryFlow.setAfterQt(afterQt);
         inventoryFlow.setChangeQty(orderDetail.getActualQty());
         inventoryFlow.setOperateType(OperateType.ISSUE);
-        inventoryFlow.setOperatorId(LoginUserContext.getItemValue("userId"));
+        inventoryFlow.setOperatorId("anonymous");
         inventoryFlow.setOperateTime(new Date());
         inventoryFlowMapper.insert(inventoryFlow);
     }
@@ -171,7 +170,7 @@ public class InventoryFlowServiceImpl extends ServiceImpl<InventoryFlowMapper, I
         inventoryFlow.setAfterQt(afterQt);
         inventoryFlow.setChangeQty(changeQty);
         inventoryFlow.setOperateType(operateType);
-        inventoryFlow.setOperatorId(LoginUserContext.getItemValue("userId"));
+        inventoryFlow.setOperatorId("anonymous");
         inventoryFlow.setOperateTime(new Date());
         inventoryFlowMapper.insert(inventoryFlow);
     }

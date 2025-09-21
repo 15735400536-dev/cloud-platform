@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.model.WarehouseEditDTO;
 import com.maxinhai.platform.dto.model.WarehouseQueryDTO;
 import com.maxinhai.platform.po.model.Warehouse;
 import com.maxinhai.platform.vo.model.WarehouseVO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface WarehouseService extends IService<Warehouse> {
 
@@ -19,5 +20,7 @@ public interface WarehouseService extends IService<Warehouse> {
     void edit(WarehouseEditDTO param);
 
     void add(WarehouseAddDTO param);
+
+    void importExcel(MultipartFile file);
 
 }

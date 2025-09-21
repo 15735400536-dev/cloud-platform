@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.model.WarehouseLocationAddDTO;
 import com.maxinhai.platform.dto.model.WarehouseLocationEditDTO;
 import com.maxinhai.platform.dto.model.WarehouseLocationQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.model.WarehouseLocationMapper;
 import com.maxinhai.platform.po.model.Warehouse;
 import com.maxinhai.platform.po.model.WarehouseArea;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +31,8 @@ public class WarehouseLocationServiceImpl extends ServiceImpl<WarehouseLocationM
     
     @Resource
     private WarehouseLocationMapper locationMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
     
     @Override
     public Page<WarehouseLocationVO> searchByPage(WarehouseLocationQueryDTO param) {
@@ -84,7 +88,9 @@ public class WarehouseLocationServiceImpl extends ServiceImpl<WarehouseLocationM
 
     @Override
     public void add(WarehouseLocationAddDTO param) {
+        List<String> codeList = systemFeignClient.generateCode("wms_location", 1).getData();
         WarehouseLocation location = BeanUtil.toBean(param, WarehouseLocation.class);
+        location.setCode(codeList.get(0));
         locationMapper.insert(location);
     }
 }

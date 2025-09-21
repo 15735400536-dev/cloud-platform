@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.model.WarehouseRackAddDTO;
 import com.maxinhai.platform.dto.model.WarehouseRackEditDTO;
 import com.maxinhai.platform.dto.model.WarehouseRackQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.model.WarehouseRackMapper;
 import com.maxinhai.platform.po.model.Warehouse;
 import com.maxinhai.platform.po.model.WarehouseArea;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,7 +30,9 @@ public class WarehouseRackServiceImpl extends ServiceImpl<WarehouseRackMapper, W
     
     @Resource
     private WarehouseRackMapper rackMapper;
-    
+    @Resource
+    private SystemFeignClient systemFeignClient;
+
     @Override
     public Page<WarehouseRackVO> searchByPage(WarehouseRackQueryDTO param) {
         Page<WarehouseRackVO> pageResult = rackMapper.selectJoinPage(param.getPage(), WarehouseRackVO.class,
@@ -77,7 +81,9 @@ public class WarehouseRackServiceImpl extends ServiceImpl<WarehouseRackMapper, W
 
     @Override
     public void add(WarehouseRackAddDTO param) {
+        List<String> codeList = systemFeignClient.generateCode("wms_rack", 1).getData();
         WarehouseRack rack = BeanUtil.toBean(param, WarehouseRack.class);
+        rack.setCode(codeList.get(0));
         rackMapper.insert(rack);
     }
 }
