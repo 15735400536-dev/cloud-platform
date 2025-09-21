@@ -10,22 +10,26 @@ import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
 import com.maxinhai.platform.dto.UserRoleDTO;
+import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.mapper.RoleMapper;
+import com.maxinhai.platform.mapper.UserMapper;
 import com.maxinhai.platform.mapper.UserRoleRelMapper;
 import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.po.User;
 import com.maxinhai.platform.po.UserRoleRel;
-import com.maxinhai.platform.mapper.UserMapper;
 import com.maxinhai.platform.service.UserRoleRelService;
 import com.maxinhai.platform.service.UserService;
 import com.maxinhai.platform.vo.RoleVO;
 import com.maxinhai.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,17 +39,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private UserMapper userMapper;
     @Resource
+    private RoleMapper roleMapper;
+    @Resource
     private UserRoleRelMapper userRoleRelMapper;
     @Resource
     private UserRoleRelService userRoleRelService;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Page<UserVO> searchByPage(UserQueryDTO param) {
         Page<UserVO> pageResult = userMapper.selectJoinPage(param.getPage(), UserVO.class,
                 new MPJLambdaWrapper<User>()
-                .like(StrUtil.isNotBlank(param.getAccount()), User::getAccount, param.getAccount())
-                .like(StrUtil.isNotBlank(param.getUsername()), User::getUsername, param.getUsername())
-                .orderByDesc(User::getCreateTime));
+                        .like(StrUtil.isNotBlank(param.getAccount()), User::getAccount, param.getAccount())
+                        .like(StrUtil.isNotBlank(param.getUsername()), User::getUsername, param.getUsername())
+                        .orderByDesc(User::getCreateTime));
         return pageResult;
     }
 
@@ -67,8 +75,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void add(UserAddDTO param) {
+        Long count = userMapper.selectCount(new LambdaQueryWrapper<User>()
+                .eq(User::getAccount, param.getAccount()));
+        if (count > 0) {
+            throw new BusinessException("账号【" + param.getAccount() + "】已注册!");
+        }
+
+        Role role = roleMapper.selectOne(new LambdaQueryWrapper<Role>()
+                .select(Role::getId, Role::getRoleKey, Role::getRoleName)
+                .eq(Role::getRoleKey, "USER"));
+        if (Objects.isNull(role)) {
+            throw new BusinessException("未找到【普通用户】角色!");
+        }
+
         User user = BeanUtil.toBean(param, User.class);
+        user.setPassword(passwordEncoder.encode(param.getPassword()));
         userMapper.insert(user);
+
+        UserRoleRel userRoleRel = new UserRoleRel(user.getId(), role.getId());
+        userRoleRelMapper.insert(userRoleRel);
     }
 
     @Override

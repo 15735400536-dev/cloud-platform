@@ -1,5 +1,6 @@
 package com.maxinhai.platform.dto;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,5 +21,13 @@ public class UserAddDTO {
     private String phone;
     @ApiModelProperty(value = "邮箱")
     private String email;
+
+    public String getPassword() {
+        // 如果密码为空，默认密码设置为123456
+        if (StrUtil.isEmpty(password)) {
+            return "123456";
+        }
+        return password;
+    }
 
 }
