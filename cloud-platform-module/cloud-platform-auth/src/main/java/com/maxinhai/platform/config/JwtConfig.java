@@ -17,10 +17,10 @@ import java.util.function.Function;
 @Component
 public class JwtConfig {
 
-    @Value("${jwt.secret: cloud-platform}")
+    @Value("${jwt.secret:cloud-platform}")
     private String secret;
 
-    @Value("${jwt.expiration:3600000}")
+    @Value("${jwt.expiration:86400000}")
     private long expiration; // 单位：毫秒
 
     /**
