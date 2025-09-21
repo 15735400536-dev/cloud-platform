@@ -16,3 +16,13 @@
 | cloud-platform-quality   | 质量管理模块   | 10060 |
 | cloud-platform-zlm       | zlm流媒体服务 | 10070 |
 | cloud-platform-admin     | 监控服务     | 10000 |
+
+## 项目
+| 项目标识                        | 项目名称 | 项目端口  |
+|-----------------------------|------|-------|
+| cloud-platform-alarm        | 设备告警 | 20010 |
+| cloud-platform-diary        | 日记项目 | 20020 |
+| cloud-platform-friendcircle | 朋友圈啊 | 20030 |
+| cloud-platform-missav       | 视频网站 | 20040 |
+| cloud-platform-news         | 新闻网站 | 20050 |
+| cloud-platform-novel        | 小说网站 | 20060 |
