@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "物料类型VO")
 public class MaterialTypeTreeVO implements INode {
 
     @ApiModelProperty(value = "主键ID")
@@ -33,6 +33,7 @@ public class MaterialTypeTreeVO implements INode {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void setChildren(List<? extends INode> children) {
         this.children = (List<MaterialTypeTreeVO>) children;
     }

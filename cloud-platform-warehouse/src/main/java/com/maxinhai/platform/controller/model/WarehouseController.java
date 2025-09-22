@@ -11,6 +11,7 @@ import com.maxinhai.platform.service.model.WarehouseService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.ComboBoxUtils;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.model.WarehouseTreeVO;
 import com.maxinhai.platform.vo.model.WarehouseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -101,6 +102,12 @@ public class WarehouseController {
 
         warehouseService.importExcel(file);
         return AjaxResult.success("导入成功!");
+    }
+
+    @GetMapping("/getTree")
+    @ApiOperation(value = "获取仓库树状结构", notes = "获取仓库树状结构")
+    public AjaxResult<List<WarehouseTreeVO>> getTree() {
+        return AjaxResult.success(warehouseService.getTree());
     }
 
 }
