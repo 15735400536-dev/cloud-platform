@@ -2,6 +2,7 @@ package com.maxinhai.platform.service.stocktaking.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -9,8 +10,10 @@ import com.maxinhai.platform.dto.stocktaking.StocktakingAddDTO;
 import com.maxinhai.platform.dto.stocktaking.StocktakingEditDTO;
 import com.maxinhai.platform.dto.stocktaking.StocktakingQueryDTO;
 import com.maxinhai.platform.feign.SystemFeignClient;
+import com.maxinhai.platform.mapper.stocktaking.StocktakingDetailMapper;
 import com.maxinhai.platform.mapper.stocktaking.StocktakingMapper;
 import com.maxinhai.platform.po.stocktaking.Stocktaking;
+import com.maxinhai.platform.po.stocktaking.StocktakingDetail;
 import com.maxinhai.platform.service.stocktaking.StocktakingService;
 import com.maxinhai.platform.vo.stocktaking.StocktakingVO;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,8 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
 
     @Resource
     private StocktakingMapper stocktakingMapper;
+    @Resource
+    private StocktakingDetailMapper stocktakingDetailMapper;
     @Resource
     private SystemFeignClient systemFeignClient;
 
@@ -48,6 +53,8 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
     @Override
     public void remove(String[] ids) {
         stocktakingMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        stocktakingDetailMapper.delete(new LambdaQueryWrapper<StocktakingDetail>()
+                .in(StocktakingDetail::getStocktakingId, ids));
     }
 
     @Override

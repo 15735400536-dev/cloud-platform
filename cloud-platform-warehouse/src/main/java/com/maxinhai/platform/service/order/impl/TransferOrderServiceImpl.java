@@ -67,6 +67,8 @@ public class TransferOrderServiceImpl extends ServiceImpl<TransferOrderMapper, T
     @Override
     public void remove(String[] ids) {
         transferOrderMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        transferOrderDetailMapper.delete(new LambdaQueryWrapper<TransferOrderDetail>()
+                .in(TransferOrderDetail::getTransferOrderId, ids));
     }
 
     @Override

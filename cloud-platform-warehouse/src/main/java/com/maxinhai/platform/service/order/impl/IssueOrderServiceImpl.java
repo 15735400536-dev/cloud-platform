@@ -70,6 +70,8 @@ public class IssueOrderServiceImpl extends ServiceImpl<IssueOrderMapper, IssueOr
     @Override
     public void remove(String[] ids) {
         issueOrderMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        issueOrderDetailMapper.delete(new LambdaQueryWrapper<IssueOrderDetail>()
+                .in(IssueOrderDetail::getIssueOrderId, ids));
     }
 
     @Override

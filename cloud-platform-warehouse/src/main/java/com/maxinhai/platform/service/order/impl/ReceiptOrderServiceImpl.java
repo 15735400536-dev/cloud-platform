@@ -69,6 +69,8 @@ public class ReceiptOrderServiceImpl extends ServiceImpl<ReceiptOrderMapper, Rec
     @Override
     public void remove(String[] ids) {
         receiptOrderMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        receiptOrderDetailMapper.delete(new LambdaQueryWrapper<ReceiptOrderDetail>()
+                .in(ReceiptOrderDetail::getReceiptOrderId, ids));
     }
 
     @Override
