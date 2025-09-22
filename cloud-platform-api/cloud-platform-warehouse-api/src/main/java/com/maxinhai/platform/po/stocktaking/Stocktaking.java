@@ -3,7 +3,9 @@ package com.maxinhai.platform.po.stocktaking;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -11,6 +13,8 @@ import java.util.Date;
  * 盘点单表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_stocktaking")
 public class Stocktaking extends RecordEntity {
 

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxinhai.platform.enums.OperateType;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,6 +18,8 @@ import java.util.Date;
  * @Description: 库存流水
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_inventory_flow")
 public class InventoryFlow extends RecordEntity {
 

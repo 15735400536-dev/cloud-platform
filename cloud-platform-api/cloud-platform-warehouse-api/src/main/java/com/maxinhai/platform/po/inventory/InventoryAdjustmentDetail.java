@@ -2,7 +2,9 @@ package com.maxinhai.platform.po.inventory;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
  * 库存调整单明细表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_inventory_adjustment_detail")
 public class InventoryAdjustmentDetail extends RecordEntity {
 

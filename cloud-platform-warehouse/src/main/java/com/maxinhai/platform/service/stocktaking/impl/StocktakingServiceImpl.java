@@ -47,7 +47,8 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
 
     @Override
     public StocktakingVO getInfo(String id) {
-        return stocktakingMapper.selectJoinOne(StocktakingVO.class, new MPJLambdaWrapper<Stocktaking>().eq(StrUtil.isNotBlank(id), Stocktaking::getId, id));
+        return stocktakingMapper.selectJoinOne(StocktakingVO.class, new MPJLambdaWrapper<Stocktaking>()
+                .eq(StrUtil.isNotBlank(id), Stocktaking::getId, id));
     }
 
     @Override

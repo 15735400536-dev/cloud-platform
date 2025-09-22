@@ -3,12 +3,16 @@ package com.maxinhai.platform.po.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.maxinhai.platform.bo.WarehouseExcelBO;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 货位表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_location")
 public class WarehouseLocation extends RecordEntity {
 

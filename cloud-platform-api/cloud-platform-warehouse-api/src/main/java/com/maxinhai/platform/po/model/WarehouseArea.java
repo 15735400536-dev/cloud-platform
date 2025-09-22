@@ -4,12 +4,16 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.maxinhai.platform.bo.WarehouseExcelBO;
 import com.maxinhai.platform.enums.Status;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 库区表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_area")
 public class WarehouseArea extends RecordEntity {
 
