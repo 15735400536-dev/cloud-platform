@@ -11,6 +11,7 @@ import com.maxinhai.platform.dto.order.ReceiptOrderEditDTO;
 import com.maxinhai.platform.dto.order.ReceiptOrderQueryDTO;
 import com.maxinhai.platform.enums.OperateType;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.inventory.InventoryMapper;
 import com.maxinhai.platform.mapper.model.WarehouseLocationMapper;
 import com.maxinhai.platform.mapper.order.ReceiptOrderDetailMapper;
@@ -47,6 +48,8 @@ public class ReceiptOrderServiceImpl extends ServiceImpl<ReceiptOrderMapper, Rec
     private InventoryFlowService inventoryFlowService;
     @Resource
     private WarehouseLocationMapper locationMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<ReceiptOrderVO> searchByPage(ReceiptOrderQueryDTO param) {
@@ -76,7 +79,9 @@ public class ReceiptOrderServiceImpl extends ServiceImpl<ReceiptOrderMapper, Rec
 
     @Override
     public void add(ReceiptOrderAddDTO param) {
+        List<String> codeList = systemFeignClient.generateCode("receipt", 1).getData();
         ReceiptOrder order = BeanUtil.toBean(param, ReceiptOrder.class);
+        order.setOrderNo(codeList.get(0));
         receiptOrderMapper.insert(order);
     }
 

@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.stocktaking.StocktakingAddDTO;
 import com.maxinhai.platform.dto.stocktaking.StocktakingEditDTO;
 import com.maxinhai.platform.dto.stocktaking.StocktakingQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.stocktaking.StocktakingMapper;
 import com.maxinhai.platform.po.stocktaking.Stocktaking;
 import com.maxinhai.platform.service.stocktaking.StocktakingService;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,6 +27,8 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
 
     @Resource
     private StocktakingMapper stocktakingMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<StocktakingVO> searchByPage(StocktakingQueryDTO param) {
@@ -54,7 +58,9 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
 
     @Override
     public void add(StocktakingAddDTO param) {
+        List<String> codeList = systemFeignClient.generateCode("stocktaking", 1).getData();
         Stocktaking stocktaking = BeanUtil.toBean(param, Stocktaking.class);
+        stocktaking.setStocktakingNo(codeList.get(0));
         stocktakingMapper.insert(stocktaking);
     }
 }

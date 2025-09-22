@@ -11,6 +11,7 @@ import com.maxinhai.platform.dto.order.IssueOrderEditDTO;
 import com.maxinhai.platform.dto.order.IssueOrderQueryDTO;
 import com.maxinhai.platform.enums.OperateType;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.inventory.InventoryMapper;
 import com.maxinhai.platform.mapper.model.WarehouseLocationMapper;
 import com.maxinhai.platform.mapper.order.IssueOrderDetailMapper;
@@ -48,6 +49,8 @@ public class IssueOrderServiceImpl extends ServiceImpl<IssueOrderMapper, IssueOr
     private InventoryFlowService inventoryFlowService;
     @Resource
     private WarehouseLocationMapper locationMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<IssueOrderVO> searchByPage(IssueOrderQueryDTO param) {
@@ -77,7 +80,9 @@ public class IssueOrderServiceImpl extends ServiceImpl<IssueOrderMapper, IssueOr
 
     @Override
     public void add(IssueOrderAddDTO param) {
+        List<String> codeList = systemFeignClient.generateCode("issue", 1).getData();
         IssueOrder order = BeanUtil.toBean(param, IssueOrder.class);
+        order.setOrderNo(codeList.get(0));
         issueOrderMapper.insert(order);
     }
 

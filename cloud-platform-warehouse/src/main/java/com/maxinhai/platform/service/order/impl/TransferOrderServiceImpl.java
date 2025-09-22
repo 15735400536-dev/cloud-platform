@@ -11,6 +11,7 @@ import com.maxinhai.platform.dto.order.TransferOrderEditDTO;
 import com.maxinhai.platform.dto.order.TransferOrderQueryDTO;
 import com.maxinhai.platform.enums.OperateType;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.inventory.InventoryMapper;
 import com.maxinhai.platform.mapper.order.TransferOrderDetailMapper;
 import com.maxinhai.platform.mapper.order.TransferOrderMapper;
@@ -44,6 +45,8 @@ public class TransferOrderServiceImpl extends ServiceImpl<TransferOrderMapper, T
     private InventoryService inventoryService;
     @Resource
     private InventoryFlowService inventoryFlowService;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<TransferOrderVO> searchByPage(TransferOrderQueryDTO param) {
@@ -74,7 +77,9 @@ public class TransferOrderServiceImpl extends ServiceImpl<TransferOrderMapper, T
 
     @Override
     public void add(TransferOrderAddDTO param) {
+        List<String> codeList = systemFeignClient.generateCode("transfer", 1).getData();
         TransferOrder order = BeanUtil.toBean(param, TransferOrder.class);
+        order.setTransferNo(codeList.get(0));
         transferOrderMapper.insert(order);
     }
 
