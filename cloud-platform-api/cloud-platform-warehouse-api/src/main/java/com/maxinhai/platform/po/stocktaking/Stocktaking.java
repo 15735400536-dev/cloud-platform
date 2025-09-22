@@ -36,12 +36,12 @@ public class Stocktaking extends RecordEntity {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
     /**
-     * 结束时间cc
+     * 结束时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
     /**
-     * 操作员c
+     * 操作员
      */
     private String operator;
     /**
