@@ -1,6 +1,7 @@
 package com.maxinhai.platform.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.maxinhai.platform.po.Role;
 import lombok.Data;
 
 @Data
@@ -12,5 +13,13 @@ public class RoleExcel {
     private String roleName;
     @ExcelProperty("角色描述")
     private String roleDesc;
+
+    public static Role build(RoleExcel excel) {
+        Role role = new Role();
+        role.setRoleKey(excel.getRoleKey());
+        role.setRoleName(excel.getRoleName());
+        role.setRoleDesc(excel.getRoleDesc());
+        return role;
+    }
 
 }

@@ -11,12 +11,7 @@ import com.maxinhai.platform.po.model.Warehouse;
 import com.maxinhai.platform.po.model.WarehouseArea;
 import com.maxinhai.platform.po.model.WarehouseLocation;
 import com.maxinhai.platform.po.model.WarehouseRack;
-import com.maxinhai.platform.service.model.WarehouseAreaService;
-import com.maxinhai.platform.service.model.WarehouseLocationService;
-import com.maxinhai.platform.service.model.WarehouseRackService;
-import com.maxinhai.platform.service.model.WarehouseService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -32,9 +27,6 @@ import java.util.stream.Collectors;
 @Component
 public class WarehouseExcelListener implements ReadListener<WarehouseExcelBO> {
 
-    @Lazy
-    @Resource
-    private WarehouseService warehouseService;
     @Resource
     private WarehouseAreaMapper areaMapper;
     @Resource
@@ -43,12 +35,6 @@ public class WarehouseExcelListener implements ReadListener<WarehouseExcelBO> {
     private WarehouseLocationMapper locationMapper;
     @Resource
     private WarehouseMapper warehouseMapper;
-    @Resource
-    private WarehouseAreaService areaService;
-    @Resource
-    private WarehouseRackService rackService;
-    @Resource
-    private WarehouseLocationService locationService;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
