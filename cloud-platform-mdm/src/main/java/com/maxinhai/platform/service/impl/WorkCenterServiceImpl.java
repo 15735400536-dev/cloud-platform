@@ -9,9 +9,11 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.WorkCenterAddDTO;
 import com.maxinhai.platform.dto.WorkCenterEditDTO;
 import com.maxinhai.platform.dto.WorkCenterQueryDTO;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.WorkCenterMapper;
 import com.maxinhai.platform.po.model.WorkCenter;
 import com.maxinhai.platform.po.model.Workshop;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.WorkCenterService;
 import com.maxinhai.platform.vo.WorkCenterVO;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ public class WorkCenterServiceImpl extends ServiceImpl<WorkCenterMapper, WorkCen
 
     @Resource
     private WorkCenterMapper workCenterMapper;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<WorkCenterVO> searchByPage(WorkCenterQueryDTO param) {
@@ -72,6 +76,10 @@ public class WorkCenterServiceImpl extends ServiceImpl<WorkCenterMapper, WorkCen
 
     @Override
     public void add(WorkCenterAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(WorkCenter.class, WorkCenter::getCode, param.getCode());
+        if (!unique) {
+            throw new BusinessException("工作中心【" + param.getCode() + "】已存在!");
+        }
         WorkCenter workCenter = BeanUtil.toBean(param, WorkCenter.class);
         workCenterMapper.updateById(workCenter);
     }

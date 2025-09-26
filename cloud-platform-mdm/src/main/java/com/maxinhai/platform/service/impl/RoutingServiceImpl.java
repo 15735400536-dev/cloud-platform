@@ -9,11 +9,13 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.RoutingMapper;
 import com.maxinhai.platform.mapper.RoutingOperationRelMapper;
 import com.maxinhai.platform.po.Product;
 import com.maxinhai.platform.po.technology.Routing;
 import com.maxinhai.platform.po.technology.RoutingOperationRel;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.RoutingOperationRelService;
 import com.maxinhai.platform.service.RoutingService;
 import com.maxinhai.platform.vo.technology.RoutingVO;
@@ -36,6 +38,8 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
     private RoutingOperationRelMapper relMapper;
     @Resource
     private RoutingOperationRelService relService;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<RoutingVO> searchByPage(RoutingQueryDTO param) {
@@ -80,6 +84,10 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
 
     @Override
     public void add(RoutingAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(Routing.class, Routing::getCode, param.getCode());
+        if (!unique) {
+            throw new BusinessException("工艺路线【" + param.getCode() + "】已存在!");
+        }
         Routing routing = BeanUtil.toBean(param, Routing.class);
         routingMapper.insert(routing);
     }

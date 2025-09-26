@@ -8,10 +8,12 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.technology.BomAddDTO;
 import com.maxinhai.platform.dto.technology.BomEditDTO;
 import com.maxinhai.platform.dto.technology.BomQueryDTO;
-import com.maxinhai.platform.po.technology.Bom;
-import com.maxinhai.platform.po.Product;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.BomMapper;
+import com.maxinhai.platform.po.Product;
+import com.maxinhai.platform.po.technology.Bom;
 import com.maxinhai.platform.service.BomService;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.vo.technology.BomVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
 
     @Resource
     private BomMapper bomMapper;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<BomVO> searchByPage(BomQueryDTO param) {
@@ -70,6 +74,10 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
 
     @Override
     public void add(BomAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(Bom.class, Bom::getCode, param.getCode());
+        if (!unique) {
+            throw new BusinessException("BOM【" + param.getCode() + "】已存在!");
+        }
         Bom bom = BeanUtil.toBean(param, Bom.class);
         bomMapper.insert(bom);
     }

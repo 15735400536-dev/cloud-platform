@@ -10,8 +10,10 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.MaterialTypeAddDTO;
 import com.maxinhai.platform.dto.MaterialTypeEditDTO;
 import com.maxinhai.platform.dto.MaterialTypeQueryDTO;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.MaterialTypeMapper;
 import com.maxinhai.platform.po.MaterialType;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.MaterialTypeService;
 import com.maxinhai.platform.utils.TreeNodeUtils;
 import com.maxinhai.platform.vo.MaterialTypeTreeVO;
@@ -31,6 +33,8 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
 
     @Resource
     private MaterialTypeMapper materialTypeMapper;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<MaterialTypeVO> searchByPage(MaterialTypeQueryDTO param) {
@@ -69,6 +73,10 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
 
     @Override
     public void add(MaterialTypeAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(MaterialType.class, MaterialType::getCode, param.getCode());
+        if (!unique) {
+            throw new BusinessException("物料类型【" + param.getCode() + "】已存在!");
+        }
         MaterialType materialType = BeanUtil.toBean(param, MaterialType.class);
         materialTypeMapper.insert(materialType);
     }

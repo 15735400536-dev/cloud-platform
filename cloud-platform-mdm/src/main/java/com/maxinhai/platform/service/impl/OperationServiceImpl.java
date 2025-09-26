@@ -9,8 +9,10 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.technology.OperationAddDTO;
 import com.maxinhai.platform.dto.technology.OperationEditDTO;
 import com.maxinhai.platform.dto.technology.OperationQueryDTO;
-import com.maxinhai.platform.po.technology.Operation;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.OperationMapper;
+import com.maxinhai.platform.po.technology.Operation;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.OperationService;
 import com.maxinhai.platform.vo.technology.OperationVO;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,8 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
 
     @Resource
     private OperationMapper operationMapper;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<OperationVO> searchByPage(OperationQueryDTO param) {
@@ -65,6 +69,10 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
 
     @Override
     public void add(OperationAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(Operation.class, Operation::getCode, param.getCode());
+        if (!unique) {
+            throw new BusinessException("工序【" + param.getCode() + "】已存在!");
+        }
         Operation operation = BeanUtil.toBean(param, Operation.class);
         operationMapper.insert(operation);
     }
