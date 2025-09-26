@@ -65,6 +65,10 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
      * 保存数据到数据库
      */
     private void saveData() {
+        // 没有内容不执行后面操作
+        if (CollectionUtils.isEmpty(dataList)) {
+            return;
+        }
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 实际项目中这里会调用Service层将数据保存到数据库
         List<String> materialCodeList = dataList.stream().map(MaterialExcelBO::getCode).collect(Collectors.toList());

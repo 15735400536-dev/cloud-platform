@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "检测模板分页查询DTO")
 public class CheckTemplateQueryDTO extends PageSearch<CheckTemplateVO> {
 
     /**

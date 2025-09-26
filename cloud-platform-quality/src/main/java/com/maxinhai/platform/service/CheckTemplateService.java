@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.CheckTemplateEditDTO;
 import com.maxinhai.platform.dto.CheckTemplateQueryDTO;
 import com.maxinhai.platform.po.CheckTemplate;
 import com.maxinhai.platform.vo.CheckTemplateVO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CheckTemplateService extends IService<CheckTemplate> {
 
@@ -19,5 +20,7 @@ public interface CheckTemplateService extends IService<CheckTemplate> {
     void edit(CheckTemplateEditDTO param);
 
     void add(CheckTemplateAddDTO param);
+
+    void importExcel(MultipartFile file);
 
 }

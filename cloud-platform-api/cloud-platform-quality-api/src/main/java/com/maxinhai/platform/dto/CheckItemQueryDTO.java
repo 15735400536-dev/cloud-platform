@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "检测项分页查询DTO")
 public class CheckItemQueryDTO extends PageSearch<CheckItemVO>{
 
     /**
@@ -21,7 +21,8 @@ public class CheckItemQueryDTO extends PageSearch<CheckItemVO>{
     @ApiModelProperty(value = "检测项名称")
     private String itemName;
     /**
-     * 检测类型: 定性、定量、手动输入
+     * 控制类型: 定性、定量、手动输入
      */
+    @ApiModelProperty(value = "控制类型: 定性、定量、手动输入")
     private ControlType controlType;
 }

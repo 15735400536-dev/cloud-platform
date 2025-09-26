@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "检测单明细分页查询DTO")
 public class CheckOrderDetailQueryDTO extends PageSearch<CheckOrderDetailVO> {
 
     @ApiModelProperty(value = "检测单ID")

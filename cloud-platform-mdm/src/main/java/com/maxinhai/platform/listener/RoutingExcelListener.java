@@ -7,6 +7,7 @@ import com.maxinhai.platform.service.RoutingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -56,6 +57,10 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
      * 保存数据到数据库
      */
     private void saveData() {
+        // 没有内容不执行后面操作
+        if (CollectionUtils.isEmpty(dataList)) {
+            return;
+        }
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // TODO 实际项目中这里会调用Service层将数据保存到数据库
         log.info("数据保存完成！");
