@@ -1,6 +1,8 @@
 package com.maxinhai.platform.bo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.maxinhai.platform.enums.EquipStatus;
+import com.maxinhai.platform.po.Equipment;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -71,5 +73,22 @@ public class EquipExcelBO {
      */
     @ExcelProperty(value = "安装位置")
     private String location;
+
+    public static Equipment build(EquipExcelBO excel) {
+        Equipment equipment = new Equipment();
+        equipment.setEquipCode(excel.getEquipCode());
+        equipment.setEquipName(excel.getEquipName());
+        equipment.setEquipType(excel.getEquipType());
+        equipment.setModel(excel.getModel());
+        equipment.setSpecs(excel.getSpecs());
+        equipment.setSerialNo(excel.getSerialNo());
+        equipment.setAssetNo(excel.getAssetNo());
+        equipment.setManufacturer(excel.getManufacturer());
+        equipment.setSupplier(excel.getSupplier());
+        equipment.setPurchaseDate(excel.getPurchaseDate());
+        equipment.setLocation(excel.getLocation());
+        equipment.setStatus(EquipStatus.STOP);
+        return equipment;
+    }
 
 }

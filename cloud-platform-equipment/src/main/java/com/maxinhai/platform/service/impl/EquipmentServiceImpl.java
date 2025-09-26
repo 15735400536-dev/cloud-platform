@@ -14,11 +14,13 @@ import com.maxinhai.platform.dto.EquipmentAddDTO;
 import com.maxinhai.platform.dto.EquipmentEditDTO;
 import com.maxinhai.platform.dto.EquipmentQueryDTO;
 import com.maxinhai.platform.enums.EquipStatus;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.EquipmentMapper;
 import com.maxinhai.platform.mapper.InspectionConfigMapper;
 import com.maxinhai.platform.mapper.MaintenanceConfigMapper;
 import com.maxinhai.platform.po.*;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.EquipmentService;
 import com.maxinhai.platform.service.InspectionItemService;
 import com.maxinhai.platform.service.MaintenanceItemService;
@@ -29,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,6 +47,8 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
     private EquipmentMapper equipmentMapper;
     @Resource
     private SystemFeignClient systemFeignClient;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<EquipmentVO> searchByPage(EquipmentQueryDTO param) {
@@ -78,6 +81,10 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
 
     @Override
     public void add(EquipmentAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(Equipment.class, Equipment::getEquipCode, param.getEquipCode());
+        if (!unique) {
+            throw new BusinessException("设备【" + param.getEquipCode() + "】已存在！");
+        }
         Equipment equipment = BeanUtil.toBean(param, Equipment.class);
         equipmentMapper.insert(equipment);
     }
@@ -103,7 +110,7 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
     @Resource
     private InspectionItemService inspectionItemService;
 
-    @PostConstruct
+    //    @PostConstruct
     public void initData() throws IOException {
         Map<String, List<String>> equipMap = new LinkedHashMap<>();
         equipMap.put("核心动力设备", Lists.newArrayList("空压机", "真空泵", "发电机"));

@@ -2,17 +2,20 @@ package com.maxinhai.platform.listener;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.bo.EquipExcelBO;
-import com.maxinhai.platform.enums.EquipStatus;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.po.Equipment;
 import com.maxinhai.platform.service.EquipmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -67,23 +70,19 @@ public class EquipListener implements ReadListener<EquipExcelBO> {
     private void saveData() {
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 实际项目中这里会调用Service层将数据保存到数据库
+        Set<String> equipCodeSet = dataList.stream().map(EquipExcelBO::getEquipCode).collect(Collectors.toSet());
+        List<Equipment> equipList = equipmentService.list(new LambdaQueryWrapper<Equipment>()
+                .select(Equipment::getId, Equipment::getEquipCode)
+                .in(Equipment::getEquipCode, equipCodeSet));
+        if (!equipList.isEmpty()) {
+            Set<String> repeatCodeSet = equipList.stream().map(Equipment::getEquipCode).collect(Collectors.toSet());
+            String msg = StringUtils.collectionToDelimitedString(repeatCodeSet, ",");
+            throw new BusinessException("设备【" + msg + "】已存在！");
+        }
         // 保存数据
-        List<Equipment> equipmentList = dataList.stream().map(data -> {
-            Equipment equipment = new Equipment();
-            equipment.setEquipCode(data.getEquipCode());
-            equipment.setEquipName(data.getEquipName());
-            equipment.setEquipType(data.getEquipType());
-            equipment.setModel(data.getModel());
-            equipment.setSpecs(data.getSpecs());
-            equipment.setSerialNo(data.getSerialNo());
-            equipment.setAssetNo(data.getAssetNo());
-            equipment.setManufacturer(data.getManufacturer());
-            equipment.setSupplier(data.getSupplier());
-            equipment.setPurchaseDate(data.getPurchaseDate());
-            equipment.setLocation(data.getLocation());
-            equipment.setStatus(EquipStatus.STOP);
-            return equipment;
-        }).collect(Collectors.toList());
+        List<Equipment> equipmentList = dataList.stream()
+                .map(EquipExcelBO::build)
+                .collect(Collectors.toList());
         equipmentService.saveBatch(equipmentList);
         log.info("数据保存完成！");
     }
