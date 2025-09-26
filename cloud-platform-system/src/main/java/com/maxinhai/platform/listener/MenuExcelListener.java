@@ -4,14 +4,15 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.maxinhai.platform.excel.MenuExcel;
 import com.maxinhai.platform.mapper.MenuMapper;
+import com.maxinhai.platform.po.Menu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Excel导入监听器，用于处理读取到的Excel数据
@@ -43,7 +44,7 @@ public class MenuExcelListener implements ReadListener<MenuExcel> {
             // 存储完成清理 list
             dataList.clear();
         }
-    } 
+    }
 
     /**
      * 所有数据读取完成后调用该方法
@@ -66,7 +67,18 @@ public class MenuExcelListener implements ReadListener<MenuExcel> {
             return;
         }
         // 保存数据
-
+        dataList = dataList.stream()
+                .sorted(Comparator.comparing(MenuExcel::getParentKey))
+                .collect(Collectors.toList());
+        Map<String, List<Menu>> menuMap = new HashMap<>();
+        for (MenuExcel menuExcel : dataList) {
+            String parentKey = menuExcel.getParentKey();
+            List<Menu> menuList = menuMap.get(parentKey);
+            Menu menu = MenuExcel.build(menuExcel);
+            menuMapper.insert(menu);
+            menuList.add(menu);
+            menuMap.put(parentKey, menuList);
+        }
         log.info("数据保存完成！");
     }
 

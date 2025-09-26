@@ -8,6 +8,7 @@ import com.maxinhai.platform.dto.RoleMenuDTO;
 import com.maxinhai.platform.dto.RoleQueryDTO;
 import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.vo.RoleVO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface RoleService extends IService<Role> {
 
@@ -26,5 +27,7 @@ public interface RoleService extends IService<Role> {
      * @param param
      */
     void binding(RoleMenuDTO param);
+
+    void importExcel(MultipartFile file);
 
 }

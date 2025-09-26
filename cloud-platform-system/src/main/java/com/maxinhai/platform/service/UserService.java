@@ -10,6 +10,7 @@ import com.maxinhai.platform.dto.UserRoleDTO;
 import com.maxinhai.platform.po.User;
 import com.maxinhai.platform.vo.RoleVO;
 import com.maxinhai.platform.vo.UserVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,5 +33,7 @@ public interface UserService extends IService<User> {
     void binding(UserRoleDTO param);
 
     List<RoleVO> getRoles(String userId);
+
+    void importExcel(MultipartFile file);
 
 }

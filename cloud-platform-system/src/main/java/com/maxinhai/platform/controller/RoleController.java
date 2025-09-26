@@ -18,12 +18,14 @@ import com.maxinhai.platform.utils.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -118,5 +120,23 @@ public class RoleController {
                 RoleExcel.class,
                 BeanUtil.copyToList(roleList, RoleExcel.class)
         );
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入角色数据", notes = "根据Excel模板导入角色数据")
+    public AjaxResult<String> importExcel(MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        roleService.importExcel(file);
+        return AjaxResult.success("导入成功!");
     }
 }

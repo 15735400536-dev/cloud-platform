@@ -2,17 +2,25 @@ package com.maxinhai.platform.listener;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.excel.UserExcel;
+import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.mapper.RoleMapper;
 import com.maxinhai.platform.mapper.UserMapper;
 import com.maxinhai.platform.mapper.UserRoleRelMapper;
+import com.maxinhai.platform.po.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Excel导入监听器，用于处理读取到的Excel数据
@@ -24,7 +32,11 @@ public class UserExcelListener implements ReadListener<UserExcel> {
     @Resource
     private UserMapper userMapper;
     @Resource
+    private RoleMapper roleMapper;
+    @Resource
     private UserRoleRelMapper userRoleRelMapper;
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
@@ -69,7 +81,19 @@ public class UserExcelListener implements ReadListener<UserExcel> {
             return;
         }
         // 保存数据
-
+        Set<String> accountSet = dataList.stream().map(UserExcel::getAccount).collect(Collectors.toSet());
+        List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>()
+                .in(User::getAccount, accountSet));
+        if (!userList.isEmpty()) {
+            Set<String> repeatAccountSet = userList.stream().map(User::getAccount).collect(Collectors.toSet());
+            String msg = StringUtils.collectionToDelimitedString(repeatAccountSet, ",");
+            throw new BusinessException("账号【" + msg + "】已存在！");
+        }
+        for (UserExcel userExcel : dataList) {
+            User user = UserExcel.build(userExcel);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userMapper.insert(user);
+        }
         log.info("数据保存完成！");
     }
 

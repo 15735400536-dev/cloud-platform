@@ -19,14 +19,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -121,6 +119,24 @@ public class UserController {
             return AjaxResult.success("用户不存在!");
         }
         return AjaxResult.success(BeanUtil.toBean(user, UserVO.class));
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入用户数据", notes = "根据Excel模板导入用户数据")
+    public AjaxResult<String> importExcel(MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        userService.importExcel(file);
+        return AjaxResult.success("导入成功!");
     }
 
     @Resource

@@ -1,6 +1,5 @@
 package com.maxinhai.platform.listener;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -16,7 +15,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -74,12 +72,13 @@ public class RoleExcelListener implements ReadListener<RoleExcel> {
             return;
         }
         // 保存数据
-        List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>().select(Role::getRoleKey, Role::getRoleName));
-        Set<String> rokeKeySet = roleList.stream().map(Role::getRoleKey).collect(Collectors.toSet());
-        Set<String> newRokeKeySet = dataList.stream().map(RoleExcel::getRoleKey).collect(Collectors.toSet());
-        Collection<String> repeatKeyList = CollectionUtil.intersection(rokeKeySet, newRokeKeySet);
-        if (!repeatKeyList.isEmpty()) {
-            String msg = StringUtils.collectionToDelimitedString(repeatKeyList, ",");
+        Set<String> rokeKeySet = dataList.stream().map(RoleExcel::getRoleKey).collect(Collectors.toSet());
+        List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>()
+                .select(Role::getRoleKey)
+                .in(Role::getRoleKey, rokeKeySet));
+        if (!roleList.isEmpty()) {
+            Set<String> repeatKeySet = roleList.stream().map(Role::getRoleKey).collect(Collectors.toSet());
+            String msg = StringUtils.collectionToDelimitedString(repeatKeySet, ",");
             throw new BusinessException("角色【" + msg + "】已存在！");
         }
 
