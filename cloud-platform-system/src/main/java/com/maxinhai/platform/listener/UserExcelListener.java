@@ -7,8 +7,10 @@ import com.maxinhai.platform.excel.UserExcel;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.RoleMapper;
 import com.maxinhai.platform.mapper.UserMapper;
-import com.maxinhai.platform.mapper.UserRoleRelMapper;
+import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.po.User;
+import com.maxinhai.platform.po.UserRoleRel;
+import com.maxinhai.platform.service.UserRoleRelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,7 +37,7 @@ public class UserExcelListener implements ReadListener<UserExcel> {
     @Resource
     private RoleMapper roleMapper;
     @Resource
-    private UserRoleRelMapper userRoleRelMapper;
+    private UserRoleRelService userRoleRelService;
     @Resource
     private PasswordEncoder passwordEncoder;
 
@@ -89,11 +92,26 @@ public class UserExcelListener implements ReadListener<UserExcel> {
             String msg = StringUtils.collectionToDelimitedString(repeatAccountSet, ",");
             throw new BusinessException("账号【" + msg + "】已存在！");
         }
+
+        Role role = roleMapper.selectOne(new LambdaQueryWrapper<Role>()
+                .select(Role::getId, Role::getRoleKey, Role::getRoleName)
+                .eq(Role::getRoleKey, "USER"));
+        if (Objects.isNull(role)) {
+            throw new BusinessException("未找到【普通用户】角色!");
+        }
+
+        List<UserRoleRel> relList = new ArrayList<>(dataList.size());
         for (UserExcel userExcel : dataList) {
+            // 保存用户
             User user = UserExcel.build(userExcel);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userMapper.insert(user);
+
+            // 关联用户角色
+            UserRoleRel userRoleRel = new UserRoleRel(user.getId(), role.getId());
+            relList.add(userRoleRel);
         }
+        userRoleRelService.saveBatch(relList);
         log.info("数据保存完成！");
     }
 
