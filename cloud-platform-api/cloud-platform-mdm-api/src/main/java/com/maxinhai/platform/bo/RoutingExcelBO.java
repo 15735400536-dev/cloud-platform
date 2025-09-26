@@ -1,6 +1,7 @@
 package com.maxinhai.platform.bo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.maxinhai.platform.po.technology.Routing;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
@@ -26,5 +27,12 @@ public class RoutingExcelBO {
     private String description;
     @ExcelProperty(value = "标准工时")
     private BigDecimal workTime;
+
+    public static Routing build(RoutingExcelBO excel) {
+        Routing routing = new Routing();
+        // TODO
+        routing.setStatus(1);
+        return routing;
+    }
 
 }

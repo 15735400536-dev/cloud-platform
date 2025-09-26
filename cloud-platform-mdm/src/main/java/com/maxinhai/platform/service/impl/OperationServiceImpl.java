@@ -51,7 +51,7 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
         return operationMapper.selectJoinOne(OperationVO.class,
                 new MPJLambdaWrapper<Operation>()
                         // 查询条件
-                        .eq(Operation::getCode, id)
+                        .eq(Operation::getId, id)
                         // 字段别名
                         .selectAll(Operation.class));
     }
