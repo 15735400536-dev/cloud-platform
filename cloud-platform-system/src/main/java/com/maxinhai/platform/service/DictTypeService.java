@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.DictTypeEditDTO;
 import com.maxinhai.platform.dto.DictTypeQueryDTO;
 import com.maxinhai.platform.po.DictType;
 import com.maxinhai.platform.vo.DictTypeVO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface DictTypeService extends IService<DictType> {
 
@@ -19,5 +20,7 @@ public interface DictTypeService extends IService<DictType> {
     void edit(DictTypeEditDTO param);
 
     void add(DictTypeAddDTO param);
+
+    void importExcel(MultipartFile file);
 
 }

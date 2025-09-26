@@ -10,8 +10,10 @@ import com.maxinhai.platform.utils.PageResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/dictType")
@@ -52,5 +54,23 @@ public class DictTypeController {
     public AjaxResult<Void> removeDictType(@RequestBody String[] ids) {
         dictTypeService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入数据字典", notes = "根据Excel模板导入数据字典")
+    public AjaxResult<String> importExcel(MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        dictTypeService.importExcel(file);
+        return AjaxResult.success("导入成功!");
     }
 }
