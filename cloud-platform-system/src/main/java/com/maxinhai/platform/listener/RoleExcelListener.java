@@ -7,7 +7,9 @@ import com.maxinhai.platform.excel.RoleExcel;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.RoleMapper;
 import com.maxinhai.platform.po.Role;
+import com.maxinhai.platform.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -28,6 +30,9 @@ public class RoleExcelListener implements ReadListener<RoleExcel> {
 
     @Resource
     private RoleMapper roleMapper;
+    @Lazy
+    @Resource
+    private RoleService roleService;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
@@ -82,10 +87,8 @@ public class RoleExcelListener implements ReadListener<RoleExcel> {
             throw new BusinessException("角色【" + msg + "】已存在！");
         }
 
-        for (RoleExcel excel : dataList) {
-            Role role = RoleExcel.build(excel);
-            roleMapper.insert(role);
-        }
+        List<Role> roles = dataList.stream().map(RoleExcel::build).collect(Collectors.toList());
+        roleService.saveBatch(roles);
         log.info("数据保存完成！");
     }
 

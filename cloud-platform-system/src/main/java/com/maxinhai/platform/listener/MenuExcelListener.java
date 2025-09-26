@@ -3,9 +3,10 @@ package com.maxinhai.platform.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.maxinhai.platform.excel.MenuExcel;
-import com.maxinhai.platform.mapper.MenuMapper;
 import com.maxinhai.platform.po.Menu;
+import com.maxinhai.platform.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -21,8 +22,9 @@ import java.util.stream.Collectors;
 @Component
 public class MenuExcelListener implements ReadListener<MenuExcel> {
 
+    @Lazy
     @Resource
-    private MenuMapper menuMapper;
+    private MenuService menuService;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
@@ -70,15 +72,18 @@ public class MenuExcelListener implements ReadListener<MenuExcel> {
         dataList = dataList.stream()
                 .sorted(Comparator.comparing(MenuExcel::getParentKey))
                 .collect(Collectors.toList());
-        Map<String, List<Menu>> menuMap = new HashMap<>();
+        // 菜单标识 -> 菜单
+        Map<String, String> keyIdMap = new HashMap<>();
+        // 菜单集合
+        List<Menu> menuList = new ArrayList<>();
         for (MenuExcel menuExcel : dataList) {
-            String parentKey = menuExcel.getParentKey();
-            List<Menu> menuList = menuMap.get(parentKey);
             Menu menu = MenuExcel.build(menuExcel);
-            menuMapper.insert(menu);
+            menu.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+            menu.setParentId(keyIdMap.getOrDefault(menuExcel.getKey(), "0"));
             menuList.add(menu);
-            menuMap.put(parentKey, menuList);
+            keyIdMap.put(menuExcel.getKey(), menu.getId());
         }
+        menuService.saveBatch(menuList);
         log.info("数据保存完成！");
     }
 

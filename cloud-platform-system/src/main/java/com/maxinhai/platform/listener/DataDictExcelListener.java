@@ -5,11 +5,12 @@ import com.alibaba.excel.read.listener.ReadListener;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.excel.DataDictExcel;
 import com.maxinhai.platform.exception.BusinessException;
-import com.maxinhai.platform.mapper.DataDictMapper;
-import com.maxinhai.platform.mapper.DictTypeMapper;
 import com.maxinhai.platform.po.DataDict;
 import com.maxinhai.platform.po.DictType;
+import com.maxinhai.platform.service.DataDictService;
+import com.maxinhai.platform.service.DictTypeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -26,10 +27,11 @@ import java.util.stream.Collectors;
 @Component
 public class DataDictExcelListener implements ReadListener<DataDictExcel> {
 
+    @Lazy
     @Resource
-    private DictTypeMapper dictTypeMapper;
+    private DictTypeService dictTypeService;
     @Resource
-    private DataDictMapper dataDictMapper;
+    private DataDictService dataDictService;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
@@ -75,7 +77,7 @@ public class DataDictExcelListener implements ReadListener<DataDictExcel> {
         }
         // 保存数据
         Set<String> dictTypeSet = dataList.stream().map(DataDictExcel::getDictType).collect(Collectors.toSet());
-        List<DictType> dictTypeList = dictTypeMapper.selectList(new LambdaQueryWrapper<DictType>()
+        List<DictType> dictTypeList = dictTypeService.list(new LambdaQueryWrapper<DictType>()
                 .select(DictType::getDictType)
                 .in(DictType::getDictType, dictTypeSet));
         if (!dictTypeList.isEmpty()) {
@@ -85,19 +87,21 @@ public class DataDictExcelListener implements ReadListener<DataDictExcel> {
         }
 
         Map<String, DictType> dictTypeMap = new HashMap<>();
+        List<DataDict> dataDictList = new ArrayList<>();
         for (DataDictExcel dataDictExcel : dataList) {
             // 构建字典类型
             if (!dictTypeMap.containsKey(dataDictExcel.getDictType())) {
                 DictType type = DataDictExcel.buildDictType(dataDictExcel);
-                dictTypeMapper.insert(type);
                 dictTypeMap.put(dataDictExcel.getDictKey(), type);
             }
 
             // 构建数据字典
             DataDict dataDict = DataDictExcel.buildDataDict(dataDictExcel);
-            dataDictMapper.insert(dataDict);
+            dataDictList.add(dataDict);
         }
 
+        dictTypeService.saveBatch(dictTypeMap.values());
+        dataDictService.saveBatch(dataDictList);
         log.info("数据保存完成！");
     }
 
