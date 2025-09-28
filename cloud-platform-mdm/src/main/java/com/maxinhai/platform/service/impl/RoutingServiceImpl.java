@@ -2,14 +2,18 @@ package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.maxinhai.platform.bo.BomExcelBO;
+import com.maxinhai.platform.bo.RoutingExcelBO;
 import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.listener.RoutingExcelListener;
 import com.maxinhai.platform.mapper.RoutingMapper;
 import com.maxinhai.platform.mapper.RoutingOperationRelMapper;
 import com.maxinhai.platform.po.Product;
@@ -21,8 +25,10 @@ import com.maxinhai.platform.service.RoutingService;
 import com.maxinhai.platform.vo.technology.RoutingVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +46,8 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
     private RoutingOperationRelService relService;
     @Resource
     private CommonCodeCheckService commonCodeCheckService;
+    @Resource
+    private RoutingExcelListener routingExcelListener;
 
     @Override
     public Page<RoutingVO> searchByPage(RoutingQueryDTO param) {
@@ -106,5 +114,18 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
             relList.add(rel);
         }
         relService.saveBatch(relList);
+    }
+
+    @Override
+    public void importExcel(MultipartFile file) {
+        try {
+            // 调用EasyExcel读取文件
+            EasyExcel.read(file.getInputStream(), RoutingExcelBO.class, routingExcelListener)
+                    .sheet() // 读取第一个sheet
+                    .doRead(); // 执行读取操作
+        } catch (IOException e) {
+            log.error("Excel数据导入失败", e);
+            throw new BusinessException("Excel数据导入失败：" + e.getMessage());
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller.technology;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.technology.BomAddDTO;
 import com.maxinhai.platform.dto.technology.BomEditDTO;
 import com.maxinhai.platform.dto.technology.BomQueryDTO;
@@ -12,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -55,6 +55,25 @@ public class BomController {
     public AjaxResult<Void> removeBom(@RequestBody String[] ids) {
         bomService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入BOM数据", notes = "根据Excel模板导入BOM数据")
+    public AjaxResult<Void> importExcel(@RequestParam("file") MultipartFile file) {
+        // 验证文件是否为空
+        if (file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        // 调用服务进行导入
+        bomService.importExcel(file);
+        return AjaxResult.success("Excel数据导入成功！");
     }
 
 }

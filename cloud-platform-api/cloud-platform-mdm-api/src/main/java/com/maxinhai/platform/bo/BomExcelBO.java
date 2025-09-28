@@ -1,7 +1,6 @@
 package com.maxinhai.platform.bo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,23 +11,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
-@ApiModel(description = "工艺路线Excel导入BO")
-public class RoutingExcelBO {
+public class BomExcelBO {
 
-    @ExcelProperty(value = "产品编码")
+    @ExcelProperty("产品编码")
     private String productCode;
-    @ExcelProperty(value = "产品名称")
-    private String productName;
-    @ExcelProperty(value = "版本号")
+    @ExcelProperty("版本号")
     private String version;
-    @ExcelProperty(value = "工序编码")
-    private String operationCode;
-    @ExcelProperty(value = "工序名称")
-    private String operationName;
-    @ExcelProperty(value = "标准工时")
-    private BigDecimal workTime;
-    @ExcelProperty(value = "工序描述")
-    private String description;
+    @ExcelProperty("物料编码")
+    private String materialCode;
+    @ExcelProperty("物料数量")
+    private BigDecimal qty;
 
     @Data
     @NoArgsConstructor
@@ -43,7 +35,7 @@ public class RoutingExcelBO {
      * @param dataList
      * @return
      */
-    public static Map<RoutingExcelBO.ProductVersionKey, List<RoutingExcelBO>> groupByProductAndVersion(List<RoutingExcelBO> dataList) {
+    public static Map<ProductVersionKey, List<BomExcelBO>> groupByProductAndVersion(List<BomExcelBO> dataList) {
         if (dataList == null || dataList.isEmpty()) {
             return Map.of(); // 空列表返回空Map
         }
@@ -52,7 +44,7 @@ public class RoutingExcelBO {
         return dataList.stream()
                 .collect(Collectors.groupingBy(
                         // 每个BomExcelBO映射为一个分组键
-                        bo -> new RoutingExcelBO.ProductVersionKey(bo.getProductCode(), bo.getVersion())
+                        bo -> new ProductVersionKey(bo.getProductCode(), bo.getVersion())
                 ));
     }
 

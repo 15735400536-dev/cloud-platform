@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
 import com.maxinhai.platform.po.technology.Routing;
 import com.maxinhai.platform.vo.technology.RoutingVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,5 +29,12 @@ public interface RoutingService extends IService<Routing> {
      * @param operationIds
      */
     void binding(String routingId, List<String> operationIds);
+
+    /**
+     * 导入Excel数据
+     * @param file 上传的Excel文件
+     * @return 导入结果
+     */
+    void importExcel(MultipartFile file);
 
 }

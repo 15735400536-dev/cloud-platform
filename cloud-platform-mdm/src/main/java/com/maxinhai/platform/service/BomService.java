@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.technology.BomEditDTO;
 import com.maxinhai.platform.dto.technology.BomQueryDTO;
 import com.maxinhai.platform.po.technology.Bom;
 import com.maxinhai.platform.vo.technology.BomVO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface BomService extends IService<Bom> {
 
@@ -19,5 +20,12 @@ public interface BomService extends IService<Bom> {
     void edit(BomEditDTO param);
 
     void add(BomAddDTO param);
+
+    /**
+     * 导入Excel数据
+     * @param file 上传的Excel文件
+     * @return 导入结果
+     */
+    void importExcel(MultipartFile file);
 
 }

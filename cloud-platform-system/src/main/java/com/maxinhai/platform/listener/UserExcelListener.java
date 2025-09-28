@@ -70,6 +70,8 @@ public class UserExcelListener implements ReadListener<UserExcel> {
     public void doAfterAllAnalysed(AnalysisContext context) {
         // 这里也要保存数据，确保最后遗留的数据也被存储
         saveData();
+        // 存储完成清理 list
+        dataList.clear();
         log.info("所有数据解析完成！");
     }
 
