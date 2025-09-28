@@ -36,7 +36,7 @@ public class EquipListener implements ReadListener<EquipExcelBO> {
     private static final int BATCH_COUNT = 100;
 
     // 存储读取到的数据
-    private List<EquipExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
+    private final List<EquipExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
 
     /**
      * 每读取一行数据就会调用该方法

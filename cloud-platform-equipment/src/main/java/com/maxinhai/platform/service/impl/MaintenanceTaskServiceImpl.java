@@ -24,12 +24,11 @@ public class MaintenanceTaskServiceImpl extends ServiceImpl<MaintenanceTaskMappe
 
     @Override
     public Page<MaintenanceTaskVO> searchByPage(MaintenanceTaskQueryDTO param) {
-        Page<MaintenanceTaskVO> pageResult = maintenanceTaskMapper.selectJoinPage(param.getPage(), MaintenanceTaskVO.class,
+        return maintenanceTaskMapper.selectJoinPage(param.getPage(), MaintenanceTaskVO.class,
                 new MPJLambdaWrapper<MaintenanceTask>()
                         .like(StrUtil.isNotBlank(param.getTaskCode()), MaintenanceTask::getTaskCode, param.getTaskCode())
                         .like(StrUtil.isNotBlank(param.getMaintenanceType()), MaintenanceTask::getMaintenanceType, param.getMaintenanceType())
                         .orderByDesc(MaintenanceTask::getCreateTime));
-        return pageResult;
     }
 
     @Override

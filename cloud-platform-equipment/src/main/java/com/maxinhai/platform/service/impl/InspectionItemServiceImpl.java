@@ -28,12 +28,11 @@ public class InspectionItemServiceImpl extends ServiceImpl<InspectionItemMapper,
 
     @Override
     public Page<InspectionItemVO> searchByPage(InspectionItemQueryDTO param) {
-        Page<InspectionItemVO> pageResult = inspectionItemMapper.selectJoinPage(param.getPage(), InspectionItemVO.class,
+        return inspectionItemMapper.selectJoinPage(param.getPage(), InspectionItemVO.class,
                 new MPJLambdaWrapper<InspectionItem>()
                         .like(StrUtil.isNotBlank(param.getItemCode()), InspectionItem::getItemCode, param.getItemCode())
                         .like(StrUtil.isNotBlank(param.getItemName()), InspectionItem::getItemName, param.getItemName())
                         .orderByDesc(InspectionItem::getCreateTime));
-        return pageResult;
     }
 
     @Override

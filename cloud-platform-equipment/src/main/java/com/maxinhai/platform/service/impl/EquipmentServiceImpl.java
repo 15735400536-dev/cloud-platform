@@ -52,13 +52,12 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
 
     @Override
     public Page<EquipmentVO> searchByPage(EquipmentQueryDTO param) {
-        Page<EquipmentVO> pageResult = equipmentMapper.selectJoinPage(param.getPage(), EquipmentVO.class,
+        return equipmentMapper.selectJoinPage(param.getPage(), EquipmentVO.class,
                 new MPJLambdaWrapper<Equipment>()
                         .like(StrUtil.isNotBlank(param.getEquipCode()), Equipment::getEquipCode, param.getEquipCode())
                         .like(StrUtil.isNotBlank(param.getEquipName()), Equipment::getEquipName, param.getEquipName())
                         .eq(StrUtil.isNotBlank(param.getEquipType()), Equipment::getEquipType, param.getEquipType())
                         .orderByDesc(Equipment::getCreateTime));
-        return pageResult;
     }
 
     @Override

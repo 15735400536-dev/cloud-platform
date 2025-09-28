@@ -28,11 +28,10 @@ public class InspectionPlanServiceImpl extends ServiceImpl<InspectionPlanMapper,
 
     @Override
     public Page<InspectionPlanVO> searchByPage(InspectionPlanQueryDTO param) {
-        Page<InspectionPlanVO> pageResult = inspectionPlanMapper.selectJoinPage(param.getPage(), InspectionPlanVO.class,
+        return inspectionPlanMapper.selectJoinPage(param.getPage(), InspectionPlanVO.class,
                 new MPJLambdaWrapper<InspectionPlan>()
                         .like(StrUtil.isNotBlank(param.getPlanCode()), InspectionPlan::getPlanCode, param.getPlanCode())
                         .orderByDesc(InspectionPlan::getCreateTime));
-        return pageResult;
     }
 
     @Override

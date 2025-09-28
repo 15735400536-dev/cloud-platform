@@ -28,11 +28,10 @@ public class MaintenancePlanServiceImpl extends ServiceImpl<MaintenancePlanMappe
 
     @Override
     public Page<MaintenancePlanVO> searchByPage(MaintenancePlanQueryDTO param) {
-        Page<MaintenancePlanVO> pageResult = maintenancePlanMapper.selectJoinPage(param.getPage(), MaintenancePlanVO.class,
+        return maintenancePlanMapper.selectJoinPage(param.getPage(), MaintenancePlanVO.class,
                 new MPJLambdaWrapper<MaintenancePlan>()
                         .like(StrUtil.isNotBlank(param.getPlanCode()), MaintenancePlan::getPlanCode, param.getPlanCode())
                         .orderByDesc(MaintenancePlan::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -26,14 +26,14 @@ public interface EquipmentService extends IService<Equipment> {
 
     /**
      * Excel导入设备数据
-     * @param file
+     * @param file 上传excel文件
      */
     void importExcel(MultipartFile file);
 
     /**
      * 导出excel
-     * @param request
-     * @param response
+     * @param request 请求
+     * @param response 响应
      */
     void exportExcel(HttpServletRequest request, HttpServletResponse response);
 

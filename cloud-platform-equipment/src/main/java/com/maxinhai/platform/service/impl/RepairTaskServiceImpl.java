@@ -28,11 +28,10 @@ public class RepairTaskServiceImpl extends ServiceImpl<RepairTaskMapper, RepairT
 
     @Override
     public Page<RepairTaskVO> searchByPage(RepairTaskQueryDTO param) {
-        Page<RepairTaskVO> pageResult = repairTaskMapper.selectJoinPage(param.getPage(), RepairTaskVO.class,
+        return repairTaskMapper.selectJoinPage(param.getPage(), RepairTaskVO.class,
                 new MPJLambdaWrapper<RepairTask>()
                         .like(StrUtil.isNotBlank(param.getTaskCode()), RepairTask::getTaskCode, param.getTaskCode())
                         .orderByDesc(RepairTask::getCreateTime));
-        return pageResult;
     }
 
     @Override

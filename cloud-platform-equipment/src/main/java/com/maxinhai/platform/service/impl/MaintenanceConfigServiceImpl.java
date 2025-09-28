@@ -28,12 +28,11 @@ public class MaintenanceConfigServiceImpl extends ServiceImpl<MaintenanceConfigM
     
     @Override
     public Page<MaintenanceConfigVO> searchByPage(MaintenanceConfigQueryDTO param) {
-        Page<MaintenanceConfigVO> pageResult = maintenanceConfigMapper.selectJoinPage(param.getPage(), MaintenanceConfigVO.class,
+        return maintenanceConfigMapper.selectJoinPage(param.getPage(), MaintenanceConfigVO.class,
                 new MPJLambdaWrapper<MaintenanceConfig>()
                         .like(StrUtil.isNotBlank(param.getConfigCode()), MaintenanceConfig::getConfigCode, param.getConfigCode())
                         .like(StrUtil.isNotBlank(param.getConfigName()), MaintenanceConfig::getConfigName, param.getConfigName())
                         .orderByDesc(MaintenanceConfig::getCreateTime));
-        return pageResult;
     }
 
     @Override

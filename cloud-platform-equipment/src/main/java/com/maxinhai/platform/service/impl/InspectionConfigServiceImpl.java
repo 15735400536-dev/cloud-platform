@@ -28,12 +28,11 @@ public class InspectionConfigServiceImpl extends ServiceImpl<InspectionConfigMap
 
     @Override
     public Page<InspectionConfigVO> searchByPage(InspectionConfigQueryDTO param) {
-        Page<InspectionConfigVO> pageResult = inspectionConfigMapper.selectJoinPage(param.getPage(), InspectionConfigVO.class,
+        return inspectionConfigMapper.selectJoinPage(param.getPage(), InspectionConfigVO.class,
                 new MPJLambdaWrapper<InspectionConfig>()
                         .like(StrUtil.isNotBlank(param.getConfigCode()), InspectionConfig::getConfigCode, param.getConfigCode())
                         .like(StrUtil.isNotBlank(param.getConfigName()), InspectionConfig::getConfigName, param.getConfigName())
                         .orderByDesc(InspectionConfig::getCreateTime));
-        return pageResult;
     }
 
     @Override
