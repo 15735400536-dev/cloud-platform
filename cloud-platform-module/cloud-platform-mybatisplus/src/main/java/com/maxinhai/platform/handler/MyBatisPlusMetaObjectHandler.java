@@ -64,6 +64,9 @@ public class MyBatisPlusMetaObjectHandler implements MetaObjectHandler {
         }
         HttpServletRequest request = attrs.getRequest();
         String token = request.getHeader("Authorization");
+        if(StrUtil.isNotBlank(token) && "internal".equals(token)) {
+            return "anonymous";
+        }
         return token;
     }
 
