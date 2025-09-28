@@ -1,14 +1,12 @@
 package com.maxinhai.platform.controller;
 
-import com.maxinhai.platform.dto.DeptAddDTO;
-import com.maxinhai.platform.dto.DeptEditDTO;
-import com.maxinhai.platform.dto.DeptQueryDTO;
-import com.maxinhai.platform.dto.DeptUserDTO;
+import com.maxinhai.platform.dto.*;
 import com.maxinhai.platform.service.DeptService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.DeptTreeVO;
 import com.maxinhai.platform.vo.DeptVO;
+import com.maxinhai.platform.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -68,5 +66,11 @@ public class DeptController {
     @ApiOperation(value = "获取部门树状结构", notes = "获取部门树状结构")
     public AjaxResult<List<DeptTreeVO>> getTree() {
         return AjaxResult.success(deptService.getTree());
+    }
+
+    @PostMapping("/searchUserByPage")
+    @ApiOperation(value = "分页查询部门下用户", notes = "根据查询条件分页查询部门下用户")
+    public AjaxResult<PageResult<UserVO>> searchUserByPage(@RequestBody DeptUserQueryDTO param) {
+        return AjaxResult.success(PageResult.convert(deptService.searchUserByPage(param)));
     }
 }

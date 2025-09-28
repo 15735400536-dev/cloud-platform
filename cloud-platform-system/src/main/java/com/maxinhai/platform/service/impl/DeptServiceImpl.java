@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.maxinhai.platform.dto.DeptAddDTO;
-import com.maxinhai.platform.dto.DeptEditDTO;
-import com.maxinhai.platform.dto.DeptQueryDTO;
-import com.maxinhai.platform.dto.DeptUserDTO;
+import com.maxinhai.platform.dto.*;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.DeptMapper;
 import com.maxinhai.platform.po.Dept;
@@ -21,6 +18,7 @@ import com.maxinhai.platform.service.DeptUserRelService;
 import com.maxinhai.platform.utils.TreeNodeUtils;
 import com.maxinhai.platform.vo.DeptTreeVO;
 import com.maxinhai.platform.vo.DeptVO;
+import com.maxinhai.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -114,5 +112,18 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
                 .collect(Collectors.toList());
         // 按照父级ID构建树状结构
         return TreeNodeUtils.buildTree(treeVOList, "0");
+    }
+
+    @Override
+    public Page<UserVO> searchUserByPage(DeptUserQueryDTO param) {
+        Page<UserVO> pageResult = deptMapper.selectJoinPage(param.getPage(), UserVO.class,
+                new MPJLambdaWrapper<Dept>()
+                        .innerJoin(DeptUserRel.class, DeptUserRel::getDeptId, Dept::getId)
+                        .innerJoin(User.class, User::getId, DeptUserRel::getUserId)
+                        .eq(StrUtil.isNotBlank(param.getDeptId()), Dept::getId, param.getDeptId())
+                        .select(User::getId, User::getAccount, User::getUsername)
+                        .selectAs(User::getUsername, DeptVO::getLeaderName)
+                        .orderByDesc(Dept::getCreateTime));
+        return pageResult;
     }
 }
