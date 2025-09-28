@@ -15,8 +15,11 @@ import com.maxinhai.platform.excel.RoleExcel;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.listener.RoleExcelListener;
 import com.maxinhai.platform.mapper.RoleMapper;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.po.RoleMenuRel;
+import com.maxinhai.platform.mapper.RoleMapper;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.RoleMenuRelService;
 import com.maxinhai.platform.service.RoleService;
 import com.maxinhai.platform.vo.RoleVO;
@@ -41,6 +44,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RoleMenuRelService roleMenuRelService;
     @Resource
     private RoleExcelListener roleExcelListener;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<RoleVO> searchByPage(RoleQueryDTO param) {
@@ -70,6 +75,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public void add(RoleAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(Role.class, Role::getRoleKey, param.getRoleKey());
+        if (unique) {
+            throw new BusinessException("角色【" + param.getRoleKey() + "】已存在!");
+        }
         Role user = BeanUtil.toBean(param, Role.class);
         roleMapper.insert(user);
     }

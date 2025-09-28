@@ -17,6 +17,7 @@ import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.CodeRuleMapper;
 import com.maxinhai.platform.po.CodeRule;
 import com.maxinhai.platform.service.CodeRuleService;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.vo.CodeRuleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class CodeRuleServiceImpl extends ServiceImpl<CodeRuleMapper, CodeRule> i
 
     @Resource
     private CodeRuleMapper codeRuleMapper;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<CodeRuleVO> searchByPage(CodeRuleQueryDTO param) {
@@ -60,6 +63,10 @@ public class CodeRuleServiceImpl extends ServiceImpl<CodeRuleMapper, CodeRule> i
 
     @Override
     public void add(CodeRuleAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(CodeRule.class, CodeRule::getRuleCode, param.getRuleCode());
+        if(!unique) {
+            throw new BusinessException("编码规则【" + param.getRuleCode() + "】已存在！");
+        }
         CodeRule user = BeanUtil.toBean(param, CodeRule.class);
         codeRuleMapper.insert(user);
     }

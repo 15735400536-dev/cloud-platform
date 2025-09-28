@@ -13,9 +13,12 @@ import com.maxinhai.platform.dto.MenuQueryDTO;
 import com.maxinhai.platform.excel.MenuExcel;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.listener.MenuExcelListener;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.MenuMapper;
 import com.maxinhai.platform.po.Menu;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.MenuService;
+import com.maxinhai.platform.service.RoleMenuRelService;
 import com.maxinhai.platform.utils.TreeNodeUtils;
 import com.maxinhai.platform.vo.MenuTreeVO;
 import com.maxinhai.platform.vo.MenuVO;
@@ -37,6 +40,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     private MenuMapper menuMapper;
     @Resource
     private MenuExcelListener menuExcelListener;
+    private RoleMenuRelService roleMenuRelService;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<MenuVO> searchByPage(MenuQueryDTO param) {
@@ -65,6 +71,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public void add(MenuAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(Menu.class, Menu::getMenuName, param.getMenuName());
+        if (unique) {
+            throw new BusinessException("菜单【" + param.getMenuName() + "】已存在!");
+        }
         Menu user = BeanUtil.toBean(param, Menu.class);
         menuMapper.insert(user);
     }
