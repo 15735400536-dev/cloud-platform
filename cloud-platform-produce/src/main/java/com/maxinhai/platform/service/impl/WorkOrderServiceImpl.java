@@ -30,7 +30,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
     @Override
     public Page<WorkOrderVO> searchByPage(WorkOrderQueryDTO param) {
-        Page<WorkOrderVO> pageResult = workOrderMapper.selectJoinPage(param.getPage(), WorkOrderVO.class,
+        return workOrderMapper.selectJoinPage(param.getPage(), WorkOrderVO.class,
                 new MPJLambdaWrapper<WorkOrder>()
                         .innerJoin(Product.class, Product::getId, Order::getProductId)
                         .innerJoin(Bom.class, Bom::getId, Order::getBomId)
@@ -48,7 +48,6 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
                         .selectAs(Routing::getName, WorkOrderVO::getRoutingName)
                         // 排序
                         .orderByDesc(WorkOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override

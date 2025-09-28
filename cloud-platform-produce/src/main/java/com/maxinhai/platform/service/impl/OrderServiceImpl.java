@@ -21,6 +21,7 @@ import com.maxinhai.platform.service.OrderService;
 import com.maxinhai.platform.utils.DateUtils;
 import com.maxinhai.platform.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -46,7 +47,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public Page<OrderVO> searchByPage(OrderQueryDTO param) {
-        Page<OrderVO> pageResult = orderMapper.selectJoinPage(param.getPage(), OrderVO.class,
+        return orderMapper.selectJoinPage(param.getPage(), OrderVO.class,
                 new MPJLambdaWrapper<Order>()
                         .innerJoin(Product.class, Product::getId, Order::getProductId)
                         .innerJoin(Bom.class, Bom::getId, Order::getBomId)
@@ -65,7 +66,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         .selectAs(Routing::getName, OrderVO::getRoutingName)
                         // 排序
                         .orderByDesc(Order::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -116,16 +116,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         orderMapper.insert(order);
         // 创建工单
         for (Integer i = 0; i < order.getQty(); i++) {
-            WorkOrder workOrder = new WorkOrder();
-            workOrder.setWorkOrderCode(order.getOrderCode() + "_" + (i + 1));
-            workOrder.setQty(1);
-            workOrder.setOrderStatus(OrderStatus.INIT);
-            workOrder.setPlanBeginTime(param.getPlanBeginTime());
-            workOrder.setPlanEndTime(param.getPlanEndTime());
-            workOrder.setProductId(order.getProductId());
-            workOrder.setBomId(order.getBomId());
-            workOrder.setRoutingId(order.getRoutingId());
-            workOrder.setOrderId(order.getId());
+            WorkOrder workOrder = getWorkOrder(param, order, i);
             workOrderMapper.insert(workOrder);
 
             // 创建派工单
@@ -145,6 +136,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 taskOrderMapper.insert(taskOrder);
             }
         }
+    }
+
+    @NotNull
+    private static WorkOrder getWorkOrder(OrderAddDTO param, Order order, Integer i) {
+        WorkOrder workOrder = new WorkOrder();
+        workOrder.setWorkOrderCode(order.getOrderCode() + "_" + (i + 1));
+        workOrder.setQty(1);
+        workOrder.setOrderStatus(OrderStatus.INIT);
+        workOrder.setPlanBeginTime(param.getPlanBeginTime());
+        workOrder.setPlanEndTime(param.getPlanEndTime());
+        workOrder.setProductId(order.getProductId());
+        workOrder.setBomId(order.getBomId());
+        workOrder.setRoutingId(order.getRoutingId());
+        workOrder.setOrderId(order.getId());
+        return workOrder;
     }
 
     @Override

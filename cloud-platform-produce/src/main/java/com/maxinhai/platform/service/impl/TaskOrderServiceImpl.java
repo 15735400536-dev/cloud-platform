@@ -51,7 +51,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
 
     @Override
     public Page<TaskOrderVO> searchByPage(TaskOrderQueryDTO param) {
-        Page<TaskOrderVO> pageResult = taskOrderMapper.selectJoinPage(param.getPage(), TaskOrderVO.class,
+        return taskOrderMapper.selectJoinPage(param.getPage(), TaskOrderVO.class,
                 new MPJLambdaWrapper<TaskOrder>()
                         .innerJoin(Product.class, Product::getId, Order::getProductId)
                         .innerJoin(Bom.class, Bom::getId, Order::getBomId)
@@ -72,7 +72,6 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                         .selectAs(Operation::getName, TaskOrderVO::getOperationName)
                         // 排序
                         .orderByDesc(TaskOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -113,7 +112,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         }
 
         if (!OrderStatus.INIT.equals(taskOrder.getStatus())) {
-            StringBuffer buffer = new StringBuffer("派工单开工失败，");
+            StringBuilder buffer = new StringBuilder("派工单开工失败，");
             switch (taskOrder.getStatus()) {
                 case START:
                     buffer.append("派工单已开工!");
@@ -166,11 +165,8 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
             throw new BusinessException("派工单不存在！");
         }
         if (!OrderStatus.START.equals(taskOrder.getStatus())) {
-            StringBuffer buffer = new StringBuffer("派工单暂停失败，");
+            StringBuilder buffer = new StringBuilder("派工单暂停失败，");
             switch (taskOrder.getStatus()) {
-                case START:
-                    buffer.append("派工单已开工!");
-                    break;
                 case PAUSE:
                     buffer.append("派工单已暂停!");
                     break;
@@ -211,13 +207,10 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
             throw new BusinessException("派工单不存在！");
         }
         if (!OrderStatus.PAUSE.equals(taskOrder.getStatus())) {
-            StringBuffer buffer = new StringBuffer("派工单复工失败，");
+            StringBuilder buffer = new StringBuilder("派工单复工失败，");
             switch (taskOrder.getStatus()) {
                 case START:
                     buffer.append("派工单已开工!");
-                    break;
-                case PAUSE:
-                    buffer.append("派工单已暂停!");
                     break;
                 case RESUME:
                     buffer.append("派工单已复工!");
@@ -256,11 +249,8 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
             throw new BusinessException("派工单不存在！");
         }
         if (!OrderStatus.START.equals(taskOrder.getStatus())) {
-            StringBuffer buffer = new StringBuffer("派工单复工失败，");
+            StringBuilder buffer = new StringBuilder("派工单复工失败，");
             switch (taskOrder.getStatus()) {
-                case START:
-                    buffer.append("派工单已开工!");
-                    break;
                 case PAUSE:
                     buffer.append("派工单已暂停!");
                     break;
@@ -325,7 +315,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         }
 
         int nextIndex = currentIndex - 1;
-        if (nextIndex < 0 || nextIndex >= taskOrderList.size()) {
+        if (nextIndex < 0) {
             // 当前派工单是第一道工序或者最后一道工序，返回当前派工单，或者返回空
             return null;
         }
@@ -351,7 +341,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         }
 
         int nextIndex = currentIndex + 1;
-        if (nextIndex < 0 || nextIndex >= taskOrderList.size()) {
+        if (nextIndex >= taskOrderList.size()) {
             // 当前派工单是第一道工序或者最后一道工序，返回当前派工单，或者返回空
             return null;
         }
@@ -364,7 +354,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                 .select(WorkOrder::getId, WorkOrder::getOrderId, WorkOrder::getOrderStatus)
                 .eq(WorkOrder::getOrderStatus, OrderStatus.START)
                 .eq(WorkOrder::getOrderId, orderId));
-        return workOrderList.size() > 0;
+        return !workOrderList.isEmpty();
     }
 
     @Override
@@ -384,7 +374,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                 .select(TaskOrder::getId, TaskOrder::getWorkOrderId, TaskOrder::getStatus)
                 .eq(TaskOrder::getStatus, OrderStatus.START)
                 .eq(TaskOrder::getWorkOrderId, workOrderId));
-        return taskOrderList.size() > 0;
+        return !taskOrderList.isEmpty();
     }
 
     @Override
