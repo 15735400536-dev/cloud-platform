@@ -53,12 +53,11 @@ public class ReceiptOrderServiceImpl extends ServiceImpl<ReceiptOrderMapper, Rec
 
     @Override
     public Page<ReceiptOrderVO> searchByPage(ReceiptOrderQueryDTO param) {
-        Page<ReceiptOrderVO> pageResult = receiptOrderMapper.selectJoinPage(param.getPage(), ReceiptOrderVO.class,
+        return receiptOrderMapper.selectJoinPage(param.getPage(), ReceiptOrderVO.class,
                 new MPJLambdaWrapper<ReceiptOrder>()
                         .like(StrUtil.isNotBlank(param.getOrderNo()), ReceiptOrder::getOrderNo, param.getOrderNo())
                         .eq(StrUtil.isNotBlank(param.getWarehouseId()), ReceiptOrder::getWarehouseId, param.getWarehouseId())
                         .orderByDesc(ReceiptOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override

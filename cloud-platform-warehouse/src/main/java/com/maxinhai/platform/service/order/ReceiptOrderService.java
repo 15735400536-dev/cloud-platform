@@ -22,7 +22,7 @@ public interface ReceiptOrderService extends IService<ReceiptOrder> {
 
     /**
      * 根据出库单ID出库
-     * @param id
+     * @param id 主键ID
      */
     void receipt(String id);
 

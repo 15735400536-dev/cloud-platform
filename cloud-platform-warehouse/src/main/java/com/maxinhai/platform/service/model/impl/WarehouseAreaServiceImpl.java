@@ -34,7 +34,7 @@ public class WarehouseAreaServiceImpl extends ServiceImpl<WarehouseAreaMapper, W
 
     @Override
     public Page<WarehouseAreaVO> searchByPage(WarehouseAreaQueryDTO param) {
-        Page<WarehouseAreaVO> pageResult = areaMapper.selectJoinPage(param.getPage(), WarehouseAreaVO.class,
+        return areaMapper.selectJoinPage(param.getPage(), WarehouseAreaVO.class,
                 new MPJLambdaWrapper<WarehouseArea>()
                         .innerJoin(Warehouse.class, Warehouse::getId, WarehouseArea::getWarehouseId)
                         // 查询条件
@@ -47,7 +47,6 @@ public class WarehouseAreaServiceImpl extends ServiceImpl<WarehouseAreaMapper, W
                         .selectAs(Warehouse::getName, WarehouseAreaVO::getWarehouseName)
                         // 排序
                         .orderByDesc(WarehouseArea::getCreateTime));
-        return pageResult;
     }
 
     @Override

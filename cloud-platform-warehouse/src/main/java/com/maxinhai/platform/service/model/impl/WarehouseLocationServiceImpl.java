@@ -36,7 +36,7 @@ public class WarehouseLocationServiceImpl extends ServiceImpl<WarehouseLocationM
     
     @Override
     public Page<WarehouseLocationVO> searchByPage(WarehouseLocationQueryDTO param) {
-        Page<WarehouseLocationVO> pageResult = locationMapper.selectJoinPage(param.getPage(), WarehouseLocationVO.class,
+        return locationMapper.selectJoinPage(param.getPage(), WarehouseLocationVO.class,
                 new MPJLambdaWrapper<WarehouseLocation>()
                         .innerJoin(Warehouse.class, Warehouse::getId, WarehouseLocation::getWarehouseId)
                         .innerJoin(WarehouseArea.class, WarehouseArea::getId, WarehouseLocation::getAreaId)
@@ -54,7 +54,6 @@ public class WarehouseLocationServiceImpl extends ServiceImpl<WarehouseLocationM
                         .selectAs(WarehouseRack::getName, WarehouseLocationVO::getRackName)
                         // 排序
                         .orderByDesc(WarehouseLocation::getCreateTime));
-        return pageResult;
     }
 
     @Override

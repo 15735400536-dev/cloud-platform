@@ -1,6 +1,7 @@
 package com.maxinhai.platform.service.model.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -26,6 +27,7 @@ import com.maxinhai.platform.service.model.WarehouseService;
 import com.maxinhai.platform.utils.TreeNodeUtils;
 import com.maxinhai.platform.vo.model.WarehouseTreeVO;
 import com.maxinhai.platform.vo.model.WarehouseVO;
+import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -150,5 +153,19 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
         }
 
         return TreeNodeUtils.buildTree(treeVOList, "0");
+    }
+
+    @XxlJob("initWmsData")
+    public void initWmsData() {
+        String address = "江苏省苏州市吴中区香山街道环太湖大道188号太湖花园栋3单元502室";
+        String format = DateUtil.format(new Date(), "yyyy-MM-dd");
+        Warehouse warehouse = new Warehouse();
+        warehouse.setCode(format);
+        warehouse.setName(format);
+        warehouse.setStatus(1);
+        warehouse.setAddress(address);
+        warehouse.setContactPerson("张三");
+        warehouse.setContactPhone("15735400324");
+        warehouseMapper.insert(warehouse);
     }
 }

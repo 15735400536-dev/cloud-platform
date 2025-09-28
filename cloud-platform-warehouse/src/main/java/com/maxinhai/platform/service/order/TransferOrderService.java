@@ -22,7 +22,7 @@ public interface TransferOrderService extends IService<TransferOrder> {
 
     /**
      * 根据移库单ID移库
-     * @param id
+     * @param id 主键ID
      */
     void transfer(String id);
 

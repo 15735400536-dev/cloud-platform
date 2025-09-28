@@ -22,7 +22,7 @@ public interface IssueOrderDetailService extends IService<IssueOrderDetail> {
 
     /**
      * 出库单出库
-     * @param id
+     * @param id 主键ID
      */
     void issue(String id);
 

@@ -54,12 +54,11 @@ public class IssueOrderServiceImpl extends ServiceImpl<IssueOrderMapper, IssueOr
 
     @Override
     public Page<IssueOrderVO> searchByPage(IssueOrderQueryDTO param) {
-        Page<IssueOrderVO> pageResult = issueOrderMapper.selectJoinPage(param.getPage(), IssueOrderVO.class,
+        return issueOrderMapper.selectJoinPage(param.getPage(), IssueOrderVO.class,
                 new MPJLambdaWrapper<IssueOrder>()
                         .like(StrUtil.isNotBlank(param.getOrderNo()), IssueOrder::getOrderNo, param.getOrderNo())
                         .like(StrUtil.isNotBlank(param.getWarehouseId()), IssueOrder::getWarehouseId, param.getWarehouseId())
                         .orderByDesc(IssueOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override

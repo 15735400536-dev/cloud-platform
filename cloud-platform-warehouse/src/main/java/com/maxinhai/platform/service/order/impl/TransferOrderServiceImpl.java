@@ -50,13 +50,12 @@ public class TransferOrderServiceImpl extends ServiceImpl<TransferOrderMapper, T
 
     @Override
     public Page<TransferOrderVO> searchByPage(TransferOrderQueryDTO param) {
-        Page<TransferOrderVO> pageResult = transferOrderMapper.selectJoinPage(param.getPage(), TransferOrderVO.class,
+        return transferOrderMapper.selectJoinPage(param.getPage(), TransferOrderVO.class,
                 new MPJLambdaWrapper<TransferOrder>()
                         .like(StrUtil.isNotBlank(param.getTransferNo()), TransferOrder::getTransferNo, param.getTransferNo())
                         .eq(StrUtil.isNotBlank(param.getSourceWarehouseId()), TransferOrder::getSourceWarehouseId, param.getSourceWarehouseId())
                         .eq(StrUtil.isNotBlank(param.getTargetWarehouseId()), TransferOrder::getTargetWarehouseId, param.getTargetWarehouseId())
                         .orderByDesc(TransferOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override

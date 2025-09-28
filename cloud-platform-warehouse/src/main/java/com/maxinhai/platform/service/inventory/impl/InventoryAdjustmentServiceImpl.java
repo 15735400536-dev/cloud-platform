@@ -24,12 +24,11 @@ public class InventoryAdjustmentServiceImpl extends ServiceImpl<InventoryAdjustm
 
     @Override
     public Page<InventoryAdjustmentVO> searchByPage(InventoryAdjustmentQueryDTO param) {
-        Page<InventoryAdjustmentVO> pageResult = inventoryAdjustmentMapper.selectJoinPage(param.getPage(), InventoryAdjustmentVO.class,
+        return inventoryAdjustmentMapper.selectJoinPage(param.getPage(), InventoryAdjustmentVO.class,
                 new MPJLambdaWrapper<InventoryAdjustment>()
                         .like(StrUtil.isNotBlank(param.getAdjustmentNo()), InventoryAdjustment::getAdjustmentNo, param.getAdjustmentNo())
                         .eq(StrUtil.isNotBlank(param.getWarehouseId()), InventoryAdjustment::getWarehouseId, param.getWarehouseId())
                         .orderByDesc(InventoryAdjustment::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -37,12 +37,11 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
 
     @Override
     public Page<StocktakingVO> searchByPage(StocktakingQueryDTO param) {
-        Page<StocktakingVO> pageResult = stocktakingMapper.selectJoinPage(param.getPage(), StocktakingVO.class,
+        return stocktakingMapper.selectJoinPage(param.getPage(), StocktakingVO.class,
                 new MPJLambdaWrapper<Stocktaking>()
                         .like(StrUtil.isNotBlank(param.getStocktakingNo()), Stocktaking::getStocktakingNo, param.getStocktakingNo())
                         .like(StrUtil.isNotBlank(param.getWarehouseId()), Stocktaking::getWarehouseId, param.getWarehouseId())
                         .orderByDesc(Stocktaking::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -55,7 +54,7 @@ public class StocktakingServiceImpl extends ServiceImpl<StocktakingMapper, Stock
     public void remove(String[] ids) {
         stocktakingMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
         stocktakingDetailMapper.delete(new LambdaQueryWrapper<StocktakingDetail>()
-                .in(StocktakingDetail::getStocktakingId, ids));
+                .in(StocktakingDetail::getStocktakingId, Arrays.stream(ids).collect(Collectors.toList())));
     }
 
     @Override

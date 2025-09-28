@@ -35,7 +35,7 @@ public class WarehouseRackServiceImpl extends ServiceImpl<WarehouseRackMapper, W
 
     @Override
     public Page<WarehouseRackVO> searchByPage(WarehouseRackQueryDTO param) {
-        Page<WarehouseRackVO> pageResult = rackMapper.selectJoinPage(param.getPage(), WarehouseRackVO.class,
+        return rackMapper.selectJoinPage(param.getPage(), WarehouseRackVO.class,
                 new MPJLambdaWrapper<WarehouseRack>()
                         .innerJoin(Warehouse.class, Warehouse::getId, WarehouseLocation::getWarehouseId)
                         .innerJoin(WarehouseArea.class, WarehouseArea::getId, WarehouseLocation::getAreaId)
@@ -50,7 +50,6 @@ public class WarehouseRackServiceImpl extends ServiceImpl<WarehouseRackMapper, W
                         .selectAs(WarehouseArea::getName, WarehouseRackVO::getAreaName)
                         // 排序
                         .orderByDesc(WarehouseRack::getCreateTime));
-        return pageResult;
     }
 
     @Override
