@@ -26,3 +26,16 @@
 | cloud-platform-missav       | 视频网站 | 20040 |
 | cloud-platform-news         | 新闻网站 | 20050 |
 | cloud-platform-novel        | 小说网站 | 20060 |
+
+## 中间件
+| 中间件          | 描述        | 端口         | 访问界面                    |
+|--------------|-----------|------------|-------------------------|
+| nacos        | 服务注册、配置管理 | 8848       | http://localhost:8848/  |
+| mysql        | 关系型数据库    | 3306       |                         |
+| pgsql        | 关系型数据库    | 5432       |                         |
+| redis        | 分布式缓存     | 6379       |                         |
+| xxl-job      | 分布式定时任务   | 8080       | http://localhost:8080/xxl-job-admin/  |
+| rabbitmq     | 消息队列      | 5672、15672 | http://localhost:15672/ |
+| minio        | 文件存储      | 9000、9001  | http://localhost:9001/browser |
+| elasticsearch | 分布式搜索引擎   | 9200、9300      | http://localhost:9200/ |
+| mongodb      | 非关系型数据库   | 27017       |  |
