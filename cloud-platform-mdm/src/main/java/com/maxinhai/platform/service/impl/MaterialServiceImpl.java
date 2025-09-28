@@ -41,7 +41,7 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
 
     @Override
     public Page<MaterialVO> searchByPage(MaterialQueryDTO param) {
-        Page<MaterialVO> pageResult = materialMapper.selectJoinPage(param.getPage(), MaterialVO.class,
+        return materialMapper.selectJoinPage(param.getPage(), MaterialVO.class,
                 new MPJLambdaWrapper<Material>()
                         .innerJoin(MaterialType.class, MaterialType::getId, Material::getMaterialTypeId)
                         // 查询条件
@@ -53,7 +53,6 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
                         .selectAs(MaterialType::getName, MaterialVO::getMaterialTypeName)
                         // 排序
                         .orderByDesc(Material::getCreateTime));
-        return pageResult;
     }
 
     @Override

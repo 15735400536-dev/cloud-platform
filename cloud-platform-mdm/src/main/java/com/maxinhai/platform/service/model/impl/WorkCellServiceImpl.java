@@ -34,7 +34,7 @@ public class WorkCellServiceImpl extends ServiceImpl<WorkCellMapper, WorkCell> i
 
     @Override
     public Page<WorkCellVO> searchByPage(WorkCellQueryDTO param) {
-        Page<WorkCellVO> pageResult = workCellMapper.selectJoinPage(param.getPage(), WorkCellVO.class,
+        return workCellMapper.selectJoinPage(param.getPage(), WorkCellVO.class,
                 new MPJLambdaWrapper<WorkCell>()
                         .leftJoin(WorkCenter.class, WorkCenter::getId, WorkCell::getWorkCenterId)
                         .leftJoin(ProductionLine.class, ProductionLine::getId, WorkCell::getProductionLineId)
@@ -49,7 +49,6 @@ public class WorkCellServiceImpl extends ServiceImpl<WorkCellMapper, WorkCell> i
                         .selectAs(ProductionLine::getName, WorkCellVO::getProductionLineName)
                         // 排序
                         .orderByDesc(WorkCell::getCreateTime));
-        return pageResult;
     }
 
     @Override

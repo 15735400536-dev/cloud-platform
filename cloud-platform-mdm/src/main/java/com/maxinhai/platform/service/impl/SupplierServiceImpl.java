@@ -35,7 +35,7 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier> i
 
     @Override
     public Page<SupplierVO> searchByPage(SupplierQueryDTO param) {
-        Page<SupplierVO> pageResult = supplierMapper.selectJoinPage(param.getPage(), SupplierVO.class,
+        return supplierMapper.selectJoinPage(param.getPage(), SupplierVO.class,
                 new MPJLambdaWrapper<Supplier>()
                         // 查询条件
                         .eq(Objects.nonNull(param.getType()), Supplier::getType, param.getType())
@@ -44,7 +44,6 @@ public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier> i
                         .selectAll(Supplier.class)
                         // 排序
                         .orderByDesc(Supplier::getCreateTime));
-        return pageResult;
     }
 
     @Override

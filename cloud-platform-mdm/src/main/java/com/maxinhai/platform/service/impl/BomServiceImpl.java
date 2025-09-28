@@ -40,7 +40,7 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
 
     @Override
     public Page<BomVO> searchByPage(BomQueryDTO param) {
-        Page<BomVO> pageResult = bomMapper.selectJoinPage(param.getPage(), BomVO.class,
+        return bomMapper.selectJoinPage(param.getPage(), BomVO.class,
                 new MPJLambdaWrapper<Bom>()
                         .innerJoin(Product.class, Product::getId, Bom::getProductId)
                         // 查询条件
@@ -52,7 +52,6 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
                         .selectAs(Product::getName, BomVO::getProductName)
                         // 排序
                         .orderByDesc(Bom::getCreateTime));
-        return pageResult;
     }
 
     @Override

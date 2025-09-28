@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.maxinhai.platform.bo.BomExcelBO;
 import com.maxinhai.platform.bo.RoutingExcelBO;
 import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
@@ -51,7 +50,7 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
 
     @Override
     public Page<RoutingVO> searchByPage(RoutingQueryDTO param) {
-        Page<RoutingVO> pageResult = routingMapper.selectJoinPage(param.getPage(), RoutingVO.class,
+        return routingMapper.selectJoinPage(param.getPage(), RoutingVO.class,
                 new MPJLambdaWrapper<Routing>()
                         .innerJoin(Product.class, Product::getId, Routing::getProductId)
                         // 查询条件
@@ -63,7 +62,6 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
                         .selectAs(Product::getName, RoutingVO::getProductName)
                         // 排序
                         .orderByDesc(Routing::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +36,7 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
 
     @Override
     public Page<MaterialTypeVO> searchByPage(MaterialTypeQueryDTO param) {
-        Page<MaterialTypeVO> pageResult = materialTypeMapper.selectJoinPage(param.getPage(), MaterialTypeVO.class,
+        return materialTypeMapper.selectJoinPage(param.getPage(), MaterialTypeVO.class,
                 new MPJLambdaWrapper<MaterialType>()
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getCode()), MaterialType::getCode, param.getCode())
@@ -47,7 +45,6 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
                         .selectAll(MaterialType.class)
                         // 排序
                         .orderByDesc(MaterialType::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -87,20 +84,9 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
         List<MaterialType> typeList = materialTypeMapper.selectList(new LambdaQueryWrapper<MaterialType>()
                 .select(MaterialType::getId, MaterialType::getParentId, MaterialType::getName));
         List<MaterialTypeTreeVO> treeVOList = typeList.stream()
-                .map(type -> MaterialTypeTreeVO.convert(type))
+                .map(MaterialTypeTreeVO::convert)
                 .collect(Collectors.toList());
         // 按照父级ID构建树状结构
-        List<MaterialTypeTreeVO> typeTree = TreeNodeUtils.buildTree(treeVOList, "0");
-        return typeTree;
-    }
-
-    //@PostConstruct
-    public void initData() {
-        MaterialType materialType = new MaterialType();
-        materialType.setCode(String.format("编码%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
-        materialType.setName(String.format("名称%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
-        materialType.setDescription("物料描述");
-        materialType.setParentId("0");
-        materialTypeMapper.insert(materialType);
+        return TreeNodeUtils.buildTree(treeVOList, "0");
     }
 }

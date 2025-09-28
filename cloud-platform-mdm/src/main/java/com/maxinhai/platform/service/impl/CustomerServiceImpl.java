@@ -35,7 +35,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Override
     public Page<CustomerVO> searchByPage(CustomerQueryDTO param) {
-        Page<CustomerVO> pageResult = customerMapper.selectJoinPage(param.getPage(), CustomerVO.class,
+        return customerMapper.selectJoinPage(param.getPage(), CustomerVO.class,
                 new MPJLambdaWrapper<Customer>()
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getName()), Customer::getName, param.getName())
@@ -44,7 +44,6 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
                         .selectAll(Customer.class)
                         // 排序
                         .orderByDesc(Customer::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -25,15 +25,14 @@ public interface RoutingService extends IService<Routing> {
 
     /**
      * 工艺路线绑定工序
-     * @param routingId
-     * @param operationIds
+     * @param routingId 工艺路线ID
+     * @param operationIds 工序ID集合
      */
     void binding(String routingId, List<String> operationIds);
 
     /**
      * 导入Excel数据
      * @param file 上传的Excel文件
-     * @return 导入结果
      */
     void importExcel(MultipartFile file);
 

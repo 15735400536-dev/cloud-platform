@@ -25,7 +25,6 @@ public interface MaterialTypeService extends IService<MaterialType> {
 
     /**
      * 获取物料类型树状结构
-     * @return
      */
     List<MaterialTypeTreeVO> getMaterialTypeTree();
 

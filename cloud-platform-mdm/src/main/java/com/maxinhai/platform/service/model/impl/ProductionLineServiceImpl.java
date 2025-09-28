@@ -33,7 +33,7 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
 
     @Override
     public Page<ProductionLineVO> searchByPage(ProductionLineQueryDTO param) {
-        Page<ProductionLineVO> pageResult = productionLineMapper.selectJoinPage(param.getPage(), ProductionLineVO.class,
+        return productionLineMapper.selectJoinPage(param.getPage(), ProductionLineVO.class,
                 new MPJLambdaWrapper<ProductionLine>()
                         .innerJoin(Workshop.class, Workshop::getId, ProductionLine::getWorkshopId)
                         // 查询条件
@@ -45,7 +45,6 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
                         .selectAs(Workshop::getName, ProductionLineVO::getWorkshopName)
                         // 排序
                         .orderByDesc(ProductionLine::getCreateTime));
-        return pageResult;
     }
 
     @Override

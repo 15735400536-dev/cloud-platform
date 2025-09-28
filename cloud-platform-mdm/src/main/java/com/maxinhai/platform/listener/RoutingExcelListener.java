@@ -44,7 +44,7 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
     private static final int BATCH_COUNT = 100;
 
     // 存储读取到的数据
-    private List<RoutingExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
+    private final List<RoutingExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
 
     /**
      * 每读取一行数据就会调用该方法
@@ -102,7 +102,7 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
                 .selectAs(Product::getName, BomBO::getProductName));
         Set<String> routingSet = routingList.stream()
                 .map(routing -> routing.getProductCode() + "_" + routing.getVersion())
-                .filter(key -> keyListMap.keySet().contains(new RoutingExcelBO.ProductVersionKey(key.split("_")[0], key.split("_")[1])))
+                .filter(key -> keyListMap.containsKey(new RoutingExcelBO.ProductVersionKey(key.split("_")[0], key.split("_")[1])))
                 .collect(Collectors.toSet());
         if (!routingSet.isEmpty()) {
             throw new BusinessException("工艺路线【" + StringUtils.collectionToDelimitedString(routingSet, ",") + "】已存在！");
@@ -120,9 +120,7 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
 
         // 保存数据
         List<RoutingOperationRel> relList = new ArrayList<>(dataList.size());
-        Iterator<Map.Entry<RoutingExcelBO.ProductVersionKey, List<RoutingExcelBO>>> iterator = keyListMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<RoutingExcelBO.ProductVersionKey, List<RoutingExcelBO>> next = iterator.next();
+        for (Map.Entry<RoutingExcelBO.ProductVersionKey, List<RoutingExcelBO>> next : keyListMap.entrySet()) {
             RoutingExcelBO.ProductVersionKey key = next.getKey();
             List<RoutingExcelBO> value = next.getValue();
             // 创建工艺路线

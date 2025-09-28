@@ -1,7 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +32,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     @Override
     public Page<ProductVO> searchByPage(ProductQueryDTO param) {
-        Page<ProductVO> pageResult = productMapper.selectJoinPage(param.getPage(), ProductVO.class,
+        return productMapper.selectJoinPage(param.getPage(), ProductVO.class,
                 new MPJLambdaWrapper<Product>()
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getCode()), Product::getCode, param.getCode())
@@ -43,7 +41,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                         .selectAll(Product.class)
                         // 排序
                         .orderByDesc(Product::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -74,14 +71,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         Product product = BeanUtil.toBean(param, Product.class);
         List<String> codeList = systemFeignClient.generateCode("product", 1).getData();
         product.setCode(codeList.get(0));
-        productMapper.insert(product);
-    }
-
-    //@PostConstruct
-    public void initData() {
-        Product product = new Product();
-        product.setCode(String.format("编码%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
-        product.setName(String.format("名称%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
         productMapper.insert(product);
     }
 }

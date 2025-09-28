@@ -1,7 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,7 +32,7 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
 
     @Override
     public Page<OperationVO> searchByPage(OperationQueryDTO param) {
-        Page<OperationVO> pageResult = operationMapper.selectJoinPage(param.getPage(), OperationVO.class,
+        return operationMapper.selectJoinPage(param.getPage(), OperationVO.class,
                 new MPJLambdaWrapper<Operation>()
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getCode()), Operation::getCode, param.getCode())
@@ -43,7 +41,6 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
                         .selectAll(Operation.class)
                         // 排序
                         .orderByDesc(Operation::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -74,14 +71,6 @@ public class OperationServiceImpl extends ServiceImpl<OperationMapper, Operation
             throw new BusinessException("工序【" + param.getCode() + "】已存在!");
         }
         Operation operation = BeanUtil.toBean(param, Operation.class);
-        operationMapper.insert(operation);
-    }
-
-    //@PostConstruct
-    public void initData() {
-        Operation operation = new Operation();
-        operation.setCode(String.format("编码%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
-        operation.setName(String.format("名称%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
         operationMapper.insert(operation);
     }
 }

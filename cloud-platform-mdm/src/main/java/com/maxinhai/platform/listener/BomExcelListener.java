@@ -99,7 +99,7 @@ public class BomExcelListener implements ReadListener<BomExcelBO> {
                 .selectAs(Product::getName, BomBO::getProductName));
         Set<String> bomSet = bomList.stream()
                 .map(bom -> bom.getProductCode() + "_" + bom.getVersion())
-                .filter(key -> keyListMap.keySet().contains(new BomExcelBO.ProductVersionKey(key.split("_")[0], key.split("_")[1])))
+                .filter(key -> keyListMap.containsKey(new BomExcelBO.ProductVersionKey(key.split("_")[0], key.split("_")[1])))
                 .collect(Collectors.toSet());
         if (!bomSet.isEmpty()) {
             throw new BusinessException("BOM【" + StringUtils.collectionToDelimitedString(bomSet, ",") + "】已存在！");
@@ -117,9 +117,7 @@ public class BomExcelListener implements ReadListener<BomExcelBO> {
 
         // 保存数据
         List<BomDetail> bomDetailList = new ArrayList<>(dataList.size());
-        Iterator<Map.Entry<BomExcelBO.ProductVersionKey, List<BomExcelBO>>> iterator = keyListMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<BomExcelBO.ProductVersionKey, List<BomExcelBO>> next = iterator.next();
+        for (Map.Entry<BomExcelBO.ProductVersionKey, List<BomExcelBO>> next : keyListMap.entrySet()) {
             BomExcelBO.ProductVersionKey key = next.getKey();
             List<BomExcelBO> value = next.getValue();
             // 创建BOM

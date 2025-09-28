@@ -29,7 +29,7 @@ public class BomDetailServiceImpl extends ServiceImpl<BomDetailMapper, BomDetail
 
     @Override
     public Page<BomDetailVO> searchByPage(BomDetailQueryDTO param) {
-        Page<BomDetailVO> pageResult = bomDetailMapper.selectJoinPage(param.getPage(), BomDetailVO.class,
+        return bomDetailMapper.selectJoinPage(param.getPage(), BomDetailVO.class,
                 new MPJLambdaWrapper<BomDetail>()
                         .innerJoin(Material.class, Material::getId, BomDetail::getMaterialId)
                         // 查询条件
@@ -41,7 +41,6 @@ public class BomDetailServiceImpl extends ServiceImpl<BomDetailMapper, BomDetail
                         .selectAs(Material::getName, BomDetailVO::getMaterialName)
                         // 排序
                         .orderByDesc(BomDetail::getCreateTime));
-        return pageResult;
     }
 
     @Override

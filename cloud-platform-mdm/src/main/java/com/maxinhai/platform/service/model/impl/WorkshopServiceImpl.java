@@ -33,7 +33,7 @@ public class WorkshopServiceImpl extends ServiceImpl<WorkshopMapper, Workshop> i
 
     @Override
     public Page<WorkshopVO> searchByPage(WorkshopQueryDTO param) {
-        Page<WorkshopVO> pageResult = workshopMapper.selectJoinPage(param.getPage(), WorkshopVO.class,
+        return workshopMapper.selectJoinPage(param.getPage(), WorkshopVO.class,
                 new MPJLambdaWrapper<Workshop>()
                         .innerJoin(Factory.class, Factory::getId, Workshop::getFactoryId)
                         // 查询条件
@@ -45,7 +45,6 @@ public class WorkshopServiceImpl extends ServiceImpl<WorkshopMapper, Workshop> i
                         .selectAs(Factory::getName, WorkshopVO::getFactoryName)
                         // 排序
                         .orderByDesc(Workshop::getCreateTime));
-        return pageResult;
     }
 
     @Override

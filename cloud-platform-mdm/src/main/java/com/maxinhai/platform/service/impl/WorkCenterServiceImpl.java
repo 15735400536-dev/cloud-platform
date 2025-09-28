@@ -1,7 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,7 +33,7 @@ public class WorkCenterServiceImpl extends ServiceImpl<WorkCenterMapper, WorkCen
 
     @Override
     public Page<WorkCenterVO> searchByPage(WorkCenterQueryDTO param) {
-        Page<WorkCenterVO> pageResult = workCenterMapper.selectJoinPage(param.getPage(), WorkCenterVO.class,
+        return workCenterMapper.selectJoinPage(param.getPage(), WorkCenterVO.class,
                 new MPJLambdaWrapper<WorkCenter>()
                         .innerJoin(Workshop.class, Workshop::getId, WorkCenter::getWorkshopId)
                         // 查询条件
@@ -47,7 +45,6 @@ public class WorkCenterServiceImpl extends ServiceImpl<WorkCenterMapper, WorkCen
                         .selectAs(Workshop::getName, WorkCenterVO::getWorkshopName)
                         // 排序
                         .orderByDesc(WorkCenter::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -82,13 +79,5 @@ public class WorkCenterServiceImpl extends ServiceImpl<WorkCenterMapper, WorkCen
         }
         WorkCenter workCenter = BeanUtil.toBean(param, WorkCenter.class);
         workCenterMapper.updateById(workCenter);
-    }
-
-    //@PostConstruct
-    public void initData() {
-        WorkCenter workCenter = new WorkCenter();
-        workCenter.setCode(String.format("编码%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
-        workCenter.setName(String.format("名称%s", DateUtil.format(new Date(), "yyyyMMddHHmmss")));
-        workCenterMapper.insert(workCenter);
     }
 }
