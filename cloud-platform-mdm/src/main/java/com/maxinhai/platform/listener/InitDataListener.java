@@ -91,7 +91,7 @@ public class InitDataListener implements CommandLineRunner {
 
     public void readJson() {
         // 读取汽车数据
-        String jsonStr = ResourceUtil.readUtf8Str("car1.json");
+        String jsonStr = ResourceUtil.readUtf8Str("car.json");
         JSONObject jsonObject = JSONUtil.parseObj(jsonStr);
         JSONArray jsonArray = jsonObject.getJSONArray("燃油车型");
         for (Object o : jsonArray) {
@@ -103,9 +103,9 @@ public class InitDataListener implements CommandLineRunner {
         }
 
         // 读取物料数据
-        jsonStr = ResourceUtil.readUtf8Str("sngz.json");
+        jsonStr = ResourceUtil.readUtf8Str("xyl.json");
         jsonObject = JSONUtil.parseObj(jsonStr);
-        JSONObject bomInfo = jsonObject.getJSONObject("水泥管桩物料清单").getJSONObject("bom_info");
+        JSONObject bomInfo = jsonObject.getJSONObject("星越L物料清单").getJSONObject("bom_info");
         MaterialType materialType = new MaterialType();
         materialType.setCode(bomInfo.getStr("适用机型"));
         materialType.setName(bomInfo.getStr("适用机型"));
@@ -113,7 +113,7 @@ public class InitDataListener implements CommandLineRunner {
         materialType.setParentId("0");
         materialTypeMapper.insert(materialType);
 
-        JSONObject mrlType = jsonObject.getJSONObject("水泥管桩物料清单").getJSONObject("物料分类");
+        JSONObject mrlType = jsonObject.getJSONObject("星越L物料清单").getJSONObject("物料分类");
         for (String key : mrlType.keySet()) {
             jsonArray = mrlType.getJSONArray(key);
             for (Object o : jsonArray) {

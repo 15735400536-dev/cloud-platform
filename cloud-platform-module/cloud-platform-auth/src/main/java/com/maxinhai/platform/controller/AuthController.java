@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -84,6 +85,9 @@ public class AuthController {
     public AjaxResult<String> login(@RequestBody LoginDTO param) {
         // 查找用户
         UserVO data = systemFeignClient.findByAccount(param.getAccount()).getData();
+        if(Objects.isNull(data)) {
+            throw new BusinessException("账号不存在");
+        }
 
         // 验证密码
         if (!passwordEncoder.matches(param.getPassword(), data.getPassword())) {

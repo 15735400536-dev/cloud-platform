@@ -1,5 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
@@ -194,6 +195,36 @@ public class SystemInfoServiceImpl implements SystemInfoService {
             });
         }
         XxlJobHelper.log("删除重复用户数据完成");
+    }
+
+    /**
+     * 获取近7天注册用户列表
+     */
+    @XxlJob("getRegisteredUserListOf7Day")
+    public void getRegisteredUserListOf7Day() {
+        Date now = new Date();
+        List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>()
+                .select(User::getId, User::getCreateTime)
+                .between(User::getCreateTime, DateUtil.offsetDay(now, -7), now)
+                .orderByAsc(User::getCreateTime));
+        Map<String, Long> userCountMap = userList.stream()
+                .filter(user -> user.getCreateTime() != null)
+                .collect(Collectors.groupingBy(
+                        user -> DateUtil.format(user.getCreateTime(), "yyyy-MM-dd"),
+                        // 用 LinkedHashMap 保留排序
+                        LinkedHashMap::new,
+                        Collectors.counting()
+                ))
+                // 按 key（日期字符串）自然排序（yyyy-MM-dd 格式支持直接排序）
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldVal, newVal) -> oldVal,
+                        LinkedHashMap::new
+                ));
+        XxlJobHelper.log("获取近7天注册用户列表:{}", userCountMap);
     }
 
     @PostConstruct

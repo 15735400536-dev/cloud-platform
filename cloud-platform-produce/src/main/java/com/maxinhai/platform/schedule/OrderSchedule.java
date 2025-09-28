@@ -52,14 +52,15 @@ public class OrderSchedule {
         param.setOrderType(1);
         param.setPlanBeginTime(new Date());
         param.setPlanEndTime(DateUtil.offsetDay(param.getPlanBeginTime(), 90));
-        param.setProductId("1954171619052109826");
-        param.setBomId("1954171628833226754");
-        param.setRoutingId("1954171628384436226");
+        param.setProductId("1971886706000953346");
+        param.setBomId("1971893744164794369");
+        param.setRoutingId("1971916261298331650");
 
         // 创建请求头对象
         HttpHeaders headers = new HttpHeaders();
         // 设置请求头（根据需要添加，例如Token、User-Agent等）
         headers.add("sa-token", "internal");
+        headers.add("Authorization", "internal");
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<OrderAddDTO> requestEntity = new HttpEntity<>(param, headers);
         AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/order/addOrder", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();

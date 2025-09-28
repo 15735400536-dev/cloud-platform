@@ -68,6 +68,8 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                         .selectAs(Bom::getName, TaskOrderVO::getBomName)
                         .selectAs(Routing::getCode, TaskOrderVO::getRoutingCode)
                         .selectAs(Routing::getName, TaskOrderVO::getRoutingName)
+                        .selectAs(Operation::getCode, TaskOrderVO::getOperationCode)
+                        .selectAs(Operation::getName, TaskOrderVO::getOperationName)
                         // 排序
                         .orderByDesc(TaskOrder::getCreateTime));
         return pageResult;
