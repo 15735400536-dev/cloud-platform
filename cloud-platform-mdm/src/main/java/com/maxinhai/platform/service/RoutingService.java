@@ -2,6 +2,7 @@ package com.maxinhai.platform.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.bo.RoutingExcelBO;
 import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
@@ -35,5 +36,11 @@ public interface RoutingService extends IService<Routing> {
      * @param file 上传的Excel文件
      */
     void importExcel(MultipartFile file);
+
+    /**
+     * 保存excel数据
+     * @param dataList excel数据
+     */
+    void saveExcelData(List<RoutingExcelBO> dataList);
 
 }

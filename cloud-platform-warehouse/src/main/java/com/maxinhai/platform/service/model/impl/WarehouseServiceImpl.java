@@ -31,14 +31,12 @@ import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -108,6 +106,70 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
         } catch (IOException e) {
             log.error("Excel数据导入失败", e);
             throw new BusinessException("Excel数据导入失败：" + e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveExcelData(List<WarehouseExcelBO> dataList) {
+        Map<String, Warehouse> warehouseMap = new HashMap<>(dataList.size());
+        Map<String, List<WarehouseArea>> wmsAreaMap = new HashMap<>(dataList.size());
+        Map<String, List<WarehouseRack>> wmsRackMap = new HashMap<>(dataList.size());
+        Map<String, List<WarehouseLocation>> wmsLocationMap = new HashMap<>(dataList.size());
+        for (WarehouseExcelBO warehouseExcelBO : dataList) {
+            // 仓库
+            if (!warehouseMap.containsKey(warehouseExcelBO.getWarehouseCode())) {
+                warehouseMap.put(warehouseExcelBO.getWarehouseCode(), Warehouse.build(warehouseExcelBO));
+            }
+            // 库区
+            List<WarehouseArea> areaList = wmsAreaMap.getOrDefault(warehouseExcelBO.getWarehouseCode(), new ArrayList<>());
+            Set<String> areaSet = areaList.stream().map(WarehouseArea::getCode).collect(Collectors.toSet());
+            if (!areaSet.contains(warehouseExcelBO.getAreaCode())) {
+                areaList.add(WarehouseArea.build(warehouseExcelBO));
+                wmsAreaMap.put(warehouseExcelBO.getWarehouseCode(), areaList);
+            }
+            // 货架
+            List<WarehouseRack> rackList = wmsRackMap.getOrDefault(warehouseExcelBO.getAreaCode(), new ArrayList<>());
+            Set<String> rackSet = rackList.stream().map(WarehouseRack::getCode).collect(Collectors.toSet());
+            if (!rackSet.contains(warehouseExcelBO.getRackCode())) {
+                rackList.add(WarehouseRack.build(warehouseExcelBO));
+                wmsRackMap.put(warehouseExcelBO.getAreaCode(), rackList);
+            }
+            // 库位
+            List<WarehouseLocation> locationList = wmsLocationMap.getOrDefault(warehouseExcelBO.getRackCode(), new ArrayList<>());
+            Set<String> locationSet = locationList.stream().map(WarehouseLocation::getCode).collect(Collectors.toSet());
+            if (!locationSet.contains(warehouseExcelBO.getLocationCode())) {
+                locationList.add(WarehouseLocation.build(warehouseExcelBO));
+                wmsLocationMap.put(warehouseExcelBO.getRackCode(), locationList);
+            }
+        }
+
+        for (Warehouse warehouse : warehouseMap.values()) {
+            // 仓库
+            warehouseMapper.insert(warehouse);
+            // 库区
+            List<WarehouseArea> areaList = wmsAreaMap.get(warehouse.getCode());
+            for (WarehouseArea area : areaList) {
+                area.setWarehouseId(warehouse.getId());
+                areaMapper.insert(area);
+
+                // 货架
+                List<WarehouseRack> rackList = wmsRackMap.get(area.getCode());
+                for (WarehouseRack rack : rackList) {
+                    rack.setWarehouseId(warehouse.getId());
+                    rack.setAreaId(area.getId());
+                    rackMapper.insert(rack);
+
+                    // 库位
+                    List<WarehouseLocation> locationList = wmsLocationMap.get(rack.getCode());
+                    for (WarehouseLocation location : locationList) {
+                        location.setWarehouseId(warehouse.getId());
+                        location.setAreaId(area.getId());
+                        location.setRackId(rack.getId());
+                        locationMapper.insert(location);
+                    }
+                }
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.maxinhai.platform.service.model;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.bo.WarehouseExcelBO;
 import com.maxinhai.platform.dto.model.WarehouseAddDTO;
 import com.maxinhai.platform.dto.model.WarehouseEditDTO;
 import com.maxinhai.platform.dto.model.WarehouseQueryDTO;
@@ -25,6 +26,12 @@ public interface WarehouseService extends IService<Warehouse> {
     void add(WarehouseAddDTO param);
 
     void importExcel(MultipartFile file);
+
+    /**
+     * 保存excel数据
+     * @param dataList excel数据
+     */
+    void saveExcelData(List<WarehouseExcelBO> dataList);
 
     List<WarehouseTreeVO> getTree();
 

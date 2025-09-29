@@ -2,23 +2,16 @@ package com.maxinhai.platform.listener;
 
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.excel.DataDictExcel;
-import com.maxinhai.platform.exception.BusinessException;
-import com.maxinhai.platform.po.DataDict;
-import com.maxinhai.platform.po.DictType;
-import com.maxinhai.platform.service.DataDictService;
 import com.maxinhai.platform.service.DictTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Excel导入监听器，用于处理读取到的Excel数据
@@ -30,14 +23,12 @@ public class DataDictExcelListener implements ReadListener<DataDictExcel> {
     @Lazy
     @Resource
     private DictTypeService dictTypeService;
-    @Resource
-    private DataDictService dataDictService;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
 
     // 存储读取到的数据
-    private List<DataDictExcel> dataList = new ArrayList<>(BATCH_COUNT);
+    private final List<DataDictExcel> dataList = new ArrayList<>(BATCH_COUNT);
 
     /**
      * 每读取一行数据就会调用该方法
@@ -70,40 +61,14 @@ public class DataDictExcelListener implements ReadListener<DataDictExcel> {
     /**
      * 保存数据到数据库
      */
-    @Transactional(rollbackFor = Exception.class)
-    public void saveData() {
+    private void saveData() {
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 没有内容不执行后面操作
         if (CollectionUtils.isEmpty(dataList)) {
             return;
         }
         // 保存数据
-        Set<String> dictTypeSet = dataList.stream().map(DataDictExcel::getDictType).collect(Collectors.toSet());
-        List<DictType> dictTypeList = dictTypeService.list(new LambdaQueryWrapper<DictType>()
-                .select(DictType::getDictType)
-                .in(DictType::getDictType, dictTypeSet));
-        if (!dictTypeList.isEmpty()) {
-            Set<String> repeatKeySet = dictTypeList.stream().map(DictType::getDictType).collect(Collectors.toSet());
-            String msg = StringUtils.collectionToDelimitedString(repeatKeySet, ",");
-            throw new BusinessException("字典类型【" + msg + "】已存在！");
-        }
-
-        Map<String, DictType> dictTypeMap = new HashMap<>();
-        List<DataDict> dataDictList = new ArrayList<>();
-        for (DataDictExcel dataDictExcel : dataList) {
-            // 构建字典类型
-            if (!dictTypeMap.containsKey(dataDictExcel.getDictType())) {
-                DictType type = DataDictExcel.buildDictType(dataDictExcel);
-                dictTypeMap.put(dataDictExcel.getDictKey(), type);
-            }
-
-            // 构建数据字典
-            DataDict dataDict = DataDictExcel.buildDataDict(dataDictExcel);
-            dataDictList.add(dataDict);
-        }
-
-        dictTypeService.saveBatch(dictTypeMap.values());
-        dataDictService.saveBatch(dataDictList);
+        dictTypeService.saveExcelData(dataList);
         log.info("数据保存完成！");
     }
 

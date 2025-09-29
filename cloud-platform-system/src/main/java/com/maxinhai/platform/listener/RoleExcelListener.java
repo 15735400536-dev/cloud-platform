@@ -11,7 +11,6 @@ import com.maxinhai.platform.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -38,7 +37,7 @@ public class RoleExcelListener implements ReadListener<RoleExcel> {
     private static final int BATCH_COUNT = 100;
 
     // 存储读取到的数据
-    private List<RoleExcel> dataList = new ArrayList<>(BATCH_COUNT);
+    private final List<RoleExcel> dataList = new ArrayList<>(BATCH_COUNT);
 
     /**
      * 每读取一行数据就会调用该方法
@@ -71,8 +70,7 @@ public class RoleExcelListener implements ReadListener<RoleExcel> {
     /**
      * 保存数据到数据库
      */
-    @Transactional(rollbackFor = Exception.class)
-    public void saveData() {
+    private void saveData() {
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 没有内容不执行后面操作
         if (CollectionUtils.isEmpty(dataList)) {

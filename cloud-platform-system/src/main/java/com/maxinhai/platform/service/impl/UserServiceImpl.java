@@ -27,14 +27,13 @@ import com.maxinhai.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -56,12 +55,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public Page<UserVO> searchByPage(UserQueryDTO param) {
-        Page<UserVO> pageResult = userMapper.selectJoinPage(param.getPage(), UserVO.class,
+        return userMapper.selectJoinPage(param.getPage(), UserVO.class,
                 new MPJLambdaWrapper<User>()
                         .like(StrUtil.isNotBlank(param.getAccount()), User::getAccount, param.getAccount())
                         .like(StrUtil.isNotBlank(param.getUsername()), User::getUsername, param.getUsername())
                         .orderByDesc(User::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -118,7 +116,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public List<RoleVO> getRoles(String userId) {
-        List<RoleVO> roleList = userRoleRelMapper.selectJoinList(RoleVO.class, new MPJLambdaWrapper<UserRoleRel>()
+        return userRoleRelMapper.selectJoinList(RoleVO.class, new MPJLambdaWrapper<UserRoleRel>()
                 .innerJoin(User.class, User::getId, UserRoleRel::getUserId)
                 .innerJoin(Role.class, Role::getId, UserRoleRel::getRoleId)
                 // 查询条件
@@ -128,7 +126,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 .selectAs(Role::getRoleKey, RoleVO::getRoleKey)
                 .selectAs(Role::getRoleName, RoleVO::getRoleName)
                 .selectAs(Role::getRoleDesc, RoleVO::getRoleDesc));
-        return roleList;
     }
 
     @Override
@@ -142,5 +139,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             log.error("Excel数据导入失败", e);
             throw new BusinessException("Excel数据导入失败：" + e.getMessage());
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveExcelData(List<UserExcel> dataList) {
+        Set<String> accountSet = dataList.stream().map(UserExcel::getAccount).collect(Collectors.toSet());
+        List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>()
+                .in(User::getAccount, accountSet));
+        if (!userList.isEmpty()) {
+            Set<String> repeatAccountSet = userList.stream().map(User::getAccount).collect(Collectors.toSet());
+            String msg = StringUtils.collectionToDelimitedString(repeatAccountSet, ",");
+            throw new BusinessException("账号【" + msg + "】已存在！");
+        }
+
+        Role role = roleMapper.selectOne(new LambdaQueryWrapper<Role>()
+                .select(Role::getId, Role::getRoleKey, Role::getRoleName)
+                .eq(Role::getRoleKey, "USER"));
+        if (Objects.isNull(role)) {
+            throw new BusinessException("未找到【普通用户】角色!");
+        }
+
+        List<UserRoleRel> relList = new ArrayList<>(dataList.size());
+        for (UserExcel userExcel : dataList) {
+            // 保存用户
+            User user = UserExcel.build(userExcel);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userMapper.insert(user);
+
+            // 关联用户角色
+            UserRoleRel userRoleRel = new UserRoleRel(user.getId(), role.getId());
+            relList.add(userRoleRel);
+        }
+        userRoleRelService.saveBatch(relList);
     }
 }

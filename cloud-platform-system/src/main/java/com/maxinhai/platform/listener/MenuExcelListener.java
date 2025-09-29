@@ -8,7 +8,6 @@ import com.maxinhai.platform.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -63,8 +62,7 @@ public class MenuExcelListener implements ReadListener<MenuExcel> {
     /**
      * 保存数据到数据库
      */
-    @Transactional(rollbackFor = Exception.class)
-    public void saveData() {
+    private void saveData() {
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 没有内容不执行后面操作
         if (CollectionUtils.isEmpty(dataList)) {

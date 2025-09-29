@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
 import com.maxinhai.platform.dto.UserRoleDTO;
+import com.maxinhai.platform.excel.UserExcel;
 import com.maxinhai.platform.po.User;
 import com.maxinhai.platform.vo.RoleVO;
 import com.maxinhai.platform.vo.UserVO;
@@ -35,5 +36,11 @@ public interface UserService extends IService<User> {
     List<RoleVO> getRoles(String userId);
 
     void importExcel(MultipartFile file);
+
+    /**
+     * 保存excel数据
+     * @param dataList excel数据
+     */
+    void saveExcelData(List<UserExcel> dataList);
 
 }
