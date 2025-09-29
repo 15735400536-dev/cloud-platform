@@ -40,12 +40,11 @@ public class CustomSqlServiceImpl extends ServiceImpl<CustomSqlMapper, CustomSql
 
     @Override
     public Page<CustomSqlVO> searchByPage(CustomSqlQueryDTO param) {
-        Page<CustomSqlVO> pageResult = sqlMapper.selectJoinPage(param.getPage(), CustomSqlVO.class,
+        return sqlMapper.selectJoinPage(param.getPage(), CustomSqlVO.class,
                 new MPJLambdaWrapper<CustomSql>()
                         .like(StrUtil.isNotBlank(param.getSql()), CustomSql::getSql, param.getSql())
                         .eq(StrUtil.isNotBlank(param.getDataSourceId()), CustomSql::getDataSourceId, param.getDataSourceId())
                         .orderByDesc(CustomSql::getCreateTime));
-        return pageResult;
     }
 
     @Override

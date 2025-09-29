@@ -56,7 +56,7 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
 
     @Override
     public Page<CheckOrderVO> searchByPage(CheckOrderQueryDTO param) {
-        Page<CheckOrderVO> pageResult = checkOrderMapper.selectJoinPage(param.getPage(), CheckOrderVO.class,
+        return checkOrderMapper.selectJoinPage(param.getPage(), CheckOrderVO.class,
                 new MPJLambdaWrapper<CheckOrder>()
                         .innerJoin(Product.class, Product::getId, CheckOrder::getProductId)
                         // 查询条件
@@ -67,7 +67,6 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                         .selectAs(Product::getName, CheckOrderVO::getProductName)
                         // 排序
                         .orderByDesc(CheckOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override

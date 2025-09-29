@@ -37,12 +37,11 @@ public class CodeRuleServiceImpl extends ServiceImpl<CodeRuleMapper, CodeRule> i
 
     @Override
     public Page<CodeRuleVO> searchByPage(CodeRuleQueryDTO param) {
-        Page<CodeRuleVO> pageResult = codeRuleMapper.selectJoinPage(param.getPage(), CodeRuleVO.class,
+        return codeRuleMapper.selectJoinPage(param.getPage(), CodeRuleVO.class,
                 new MPJLambdaWrapper<CodeRule>()
                         .like(StrUtil.isNotBlank(param.getRuleCode()), CodeRule::getRuleCode, param.getRuleCode())
                         .like(StrUtil.isNotBlank(param.getRuleName()), CodeRule::getRuleName, param.getRuleName())
                         .orderByDesc(CodeRule::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -102,10 +101,9 @@ public class CodeRuleServiceImpl extends ServiceImpl<CodeRuleMapper, CodeRule> i
         for (int i = 0; i < batchSize; i++) {
             long newCurrentSequence = codeRule.getCurrentSequence() + 1;
             // 前缀 + 日期 + 递增序列号
-            String newCode = new StringBuffer(codeRule.getPrefix())
-                    .append(codeRule.getDateFlag() ? DateUtil.format(new Date(), codeRule.getDateFormat()) : "")
-                    .append(padWithZeros(newCurrentSequence, codeRule.getSequenceLength()))
-                    .toString();
+            String newCode = codeRule.getPrefix() +
+                    (codeRule.getDateFlag() ? DateUtil.format(new Date(), codeRule.getDateFormat()) : "") +
+                    padWithZeros(newCurrentSequence, codeRule.getSequenceLength());
             codeList.add(newCode);
 
             // 更新当前序列号

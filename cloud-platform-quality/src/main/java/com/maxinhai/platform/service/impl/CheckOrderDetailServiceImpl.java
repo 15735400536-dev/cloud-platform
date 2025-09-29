@@ -9,7 +9,6 @@ import com.maxinhai.platform.dto.CheckOrderDetailAddDTO;
 import com.maxinhai.platform.dto.CheckOrderDetailEditDTO;
 import com.maxinhai.platform.dto.CheckOrderDetailQueryDTO;
 import com.maxinhai.platform.enums.CheckStatus;
-import com.maxinhai.platform.enums.ControlType;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.CheckOrderDetailMapper;
 import com.maxinhai.platform.po.CheckOrderDetail;
@@ -23,7 +22,6 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,11 +33,10 @@ public class CheckOrderDetailServiceImpl extends ServiceImpl<CheckOrderDetailMap
 
     @Override
     public Page<CheckOrderDetailVO> searchByPage(CheckOrderDetailQueryDTO param) {
-        Page<CheckOrderDetailVO> pageResult = checkOrderDetailMapper.selectJoinPage(param.getPage(), CheckOrderDetailVO.class,
+        return checkOrderDetailMapper.selectJoinPage(param.getPage(), CheckOrderDetailVO.class,
                 new MPJLambdaWrapper<CheckOrderDetail>()
                         .eq(StrUtil.isNotBlank(param.getCheckOrderId()), CheckOrderDetail::getCheckOrderId, param.getCheckOrderId())
                         .orderByDesc(CheckOrderDetail::getCreateTime));
-        return pageResult;
     }
 
     @Override

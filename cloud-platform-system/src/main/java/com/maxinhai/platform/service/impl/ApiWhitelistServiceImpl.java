@@ -35,11 +35,10 @@ public class ApiWhitelistServiceImpl extends ServiceImpl<ApiWhitelistMapper, Api
 
     @Override
     public Page<ApiWhitelistVO> searchByPage(ApiWhitelistQueryDTO param) {
-        Page<ApiWhitelistVO> pageResult = apiWhitelistMapper.selectJoinPage(param.getPage(), ApiWhitelistVO.class,
+        return apiWhitelistMapper.selectJoinPage(param.getPage(), ApiWhitelistVO.class,
                 new MPJLambdaWrapper<ApiWhitelist>()
                         .like(StrUtil.isNotBlank(param.getServiceId()), ApiWhitelist::getServiceId, param.getServiceId())
                         .orderByDesc(ApiWhitelist::getCreateTime));
-        return pageResult;
     }
 
     @Override

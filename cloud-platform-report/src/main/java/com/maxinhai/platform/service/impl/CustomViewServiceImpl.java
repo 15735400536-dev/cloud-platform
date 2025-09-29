@@ -35,13 +35,12 @@ public class CustomViewServiceImpl extends ServiceImpl<CustomViewMapper, CustomV
 
     @Override
     public Page<CustomViewVO> searchByPage(CustomViewQueryDTO param) {
-        Page<CustomViewVO> pageResult = viewMapper.selectJoinPage(param.getPage(), CustomViewVO.class,
+        return viewMapper.selectJoinPage(param.getPage(), CustomViewVO.class,
                 new MPJLambdaWrapper<CustomView>()
                         .like(StrUtil.isNotBlank(param.getKey()), CustomView::getKey, param.getKey())
                         .like(StrUtil.isNotBlank(param.getTitle()), CustomView::getTitle, param.getTitle())
                         .like(Objects.nonNull(param.getType()), CustomView::getType, param.getType())
                         .orderByDesc(CustomView::getCreateTime));
-        return pageResult;
     }
 
     @Override

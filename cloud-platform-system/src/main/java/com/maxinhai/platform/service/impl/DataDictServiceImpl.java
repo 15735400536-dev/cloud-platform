@@ -28,11 +28,10 @@ public class DataDictServiceImpl extends ServiceImpl<DataDictMapper, DataDict> i
 
     @Override
     public Page<DataDictVO> searchByPage(DataDictQueryDTO param) {
-        Page<DataDictVO> pageResult = dataDictMapper.selectJoinPage(param.getPage(), DataDictVO.class,
+        return dataDictMapper.selectJoinPage(param.getPage(), DataDictVO.class,
                 new MPJLambdaWrapper<DataDict>()
                         .like(StrUtil.isNotBlank(param.getDictType()), DataDict::getDictType, param.getDictType())
                         .orderByDesc(DataDict::getCreateTime));
-        return pageResult;
     }
 
     @Override

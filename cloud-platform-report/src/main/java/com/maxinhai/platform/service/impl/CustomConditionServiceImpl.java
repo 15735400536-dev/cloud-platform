@@ -35,11 +35,10 @@ public class CustomConditionServiceImpl extends ServiceImpl<CustomConditionMappe
 
     @Override
     public Page<CustomConditionVO> searchByPage(CustomConditionQueryDTO param) {
-        Page<CustomConditionVO> pageResult = conditionMapper.selectJoinPage(param.getPage(), CustomConditionVO.class,
+        return conditionMapper.selectJoinPage(param.getPage(), CustomConditionVO.class,
                 new MPJLambdaWrapper<CustomCondition>()
                         .like(StrUtil.isNotBlank(param.getField()), CustomCondition::getField, param.getField())
                         .orderByDesc(CustomCondition::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -32,12 +32,11 @@ public class UploadFileServiceImpl extends ServiceImpl<UploadFileMapper, UploadF
 
     @Override
     public Page<UploadFileVO> searchByPage(UploadFileQueryDTO param) {
-        Page<UploadFileVO> pageResult = uploadFileMapper.selectJoinPage(param.getPage(), UploadFileVO.class,
+        return uploadFileMapper.selectJoinPage(param.getPage(), UploadFileVO.class,
                 new MPJLambdaWrapper<UploadFile>()
                         .like(StrUtil.isNotBlank(param.getFileName()), UploadFile::getFileName, param.getFileName())
                         .like(StrUtil.isNotBlank(param.getFileType()), UploadFile::getFileType, param.getFileType())
                         .orderByDesc(UploadFile::getCreateTime));
-        return pageResult;
     }
 
     @Override

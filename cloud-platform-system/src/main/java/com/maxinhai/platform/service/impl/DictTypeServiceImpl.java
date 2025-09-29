@@ -43,13 +43,12 @@ public class DictTypeServiceImpl extends ServiceImpl<DictTypeMapper, DictType> i
 
     @Override
     public Page<DictTypeVO> searchByPage(DictTypeQueryDTO param) {
-        Page<DictTypeVO> pageResult = dictTypeMapper.selectJoinPage(param.getPage(), DictTypeVO.class,
+        return dictTypeMapper.selectJoinPage(param.getPage(), DictTypeVO.class,
                 new MPJLambdaWrapper<DictType>()
                         .like(StrUtil.isNotBlank(param.getDictType()), DictType::getDictType, param.getDictType())
                         .like(StrUtil.isNotBlank(param.getDictLabel()), DictType::getDictLabel, param.getDictLabel())
                         .eq(Objects.nonNull(param.getStatus()), DictType::getStatus, param.getStatus())
                         .orderByDesc(DictType::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -49,12 +49,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public Page<RoleVO> searchByPage(RoleQueryDTO param) {
-        Page<RoleVO> pageResult = roleMapper.selectJoinPage(param.getPage(), RoleVO.class,
+        return roleMapper.selectJoinPage(param.getPage(), RoleVO.class,
                 new MPJLambdaWrapper<Role>()
                         .like(StrUtil.isNotBlank(param.getRoleKey()), Role::getRoleKey, param.getRoleKey())
                         .like(StrUtil.isNotBlank(param.getRoleName()), Role::getRoleName, param.getRoleName())
                         .orderByDesc(Role::getCreateTime));
-        return pageResult;
     }
 
     @Override

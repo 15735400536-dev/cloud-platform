@@ -36,12 +36,11 @@ public class CustomDataSourceServiceImpl extends ServiceImpl<CustomDataSourceMap
 
     @Override
     public Page<CustomDataSourceVO> searchByPage(CustomDataSourceQueryDTO param) {
-        Page<CustomDataSourceVO> pageResult = dataSourceMapper.selectJoinPage(param.getPage(), CustomDataSourceVO.class,
+        return dataSourceMapper.selectJoinPage(param.getPage(), CustomDataSourceVO.class,
                 new MPJLambdaWrapper<CustomDataSource>()
                         .like(StrUtil.isNotBlank(param.getKey()), CustomDataSource::getKey, param.getKey())
                         .like(Objects.nonNull(param.getType()), CustomDataSource::getType, param.getType())
                         .orderByDesc(CustomDataSource::getCreateTime));
-        return pageResult;
     }
 
     @Override

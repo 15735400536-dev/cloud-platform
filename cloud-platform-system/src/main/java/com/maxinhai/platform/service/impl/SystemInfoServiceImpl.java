@@ -163,7 +163,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
                 userMapper.insert(user);
                 listHandler.rightPush("list:user", JSONUtil.toJsonStr(user));
 
-                Map param = Maps.newHashMap();
+                Map<String, Object> param = Maps.newHashMap();
                 param.put("userId", id_str);
                 param.put("nickname", nickname);
                 listHandler.rightPush("list:news", JSONUtil.toJsonStr(param));

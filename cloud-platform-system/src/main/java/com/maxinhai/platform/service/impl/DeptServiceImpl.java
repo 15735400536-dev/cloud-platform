@@ -47,7 +47,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
 
     @Override
     public Page<DeptVO> searchByPage(DeptQueryDTO param) {
-        Page<DeptVO> pageResult = deptMapper.selectJoinPage(param.getPage(), DeptVO.class,
+        return deptMapper.selectJoinPage(param.getPage(), DeptVO.class,
                 new MPJLambdaWrapper<Dept>()
                         .innerJoin(User.class, User::getId, Dept::getLeaderId)
                         .like(StrUtil.isNotBlank(param.getCode()), Dept::getCode, param.getCode())
@@ -55,7 +55,6 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements De
                         .selectAll(Dept.class)
                         .selectAs(User::getUsername, DeptVO::getLeaderName)
                         .orderByDesc(Dept::getCreateTime));
-        return pageResult;
     }
 
     @Override

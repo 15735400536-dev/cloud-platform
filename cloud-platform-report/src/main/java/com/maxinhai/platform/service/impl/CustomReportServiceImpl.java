@@ -54,12 +54,11 @@ public class CustomReportServiceImpl extends ServiceImpl<CustomReportMapper, Cus
 
     @Override
     public Page<CustomReportVO> searchByPage(CustomReportQueryDTO param) {
-        Page<CustomReportVO> pageResult = reportMapper.selectJoinPage(param.getPage(), CustomReportVO.class,
+        return reportMapper.selectJoinPage(param.getPage(), CustomReportVO.class,
                 new MPJLambdaWrapper<CustomReport>()
                         .like(StrUtil.isNotBlank(param.getKey()), CustomReport::getKey, param.getKey())
                         .like(StrUtil.isNotBlank(param.getTitle()), CustomReport::getTitle, param.getTitle())
                         .orderByDesc(CustomReport::getCreateTime));
-        return pageResult;
     }
 
     @Override

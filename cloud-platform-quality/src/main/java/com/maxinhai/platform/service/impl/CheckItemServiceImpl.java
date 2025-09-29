@@ -33,7 +33,7 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
 
     @Override
     public Page<CheckItemVO> searchByPage(CheckItemQueryDTO param) {
-        Page<CheckItemVO> pageResult = checkItemMapper.selectJoinPage(param.getPage(), CheckItemVO.class,
+        return checkItemMapper.selectJoinPage(param.getPage(), CheckItemVO.class,
                 new MPJLambdaWrapper<CheckItem>()
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getItemCode()), CheckItem::getItemCode, param.getItemCode())
@@ -41,7 +41,6 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
                         .like(Objects.nonNull(param.getControlType()), CheckItem::getControlType, param.getControlType())
                         // 排序
                         .orderByDesc(CheckItem::getCreateTime));
-        return pageResult;
     }
 
     @Override
