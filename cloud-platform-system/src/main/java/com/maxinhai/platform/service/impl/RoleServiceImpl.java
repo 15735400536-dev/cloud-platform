@@ -15,15 +15,16 @@ import com.maxinhai.platform.excel.RoleExcel;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.listener.RoleExcelListener;
 import com.maxinhai.platform.mapper.RoleMapper;
-import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.po.RoleMenuRel;
-import com.maxinhai.platform.mapper.RoleMapper;
 import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.RoleMenuRelService;
 import com.maxinhai.platform.service.RoleService;
 import com.maxinhai.platform.vo.RoleVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,29 +58,41 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
+    @Cacheable(value = "role", key = "#id", unless = "#result == null") // 根据ID查询用户（缓存：查缓存→无则查库→存缓存）
     public RoleVO getInfo(String id) {
         return roleMapper.selectJoinOne(RoleVO.class, new MPJLambdaWrapper<Role>().eq(Role::getId, id));
     }
 
     @Override
+    @CacheEvict(value = "role", allEntries = true) // 批量删除用户，清除"user"缓存下的所有数据
     public void remove(String[] ids) {
         roleMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
     }
 
     @Override
-    public void edit(RoleEditDTO param) {
-        Role user = BeanUtil.toBean(param, Role.class);
-        roleMapper.updateById(user);
+    @CachePut(value = "role", key = "#param.id") // 更新用户（缓存：更新后覆盖旧缓存）
+    public Role edit(RoleEditDTO param) {
+        Role role = BeanUtil.toBean(param, Role.class);
+        roleMapper.updateById(role);
+        return role;
     }
 
     @Override
-    public void add(RoleAddDTO param) {
+    @CachePut(value = "role", key = "#result.id") // 新增用户（缓存：新增后将结果存入缓存）
+    public Role add(RoleAddDTO param) {
         boolean unique = commonCodeCheckService.isCodeUnique(Role.class, Role::getRoleKey, param.getRoleKey());
         if (unique) {
             throw new BusinessException("角色【" + param.getRoleKey() + "】已存在!");
         }
-        Role user = BeanUtil.toBean(param, Role.class);
-        roleMapper.insert(user);
+        Role role = BeanUtil.toBean(param, Role.class);
+        roleMapper.insert(role);
+        return role;
+    }
+
+    @Override
+    @Cacheable(value = "role", key = "'all'") // 查询所有用户（缓存：key固定为"all"）
+    public List<Role> getRoleList() {
+        return this.list();
     }
 
     @Override
