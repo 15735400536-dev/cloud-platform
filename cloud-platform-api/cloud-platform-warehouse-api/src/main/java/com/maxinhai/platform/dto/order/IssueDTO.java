@@ -7,9 +7,9 @@ import lombok.Data;
  * @ClassName：IssueDTO
  * @Author: XinHai.Ma
  * @Date: 2025/8/20 19:45
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 入库DTO
  */
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "入库DTO")
 public class IssueDTO {
 }

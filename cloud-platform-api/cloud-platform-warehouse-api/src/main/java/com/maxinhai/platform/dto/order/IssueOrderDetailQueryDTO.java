@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "入库单明细分页查询DTO")
 public class IssueOrderDetailQueryDTO extends PageSearch<IssueOrderDetailVO> {
 
     /**

@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "库区分页查询DTO")
 public class WarehouseAreaQueryDTO extends PageSearch<WarehouseAreaVO> {
 
     @ApiModelProperty(value = "编码")

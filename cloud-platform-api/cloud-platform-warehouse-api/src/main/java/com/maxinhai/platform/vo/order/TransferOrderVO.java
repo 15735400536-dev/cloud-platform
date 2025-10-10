@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "移库单VO")
 public class TransferOrderVO {
 
     @ApiModelProperty(value = "主键ID")

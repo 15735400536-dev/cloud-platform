@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "移库单明细新增DTO")
 public class TransferOrderDetailAddDTO {
 
     /**

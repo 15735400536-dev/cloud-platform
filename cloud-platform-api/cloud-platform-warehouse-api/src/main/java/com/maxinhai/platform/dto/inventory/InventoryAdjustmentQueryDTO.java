@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "调整单分页查询DTO")
 public class InventoryAdjustmentQueryDTO extends PageSearch<InventoryAdjustmentVO> {
 
     /**

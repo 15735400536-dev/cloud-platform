@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "出库单明细VO")
 public class IssueOrderDetailVO {
 
     @ApiModelProperty(value = "主键ID")

@@ -10,10 +10,10 @@ import lombok.Data;
  * @ClassName：InventoryFlowQueryDTO
  * @Author: XinHai.Ma
  * @Date: 2025/8/21 9:55
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 库存流水分页查询DTO
  */
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "库存流水分页查询DTO")
 public class InventoryFlowQueryDTO extends PageSearch<InventoryFlowVO> {
 
     /**

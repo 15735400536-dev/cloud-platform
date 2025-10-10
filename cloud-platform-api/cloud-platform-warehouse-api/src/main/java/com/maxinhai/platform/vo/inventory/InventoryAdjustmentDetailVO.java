@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "调整单明细VO")
 public class InventoryAdjustmentDetailVO {
 
     @ApiModelProperty(value = "主键ID")

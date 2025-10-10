@@ -13,10 +13,10 @@ import java.util.Date;
  * @ClassName：InventoryFlowVO
  * @Author: XinHai.Ma
  * @Date: 2025/8/21 9:54
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 库存流水VO
  */
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "库存流水VO")
 public class InventoryFlowVO {
 
     @ApiModelProperty(value = "主键ID")

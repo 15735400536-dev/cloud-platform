@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "移库单编辑DTO")
 public class TransferOrderEditDTO {
 
     @ApiModelProperty(value = "主键ID")

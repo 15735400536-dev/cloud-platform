@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "DTO")
+@ApiModel(description = "出库单明细新增DTO")
 public class ReceiptOrderDetailAddDTO {
 
     /**
