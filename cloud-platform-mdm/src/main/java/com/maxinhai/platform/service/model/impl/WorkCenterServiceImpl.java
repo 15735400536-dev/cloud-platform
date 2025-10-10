@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service.impl;
+package com.maxinhai.platform.service.model.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -13,7 +13,7 @@ import com.maxinhai.platform.mapper.WorkCenterMapper;
 import com.maxinhai.platform.po.model.WorkCenter;
 import com.maxinhai.platform.po.model.Workshop;
 import com.maxinhai.platform.service.CommonCodeCheckService;
-import com.maxinhai.platform.service.WorkCenterService;
+import com.maxinhai.platform.service.model.WorkCenterService;
 import com.maxinhai.platform.vo.WorkCenterVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

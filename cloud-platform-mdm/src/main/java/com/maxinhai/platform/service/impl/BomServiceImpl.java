@@ -84,7 +84,11 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
 
     @Override
     public void remove(String[] ids) {
-        bomMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        List<String> collect = Arrays.stream(ids).collect(Collectors.toList());
+        // 删除BOM
+        bomMapper.deleteBatchIds(collect);
+        // 删除BOM明细
+        bomDetailService.remove(new LambdaQueryWrapper<BomDetail>().in(BomDetail::getBomId, collect));
     }
 
     @Override

@@ -1,10 +1,9 @@
-package com.maxinhai.platform.controller;
+package com.maxinhai.platform.controller.model;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.WorkCenterAddDTO;
 import com.maxinhai.platform.dto.WorkCenterEditDTO;
 import com.maxinhai.platform.dto.WorkCenterQueryDTO;
-import com.maxinhai.platform.service.WorkCenterService;
+import com.maxinhai.platform.service.model.WorkCenterService;
 import com.maxinhai.platform.vo.WorkCenterVO;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;

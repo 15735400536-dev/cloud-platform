@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service;
+package com.maxinhai.platform.service.model;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

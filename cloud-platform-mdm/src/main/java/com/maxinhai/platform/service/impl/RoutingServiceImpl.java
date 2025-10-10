@@ -89,7 +89,11 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
 
     @Override
     public void remove(String[] ids) {
-        routingMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        List<String> collect = Arrays.stream(ids).collect(Collectors.toList());
+        // 删除工艺路线
+        routingMapper.deleteBatchIds(collect);
+        // 删除工艺路线明细
+        relMapper.delete(new LambdaQueryWrapper<RoutingOperationRel>().in(RoutingOperationRel::getRoutingId, collect));
     }
 
     @Override

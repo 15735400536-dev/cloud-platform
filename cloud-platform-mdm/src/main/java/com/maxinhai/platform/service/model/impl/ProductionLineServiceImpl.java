@@ -49,7 +49,15 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
 
     @Override
     public ProductionLineVO getInfo(String id) {
-        return null;
+        return productionLineMapper.selectJoinOne(ProductionLineVO.class,
+                new MPJLambdaWrapper<ProductionLine>()
+                        .innerJoin(Workshop.class, Workshop::getId, ProductionLine::getWorkshopId)
+                        // 查询条件
+                        .eq(ProductionLine::getId, id)
+                        // 字段别名
+                        .selectAll(ProductionLine.class)
+                        .selectAs(Workshop::getCode, ProductionLineVO::getWorkshopCode)
+                        .selectAs(Workshop::getName, ProductionLineVO::getWorkshopName));
     }
 
     @Override
