@@ -22,7 +22,8 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Service
-public class RepairTaskServiceImpl extends ServiceImpl<RepairTaskMapper, RepairTask> implements RepairTaskService {
+public class RepairTaskServiceImpl extends ServiceImpl<RepairTaskMapper, RepairTask>
+        implements RepairTaskService {
     @Resource
     private RepairTaskMapper repairTaskMapper;
 

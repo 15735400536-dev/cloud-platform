@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class MaintenanceConfigServiceImpl extends ServiceImpl<MaintenanceConfigMapper, MaintenanceConfig> implements MaintenanceConfigService {
+public class MaintenanceConfigServiceImpl extends ServiceImpl<MaintenanceConfigMapper, MaintenanceConfig>
+        implements MaintenanceConfigService {
     
     @Resource
     private MaintenanceConfigMapper maintenanceConfigMapper;
