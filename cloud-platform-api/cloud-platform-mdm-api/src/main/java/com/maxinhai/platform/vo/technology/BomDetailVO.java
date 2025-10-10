@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "物料BOM明细VO")
 public class BomDetailVO {
 
     @ApiModelProperty(value = "物料清单ID")

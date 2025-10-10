@@ -1,6 +1,6 @@
 package com.maxinhai.platform.dto;
 
-import com.maxinhai.platform.vo.WorkCenterVO;
+import com.maxinhai.platform.vo.model.WorkCenterVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

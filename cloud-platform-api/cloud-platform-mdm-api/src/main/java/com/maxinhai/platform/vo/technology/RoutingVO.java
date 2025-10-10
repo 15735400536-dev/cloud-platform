@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "数据字典新增DTO")
+@ApiModel(description = "工艺路线VO")
 public class RoutingVO {
 
     @ApiModelProperty(value = "主键ID")

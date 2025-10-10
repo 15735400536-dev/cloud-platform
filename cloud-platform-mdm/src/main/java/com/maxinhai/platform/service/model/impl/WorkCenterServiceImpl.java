@@ -14,7 +14,7 @@ import com.maxinhai.platform.po.model.WorkCenter;
 import com.maxinhai.platform.po.model.Workshop;
 import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.model.WorkCenterService;
-import com.maxinhai.platform.vo.WorkCenterVO;
+import com.maxinhai.platform.vo.model.WorkCenterVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

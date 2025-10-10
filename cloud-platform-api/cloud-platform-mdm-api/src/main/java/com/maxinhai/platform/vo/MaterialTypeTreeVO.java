@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel(description = "物料类型VO")
+@ApiModel(description = "物料类型树状结构VO")
 public class MaterialTypeTreeVO implements INode {
 
     @ApiModelProperty(value = "主键ID")

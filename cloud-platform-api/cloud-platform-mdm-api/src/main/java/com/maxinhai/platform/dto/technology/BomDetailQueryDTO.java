@@ -5,9 +5,11 @@ import com.maxinhai.platform.vo.technology.BomDetailVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@ApiModel(description = "DDTO")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "物料BOM明细分页查询DTO")
 public class BomDetailQueryDTO extends PageSearch<BomDetailVO> {
 
     @ApiModelProperty(value = "物料清单ID")

@@ -6,7 +6,7 @@ import com.maxinhai.platform.dto.WorkCenterAddDTO;
 import com.maxinhai.platform.dto.WorkCenterEditDTO;
 import com.maxinhai.platform.dto.WorkCenterQueryDTO;
 import com.maxinhai.platform.po.model.WorkCenter;
-import com.maxinhai.platform.vo.WorkCenterVO;
+import com.maxinhai.platform.vo.model.WorkCenterVO;
 
 public interface WorkCenterService extends IService<WorkCenter> {
 

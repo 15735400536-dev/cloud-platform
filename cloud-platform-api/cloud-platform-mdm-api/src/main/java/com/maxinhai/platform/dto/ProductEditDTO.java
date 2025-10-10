@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "数据字典新增DTO")
+@ApiModel(description = "产品编辑DTO")
 public class ProductEditDTO {
 
     @ApiModelProperty(value = "主键ID")

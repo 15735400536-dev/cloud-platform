@@ -7,7 +7,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel(description = "数据字典新增DTO")
+@ApiModel(description = "标准工序新增DTO")
 public class OperationAddDTO {
 
     /**

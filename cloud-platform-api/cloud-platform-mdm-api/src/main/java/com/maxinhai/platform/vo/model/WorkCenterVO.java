@@ -1,11 +1,11 @@
-package com.maxinhai.platform.vo;
+package com.maxinhai.platform.vo.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "数据字典新增VO")
+@ApiModel(description = "加工中心VO")
 public class WorkCenterVO {
 
     @ApiModelProperty(value = "主键ID")
