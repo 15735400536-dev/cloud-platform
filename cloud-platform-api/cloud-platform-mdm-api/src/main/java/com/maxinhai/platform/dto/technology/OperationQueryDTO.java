@@ -5,8 +5,10 @@ import com.maxinhai.platform.vo.technology.OperationVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "标准工序分页查询DTO")
 public class OperationQueryDTO extends PageSearch<OperationVO> {
 

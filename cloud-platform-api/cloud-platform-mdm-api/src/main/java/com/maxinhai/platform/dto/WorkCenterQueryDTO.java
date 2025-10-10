@@ -4,8 +4,10 @@ import com.maxinhai.platform.vo.model.WorkCenterVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "加工中心分页查询DTO")
 public class WorkCenterQueryDTO extends PageSearch<WorkCenterVO> {
 
