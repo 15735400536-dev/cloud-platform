@@ -33,7 +33,7 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
     private static final int BATCH_COUNT = 100;
 
     // 存储读取到的数据
-    private List<MaterialExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
+    private final List<MaterialExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
 
     /**
      * 每读取一行数据就会调用该方法
@@ -58,6 +58,8 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
     public void doAfterAllAnalysed(AnalysisContext context) {
         // 这里也要保存数据，确保最后遗留的数据也被存储
         saveData();
+        // 存储完成清理 list
+        dataList.clear();
         log.info("所有数据解析完成！");
     }
 
@@ -65,11 +67,15 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
      * 保存数据到数据库
      */
     private void saveData() {
+        // 没有内容不执行后面操作
+        if (CollectionUtils.isEmpty(dataList)) {
+            return;
+        }
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 实际项目中这里会调用Service层将数据保存到数据库
         List<String> materialCodeList = dataList.stream().map(MaterialExcelBO::getCode).collect(Collectors.toList());
         // 没有内容不执行后面操作
-        if(CollectionUtils.isEmpty(materialCodeList)){
+        if (CollectionUtils.isEmpty(materialCodeList)) {
             return;
         }
         // 数据库存在导入物料，抛异常
@@ -78,7 +84,7 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
                         .in(Material::getCode, materialCodeList)).stream()
                 .map(Material::getCode)
                 .collect(Collectors.toList());
-        if(!CollectionUtils.isEmpty(existCodeList)){
+        if (!CollectionUtils.isEmpty(existCodeList)) {
             throw new BusinessException("物料编码【" + StringUtils.collectionToDelimitedString(materialCodeList, ",") + "】已存在！");
         }
         // 保存数据

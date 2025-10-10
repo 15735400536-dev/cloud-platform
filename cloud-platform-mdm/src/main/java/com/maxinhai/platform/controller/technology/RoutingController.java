@@ -1,10 +1,9 @@
 package com.maxinhai.platform.controller.technology;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
-import com.maxinhai.platform.service.RoutingService;
+import com.maxinhai.platform.service.technology.RoutingService;
 import com.maxinhai.platform.vo.technology.RoutingVO;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
@@ -12,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -26,7 +26,7 @@ public class RoutingController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询工艺路线信息", notes = "根据查询条件分页查询工艺路线信息")
-    public AjaxResult<Page<RoutingVO>> searchByPage(@RequestBody RoutingQueryDTO param) {
+    public AjaxResult<PageResult<RoutingVO>> searchByPage(@RequestBody RoutingQueryDTO param) {
         return AjaxResult.success(PageResult.convert(routingService.searchByPage(param)));
     }
 
@@ -55,6 +55,25 @@ public class RoutingController {
     public AjaxResult<Void> removeRouting(@RequestBody String[] ids) {
         routingService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入BOM数据", notes = "根据Excel模板导入BOM数据")
+    public AjaxResult<Void> importExcel(@RequestParam("file") MultipartFile file) {
+        // 验证文件是否为空
+        if (file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        // 调用服务进行导入
+        routingService.importExcel(file);
+        return AjaxResult.success("Excel数据导入成功！");
     }
 
 }

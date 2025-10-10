@@ -1,5 +1,6 @@
 package com.maxinhai.platform.fallback;
 
+import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.vo.DataDictVO;
 import com.maxinhai.platform.utils.AjaxResult;
@@ -33,6 +34,21 @@ public class SystemFeignFallbackFactory implements FallbackFactory<SystemFeignCl
 
             @Override
             public AjaxResult<List<String>> generateCode(String codeRule, Integer batchSize) {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<Boolean> existByUsername(String username) {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<Boolean> existByAccount(String account) {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<Void> addUser(UserAddDTO param) {
                 return AjaxResult.fail("服务调用失败!");
             }
         };

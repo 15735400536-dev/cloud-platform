@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Nacos 2.2.3 单机部署（内置Derby数据库）
+  nacos-server:
+    image: nacos/nacos-server:v2.2.3  # 指定Nacos版本为2.2.3
+    container_name: nacos-server-2.2.3
+    restart: always  # 容器故障自动重启
+    environment:
+      # 核心配置：单机模式 + 内置Derby数据库
+      - MODE=standalone  # standalone=单机模式，cluster=集群模式
+      - SPRING_DATASOURCE_PLATFORM=derby  # 指定使用内置Derby数据库（无需额外MySQL）
+      # JVM内存配置（根据宿主机内存调整，默认可能占用较高，小内存机器建议修改）
+      - JVM_XMS=256m  # 初始堆内存
+      - JVM_XMX=256m  # 最大堆内存
+      - JVM_XMN=128m  # 新生代内存
+      - JVM_MS=64m    # 元空间初始大小
+      - JVM_MMS=128m  # 元空间最大大小
+    ports:
+      - "8848:8848"   # Nacos核心端口（Web控制台+API接口）
+      - "9848:9848"   # Nacos 2.x 新增的客户端gRPC端口（客户端通信必备）
+      - "9849:9849"   # Nacos 2.x 新增的服务端gRPC端口（集群模式用，单机可保留）
+    volumes:
+      # 挂载Nacos数据目录（持久化配置、日志等，避免容器删除后数据丢失）
+      - nacos-data:/home/nacos/data
+      - nacos-logs:/home/nacos/logs
+      - nacos-conf:/home/nacos/conf  # 挂载配置文件目录（如需自定义配置）
+    networks:
+      - nacos-network  # 独立网络，避免端口冲突
+
+# 定义数据卷（持久化Nacos数据）
+volumes:
+  nacos-data:
+  nacos-logs:
+  nacos-conf:
+
+# 定义网络
+networks:
+  nacos-network:
+    driver: bridge  # 桥接模式（默认网络模式，便于宿主机访问）

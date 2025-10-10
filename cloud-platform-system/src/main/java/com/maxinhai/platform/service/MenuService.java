@@ -8,6 +8,7 @@ import com.maxinhai.platform.dto.MenuQueryDTO;
 import com.maxinhai.platform.po.Menu;
 import com.maxinhai.platform.vo.MenuTreeVO;
 import com.maxinhai.platform.vo.MenuVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -28,5 +29,7 @@ public interface MenuService extends IService<Menu> {
      * @return
      */
     List<MenuTreeVO> getMenuTree();
+
+    void importExcel(MultipartFile file);
 
 }

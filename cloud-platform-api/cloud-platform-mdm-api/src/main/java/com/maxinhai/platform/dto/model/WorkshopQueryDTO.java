@@ -5,14 +5,18 @@ import com.maxinhai.platform.vo.model.WorkshopVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@ApiModel("分页查询DTO")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "车间分页查询DTO")
 public class WorkshopQueryDTO extends PageSearch<WorkshopVO> {
 
-    @ApiModelProperty("编码")
+    @ApiModelProperty(value = "车间编码")
     private String code;
-    @ApiModelProperty("名称")
+    @ApiModelProperty(value = "车间名称")
     private String name;
+    @ApiModelProperty(value = "工厂ID")
+    private String factoryId;
 
 }

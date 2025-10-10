@@ -1,0 +1,6 @@
+spring:
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200
+      username: elastic
+      password: MaXinHai!970923

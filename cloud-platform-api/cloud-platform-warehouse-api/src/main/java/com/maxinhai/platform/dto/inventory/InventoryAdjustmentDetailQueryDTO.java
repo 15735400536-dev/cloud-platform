@@ -7,13 +7,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "调整单明细分页查询DTO")
 public class InventoryAdjustmentDetailQueryDTO extends PageSearch<InventoryAdjustmentDetailVO> {
 
     /**
      * 调整单ID
      */
-    @ApiModelProperty("调整单号")
+    @ApiModelProperty(value = "调整单号")
     private String adjustmentId;
 
 }

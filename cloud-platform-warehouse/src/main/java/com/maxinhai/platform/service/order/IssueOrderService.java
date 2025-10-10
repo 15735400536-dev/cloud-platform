@@ -20,4 +20,10 @@ public interface IssueOrderService extends IService<IssueOrder> {
 
     void add(IssueOrderAddDTO param);
 
+    /**
+     * 根据出库单ID入库
+     * @param id 主键ID
+     */
+    void issue(String id);
+
 }

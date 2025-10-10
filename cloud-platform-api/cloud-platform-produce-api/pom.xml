@@ -12,11 +12,6 @@
     <artifactId>cloud-platform-produce-api</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.maxinhai</groupId>
-            <artifactId>cloud-platform-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 </project>

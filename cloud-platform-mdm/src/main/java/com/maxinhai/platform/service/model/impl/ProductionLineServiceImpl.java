@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.model.ProductionLineAddDTO;
 import com.maxinhai.platform.dto.model.ProductionLineEditDTO;
 import com.maxinhai.platform.dto.model.ProductionLineQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.model.ProductionLineMapper;
 import com.maxinhai.platform.po.model.ProductionLine;
 import com.maxinhai.platform.po.model.Workshop;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,10 +28,12 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
 
     @Resource
     private ProductionLineMapper productionLineMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<ProductionLineVO> searchByPage(ProductionLineQueryDTO param) {
-        Page<ProductionLineVO> pageResult = productionLineMapper.selectJoinPage(param.getPage(), ProductionLineVO.class,
+        return productionLineMapper.selectJoinPage(param.getPage(), ProductionLineVO.class,
                 new MPJLambdaWrapper<ProductionLine>()
                         .innerJoin(Workshop.class, Workshop::getId, ProductionLine::getWorkshopId)
                         // 查询条件
@@ -41,12 +45,19 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
                         .selectAs(Workshop::getName, ProductionLineVO::getWorkshopName)
                         // 排序
                         .orderByDesc(ProductionLine::getCreateTime));
-        return pageResult;
     }
 
     @Override
     public ProductionLineVO getInfo(String id) {
-        return null;
+        return productionLineMapper.selectJoinOne(ProductionLineVO.class,
+                new MPJLambdaWrapper<ProductionLine>()
+                        .innerJoin(Workshop.class, Workshop::getId, ProductionLine::getWorkshopId)
+                        // 查询条件
+                        .eq(ProductionLine::getId, id)
+                        // 字段别名
+                        .selectAll(ProductionLine.class)
+                        .selectAs(Workshop::getCode, ProductionLineVO::getWorkshopCode)
+                        .selectAs(Workshop::getName, ProductionLineVO::getWorkshopName));
     }
 
     @Override
@@ -56,13 +67,15 @@ public class ProductionLineServiceImpl extends ServiceImpl<ProductionLineMapper,
 
     @Override
     public void edit(ProductionLineEditDTO param) {
-        ProductionLine user = BeanUtil.toBean(param, ProductionLine.class);
-        productionLineMapper.updateById(user);
+        ProductionLine productionLine = BeanUtil.toBean(param, ProductionLine.class);
+        productionLineMapper.updateById(productionLine);
     }
 
     @Override
     public void add(ProductionLineAddDTO param) {
-        ProductionLine user = BeanUtil.toBean(param, ProductionLine.class);
-        productionLineMapper.insert(user);
+        ProductionLine productionLine = BeanUtil.toBean(param, ProductionLine.class);
+        List<String> codeList = systemFeignClient.generateCode("productionLine", 1).getData();
+        productionLine.setCode(codeList.get(0));
+        productionLineMapper.insert(productionLine);
     }
 }

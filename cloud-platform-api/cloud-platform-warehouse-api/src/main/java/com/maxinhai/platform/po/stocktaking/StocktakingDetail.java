@@ -2,7 +2,9 @@ package com.maxinhai.platform.po.stocktaking;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,6 +12,8 @@ import java.math.BigDecimal;
  * 盘点单明细表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_stocktaking_detail")
 public class StocktakingDetail extends RecordEntity {
 

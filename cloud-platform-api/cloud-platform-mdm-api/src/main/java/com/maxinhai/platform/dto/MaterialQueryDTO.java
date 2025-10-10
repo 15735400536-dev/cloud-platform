@@ -4,14 +4,16 @@ import com.maxinhai.platform.vo.MaterialVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@ApiModel("数据字典新增DTO")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "物料分页查询DTO")
 public class MaterialQueryDTO extends PageSearch<MaterialVO> {
 
-    @ApiModelProperty("物料编码")
+    @ApiModelProperty(value = "物料编码")
     private String code;
-    @ApiModelProperty("物料名称")
+    @ApiModelProperty(value = "物料名称")
     private String name;
 
 }

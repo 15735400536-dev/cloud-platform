@@ -27,7 +27,7 @@ public class MaterialController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询物料信息", notes = "根据查询条件分页查询物料信息")
-    public AjaxResult<Page<MaterialVO>> searchByPage(@RequestBody MaterialQueryDTO param) {
+    public AjaxResult<PageResult<MaterialVO>> searchByPage(@RequestBody MaterialQueryDTO param) {
         return AjaxResult.success(PageResult.convert(materialService.searchByPage(param)));
     }
 

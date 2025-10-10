@@ -5,9 +5,6 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.OrderAddDTO;
-import com.maxinhai.platform.po.Order;
-import com.maxinhai.platform.po.TaskOrder;
-import com.maxinhai.platform.po.WorkOrder;
 import com.maxinhai.platform.enums.OrderStatus;
 import com.maxinhai.platform.listener.TaskOrderReportEvent;
 import com.maxinhai.platform.listener.TaskOrderResumeEvent;
@@ -15,10 +12,16 @@ import com.maxinhai.platform.listener.TaskOrderStartEvent;
 import com.maxinhai.platform.mapper.OrderMapper;
 import com.maxinhai.platform.mapper.TaskOrderMapper;
 import com.maxinhai.platform.mapper.WorkOrderMapper;
+import com.maxinhai.platform.po.Order;
+import com.maxinhai.platform.po.TaskOrder;
+import com.maxinhai.platform.po.WorkOrder;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -49,10 +52,18 @@ public class OrderSchedule {
         param.setOrderType(1);
         param.setPlanBeginTime(new Date());
         param.setPlanEndTime(DateUtil.offsetDay(param.getPlanBeginTime(), 90));
-        param.setProductId("1954171619052109826");
-        param.setBomId("1954171628833226754");
-        param.setRoutingId("1954171628384436226");
-        AjaxResult ajaxResult = new RestTemplate().postForObject("http://localhost:10040/order/addOrder", param, AjaxResult.class);
+        param.setProductId("1971886706000953346");
+        param.setBomId("1971893744164794369");
+        param.setRoutingId("1971916261298331650");
+
+        // 创建请求头对象
+        HttpHeaders headers = new HttpHeaders();
+        // 设置请求头（根据需要添加，例如Token、User-Agent等）
+        headers.add("sa-token", "internal");
+        headers.add("Authorization", "internal");
+        // 封装请求头和请求参数（GET请求无请求体，可传null）
+        HttpEntity<OrderAddDTO> requestEntity = new HttpEntity<>(param, headers);
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/order/addOrder", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
         log.info("createOrder ajaxResult: {}", ajaxResult.toString());
     }
 
@@ -74,7 +85,13 @@ public class OrderSchedule {
                 .eq(TaskOrder::getSort, 1)
                 .last("limit 500"));
         for (TaskOrder taskOrder : taskOrderList) {
-            AjaxResult ajaxResult = new RestTemplate().getForObject("http://localhost:10040/taskOrder/startWork/" + taskOrder.getId(), AjaxResult.class);
+            // 创建请求头对象
+            HttpHeaders headers = new HttpHeaders();
+            // 设置请求头（根据需要添加，例如Token、User-Agent等）
+            headers.add("sa-token", "internal");
+            // 封装请求头和请求参数（GET请求无请求体，可传null）
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+            AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/startWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrder.getId()).getBody();
             log.info("startWork ajaxResult: {}", ajaxResult.toString());
         }
 
@@ -92,7 +109,13 @@ public class OrderSchedule {
                     .eq(TaskOrder::getSort, sort)
                     .last("limit 500"));
             for (TaskOrder taskOrder : taskOrderList) {
-                AjaxResult ajaxResult = new RestTemplate().getForObject("http://localhost:10040/taskOrder/startWork/" + taskOrder.getId(), AjaxResult.class);
+                // 创建请求头对象
+                HttpHeaders headers = new HttpHeaders();
+                // 设置请求头（根据需要添加，例如Token、User-Agent等）
+                headers.add("sa-token", "internal");
+                // 封装请求头和请求参数（GET请求无请求体，可传null）
+                HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+                AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/startWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrder.getId()).getBody();
                 log.info("sort: {}, startWork ajaxResult: {}", sort, ajaxResult.toString());
             }
         }
@@ -112,7 +135,13 @@ public class OrderSchedule {
                 .eq(TaskOrder::getStatus, OrderStatus.START)
                 .last("limit 100"));
         for (TaskOrder taskOrder : taskOrderList) {
-            AjaxResult ajaxResult = new RestTemplate().getForObject("http://localhost:10040/taskOrder/pauseWork/" + taskOrder.getId(), AjaxResult.class);
+            // 创建请求头对象
+            HttpHeaders headers = new HttpHeaders();
+            // 设置请求头（根据需要添加，例如Token、User-Agent等）
+            headers.add("sa-token", "internal");
+            // 封装请求头和请求参数（GET请求无请求体，可传null）
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+            AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/pauseWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrder.getId()).getBody();
             log.info("pauseWork ajaxResult: {}", ajaxResult.toString());
         }
     }
@@ -131,7 +160,13 @@ public class OrderSchedule {
                 .eq(TaskOrder::getStatus, OrderStatus.PAUSE)
                 .last("limit 100"));
         for (TaskOrder taskOrder : taskOrderList) {
-            AjaxResult ajaxResult = new RestTemplate().getForObject("http://localhost:10040/taskOrder/resumeWork/" + taskOrder.getId(), AjaxResult.class);
+            // 创建请求头对象
+            HttpHeaders headers = new HttpHeaders();
+            // 设置请求头（根据需要添加，例如Token、User-Agent等）
+            headers.add("sa-token", "internal");
+            // 封装请求头和请求参数（GET请求无请求体，可传null）
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+            AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/resumeWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrder.getId()).getBody();
             log.info("resumeWork ajaxResult: {}", ajaxResult.toString());
         }
     }
@@ -151,7 +186,13 @@ public class OrderSchedule {
                 .orderByAsc(TaskOrder::getCreateTime)
                 .last("limit 1000"));
         for (TaskOrder taskOrder : taskOrderList) {
-            AjaxResult ajaxResult = new RestTemplate().getForObject("http://localhost:10040/taskOrder/reportWork/" + taskOrder.getId(), AjaxResult.class);
+            // 创建请求头对象
+            HttpHeaders headers = new HttpHeaders();
+            // 设置请求头（根据需要添加，例如Token、User-Agent等）
+            headers.add("sa-token", "internal");
+            // 封装请求头和请求参数（GET请求无请求体，可传null）
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+            AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/reportWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrder.getId()).getBody();
             log.info("reportWork ajaxResult: {}", ajaxResult.toString());
         }
     }

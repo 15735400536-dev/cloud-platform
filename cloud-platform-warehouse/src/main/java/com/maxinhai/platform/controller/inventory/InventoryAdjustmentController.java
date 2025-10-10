@@ -22,7 +22,7 @@ public class InventoryAdjustmentController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询库存调整单信息", notes = "根据查询条件分页查询库存调整单信息")
-    public AjaxResult<Page<InventoryAdjustmentVO>> searchByPage(@RequestBody InventoryAdjustmentQueryDTO param) {
+    public AjaxResult<PageResult<InventoryAdjustmentVO>> searchByPage(@RequestBody InventoryAdjustmentQueryDTO param) {
         return AjaxResult.success(PageResult.convert(inventoryAdjustmentService.searchByPage(param)));
     }
 

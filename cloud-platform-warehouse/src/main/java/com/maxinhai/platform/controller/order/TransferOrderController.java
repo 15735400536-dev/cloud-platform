@@ -24,7 +24,7 @@ public class TransferOrderController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询移库单信息", notes = "根据查询条件分页查询移库单信息")
-    public AjaxResult<Page<TransferOrderVO>> searchByPage(@RequestBody TransferOrderQueryDTO param) {
+    public AjaxResult<PageResult<TransferOrderVO>> searchByPage(@RequestBody TransferOrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(transferOrderService.searchByPage(param)));
     }
 
@@ -55,4 +55,10 @@ public class TransferOrderController {
         return AjaxResult.success();
     }
 
+    @GetMapping("/transfer/{orderId}")
+    @ApiOperation(value = "根据移库单ID移库", notes = "根据移库单ID移库")
+    public AjaxResult<Void> transfer(@PathVariable("orderId") String orderId) {
+        transferOrderService.transfer(orderId);
+        return AjaxResult.success();
+    }
 }

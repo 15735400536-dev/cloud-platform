@@ -5,33 +5,33 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("DTO")
+@ApiModel(description = "货架新增DTO")
 public class WarehouseRackAddDTO {
 
     /**
      * 仓库ID
      */
-    @ApiModelProperty("仓库ID")
+    @ApiModelProperty(value = "仓库ID")
     private String warehouseId;
     /**
      * 库区ID
      */
-    @ApiModelProperty("库区ID")
+    @ApiModelProperty(value = "库区ID")
     private String areaId;
     /**
      * 货架编码
      */
-    @ApiModelProperty("货架编码")
+    @ApiModelProperty(value = "货架编码")
     private String code;
     /**
      * 货架名称
      */
-    @ApiModelProperty("货架名称")
+    @ApiModelProperty(value = "货架名称")
     private String name;
     /**
      * 状态：0-禁用，1-启用
      */
-    @ApiModelProperty("状态：0-禁用，1-启用")
+    @ApiModelProperty(value = "状态：0-禁用，1-启用")
     private Integer status;
 
 }

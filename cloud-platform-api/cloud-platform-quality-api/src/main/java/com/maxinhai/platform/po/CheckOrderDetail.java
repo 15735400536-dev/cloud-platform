@@ -1,10 +1,14 @@
 package com.maxinhai.platform.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.maxinhai.platform.bo.CheckTemplateItemBO;
+import com.maxinhai.platform.enums.CheckStatus;
 import com.maxinhai.platform.enums.ControlType;
 import lombok.Data;
+import org.springframework.transaction.annotation.SpringTransactionAnnotationParser;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @TableName("qc_check_order_detail")
@@ -49,6 +53,32 @@ public class CheckOrderDetail extends RecordEntity {
     /**
      * 检测状态: 0.待检测 1.已检测
      */
-    private Integer status;
+    private CheckStatus status;
+
+    public static CheckOrderDetail build(CheckOrder checkOrder, CheckItem item) {
+        CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
+        checkOrderDetail.setCheckOrderId(checkOrder.getId());
+        checkOrderDetail.setCheckItemId(item.getId());
+        checkOrderDetail.setItemCode(item.getItemCode());
+        checkOrderDetail.setItemName(item.getItemName());
+        checkOrderDetail.setControlType(item.getControlType());
+        checkOrderDetail.setMinValue(item.getMinValue());
+        checkOrderDetail.setMaxValue(item.getMaxValue());
+        checkOrderDetail.setStatus(CheckStatus.NO);
+        return checkOrderDetail;
+    }
+
+    public static CheckOrderDetail build(CheckOrder checkOrder, CheckTemplateItemBO itemBO) {
+        CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
+        checkOrderDetail.setCheckOrderId(checkOrder.getId());
+        checkOrderDetail.setCheckItemId(itemBO.getItemId());
+        checkOrderDetail.setItemCode(itemBO.getItemCode());
+        checkOrderDetail.setItemName(itemBO.getItemName());
+        checkOrderDetail.setControlType(itemBO.getControlType());
+        checkOrderDetail.setMinValue(itemBO.getMinValue());
+        checkOrderDetail.setMaxValue(itemBO.getMaxValue());
+        checkOrderDetail.setStatus(CheckStatus.NO);
+        return checkOrderDetail;
+    }
 
 }

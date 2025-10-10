@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <!-- 变更集ID：唯一标识，作者：开发人员 -->
+    <changeSet id="1" author="dev">
+        <!-- 创建t_diary表 -->
+        <createTable tableName="t_diary">
+            <column name="id" type="varchar(32)" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="del_flag" type="int4(10)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="title" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="content" type="text(2147483647)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="diary_type_id" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <!-- 创建t_diary_type表 -->
+        <createTable tableName="t_diary_type">
+            <column name="id" type="varchar(32)" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="del_flag" type="int4(10)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+        <!-- 创建sys_user表 -->
+        <createTable tableName="sys_user">
+            <column name="id" type="varchar(32)" >
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="del_flag" type="int4(10)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="create_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_by" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="update_time" type="timestamp(29)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="account" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="username" type="varchar(100)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="password" type="varchar(50)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="sex" type="varchar(32)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="phone" type="varchar(11)" >
+                <constraints nullable="true" />
+            </column>
+            <column name="email" type="varchar(11)" >
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+
+
+        <!-- 创建用户表 -->
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="create_time" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- 插入初始数据 -->
+        <insert tableName="user">
+            <column name="username" value="admin"/>
+            <column name="password" value="123456"/>
+            <column name="email" value="admin@example.com"/>
+        </insert>
+
+        <!-- 标记此变更集执行后的数据状态（用于回滚） -->
+        <rollback>
+            <delete tableName="user" where="username='admin'"/>
+            <dropTable tableName="user"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

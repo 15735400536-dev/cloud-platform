@@ -29,11 +29,10 @@ public class StocktakingDetailServiceImpl extends ServiceImpl<StocktakingDetailM
     
     @Override
     public Page<StocktakingDetailVO> searchByPage(StocktakingDetailQueryDTO param) {
-        Page<StocktakingDetailVO> pageResult = stocktakingDetailMapper.selectJoinPage(param.getPage(), StocktakingDetailVO.class,
+        return stocktakingDetailMapper.selectJoinPage(param.getPage(), StocktakingDetailVO.class,
                 new MPJLambdaWrapper<StocktakingDetail>()
                         .eq(StrUtil.isNotBlank(param.getStocktakingId()), StocktakingDetail::getStocktakingId, param.getStocktakingId())
                         .orderByDesc(StocktakingDetail::getCreateTime));
-        return pageResult;
     }
 
     @Override

@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+#      uri: mongodb://localhost:27017/cloud-platform
+      host: localhost
+      port: 27017
+      database: cloud-platform
+      username: root
+      password: MaXinHai!970923
+      authentication-database: admin

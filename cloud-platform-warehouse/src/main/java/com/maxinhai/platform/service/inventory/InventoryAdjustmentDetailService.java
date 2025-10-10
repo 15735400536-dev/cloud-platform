@@ -22,7 +22,7 @@ public interface InventoryAdjustmentDetailService extends IService<InventoryAdju
 
     /**
      * 库存调整
-     * @param id
+     * @param id 主键ID
      */
     void adjustment(String id);
 

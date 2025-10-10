@@ -28,7 +28,7 @@ public class DataDictController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询数据字典信息", notes = "根据查询条件分页查询数据字典信息")
-    public AjaxResult<DataDictVO> searchByPage(@RequestBody DataDictQueryDTO param) {
+    public AjaxResult<PageResult<DataDictVO>> searchByPage(@RequestBody DataDictQueryDTO param) {
         return AjaxResult.success(PageResult.convert(dataDictService.searchByPage(param)));
     }
 

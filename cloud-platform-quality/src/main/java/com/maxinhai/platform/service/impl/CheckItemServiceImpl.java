@@ -8,9 +8,11 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.CheckItemAddDTO;
 import com.maxinhai.platform.dto.CheckItemEditDTO;
 import com.maxinhai.platform.dto.CheckItemQueryDTO;
+import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.CheckItemMapper;
 import com.maxinhai.platform.po.CheckItem;
 import com.maxinhai.platform.service.CheckItemService;
+import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.vo.CheckItemVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,12 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
 
     @Resource
     private CheckItemMapper checkItemMapper;
+    @Resource
+    private CommonCodeCheckService commonCodeCheckService;
 
     @Override
     public Page<CheckItemVO> searchByPage(CheckItemQueryDTO param) {
-        Page<CheckItemVO> pageResult = checkItemMapper.selectJoinPage(param.getPage(), CheckItemVO.class,
+        return checkItemMapper.selectJoinPage(param.getPage(), CheckItemVO.class,
                 new MPJLambdaWrapper<CheckItem>()
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getItemCode()), CheckItem::getItemCode, param.getItemCode())
@@ -37,7 +41,6 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
                         .like(Objects.nonNull(param.getControlType()), CheckItem::getControlType, param.getControlType())
                         // 排序
                         .orderByDesc(CheckItem::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -61,6 +64,10 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
 
     @Override
     public void add(CheckItemAddDTO param) {
+        boolean unique = commonCodeCheckService.isCodeUnique(CheckItem.class, CheckItem::getItemCode, param.getItemCode());
+        if (!unique) {
+            throw new BusinessException("检测项【" + param.getItemCode() + "】已存在!");
+        }
         CheckItem user = BeanUtil.toBean(param, CheckItem.class);
         checkItemMapper.insert(user);
     }

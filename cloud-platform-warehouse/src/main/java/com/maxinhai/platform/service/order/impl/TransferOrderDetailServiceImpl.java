@@ -29,11 +29,10 @@ public class TransferOrderDetailServiceImpl extends ServiceImpl<TransferOrderDet
     
     @Override
     public Page<TransferOrderDetailVO> searchByPage(TransferOrderDetailQueryDTO param) {
-        Page<TransferOrderDetailVO> pageResult = transferOrderDetailMapper.selectJoinPage(param.getPage(), TransferOrderDetailVO.class,
+        return transferOrderDetailMapper.selectJoinPage(param.getPage(), TransferOrderDetailVO.class,
                 new MPJLambdaWrapper<TransferOrderDetail>()
                         .eq(StrUtil.isNotBlank(param.getTransferOrderId()), TransferOrderDetail::getTransferOrderId, param.getTransferOrderId())
                         .orderByDesc(TransferOrderDetail::getCreateTime));
-        return pageResult;
     }
 
     @Override

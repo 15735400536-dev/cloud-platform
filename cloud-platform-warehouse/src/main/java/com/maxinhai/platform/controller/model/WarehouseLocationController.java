@@ -31,7 +31,7 @@ public class WarehouseLocationController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询货位信息", notes = "根据查询条件分页查询货位信息")
-    public AjaxResult<Page<WarehouseLocationVO>> searchByPage(@RequestBody WarehouseLocationQueryDTO param) {
+    public AjaxResult<PageResult<WarehouseLocationVO>> searchByPage(@RequestBody WarehouseLocationQueryDTO param) {
         return AjaxResult.success(PageResult.convert(locationService.searchByPage(param)));
     }
 

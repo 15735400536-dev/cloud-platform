@@ -22,7 +22,7 @@ public interface ReceiptOrderDetailService extends IService<ReceiptOrderDetail> 
 
     /**
      * 入库单入库
-     * @param id
+     * @param id 主键ID
      */
     void receipt(String id);
 

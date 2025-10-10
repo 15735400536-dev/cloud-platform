@@ -1,24 +1,26 @@
 package com.maxinhai.platform.controller.model;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.model.WarehouseAddDTO;
 import com.maxinhai.platform.dto.model.WarehouseEditDTO;
 import com.maxinhai.platform.dto.model.WarehouseQueryDTO;
-import com.maxinhai.platform.po.ComboBox;
 import com.maxinhai.platform.enums.Status;
+import com.maxinhai.platform.po.ComboBox;
 import com.maxinhai.platform.po.model.Warehouse;
 import com.maxinhai.platform.service.model.WarehouseService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.ComboBoxUtils;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.model.WarehouseTreeVO;
 import com.maxinhai.platform.vo.model.WarehouseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,7 +43,7 @@ public class WarehouseController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询仓库信息", notes = "根据查询条件分页查询仓库信息")
-    public AjaxResult<Page<WarehouseVO>> searchByPage(@RequestBody WarehouseQueryDTO param) {
+    public AjaxResult<PageResult<WarehouseVO>> searchByPage(@RequestBody WarehouseQueryDTO param) {
         return AjaxResult.success(PageResult.convert(warehouseService.searchByPage(param)));
     }
 
@@ -82,6 +84,30 @@ public class WarehouseController {
                 .map(warehouse -> ComboBoxUtils.convert(warehouse, Warehouse::getId, Warehouse::getName))
                 .collect(Collectors.toList());
         return AjaxResult.success(comboBoxList);
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入仓库数据", notes = "根据Excel模板导入仓库数据")
+    public AjaxResult<String> importExcel(MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        warehouseService.importExcel(file);
+        return AjaxResult.success("导入成功!");
+    }
+
+    @GetMapping("/getTree")
+    @ApiOperation(value = "获取仓库树状结构", notes = "获取仓库树状结构")
+    public AjaxResult<List<WarehouseTreeVO>> getTree() {
+        return AjaxResult.success(warehouseService.getTree());
     }
 
 }

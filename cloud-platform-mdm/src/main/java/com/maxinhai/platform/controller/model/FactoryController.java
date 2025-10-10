@@ -24,7 +24,7 @@ public class FactoryController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询工厂信息", notes = "根据查询条件分页查询工厂信息")
-    public AjaxResult<Page<FactoryVO>> searchByPage(@RequestBody FactoryQueryDTO param) {
+    public AjaxResult<PageResult<FactoryVO>> searchByPage(@RequestBody FactoryQueryDTO param) {
         return AjaxResult.success(PageResult.convert(factoryService.searchByPage(param)));
     }
 

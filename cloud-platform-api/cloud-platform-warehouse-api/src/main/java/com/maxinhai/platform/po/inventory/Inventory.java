@@ -3,7 +3,9 @@ package com.maxinhai.platform.po.inventory;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,6 +14,8 @@ import java.util.Date;
  * 库存表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_inventory")
 public class Inventory extends RecordEntity {
 
@@ -36,7 +40,7 @@ public class Inventory extends RecordEntity {
      */
     private String materialId;
     /**
-     * 批次号c
+     * 批次号
      */
     private String batchNo;
     /**

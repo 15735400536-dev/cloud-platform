@@ -8,6 +8,9 @@ import com.maxinhai.platform.dto.RoleMenuDTO;
 import com.maxinhai.platform.dto.RoleQueryDTO;
 import com.maxinhai.platform.po.Role;
 import com.maxinhai.platform.vo.RoleVO;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface RoleService extends IService<Role> {
 
@@ -17,14 +20,18 @@ public interface RoleService extends IService<Role> {
 
     void remove(String[] ids);
 
-    void edit(RoleEditDTO param);
+    Role edit(RoleEditDTO param);
 
-    void add(RoleAddDTO param);
+    Role add(RoleAddDTO param);
+
+    List<Role> getRoleList();
 
     /**
      * 角色绑定菜单
      * @param param
      */
     void binding(RoleMenuDTO param);
+
+    void importExcel(MultipartFile file);
 
 }

@@ -2,7 +2,6 @@ package com.maxinhai.platform.listener;
 
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.maxinhai.platform.po.Material;
 import com.maxinhai.platform.mapper.MaterialMapper;
 import com.maxinhai.platform.mapper.inventory.InventoryAdjustmentMapper;
 import com.maxinhai.platform.mapper.inventory.InventoryMapper;
@@ -14,13 +13,12 @@ import com.maxinhai.platform.mapper.order.IssueOrderMapper;
 import com.maxinhai.platform.mapper.order.ReceiptOrderMapper;
 import com.maxinhai.platform.mapper.order.TransferOrderMapper;
 import com.maxinhai.platform.mapper.stocktaking.StocktakingMapper;
+import com.maxinhai.platform.po.Material;
 import com.maxinhai.platform.po.inventory.Inventory;
 import com.maxinhai.platform.po.inventory.InventoryAdjustment;
 import com.maxinhai.platform.po.inventory.InventoryAdjustmentDetail;
 import com.maxinhai.platform.po.model.Warehouse;
-import com.maxinhai.platform.po.model.WarehouseArea;
 import com.maxinhai.platform.po.model.WarehouseLocation;
-import com.maxinhai.platform.po.model.WarehouseRack;
 import com.maxinhai.platform.po.order.*;
 import com.maxinhai.platform.po.stocktaking.Stocktaking;
 import com.maxinhai.platform.po.stocktaking.StocktakingDetail;
@@ -78,53 +76,53 @@ public class InitDataListener implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        createOrder();
-
-        // 生成指定长度的随机字符串（包含大小写字母、数字）
-        String serialNo = RandomUtil.randomString(6);
-        Warehouse warehouse = new Warehouse();
-        warehouse.setCode("material(" + serialNo + ")");
-        warehouse.setName("仓库(" + serialNo + ")");
-        warehouse.setStatus(1);
-        warehouse.setAddress("山西省晋城市阳城县北留镇");
-        warehouse.setContactPerson("马鑫海");
-        warehouse.setContactPhone("15735400536");
-        warehouse.setRemark("备注");
-        warehouseMapper.insert(warehouse);
-
-        String[] areaArr = new String[]{"A", "B", "C", "D"};
-        for (String areaStr : areaArr) {
-            WarehouseArea area = new WarehouseArea();
-            area.setWarehouseId(warehouse.getId());
-            area.setCode(areaStr);
-            area.setName("库区" +  areaStr);
-            area.setStatus(1);
-            area.setRemark("备注");
-            warehouseAreaMapper.insert(area);
-
-            String[] rackArr = new String[]{"1", "2", "3", "4"};
-            for (String rackStr : rackArr) {
-                WarehouseRack rack = new WarehouseRack();
-                rack.setWarehouseId(warehouse.getId());
-                rack.setAreaId(area.getId());
-                rack.setCode(rackStr);
-                rack.setName("货位" + rackStr);
-                rack.setStatus(1);
-                warehouseRackMapper.insert(rack);
-
-                for (int i = 1; i <= 10; i++) {
-                    WarehouseLocation location = new WarehouseLocation();
-                    location.setWarehouseId(warehouse.getId());
-                    location.setAreaId(area.getId());
-                    location.setRackId(rack.getId());
-                    location.setCode(String.valueOf(i));
-                    location.setName("货位" + i);
-                    location.setLocationType(1);
-                    location.setStatus(1);
-                    warehouseLocationMapper.insert(location);
-                }
-            }
-        }
+//        createOrder();
+//
+//        // 生成指定长度的随机字符串（包含大小写字母、数字）
+//        String serialNo = RandomUtil.randomString(6);
+//        Warehouse warehouse = new Warehouse();
+//        warehouse.setCode("material(" + serialNo + ")");
+//        warehouse.setName("仓库(" + serialNo + ")");
+//        warehouse.setStatus(1);
+//        warehouse.setAddress("山西省晋城市阳城县北留镇");
+//        warehouse.setContactPerson("马鑫海");
+//        warehouse.setContactPhone("15735400536");
+//        warehouse.setRemark("备注");
+//        warehouseMapper.insert(warehouse);
+//
+//        String[] areaArr = new String[]{"A", "B", "C", "D"};
+//        for (String areaStr : areaArr) {
+//            WarehouseArea area = new WarehouseArea();
+//            area.setWarehouseId(warehouse.getId());
+//            area.setCode(areaStr);
+//            area.setName("库区" +  areaStr);
+//            area.setStatus(1);
+//            area.setRemark("备注");
+//            warehouseAreaMapper.insert(area);
+//
+//            String[] rackArr = new String[]{"1", "2", "3", "4"};
+//            for (String rackStr : rackArr) {
+//                WarehouseRack rack = new WarehouseRack();
+//                rack.setWarehouseId(warehouse.getId());
+//                rack.setAreaId(area.getId());
+//                rack.setCode(rackStr);
+//                rack.setName("货位" + rackStr);
+//                rack.setStatus(1);
+//                warehouseRackMapper.insert(rack);
+//
+//                for (int i = 1; i <= 10; i++) {
+//                    WarehouseLocation location = new WarehouseLocation();
+//                    location.setWarehouseId(warehouse.getId());
+//                    location.setAreaId(area.getId());
+//                    location.setRackId(rack.getId());
+//                    location.setCode(String.valueOf(i));
+//                    location.setName("货位" + i);
+//                    location.setLocationType(1);
+//                    location.setStatus(1);
+//                    warehouseLocationMapper.insert(location);
+//                }
+//            }
+//        }
     }
 
     public void createOrder() {

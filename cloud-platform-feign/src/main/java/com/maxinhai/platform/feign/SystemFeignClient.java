@@ -1,5 +1,6 @@
 package com.maxinhai.platform.feign;
 
+import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.fallback.SystemFeignFallbackFactory;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.vo.DataDictVO;
@@ -7,6 +8,8 @@ import com.maxinhai.platform.vo.UserVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -22,10 +25,19 @@ public interface SystemFeignClient {
     AjaxResult<List<DataDictVO>> getDataDict(@PathVariable("dictType") String dictType);
 
     @GetMapping("/user/findByAccount/{account}")
-    AjaxResult<UserVO> findByAccount(String account);
+    AjaxResult<UserVO> findByAccount(@PathVariable("account") String account);
 
     @GetMapping("/codeRule/generateCode/{codeRule}/{batchSize}")
     AjaxResult<List<String>> generateCode(@PathVariable("codeRule") String codeRule,
                                           @PathVariable("batchSize") Integer batchSize);
+
+    @GetMapping("/existByUsername/{username}")
+    AjaxResult<Boolean> existByUsername(@PathVariable("username") String username);
+
+    @GetMapping("/existByAccount/{account}")
+    AjaxResult<Boolean> existByAccount(@PathVariable("account") String account);
+
+    @PostMapping("/user/addUser")
+    AjaxResult<Void> addUser(@RequestBody UserAddDTO param);
 
 }

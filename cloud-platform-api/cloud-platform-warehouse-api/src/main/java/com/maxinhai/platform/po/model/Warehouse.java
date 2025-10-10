@@ -1,13 +1,19 @@
 package com.maxinhai.platform.po.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.maxinhai.platform.bo.WarehouseExcelBO;
+import com.maxinhai.platform.enums.Status;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 库区表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_warehouse")
 public class Warehouse extends RecordEntity {
 
@@ -39,5 +45,16 @@ public class Warehouse extends RecordEntity {
      * 备注
      */
     private String remark;
+
+    public static Warehouse build(WarehouseExcelBO excelBO) {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setCode(excelBO.getWarehouseCode());
+        warehouse.setName(excelBO.getWarehouseName());
+        warehouse.setStatus(Status.Enable.getKey());
+        warehouse.setAddress(excelBO.getAddress());
+        warehouse.setContactPerson(excelBO.getContactPerson());
+        warehouse.setContactPhone(excelBO.getContactPhone());
+        return warehouse;
+    }
 
 }

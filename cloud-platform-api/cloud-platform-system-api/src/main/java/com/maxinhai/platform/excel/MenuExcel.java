@@ -1,18 +1,19 @@
 package com.maxinhai.platform.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.maxinhai.platform.po.Menu;
 import lombok.Data;
 
 @Data
 public class MenuExcel {
 
-    @ExcelProperty("主键ID")
-    private String id;
+    @ExcelProperty("菜单标识")
+    private String key;
     /**
      * 父菜单ID（顶层菜单为0）
      */
-    @ExcelProperty("父菜单ID")
-    private String parentId;
+    @ExcelProperty("父菜单标识")
+    private String parentKey;
     /**
      * 菜单名称
      */
@@ -53,5 +54,18 @@ public class MenuExcel {
      */
     @ExcelProperty("是否外链（1:是，0:否）")
     private Integer isFrame;
+
+    public static Menu build(MenuExcel excel) {
+        Menu menu = new Menu();
+        menu.setMenuName(excel.getMenuName());
+        menu.setUrl(excel.getUrl());
+        menu.setComponent(excel.getComponent());
+        menu.setIcon(excel.getIcon());
+        menu.setMenuType(excel.getMenuType());
+        menu.setSort(excel.getSort());
+        menu.setStatus(excel.getStatus());
+        menu.setIsFrame(excel.getIsFrame());
+        return menu;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.maxinhai.platform.bo;
 
+import com.maxinhai.platform.enums.CheckType;
 import com.maxinhai.platform.enums.ControlType;
 import lombok.Data;
 
@@ -12,6 +13,18 @@ public class CheckTemplateItemBO {
      * 检测模板ID
      */
     private String templateId;
+    /**
+     * 检测类型: 自建、互检、专检
+     */
+    private CheckType checkType;
+    /**
+     * 工序ID
+     */
+    private String operationId;
+    /**
+     * 工序编码
+     */
+    private String operationCode;
     /**
      * 检测项ID
      */

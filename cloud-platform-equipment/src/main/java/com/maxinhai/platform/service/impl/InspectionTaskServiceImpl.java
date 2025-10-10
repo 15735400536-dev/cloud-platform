@@ -9,5 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class InspectionTaskServiceImpl extends ServiceImpl<InspectionTaskMapper, InspectionTask> implements InspectionTaskService {
+public class InspectionTaskServiceImpl extends ServiceImpl<InspectionTaskMapper, InspectionTask>
+        implements InspectionTaskService {
 }

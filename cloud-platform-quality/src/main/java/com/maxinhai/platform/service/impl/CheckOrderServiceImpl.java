@@ -10,6 +10,7 @@ import com.maxinhai.platform.bo.CheckTemplateItemBO;
 import com.maxinhai.platform.dto.CheckOrderAddDTO;
 import com.maxinhai.platform.dto.CheckOrderEditDTO;
 import com.maxinhai.platform.dto.CheckOrderQueryDTO;
+import com.maxinhai.platform.enums.CheckStatus;
 import com.maxinhai.platform.enums.CheckType;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.*;
@@ -55,7 +56,7 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
 
     @Override
     public Page<CheckOrderVO> searchByPage(CheckOrderQueryDTO param) {
-        Page<CheckOrderVO> pageResult = checkOrderMapper.selectJoinPage(param.getPage(), CheckOrderVO.class,
+        return checkOrderMapper.selectJoinPage(param.getPage(), CheckOrderVO.class,
                 new MPJLambdaWrapper<CheckOrder>()
                         .innerJoin(Product.class, Product::getId, CheckOrder::getProductId)
                         // 查询条件
@@ -66,7 +67,6 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                         .selectAs(Product::getName, CheckOrderVO::getProductName)
                         // 排序
                         .orderByDesc(CheckOrder::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -130,7 +130,7 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
         checkOrder.setCheckTemplateId("1955268740873261057");
         checkOrder.setCheckType(CheckType.SELF_CHECK);
         checkOrder.setProductId(workOrder.getProductId());
-        checkOrder.setStatus(0);
+        checkOrder.setStatus(CheckStatus.NO);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
         List<CheckOrderDetail> orderDetailList = templateItemBOList.stream().map(bo -> {
@@ -142,7 +142,7 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
             checkOrderDetail.setControlType(bo.getControlType());
             checkOrderDetail.setMinValue(bo.getMinValue());
             checkOrderDetail.setMaxValue(bo.getMaxValue());
-            checkOrderDetail.setStatus(0);
+            checkOrderDetail.setStatus(CheckStatus.NO);
             return checkOrderDetail;
         }).collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
@@ -220,26 +220,12 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                 .eq(CheckItem::getId, itemIds));
         log.info("生成自检质检单开始, workOrderId:{}", workOrderId);
         // 创建检测单
-        CheckOrder checkOrder = new CheckOrder();
-        checkOrder.setOrderCode(workOrder.getWorkOrderCode());
-        checkOrder.setCheckTemplateId(template.getId());
-        checkOrder.setCheckType(CheckType.SELF_CHECK);
-        checkOrder.setProductId(workOrder.getProductId());
-        checkOrder.setStatus(0);
+        CheckOrder checkOrder = CheckOrder.buildSelfCheckOrder(product, workOrder, template);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
-        List<CheckOrderDetail> orderDetailList = itemList.stream().map(item -> {
-            CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
-            checkOrderDetail.setCheckOrderId(checkOrder.getId());
-            checkOrderDetail.setCheckItemId(item.getId());
-            checkOrderDetail.setItemCode(item.getItemCode());
-            checkOrderDetail.setItemName(item.getItemName());
-            checkOrderDetail.setControlType(item.getControlType());
-            checkOrderDetail.setMinValue(item.getMinValue());
-            checkOrderDetail.setMaxValue(item.getMaxValue());
-            checkOrderDetail.setStatus(0);
-            return checkOrderDetail;
-        }).collect(Collectors.toList());
+        List<CheckOrderDetail> orderDetailList = itemList.stream()
+                .map(item -> CheckOrderDetail.build(checkOrder, item))
+                .collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
         log.info("生成自检质检单结束, workOrderId:{}", workOrderId);
     }
@@ -283,26 +269,12 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                 .eq(CheckItem::getId, itemIds));
         log.info("生成互检质检单开始, workOrderId:{}", workOrderId);
         // 创建检测单
-        CheckOrder checkOrder = new CheckOrder();
-        checkOrder.setOrderCode(workOrder.getWorkOrderCode());
-        checkOrder.setCheckTemplateId(template.getId());
-        checkOrder.setCheckType(CheckType.MUTUAL_CHECK);
-        checkOrder.setProductId(workOrder.getProductId());
-        checkOrder.setStatus(0);
+        CheckOrder checkOrder = CheckOrder.buildMutualCheckOrder(product, workOrder, template);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
-        List<CheckOrderDetail> orderDetailList = itemList.stream().map(item -> {
-            CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
-            checkOrderDetail.setCheckOrderId(checkOrder.getId());
-            checkOrderDetail.setCheckItemId(item.getId());
-            checkOrderDetail.setItemCode(item.getItemCode());
-            checkOrderDetail.setItemName(item.getItemName());
-            checkOrderDetail.setControlType(item.getControlType());
-            checkOrderDetail.setMinValue(item.getMinValue());
-            checkOrderDetail.setMaxValue(item.getMaxValue());
-            checkOrderDetail.setStatus(0);
-            return checkOrderDetail;
-        }).collect(Collectors.toList());
+        List<CheckOrderDetail> orderDetailList = itemList.stream()
+                .map(item -> CheckOrderDetail.build(checkOrder, item))
+                .collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
         log.info("生成互检质检单结束, workOrderId:{}", workOrderId);
     }
@@ -346,26 +318,12 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                 .eq(CheckItem::getId, itemIds));
         log.info("生成专检质检单开始, workOrderId:{}", workOrderId);
         // 创建检测单
-        CheckOrder checkOrder = new CheckOrder();
-        checkOrder.setOrderCode(workOrder.getWorkOrderCode());
-        checkOrder.setCheckTemplateId(template.getId());
-        checkOrder.setCheckType(CheckType.SPECIAL_CHECK);
-        checkOrder.setProductId(workOrder.getProductId());
-        checkOrder.setStatus(0);
+        CheckOrder checkOrder = CheckOrder.buildSpecialCheckOrder(product, workOrder, template);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
-        List<CheckOrderDetail> orderDetailList = itemList.stream().map(item -> {
-            CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
-            checkOrderDetail.setCheckOrderId(checkOrder.getId());
-            checkOrderDetail.setCheckItemId(item.getId());
-            checkOrderDetail.setItemCode(item.getItemCode());
-            checkOrderDetail.setItemName(item.getItemName());
-            checkOrderDetail.setControlType(item.getControlType());
-            checkOrderDetail.setMinValue(item.getMinValue());
-            checkOrderDetail.setMaxValue(item.getMaxValue());
-            checkOrderDetail.setStatus(0);
-            return checkOrderDetail;
-        }).collect(Collectors.toList());
+        List<CheckOrderDetail> orderDetailList = itemList.stream()
+                .map(item -> CheckOrderDetail.build(checkOrder, item))
+                .collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
         log.info("生成专检质检单结束, workOrderId:{}", workOrderId);
     }
@@ -397,26 +355,12 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                 .in(CheckItem::getId, itemIds));
         log.info("生成自检质检单开始, taskOrderId:{}", taskOrder.getId());
         // 创建检测单
-        CheckOrder checkOrder = new CheckOrder();
-        checkOrder.setOrderCode(taskOrder.getTaskOrderCode());
-        checkOrder.setCheckTemplateId(template.getId());
-        checkOrder.setCheckType(CheckType.SELF_CHECK);
-        checkOrder.setProductId(product.getId());
-        checkOrder.setStatus(0);
+        CheckOrder checkOrder = CheckOrder.buildSelfCheckOrder(product, taskOrder, template);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
-        List<CheckOrderDetail> orderDetailList = itemList.stream().map(item -> {
-            CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
-            checkOrderDetail.setCheckOrderId(checkOrder.getId());
-            checkOrderDetail.setCheckItemId(item.getId());
-            checkOrderDetail.setItemCode(item.getItemCode());
-            checkOrderDetail.setItemName(item.getItemName());
-            checkOrderDetail.setControlType(item.getControlType());
-            checkOrderDetail.setMinValue(item.getMinValue());
-            checkOrderDetail.setMaxValue(item.getMaxValue());
-            checkOrderDetail.setStatus(0);
-            return checkOrderDetail;
-        }).collect(Collectors.toList());
+        List<CheckOrderDetail> orderDetailList = itemList.stream()
+                .map(item -> CheckOrderDetail.build(checkOrder, item))
+                .collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
         log.info("生成自检质检单结束, taskOrderId:{}", taskOrder.getId());
     }
@@ -448,26 +392,12 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                 .in(CheckItem::getId, itemIds));
         log.info("生成互检质检单开始, taskOrderId:{}", taskOrder.getId());
         // 创建检测单
-        CheckOrder checkOrder = new CheckOrder();
-        checkOrder.setOrderCode(taskOrder.getTaskOrderCode());
-        checkOrder.setCheckTemplateId(template.getId());
-        checkOrder.setCheckType(CheckType.MUTUAL_CHECK);
-        checkOrder.setProductId(product.getId());
-        checkOrder.setStatus(0);
+        CheckOrder checkOrder = CheckOrder.buildMutualCheckOrder(product, taskOrder, template);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
-        List<CheckOrderDetail> orderDetailList = itemList.stream().map(item -> {
-            CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
-            checkOrderDetail.setCheckOrderId(checkOrder.getId());
-            checkOrderDetail.setCheckItemId(item.getId());
-            checkOrderDetail.setItemCode(item.getItemCode());
-            checkOrderDetail.setItemName(item.getItemName());
-            checkOrderDetail.setControlType(item.getControlType());
-            checkOrderDetail.setMinValue(item.getMinValue());
-            checkOrderDetail.setMaxValue(item.getMaxValue());
-            checkOrderDetail.setStatus(0);
-            return checkOrderDetail;
-        }).collect(Collectors.toList());
+        List<CheckOrderDetail> orderDetailList = itemList.stream()
+                .map(item -> CheckOrderDetail.build(checkOrder, item))
+                .collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
         log.info("生成互检质检单结束, taskOrderId:{}", taskOrder.getId());
     }
@@ -499,26 +429,12 @@ public class CheckOrderServiceImpl extends ServiceImpl<CheckOrderMapper, CheckOr
                 .in(CheckItem::getId, itemIds));
         log.info("生成专检质检单开始, taskOrderId:{}", taskOrder.getId());
         // 创建检测单
-        CheckOrder checkOrder = new CheckOrder();
-        checkOrder.setOrderCode(taskOrder.getTaskOrderCode());
-        checkOrder.setCheckTemplateId(template.getId());
-        checkOrder.setCheckType(CheckType.SPECIAL_CHECK);
-        checkOrder.setProductId(product.getId());
-        checkOrder.setStatus(0);
+        CheckOrder checkOrder = CheckOrder.buildSpecialCheckOrder(product, taskOrder, template);
         checkOrderMapper.insert(checkOrder);
         // 创建检测单明细
-        List<CheckOrderDetail> orderDetailList = itemList.stream().map(item -> {
-            CheckOrderDetail checkOrderDetail = new CheckOrderDetail();
-            checkOrderDetail.setCheckOrderId(checkOrder.getId());
-            checkOrderDetail.setCheckItemId(item.getId());
-            checkOrderDetail.setItemCode(item.getItemCode());
-            checkOrderDetail.setItemName(item.getItemName());
-            checkOrderDetail.setControlType(item.getControlType());
-            checkOrderDetail.setMinValue(item.getMinValue());
-            checkOrderDetail.setMaxValue(item.getMaxValue());
-            checkOrderDetail.setStatus(0);
-            return checkOrderDetail;
-        }).collect(Collectors.toList());
+        List<CheckOrderDetail> orderDetailList = itemList.stream()
+                .map(item -> CheckOrderDetail.build(checkOrder, item))
+                .collect(Collectors.toList());
         checkOrderDetailService.saveBatch(orderDetailList);
         log.info("生成专检质检单结束, taskOrderId:{}", taskOrder.getId());
     }

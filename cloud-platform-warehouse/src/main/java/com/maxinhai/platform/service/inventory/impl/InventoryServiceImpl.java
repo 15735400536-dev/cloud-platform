@@ -28,7 +28,7 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
 
     @Override
     public Page<InventoryVO> searchByPage(InventoryQueryDTO param) {
-        Page<InventoryVO> pageResult = inventoryMapper.selectJoinPage(param.getPage(), InventoryVO.class,
+        return inventoryMapper.selectJoinPage(param.getPage(), InventoryVO.class,
                 new MPJLambdaWrapper<Inventory>()
                         .innerJoin(Warehouse.class, Warehouse::getId, Inventory::getWarehouseId)
                         .innerJoin(WarehouseArea.class, WarehouseArea::getId, Inventory::getAreaId)
@@ -55,7 +55,6 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
                         .selectAs(Material::getName, InventoryVO::getMaterialName)
                         // 排序
                         .orderByDesc(Inventory::getCreateTime));
-        return pageResult;
     }
 
     @Override

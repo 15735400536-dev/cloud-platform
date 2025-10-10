@@ -20,4 +20,10 @@ public interface TransferOrderService extends IService<TransferOrder> {
 
     void add(TransferOrderAddDTO param);
 
+    /**
+     * 根据移库单ID移库
+     * @param id 主键ID
+     */
+    void transfer(String id);
+
 }

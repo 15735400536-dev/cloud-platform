@@ -24,7 +24,6 @@ public interface MaterialService extends IService<Material> {
     /**
      * 导入Excel数据
      * @param file 上传的Excel文件
-     * @return 导入结果
      */
     void importExcel(MultipartFile file);
 

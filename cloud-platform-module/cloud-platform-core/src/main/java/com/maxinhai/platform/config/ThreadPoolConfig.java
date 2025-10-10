@@ -4,7 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskDecorator;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -16,6 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Slf4j
 @Configuration
+@EnableAsync
 public class ThreadPoolConfig {
 
     // ====================== 监控统计指标 ======================
@@ -112,16 +116,23 @@ public class ThreadPoolConfig {
     static class MonitoringTaskDecorator implements TaskDecorator {
         @Override
         public Runnable decorate(Runnable runnable) {
+            // 获取原线程的请求上下文
+            RequestAttributes originalAttrs = RequestContextHolder.getRequestAttributes();
+            //
             totalTasks.incrementAndGet();
             long startTime = System.currentTimeMillis();
 
             return () -> {
                 try {
+                    RequestContextHolder.setRequestAttributes(originalAttrs);
                     runnable.run();
                 } finally {
                     completedTasks.incrementAndGet();
                     long duration = System.currentTimeMillis() - startTime;
                     // 可在此处记录任务执行时间
+
+                    // 清理上下文，避免内存泄漏
+                    RequestContextHolder.resetRequestAttributes();
                 }
             };
         }
@@ -199,9 +210,17 @@ public class ThreadPoolConfig {
         }
 
         // Getters
-        public long getTotalTasks() { return totalTasks; }
-        public long getCompletedTasks() { return completedTasks; }
-        public long getRejectedTasks() { return rejectedTasks; }
+        public long getTotalTasks() {
+            return totalTasks;
+        }
+
+        public long getCompletedTasks() {
+            return completedTasks;
+        }
+
+        public long getRejectedTasks() {
+            return rejectedTasks;
+        }
     }
 
 }

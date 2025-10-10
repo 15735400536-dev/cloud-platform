@@ -1,0 +1,17 @@
+spring:
+  datasource:
+#    url: jdbc:mysql://localhost:3306/liquibase_demo?useSSL=false&serverTimezone=UTC
+#    username: root
+#    password: root
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/cloud-platform
+    username: postgres
+    password: MaXinHai!970923
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true  # 启用Liquibase（默认开启）
+    change-log: classpath:liquibase/db.changelog-master.xml  # 主配置文件路径
+    default-schema: public  # 数据库默认schema
+    contexts: dev  # 激活的环境（可用于区分开发/测试/生产）
+    labels: release-1.0  # 标签过滤（可选）

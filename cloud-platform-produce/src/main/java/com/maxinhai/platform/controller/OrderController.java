@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.OrderAddDTO;
 import com.maxinhai.platform.dto.OrderQueryDTO;
 import com.maxinhai.platform.service.OrderService;
@@ -35,7 +34,7 @@ public class OrderController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询订单信息", notes = "根据查询条件分页查询订单信息")
-    public AjaxResult<Page<OrderVO>> searchByPage(@RequestBody OrderQueryDTO param) {
+    public AjaxResult<PageResult<OrderVO>> searchByPage(@RequestBody OrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(orderService.searchByPage(param)));
     }
 
@@ -61,7 +60,7 @@ public class OrderController {
 
     @PostMapping("/getTodayFinishOrderInfo")
     @ApiOperation(value = "获取今日订单完成情况", notes = "获取今日订单完成情况")
-    public AjaxResult<Void> getTodayFinishOrderInfo() {
+    public AjaxResult<Map<String, Long>> getTodayFinishOrderInfo() {
         Map<String, Long> result = new HashMap<>();
         result.put("todayFinishOrderCount", orderService.getTodayFinishOrderCount());
         result.put("todayFinishWorkOrderCount", workOrderService.getTodayFinishWorkOrderCount());

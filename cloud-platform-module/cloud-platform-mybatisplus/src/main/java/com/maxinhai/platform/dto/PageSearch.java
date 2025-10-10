@@ -7,13 +7,16 @@ public abstract class PageSearch<T> {
     /**
      * 当前页码
      */
-    private long current  = 1;
+    private long current = 1;
     /**
      * 分页大小
      */
     private long size = 10;
 
     public long getCurrent() {
+        if (current <= 0) {
+            current = 1;
+        }
         return current;
     }
 
@@ -22,6 +25,9 @@ public abstract class PageSearch<T> {
     }
 
     public long getSize() {
+        if (size <= 0) {
+            size = 10;
+        }
         return size;
     }
 

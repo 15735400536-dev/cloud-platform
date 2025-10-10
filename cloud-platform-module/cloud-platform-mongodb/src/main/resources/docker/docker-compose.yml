@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mongodb:
+    # 使用官方MongoDB镜像，最新稳定版
+    image: mongo:latest
+    # 默认模式（无需额外配置）桥接模式
+    # network_mode: bridge
+    # 容器名称
+    container_name: mongodb
+    # 启动失败时自动重启，总是重启
+    restart: always
+    ports:
+      - "27017:27017"  # 宿主机端口:容器内端口（确保宿主机27017未被占用）
+    # 环境变量配置
+    environment:
+      # 设置MongoDB的root用户密码
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=MaXinHai!970923
+    # 数据持久化，将MongoDB数据目录映射到宿主机
+    volumes:
+      - mongodb_data:/data/db
+      # 可选：如果需要初始化脚本，可以挂载init目录
+      # - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      # 添加初始化脚本，确保用户创建
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    # 资源限制（可选）
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    # 健康检查，确保MongoDB服务正常运行
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+# 定义数据卷，用于持久化MongoDB数据
+volumes:
+  mongodb_data:
+    driver: local

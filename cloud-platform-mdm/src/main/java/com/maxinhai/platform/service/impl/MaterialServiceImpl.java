@@ -11,6 +11,7 @@ import com.maxinhai.platform.dto.MaterialAddDTO;
 import com.maxinhai.platform.dto.MaterialEditDTO;
 import com.maxinhai.platform.dto.MaterialQueryDTO;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.listener.MaterialExcelListener;
 import com.maxinhai.platform.mapper.MaterialMapper;
 import com.maxinhai.platform.po.Material;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,10 +36,12 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
     private MaterialMapper materialMapper;
     @Resource
     private MaterialExcelListener materialExcelListener;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<MaterialVO> searchByPage(MaterialQueryDTO param) {
-        Page<MaterialVO> pageResult = materialMapper.selectJoinPage(param.getPage(), MaterialVO.class,
+        return materialMapper.selectJoinPage(param.getPage(), MaterialVO.class,
                 new MPJLambdaWrapper<Material>()
                         .innerJoin(MaterialType.class, MaterialType::getId, Material::getMaterialTypeId)
                         // 查询条件
@@ -49,7 +53,6 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
                         .selectAs(MaterialType::getName, MaterialVO::getMaterialTypeName)
                         // 排序
                         .orderByDesc(Material::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -79,6 +82,8 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
     @Override
     public void add(MaterialAddDTO param) {
         Material material = BeanUtil.toBean(param, Material.class);
+        List<String> codeList = systemFeignClient.generateCode("material", 1).getData();
+        material.setCode(codeList.get(0));
         materialMapper.insert(material);
     }
 

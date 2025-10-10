@@ -3,10 +3,11 @@ package com.maxinhai.platform.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.maxinhai.platform.bo.RoutingExcelBO;
-import com.maxinhai.platform.service.RoutingService;
+import com.maxinhai.platform.service.technology.RoutingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
     private static final int BATCH_COUNT = 100;
 
     // 存储读取到的数据
-    private List<RoutingExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
+    private final List<RoutingExcelBO> dataList = new ArrayList<>(BATCH_COUNT);
 
     /**
      * 每读取一行数据就会调用该方法
@@ -49,6 +50,8 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
     public void doAfterAllAnalysed(AnalysisContext context) {
         // 这里也要保存数据，确保最后遗留的数据也被存储
         saveData();
+        // 存储完成清理 list
+        dataList.clear();
         log.info("所有数据解析完成！");
     }
 
@@ -56,8 +59,13 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
      * 保存数据到数据库
      */
     private void saveData() {
+        // 没有内容不执行后面操作
+        if (CollectionUtils.isEmpty(dataList)) {
+            return;
+        }
         log.info("开始保存 {} 条数据到数据库", dataList.size());
-        // TODO 实际项目中这里会调用Service层将数据保存到数据库
+        // 保存数据
+        routingService.saveExcelData(dataList);
         log.info("数据保存完成！");
     }
 

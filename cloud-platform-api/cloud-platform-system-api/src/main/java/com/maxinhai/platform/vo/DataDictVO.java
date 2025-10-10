@@ -5,10 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("数据字典VO")
+@ApiModel(description = "数据字典VO")
 public class DataDictVO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
     /**
      * 字典类型

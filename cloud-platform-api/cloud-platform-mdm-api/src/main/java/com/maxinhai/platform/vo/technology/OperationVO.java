@@ -7,35 +7,35 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-@ApiModel("数据字典新增DTO")
+@ApiModel(description = "工序VO")
 public class OperationVO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
     /**
      * 工序编码
      */
-    @ApiModelProperty("工序编码")
+    @ApiModelProperty(value = "工序编码")
     private String code;
     /**
      * 工序名称
      */
-    @ApiModelProperty("工序名称")
+    @ApiModelProperty(value = "工序名称")
     private String name;
     /**
      * 工序描述
      */
-    @ApiModelProperty("工序描述")
+    @ApiModelProperty(value = "工序描述")
     private String description;
     /**
      * 标准工时
      */
-    @ApiModelProperty("标准工时")
+    @ApiModelProperty(value = "标准工时")
     private BigDecimal workTime;
     /**
      * 状态：1.启用 0.禁用
      */
-    @ApiModelProperty("状态：1.启用 0.禁用")
+    @ApiModelProperty(value = "状态：1.启用 0.禁用")
     private Integer status;
 
 }

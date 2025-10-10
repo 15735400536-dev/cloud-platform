@@ -26,7 +26,7 @@ public class OperateRecordController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询派工单操作记录信息", notes = "根据查询条件分页查询派工单操作记录信息")
-    public AjaxResult<Page<OperateRecordVO>> searchByPage(@RequestBody OperateRecordQueryDTO param) {
+    public AjaxResult<PageResult<OperateRecordVO>> searchByPage(@RequestBody OperateRecordQueryDTO param) {
         return AjaxResult.success(PageResult.convert(operateRecordService.searchByPage(param)));
     }
 

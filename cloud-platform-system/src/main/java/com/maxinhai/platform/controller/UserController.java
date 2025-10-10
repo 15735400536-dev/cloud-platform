@@ -3,7 +3,6 @@ package com.maxinhai.platform.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
@@ -20,14 +19,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -40,7 +37,7 @@ public class UserController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询用户信息", notes = "根据查询条件分页查询用户信息")
-    public AjaxResult<Page<UserVO>> searchByPage(@RequestBody UserQueryDTO param) {
+    public AjaxResult<PageResult<UserVO>> searchByPage(@RequestBody UserQueryDTO param) {
         return AjaxResult.success(PageResult.convert(userService.searchByPage(param)));
     }
 
@@ -96,15 +93,57 @@ public class UserController {
 
     @GetMapping("/getRoles/{userId}")
     @ApiOperation(value = "根据userId查询绑定角色", notes = "根据userId查询绑定角色")
-    public AjaxResult<RoleVO> getRoles(@PathVariable("userId") String userId) {
+    public AjaxResult<List<RoleVO>> getRoles(@PathVariable("userId") String userId) {
         return AjaxResult.success(userService.getRoles(userId));
+    }
+
+    @GetMapping("/existByUsername/{username}")
+    @ApiOperation(value = "用户是否存在", notes = "根据用户名判断用户是否存在")
+    public AjaxResult<Boolean> existByUsername(@PathVariable("username") String username) {
+        long count = userService.count(new LambdaQueryWrapper<User>().eq(User::getUsername, username));
+        return AjaxResult.success(count > 0);
+    }
+
+    @GetMapping("/existByAccount/{account}")
+    @ApiOperation(value = "用户是否存在", notes = "根据账户判断用户是否存在")
+    public AjaxResult<Boolean> existByAccount(@PathVariable("account") String account) {
+        long count = userService.count(new LambdaQueryWrapper<User>().eq(User::getAccount, account));
+        return AjaxResult.success(count > 0);
+    }
+
+    @GetMapping("/findByAccount/{account}")
+    @ApiOperation(value = "根据账号获取用户信息", notes = "根据账号获取用户信息")
+    public AjaxResult<UserVO> findByAccount(@PathVariable("account") String account) {
+        User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getAccount, account));
+        if (user == null) {
+            return AjaxResult.success("用户不存在!");
+        }
+        return AjaxResult.success(BeanUtil.toBean(user, UserVO.class));
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入用户数据", notes = "根据Excel模板导入用户数据")
+    public AjaxResult<String> importExcel(MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        userService.importExcel(file);
+        return AjaxResult.success("导入成功!");
     }
 
     @Resource
     private JdbcTemplate jdbcTemplate;
 
     //@Scheduled(initialDelay = 5000, fixedDelay = 60000)
-    //@Scheduled(cron = "0 30 22 * * ?")
+    //@Scheduled(cron = "0 0 * * * ?")
     public void initUserData() throws InterruptedException {
         Map<String, Date> dateMap = jdbcTemplate.queryForObject("SELECT " +
                 "  MAX(create_time AT TIME ZONE 'Asia/Shanghai') AS max_time, " +
@@ -126,7 +165,7 @@ public class UserController {
                             "WHERE create_time >= ? " +
                             "AND create_time <= ? " +
                             "ORDER BY nickname, create_time DESC",
-                    new Object[]{ beginTime, endTime },
+                    new Object[]{beginTime, endTime},
                     (rs, rowNum) -> {
                         User user = new User();
                         user.setAccount(rs.getString("account"));

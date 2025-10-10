@@ -2,7 +2,6 @@ package com.maxinhai.platform.controller.model;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.model.WarehouseRackAddDTO;
 import com.maxinhai.platform.dto.model.WarehouseRackEditDTO;
 import com.maxinhai.platform.dto.model.WarehouseRackQueryDTO;
@@ -31,7 +30,7 @@ public class WarehouseRackController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询货架信息", notes = "根据查询条件分页查询货架信息")
-    public AjaxResult<Page<WarehouseRackVO>> searchByPage(@RequestBody WarehouseRackQueryDTO param) {
+    public AjaxResult<PageResult<WarehouseRackVO>> searchByPage(@RequestBody WarehouseRackQueryDTO param) {
         return AjaxResult.success(PageResult.convert(rackService.searchByPage(param)));
     }
 

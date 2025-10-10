@@ -22,7 +22,7 @@ public interface TransferOrderDetailService extends IService<TransferOrderDetail
 
     /**
      * 移库单移库
-     * @param id
+     * @param id 主键ID
      */
     void transfer(String id);
 

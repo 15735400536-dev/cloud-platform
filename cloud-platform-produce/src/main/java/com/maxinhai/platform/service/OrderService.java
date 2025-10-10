@@ -19,7 +19,7 @@ public interface OrderService extends IService<Order> {
 
     /**
      * 统计今日订单完成数量
-     * @return
+     * @return 今日订单完成数量
      */
     long getTodayFinishOrderCount();
 }

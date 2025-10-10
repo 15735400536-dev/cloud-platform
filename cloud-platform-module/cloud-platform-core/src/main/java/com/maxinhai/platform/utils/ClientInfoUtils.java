@@ -35,6 +35,7 @@ public class ClientInfoUtils {
 
     /**
      * 获取客户端IP地址
+     *
      * @return 客户端IP地址
      */
     public static String getIpAddress() {
@@ -61,7 +62,30 @@ public class ClientInfoUtils {
     }
 
     /**
+     * 获取客户端IP地址
+     *
+     * @param request 当前请求
+     * @return
+     */
+    public static String getIpAddress(HttpServletRequest request) {
+        for (String header : IP_HEADER_CANDIDATES) {
+            String ip = request.getHeader(header);
+            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                // 对于X-Forwarded-For，取第一个IP
+                if (ip.contains(",")) {
+                    return ip.split(",")[0].trim();
+                }
+                return ip;
+            }
+        }
+
+        // 如果没有获取到，则使用request.getRemoteAddr()
+        return request.getRemoteAddr();
+    }
+
+    /**
      * 通过IP地址获取MAC地址（仅适用于局域网）
+     *
      * @param ipAddress IP地址
      * @return MAC地址，获取失败返回null
      */
@@ -114,6 +138,7 @@ public class ClientInfoUtils {
 
     /**
      * 获取客户端MAC地址（简化版）
+     *
      * @return MAC地址
      */
     public static String getMacAddress() {
@@ -122,6 +147,7 @@ public class ClientInfoUtils {
 
     /**
      * 解析User-Agent信息
+     *
      * @return 包含浏览器和操作系统信息的字符串
      */
     public static String parseUserAgent() {
@@ -146,6 +172,52 @@ public class ClientInfoUtils {
         String os = userAgent.getOperatingSystem().getName();
 
         return browser + " / " + os;
+    }
+
+    /**
+     * 解析User-Agent信息
+     *
+     * @param request 当前请求
+     * @return 包含浏览器和操作系统信息的字符串
+     */
+    public static String parseUserAgent(HttpServletRequest request) {
+        String userAgentString = request.getHeader("User-Agent");
+
+        if (!StringUtils.hasText(userAgentString)) {
+            return "unknown";
+        }
+
+        UserAgent userAgent = UserAgent.parseUserAgentString(userAgentString);
+
+        // 获取浏览器信息
+        String browser = userAgent.getBrowser().getName() + " " + userAgent.getBrowserVersion();
+
+        // 获取操作系统信息
+        String os = userAgent.getOperatingSystem().getName();
+
+        return browser + " / " + os;
+    }
+
+    public static ServletRequestAttributes getRequestAttributes() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            throw new IllegalStateException("获取ServletRequestAttributes失败!");
+        }
+        return requestAttributes;
+    }
+
+    /**
+     * 获取当前请求
+     *
+     * @param requestAttributes
+     * @return
+     */
+    public static HttpServletRequest getRequest(ServletRequestAttributes requestAttributes) {
+        HttpServletRequest request = requestAttributes.getRequest();
+        if (request == null) {
+            throw new IllegalStateException("获取HttpServletRequest失败!");
+        }
+        return request;
     }
 
 }

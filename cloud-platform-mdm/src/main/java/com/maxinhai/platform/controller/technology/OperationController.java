@@ -1,13 +1,12 @@
 package com.maxinhai.platform.controller.technology;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.technology.OperationAddDTO;
 import com.maxinhai.platform.dto.technology.OperationEditDTO;
 import com.maxinhai.platform.dto.technology.OperationQueryDTO;
-import com.maxinhai.platform.service.OperationService;
-import com.maxinhai.platform.vo.technology.OperationVO;
+import com.maxinhai.platform.service.technology.OperationService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.technology.OperationVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -26,7 +25,7 @@ public class OperationController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询工序信息", notes = "根据查询条件分页查询工序信息")
-    public AjaxResult<Page<OperationVO>> searchByPage(@RequestBody OperationQueryDTO param) {
+    public AjaxResult<PageResult<OperationVO>> searchByPage(@RequestBody OperationQueryDTO param) {
         return AjaxResult.success(PageResult.convert(operationService.searchByPage(param)));
     }
 

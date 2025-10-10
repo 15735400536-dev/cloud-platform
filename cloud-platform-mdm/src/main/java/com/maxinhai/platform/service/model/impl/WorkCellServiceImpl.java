@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.model.WorkCellAddDTO;
 import com.maxinhai.platform.dto.model.WorkCellEditDTO;
 import com.maxinhai.platform.dto.model.WorkCellQueryDTO;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.model.WorkCellMapper;
 import com.maxinhai.platform.po.model.ProductionLine;
 import com.maxinhai.platform.po.model.WorkCell;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -27,10 +29,12 @@ public class WorkCellServiceImpl extends ServiceImpl<WorkCellMapper, WorkCell> i
 
     @Resource
     private WorkCellMapper workCellMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<WorkCellVO> searchByPage(WorkCellQueryDTO param) {
-        Page<WorkCellVO> pageResult = workCellMapper.selectJoinPage(param.getPage(), WorkCellVO.class,
+        return workCellMapper.selectJoinPage(param.getPage(), WorkCellVO.class,
                 new MPJLambdaWrapper<WorkCell>()
                         .leftJoin(WorkCenter.class, WorkCenter::getId, WorkCell::getWorkCenterId)
                         .leftJoin(ProductionLine.class, ProductionLine::getId, WorkCell::getProductionLineId)
@@ -45,7 +49,6 @@ public class WorkCellServiceImpl extends ServiceImpl<WorkCellMapper, WorkCell> i
                         .selectAs(ProductionLine::getName, WorkCellVO::getProductionLineName)
                         // 排序
                         .orderByDesc(WorkCell::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -71,13 +74,15 @@ public class WorkCellServiceImpl extends ServiceImpl<WorkCellMapper, WorkCell> i
 
     @Override
     public void edit(WorkCellEditDTO param) {
-        WorkCell user = BeanUtil.toBean(param, WorkCell.class);
-        workCellMapper.updateById(user);
+        WorkCell workCell = BeanUtil.toBean(param, WorkCell.class);
+        workCellMapper.updateById(workCell);
     }
 
     @Override
     public void add(WorkCellAddDTO param) {
-        WorkCell user = BeanUtil.toBean(param, WorkCell.class);
-        workCellMapper.insert(user);
+        WorkCell workCell = BeanUtil.toBean(param, WorkCell.class);
+        List<String> codeList = systemFeignClient.generateCode("workCell", 1).getData();
+        workCell.setCode(codeList.get(0));
+        workCellMapper.insert(workCell);
     }
 }

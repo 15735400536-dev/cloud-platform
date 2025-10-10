@@ -3,15 +3,19 @@ package com.maxinhai.platform.po.order;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.maxinhai.platform.po.RecordEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 入库单表
+ * 出库单表
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("wms_issue_order")
 public class IssueOrder extends RecordEntity {
 

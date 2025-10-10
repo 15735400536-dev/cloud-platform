@@ -32,12 +32,11 @@ public class FactoryServiceImpl extends ServiceImpl<FactoryMapper, Factory> impl
 
     @Override
     public Page<FactoryVO> searchByPage(FactoryQueryDTO param) {
-        Page<FactoryVO> pageResult = factoryMapper.selectJoinPage(param.getPage(), FactoryVO.class,
+        return factoryMapper.selectJoinPage(param.getPage(), FactoryVO.class,
                 new MPJLambdaWrapper<Factory>()
                         .like(StrUtil.isNotBlank(param.getCode()), Factory::getCode, param.getCode())
                         .like(StrUtil.isNotBlank(param.getName()), Factory::getName, param.getName())
                         .orderByDesc(Factory::getCreateTime));
-        return pageResult;
     }
 
     @Override

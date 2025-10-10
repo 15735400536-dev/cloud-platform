@@ -5,25 +5,25 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("数据字典新增DTO")
+@ApiModel(description = "产品VO")
 public class ProductVO {
 
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID")
     private String id;
     /**
      * 产品编码
      */
-    @ApiModelProperty("产品编码")
+    @ApiModelProperty(value = "产品编码")
     private String code;
     /**
      * 产品名称
      */
-    @ApiModelProperty("产品名称")
+    @ApiModelProperty(value = "产品名称")
     private String name;
     /**
      * 产品描述
      */
-    @ApiModelProperty("产品描述")
+    @ApiModelProperty(value = "产品描述")
     private String description;
 
 }

@@ -36,13 +36,12 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
 
     @Override
     public Page<OperateRecordVO> searchByPage(OperateRecordQueryDTO param) {
-        Page<OperateRecordVO> pageResult = operateRecordMapper.selectJoinPage(param.getPage(), OperateRecordVO.class,
+        return operateRecordMapper.selectJoinPage(param.getPage(), OperateRecordVO.class,
                 new MPJLambdaWrapper<OperateRecord>()
                         .innerJoin(TaskOrder.class, TaskOrder::getId, OperateRecord::getTaskOrderId)
                         .eq(StrUtil.isNotBlank(param.getTaskOrderId()), OperateRecord::getTaskOrderId, param.getTaskOrderId())
                         .eq(Objects.nonNull(param.getOperateType()), OperateRecord::getOperateType, param.getOperateType())
                         .orderByDesc(Order::getCreateTime));
-        return pageResult;
     }
 
     @Override
@@ -87,7 +86,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         if(CollectionUtils.isEmpty(startRecords)) {
             throw new BusinessException("数据异常,开工记录不存在!");
         }
-        if (!CollectionUtils.isEmpty(startRecords) && startRecords.size() > 1) {
+        if (startRecords.size() > 1) {
             throw new BusinessException("数据异常,存在多条开工记录!");
         }
         // 暂停记录
@@ -110,7 +109,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         if(CollectionUtils.isEmpty(reportRecords)) {
             throw new BusinessException("数据异常,报工记录不存在!");
         }
-        if (!CollectionUtils.isEmpty(reportRecords) && reportRecords.size() > 1) {
+        if (reportRecords.size() > 1) {
             throw new BusinessException("数据异常,存在多条报工记录!");
         }
         // 计算总时长(秒)
@@ -157,9 +156,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
                                         .sorted(Comparator.comparing(OperateRecord::getOperateTime))
                                         .collect(Collectors.toList()))));
 
-        taskRecordMap.entrySet().forEach(entry -> {
-            taskTimeMap.put(entry.getKey(), this.calculateWorkTime(entry.getValue()));
-        });
+        taskRecordMap.forEach((key, value) -> taskTimeMap.put(key, this.calculateWorkTime(value)));
         return taskTimeMap;
     }
 

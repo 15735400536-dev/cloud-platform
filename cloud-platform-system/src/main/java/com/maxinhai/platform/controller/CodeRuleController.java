@@ -25,7 +25,7 @@ public class CodeRuleController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询编码规则信息", notes = "根据查询条件分页查询编码规则信息")
-    public AjaxResult<Page<CodeRuleVO>> searchByPage(@RequestBody CodeRuleQueryDTO param) {
+    public AjaxResult<PageResult<CodeRuleVO>> searchByPage(@RequestBody CodeRuleQueryDTO param) {
         return AjaxResult.success(PageResult.convert(codeRuleService.searchByPage(param)));
     }
 

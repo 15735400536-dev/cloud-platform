@@ -24,7 +24,7 @@ public class IssueOrderController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询出库单信息", notes = "根据查询条件分页查询出库单信息")
-    public AjaxResult<Page<IssueOrderVO>> searchByPage(@RequestBody IssueOrderQueryDTO param) {
+    public AjaxResult<PageResult<IssueOrderVO>> searchByPage(@RequestBody IssueOrderQueryDTO param) {
         return AjaxResult.success(PageResult.convert(issueOrderService.searchByPage(param)));
     }
 
@@ -55,4 +55,10 @@ public class IssueOrderController {
         return AjaxResult.success();
     }
 
+    @GetMapping("/issue/{orderId}")
+    @ApiOperation(value = "根据出库单ID出库", notes = "根据出库单ID出库")
+    public AjaxResult<Void> issue(@PathVariable("orderId") String orderId) {
+        issueOrderService.issue(orderId);
+        return AjaxResult.success();
+    }
 }

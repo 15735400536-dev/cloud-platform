@@ -1,26 +1,36 @@
 package com.maxinhai.platform.dto;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("数据字典新增DTO")
+@ApiModel(description = "物料新增DTO")
 public class MaterialAddDTO {
 
+    @ApiModelProperty(value = "物料编码")
     private String code;
+    @ApiModelProperty(value = "物料名称")
     private String name;
-    private String materialType;
+    @ApiModelProperty(value = "物料类型ID")
+    private String materialTypeId;
+    @ApiModelProperty(value = "单位")
     private String unit;
+    @ApiModelProperty(value = "物料描述")
     private String description;
+    @ApiModelProperty(value = "规格")
     private String specs;
     /**
      * 图号
      */
+    @ApiModelProperty(value = "图号")
     private String drawingNo;
     /**
      * 材质
      */
+    @ApiModelProperty(value = "材质")
     private String material;
+    @ApiModelProperty(value = "备注")
     private String remark;
 
 }

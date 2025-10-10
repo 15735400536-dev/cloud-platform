@@ -14,7 +14,12 @@
     <dependencies>
         <dependency>
             <groupId>com.maxinhai</groupId>
-            <artifactId>cloud-platform-core</artifactId>
+            <artifactId>cloud-platform-produce-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.maxinhai</groupId>
+            <artifactId>cloud-platform-mdm-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

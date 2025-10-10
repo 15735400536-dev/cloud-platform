@@ -1,10 +1,9 @@
 package com.maxinhai.platform.controller.technology;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.technology.BomDetailAddDTO;
 import com.maxinhai.platform.dto.technology.BomDetailEditDTO;
 import com.maxinhai.platform.dto.technology.BomDetailQueryDTO;
-import com.maxinhai.platform.service.BomDetailService;
+import com.maxinhai.platform.service.technology.BomDetailService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.technology.BomDetailVO;
@@ -26,7 +25,7 @@ public class BomDetailController {
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询BOM明细信息", notes = "根据查询条件分页查询BOM明细信息")
-    public AjaxResult<Page<BomDetailVO>> searchByPage(@RequestBody BomDetailQueryDTO param) {
+    public AjaxResult<PageResult<BomDetailVO>> searchByPage(@RequestBody BomDetailQueryDTO param) {
         return AjaxResult.success(PageResult.convert(bomDetailService.searchByPage(param)));
     }
 

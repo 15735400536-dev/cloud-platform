@@ -1,0 +1,16 @@
+{
+  "properties": [
+    {
+      "name": "spring.maxinhai.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否启用服务",
+      "defaultValue": true
+    },
+    {
+      "name": "spring.maxinhai.name",
+      "type": "java.lang.String",
+      "description": "名称",
+      "defaultValue": "demo"
+    }
+  ]
+}
