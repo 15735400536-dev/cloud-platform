@@ -15,3 +15,6 @@ spring:
     default-schema: public  # 数据库默认schema
     contexts: dev  # 激活的环境（可用于区分开发/测试/生产）
     labels: release-1.0  # 标签过滤（可选）
+    user: ${spring.datasource.username} # 数据库用户名（可复用数据源配置）
+    password: ${spring.datasource.password} # 数据库密码
+    clear-checksums: false # 是否清除校验和（默认false，避免重复执行changeSet）
