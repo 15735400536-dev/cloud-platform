@@ -3,7 +3,7 @@ package com.maxinhai.platform.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.maxinhai.platform.bo.RoutingExcelBO;
-import com.maxinhai.platform.service.RoutingService;
+import com.maxinhai.platform.service.technology.RoutingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;

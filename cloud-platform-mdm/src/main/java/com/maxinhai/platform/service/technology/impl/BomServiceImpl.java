@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service.impl;
+package com.maxinhai.platform.service.technology.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -21,8 +21,8 @@ import com.maxinhai.platform.po.Material;
 import com.maxinhai.platform.po.Product;
 import com.maxinhai.platform.po.technology.Bom;
 import com.maxinhai.platform.po.technology.BomDetail;
-import com.maxinhai.platform.service.BomDetailService;
-import com.maxinhai.platform.service.BomService;
+import com.maxinhai.platform.service.technology.BomDetailService;
+import com.maxinhai.platform.service.technology.BomService;
 import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.vo.technology.BomVO;
 import lombok.extern.slf4j.Slf4j;

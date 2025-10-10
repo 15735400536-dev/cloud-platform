@@ -3,7 +3,7 @@ package com.maxinhai.platform.controller.technology;
 import com.maxinhai.platform.dto.technology.OperationAddDTO;
 import com.maxinhai.platform.dto.technology.OperationEditDTO;
 import com.maxinhai.platform.dto.technology.OperationQueryDTO;
-import com.maxinhai.platform.service.OperationService;
+import com.maxinhai.platform.service.technology.OperationService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.technology.OperationVO;

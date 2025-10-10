@@ -1,9 +1,9 @@
-package com.maxinhai.platform.service.impl;
+package com.maxinhai.platform.service.technology.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.maxinhai.platform.mapper.RoutingOperationRelMapper;
 import com.maxinhai.platform.po.technology.RoutingOperationRel;
-import com.maxinhai.platform.service.RoutingOperationRelService;
+import com.maxinhai.platform.service.technology.RoutingOperationRelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

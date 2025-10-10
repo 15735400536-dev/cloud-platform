@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service.impl;
+package com.maxinhai.platform.service.technology.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -11,7 +11,7 @@ import com.maxinhai.platform.dto.ProductQueryDTO;
 import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.ProductMapper;
 import com.maxinhai.platform.po.Product;
-import com.maxinhai.platform.service.ProductService;
+import com.maxinhai.platform.service.technology.ProductService;
 import com.maxinhai.platform.vo.ProductVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

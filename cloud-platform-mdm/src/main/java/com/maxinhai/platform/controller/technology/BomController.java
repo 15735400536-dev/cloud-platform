@@ -3,7 +3,7 @@ package com.maxinhai.platform.controller.technology;
 import com.maxinhai.platform.dto.technology.BomAddDTO;
 import com.maxinhai.platform.dto.technology.BomEditDTO;
 import com.maxinhai.platform.dto.technology.BomQueryDTO;
-import com.maxinhai.platform.service.BomService;
+import com.maxinhai.platform.service.technology.BomService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.technology.BomVO;

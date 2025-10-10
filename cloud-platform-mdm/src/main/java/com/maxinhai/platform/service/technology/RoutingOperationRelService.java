@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service;
+package com.maxinhai.platform.service.technology;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.maxinhai.platform.po.technology.RoutingOperationRel;

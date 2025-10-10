@@ -3,7 +3,7 @@ package com.maxinhai.platform.controller.technology;
 import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
-import com.maxinhai.platform.service.RoutingService;
+import com.maxinhai.platform.service.technology.RoutingService;
 import com.maxinhai.platform.vo.technology.RoutingVO;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;

@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service.impl;
+package com.maxinhai.platform.service.technology.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -11,7 +11,7 @@ import com.maxinhai.platform.dto.technology.BomDetailQueryDTO;
 import com.maxinhai.platform.mapper.BomDetailMapper;
 import com.maxinhai.platform.po.Material;
 import com.maxinhai.platform.po.technology.BomDetail;
-import com.maxinhai.platform.service.BomDetailService;
+import com.maxinhai.platform.service.technology.BomDetailService;
 import com.maxinhai.platform.vo.technology.BomDetailVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

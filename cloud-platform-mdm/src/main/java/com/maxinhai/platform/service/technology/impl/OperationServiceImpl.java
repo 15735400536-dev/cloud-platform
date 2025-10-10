@@ -1,4 +1,4 @@
-package com.maxinhai.platform.service.impl;
+package com.maxinhai.platform.service.technology.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -12,7 +12,7 @@ import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.OperationMapper;
 import com.maxinhai.platform.po.technology.Operation;
 import com.maxinhai.platform.service.CommonCodeCheckService;
-import com.maxinhai.platform.service.OperationService;
+import com.maxinhai.platform.service.technology.OperationService;
 import com.maxinhai.platform.vo.technology.OperationVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

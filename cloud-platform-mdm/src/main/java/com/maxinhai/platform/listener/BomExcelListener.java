@@ -3,7 +3,7 @@ package com.maxinhai.platform.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.maxinhai.platform.bo.BomExcelBO;
-import com.maxinhai.platform.service.BomService;
+import com.maxinhai.platform.service.technology.BomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
