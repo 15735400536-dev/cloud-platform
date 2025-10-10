@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "保养项目VO")
 public class MaintenanceItemVO {
 
     @ApiModelProperty(value = "主键ID")

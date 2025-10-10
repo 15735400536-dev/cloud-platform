@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "巡检计划VO")
 public class InspectionPlanVO {
 
     @ApiModelProperty(value = "主键ID")

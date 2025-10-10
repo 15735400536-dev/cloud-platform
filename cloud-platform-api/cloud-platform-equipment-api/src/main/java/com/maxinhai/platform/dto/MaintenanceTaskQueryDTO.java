@@ -4,15 +4,17 @@ import com.maxinhai.platform.vo.MaintenanceTaskVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @ClassName：MaintenanceTaskQueryDTO
  * @Author: XinHai.Ma
  * @Date: 2025/8/28 13:38
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 保养任务分页查询DTO
  */
 @Data
-@ApiModel(description = "DTO")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "保养任务分页查询DTO")
 public class MaintenanceTaskQueryDTO extends PageSearch<MaintenanceTaskVO> {
 
     /**

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(description = "新增DTO")
+@ApiModel(description = "保养配置新增DTO")
 public class MaintenanceConfigAddDTO {
 
     /**

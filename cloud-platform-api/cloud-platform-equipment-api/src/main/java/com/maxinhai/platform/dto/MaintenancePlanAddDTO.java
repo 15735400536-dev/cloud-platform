@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "新增DTO")
+@ApiModel(description = "保养计划新增DTO")
 public class MaintenancePlanAddDTO {
 
     /**

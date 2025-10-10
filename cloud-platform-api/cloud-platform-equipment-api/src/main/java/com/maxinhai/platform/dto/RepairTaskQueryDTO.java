@@ -4,15 +4,17 @@ import com.maxinhai.platform.vo.RepairTaskVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @ClassName：RepairTaskQueryDTO
  * @Author: XinHai.Ma
  * @Date: 2025/8/28 13:37
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 维修任务分页查询DTO
  */
 @Data
-@ApiModel(description = "DTO")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "维修任务分页查询DTO")
 public class RepairTaskQueryDTO extends PageSearch<RepairTaskVO> {
 
     /**

@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class InspectionItemServiceImpl extends ServiceImpl<InspectionItemMapper, InspectionItem> implements InspectionItemService {
+public class InspectionItemServiceImpl extends ServiceImpl<InspectionItemMapper, InspectionItem>
+        implements InspectionItemService {
 
     @Resource
     private InspectionItemMapper inspectionItemMapper;

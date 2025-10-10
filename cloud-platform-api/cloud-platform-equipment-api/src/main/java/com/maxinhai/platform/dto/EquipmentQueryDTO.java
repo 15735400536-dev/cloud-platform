@@ -4,8 +4,10 @@ import com.maxinhai.platform.vo.EquipmentVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "设备分页查询VO")
 public class EquipmentQueryDTO extends PageSearch<EquipmentVO> {
 

@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class MaintenanceItemServiceImpl extends ServiceImpl<MaintenanceItemMapper, MaintenanceItem> implements MaintenanceItemService {
+public class MaintenanceItemServiceImpl extends ServiceImpl<MaintenanceItemMapper, MaintenanceItem>
+        implements MaintenanceItemService {
 
     @Resource
     private MaintenanceItemMapper maintenanceItemMapper;

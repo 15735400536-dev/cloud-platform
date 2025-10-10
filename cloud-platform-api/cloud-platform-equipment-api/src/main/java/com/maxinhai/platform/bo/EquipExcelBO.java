@@ -12,7 +12,7 @@ import java.util.Date;
  * @ClassName：EquipExcelBO
  * @Author: XinHai.Ma
  * @Date: 2025/8/28 16:23
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 设备Excel导入BO
  */
 @Data
 @ApiModel(description = "设备Excel导入BO")

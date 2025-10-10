@@ -12,10 +12,10 @@ import java.util.Date;
  * @ClassName：MaintenanceTaskVO
  * @Author: XinHai.Ma
  * @Date: 2025/8/28 13:38
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: 保养任务VO
  */
 @Data
-@ApiModel(description = "VO")
+@ApiModel(description = "保养任务VO")
 public class MaintenanceTaskVO {
 
     @ApiModelProperty(value = "主键ID")

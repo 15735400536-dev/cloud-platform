@@ -4,9 +4,11 @@ import com.maxinhai.platform.vo.MaintenanceConfigVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@ApiModel(description = "分页查询DTO")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(description = "保养配置分页查询DTO")
 public class MaintenanceConfigQueryDTO extends PageSearch<MaintenanceConfigVO> {
 
     /**

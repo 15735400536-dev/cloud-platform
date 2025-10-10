@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel(description = "编辑DTO")
+@ApiModel(description = "保养计划编辑DTO")
 public class MaintenancePlanEditDTO {
 
     @ApiModelProperty(value = "主键ID")
