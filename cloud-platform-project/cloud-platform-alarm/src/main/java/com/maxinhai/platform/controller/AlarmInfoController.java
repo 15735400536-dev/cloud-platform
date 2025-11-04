@@ -2,6 +2,7 @@ package com.maxinhai.platform.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.maxinhai.platform.dto.AlarmInitiateDTO;
 import com.maxinhai.platform.service.AlarmInfoService;
 import com.maxinhai.platform.utils.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +12,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -73,7 +73,7 @@ public class AlarmInfoController {
         log.info("取消告警 -> 调用结果: {}", ajaxResult.toString());
     }
 
-    @Scheduled(initialDelay = 5000, fixedDelay = 60000)
+    //@Scheduled(initialDelay = 5000, fixedDelay = 60000)
     public void callPostApi() throws InterruptedException {
         String key = DateUtil.format(new Date(), "yyyyMMddHHmmss");
         int count = RandomUtil.randomInt(1, 11);
@@ -87,6 +87,7 @@ public class AlarmInfoController {
 
     /**
      * 调用发起告警接口
+     *
      * @param key
      */
     public void callInitiateAlarmEx(String key) {
@@ -125,11 +126,18 @@ public class AlarmInfoController {
 
     /**
      * 调用取消告警接口
+     *
      * @param key
      */
     public void callCancelAlarmEx(String key) {
         AjaxResult ajaxResult = restTemplate.getForObject("http://localhost:" + port + "/alarmInfo/cancelAlarmEx/" + key, AjaxResult.class);
         log.info("取消告警 -> 调用结果: {}", ajaxResult.toString());
+    }
+
+    @PostMapping("/initiate")
+    public AjaxResult<Void> initiate(AlarmInitiateDTO dto) {
+        alarmInfoService.initiate(dto);
+        return AjaxResult.success();
     }
 
 }

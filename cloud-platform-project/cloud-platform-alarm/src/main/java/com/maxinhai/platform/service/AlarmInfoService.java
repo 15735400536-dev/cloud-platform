@@ -1,6 +1,7 @@
 package com.maxinhai.platform.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.dto.AlarmInitiateDTO;
 import com.maxinhai.platform.po.AlarmInfo;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,5 +31,7 @@ public interface AlarmInfoService extends IService<AlarmInfo> {
      * @param key
      */
     void cancelAlarmEx(String key);
+
+    void initiate(AlarmInitiateDTO dto);
 
 }
