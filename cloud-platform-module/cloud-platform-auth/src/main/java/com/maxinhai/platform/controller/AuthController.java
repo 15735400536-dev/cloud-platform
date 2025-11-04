@@ -2,18 +2,21 @@ package com.maxinhai.platform.controller;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
+import com.maxinhai.platform.bo.OnlineUserBO;
 import com.maxinhai.platform.config.JwtConfig;
 import com.maxinhai.platform.dto.LoginDTO;
 import com.maxinhai.platform.dto.RegisterDTO;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.feign.SystemFeignClient;
+import com.maxinhai.platform.handler.StringHandler;
 import com.maxinhai.platform.handler.message.event.MsgEvent;
 import com.maxinhai.platform.handler.message.impl.MsgHandler;
 import com.maxinhai.platform.po.LoginLog;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.ClientInfoUtils;
 import com.maxinhai.platform.utils.LoginUserContext;
+import com.maxinhai.platform.vo.OnlineUserVO;
 import com.maxinhai.platform.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,9 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +57,9 @@ public class AuthController {
     @Resource
     @Qualifier("cpuIntensiveExecutor")
     private Executor cpuIntensiveExecutor;
+
+    @Resource
+    private StringHandler stringHandler;
 
     /**
      * 用户注册
@@ -170,6 +174,23 @@ public class AuthController {
         // 从 登录用户上下文 中获取当前登录用户
         Map<String, String> userData = LoginUserContext.getValue(userId);
         return AjaxResult.success("获取成功!", userData);
+    }
+
+    @ApiOperation(value = "获取当前在线用户", notes = "获取当前在线用户")
+    @GetMapping("/getOnlineUserList")
+    public AjaxResult<OnlineUserVO> getOnlineUserList() {
+        OnlineUserVO resultVO = new OnlineUserVO();
+        List<String> tokenKeys = stringHandler.scanKeysWithPrefix("auth:token:");
+        for (String tokenKey : tokenKeys) {
+            String token = String.valueOf(stringHandler.get(tokenKey));
+            if(!jwtConfig.isTokenExpired(token)) {
+                String account = jwtConfig.getAccountFromToken(token);
+                String username = jwtConfig.getUsernameFromToken(token);
+                resultVO.addUser(new OnlineUserBO(account, username));
+            }
+        }
+        resultVO.setOnlineQty(resultVO.getUserList().size());
+        return AjaxResult.success(resultVO);
     }
 
 }
