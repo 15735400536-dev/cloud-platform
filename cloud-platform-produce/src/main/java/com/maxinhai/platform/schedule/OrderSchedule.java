@@ -22,7 +22,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,7 +43,7 @@ public class OrderSchedule {
     @Resource
     private ApplicationContext applicationContext;
 
-    @Scheduled(initialDelay = 3000, fixedDelay = 120000)
+    //@Scheduled(initialDelay = 3000, fixedDelay = 120000)
     public void createOrderSchedule() {
         OrderAddDTO param = new OrderAddDTO();
         param.setOrderCode("SO_" + RandomUtil.randomString(6));
@@ -200,7 +199,7 @@ public class OrderSchedule {
     /**
      * 推送派工单
      */
-    @Scheduled(initialDelay = 3000, fixedDelay = 5000)
+    //@Scheduled(initialDelay = 3000, fixedDelay = 60000)
     public void pushTaskOrder() {
         // 查询订单
         Order order = orderMapper.selectOne(new LambdaQueryWrapper<Order>()

@@ -173,4 +173,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         userRoleRelService.saveBatch(relList);
     }
+
+    @Override
+    public List<Map<String, Object>> queryUserListDuplicateAccount() {
+        return userMapper.queryUserListDuplicateAccount();
+    }
 }

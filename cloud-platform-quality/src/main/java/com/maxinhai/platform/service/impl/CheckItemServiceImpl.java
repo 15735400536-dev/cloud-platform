@@ -8,6 +8,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.CheckItemAddDTO;
 import com.maxinhai.platform.dto.CheckItemEditDTO;
 import com.maxinhai.platform.dto.CheckItemQueryDTO;
+import com.maxinhai.platform.enums.ControlType;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.mapper.CheckItemMapper;
 import com.maxinhai.platform.po.CheckItem;
@@ -38,7 +39,7 @@ public class CheckItemServiceImpl extends ServiceImpl<CheckItemMapper, CheckItem
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getItemCode()), CheckItem::getItemCode, param.getItemCode())
                         .like(StrUtil.isNotBlank(param.getItemName()), CheckItem::getItemName, param.getItemName())
-                        .like(Objects.nonNull(param.getControlType()), CheckItem::getControlType, param.getControlType())
+                        .eq(Objects.nonNull(param.getControlType()) && !ControlType.ALL.equals(param.getControlType()), CheckItem::getControlType, param.getControlType())
                         // 排序
                         .orderByDesc(CheckItem::getCreateTime));
     }

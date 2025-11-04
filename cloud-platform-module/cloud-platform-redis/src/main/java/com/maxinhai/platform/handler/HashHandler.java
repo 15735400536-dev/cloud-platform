@@ -37,10 +37,31 @@ public class HashHandler {
     }
 
     /**
+     * 根据key添加hash对象
+     */
+    public void setAll(String key, Map<Object, Object> map) {
+        redisTemplate.opsForHash().putAll(key, map);
+    }
+
+    /**
      * 删除Hash中的字段
      */
     public Long delete(String key, Object... hashKeys) {
         return redisTemplate.opsForHash().delete(key, hashKeys);
+    }
+
+    /**
+     * 校验key、hashKey是否存在
+     */
+    public boolean hasKey(String key, String hashKey) {
+        return redisTemplate.opsForHash().hasKey(key, hashKey);
+    }
+
+    /**
+     * 校验key是否存在
+     */
+    public boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
     }
 
 }

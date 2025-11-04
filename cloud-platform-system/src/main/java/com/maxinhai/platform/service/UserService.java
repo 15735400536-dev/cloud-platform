@@ -14,6 +14,7 @@ import com.maxinhai.platform.vo.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService extends IService<User> {
 
@@ -42,5 +43,7 @@ public interface UserService extends IService<User> {
      * @param dataList excel数据
      */
     void saveExcelData(List<UserExcel> dataList);
+
+    List<Map<String, Object>> queryUserListDuplicateAccount();
 
 }

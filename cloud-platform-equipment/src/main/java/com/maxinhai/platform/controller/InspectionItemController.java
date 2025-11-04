@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @Description: 巡检项目管理接口
  */
 @RestController
-@RequestMapping("/equip")
+@RequestMapping("/inspectionItem")
 @Api(tags = "巡检项目管理接口")
 public class InspectionItemController {
 

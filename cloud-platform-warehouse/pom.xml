@@ -29,6 +29,12 @@
             <artifactId>cloud-platform-feign</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.maxinhai</groupId>
+            <artifactId>cloud-platform-xxl-job</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

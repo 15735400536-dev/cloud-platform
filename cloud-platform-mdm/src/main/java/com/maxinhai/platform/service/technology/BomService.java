@@ -11,6 +11,7 @@ import com.maxinhai.platform.vo.technology.BomVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface BomService extends IService<Bom> {
 
@@ -35,5 +36,7 @@ public interface BomService extends IService<Bom> {
      * @param dataList excel数据
      */
     void saveExcelData(List<BomExcelBO> dataList);
+
+    CompletableFuture<BomVO> getBomByProductCode(String productCode);
 
 }

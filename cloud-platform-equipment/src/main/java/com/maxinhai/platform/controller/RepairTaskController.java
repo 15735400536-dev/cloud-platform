@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * @Description: 维修任务管理接口
  */
 @RestController
-@RequestMapping("/equip")
+@RequestMapping("/repairTask")
 @Api(tags = "维修任务管理接口")
 public class RepairTaskController {
 

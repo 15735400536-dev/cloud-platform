@@ -12,6 +12,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ControlType {
 
+    ALL(-1,"全部"),
     QL(1, "定性"),
     QT(2, "定量"),
     MI(3, "手动输入");

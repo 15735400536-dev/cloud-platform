@@ -48,6 +48,12 @@ public class RoleController {
         return AjaxResult.success(roleService.getInfo(id));
     }
 
+    @GetMapping("/getRoleList")
+    @ApiOperation(value = "获取角色列表", notes = "获取角色列表")
+    public AjaxResult<List<Role>> getRoleList() {
+        return AjaxResult.success(roleService.getRoleList());
+    }
+
     @PostMapping("/addRole")
     @ApiOperation(value = "添加角色信息", notes = "添加角色信息")
     public AjaxResult<Void> addRole(@RequestBody RoleAddDTO param) {

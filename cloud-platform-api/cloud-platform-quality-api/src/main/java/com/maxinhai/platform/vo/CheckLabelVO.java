@@ -38,7 +38,7 @@ public class CheckLabelVO {
      * 检测类型: 自建、互检、专检
      */
     @ApiModelProperty(value = "检测类型: 自建、互检、专检")
-    private CheckType checkType;
+    private CheckType checkType = CheckType.UNKNOWN;
     /**
      * 检测项ID
      */

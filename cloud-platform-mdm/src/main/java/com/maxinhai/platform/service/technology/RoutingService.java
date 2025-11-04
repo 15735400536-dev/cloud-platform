@@ -11,6 +11,7 @@ import com.maxinhai.platform.vo.technology.RoutingVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface RoutingService extends IService<Routing> {
 
@@ -42,5 +43,7 @@ public interface RoutingService extends IService<Routing> {
      * @param dataList excel数据
      */
     void saveExcelData(List<RoutingExcelBO> dataList);
+
+    CompletableFuture<RoutingVO> getRoutingByProductCode(String productCode);
 
 }

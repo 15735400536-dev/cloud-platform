@@ -33,7 +33,7 @@ public class InitDataListener implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initData();
+//        initData();
     }
 
     //@Scheduled(initialDelay = 10000, fixedDelay = 60000)

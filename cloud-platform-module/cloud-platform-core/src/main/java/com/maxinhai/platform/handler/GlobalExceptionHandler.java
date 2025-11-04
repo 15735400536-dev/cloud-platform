@@ -3,6 +3,7 @@ package com.maxinhai.platform.handler;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.exception.CustomException;
 import com.maxinhai.platform.utils.AjaxResult;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,12 @@ import java.util.Map;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public AjaxResult handleExpiredJwt(ExpiredJwtException e) {
+        e.printStackTrace();
+        return AjaxResult.fail(HttpStatus.UNAUTHORIZED.value(), "JWT已过期，请刷新令牌", e.getMessage());
+    }
 
     // 处理 @RequestBody 参数校验失败
     @ExceptionHandler(MethodArgumentNotValidException.class)

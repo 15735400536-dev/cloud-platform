@@ -1,5 +1,6 @@
 package com.maxinhai.platform.dto;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,5 +17,9 @@ public class RegisterDTO {
     private String phone;
     @ApiModelProperty(value = "密码")
     private String password;
+
+    public String getPassword() {
+        return StrUtil.isNotBlank(password) ? password : "123456";
+    }
 
 }

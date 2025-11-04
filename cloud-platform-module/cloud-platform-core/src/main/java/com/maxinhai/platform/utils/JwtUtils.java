@@ -1,8 +1,7 @@
 package com.maxinhai.platform.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.maxinhai.platform.exception.BusinessException;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +62,19 @@ public class JwtUtils {
      * 解析 Token 获取所有声明
      */
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        try {
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            throw new BusinessException("JWT已过期");
+        } catch (UnsupportedJwtException e) {
+            throw new BusinessException("不支持的JWT格式或类型");
+        } catch (MalformedJwtException e) {
+            throw new BusinessException("JWT格式错误（畸形令牌）");
+        } catch (SignatureException e) {
+            throw new BusinessException("JWT 签名验证失败");
+        } catch (IllegalArgumentException e) {
+            throw new BusinessException("非法参数（JWT 相关参数不合法）");
+        }
     }
 
     /**

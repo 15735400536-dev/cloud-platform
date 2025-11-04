@@ -33,7 +33,7 @@ public class FeignTokenInterceptor implements RequestInterceptor {
 
             // 3. 将Token添加到Feign请求头
             if (token != null && !token.isEmpty()) {
-                log.info("FeignTokenInterceptor => token: {}", token);
+                log.debug("FeignTokenInterceptor => token: {}", token);
                 requestTemplate.header(TOKEN_HEADER, token);
             } else  {
                 requestTemplate.header(TOKEN_HEADER, "internal");

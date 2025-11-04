@@ -24,5 +24,5 @@ public class CheckItemQueryDTO extends PageSearch<CheckItemVO>{
      * 控制类型: 定性、定量、手动输入
      */
     @ApiModelProperty(value = "控制类型: 定性、定量、手动输入")
-    private ControlType controlType;
+    private ControlType controlType = ControlType.ALL;
 }

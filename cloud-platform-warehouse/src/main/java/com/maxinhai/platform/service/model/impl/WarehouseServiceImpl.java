@@ -1,7 +1,6 @@
 package com.maxinhai.platform.service.model.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -37,6 +36,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -219,15 +221,50 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
 
     @XxlJob("initWmsData")
     public void initWmsData() {
-        String address = "江苏省苏州市吴中区香山街道环太湖大道188号太湖花园栋3单元502室";
-        String format = DateUtil.format(new Date(), "yyyy-MM-dd");
+        List<String> codeList = systemFeignClient.generateCode("wms_warehouse", 1).getData();
         Warehouse warehouse = new Warehouse();
-        warehouse.setCode(format);
-        warehouse.setName(format);
+        warehouse.setCode(codeList.get(0));
+        warehouse.setName("仓库(" + codeList.get(0) + ")");
         warehouse.setStatus(1);
-        warehouse.setAddress(address);
+        warehouse.setAddress("山西省晋城市阳城县北留镇");
         warehouse.setContactPerson("张三");
         warehouse.setContactPhone("15735400324");
+        warehouse.setRemark("系统定时任务");
         warehouseMapper.insert(warehouse);
+
+        String[] areaArr = new String[]{"A", "B", "C", "D"};
+        codeList = systemFeignClient.generateCode("wms_area", areaArr.length).getData();
+        for (String areaStr : areaArr) {
+            WarehouseArea area = new WarehouseArea();
+            area.setWarehouseId(warehouse.getId());
+            area.setCode(areaStr);
+            area.setName("库区" + areaStr);
+            area.setStatus(1);
+            area.setRemark("系统定时任务");
+            areaMapper.insert(area);
+
+            String[] rackArr = new String[]{"1", "2", "3", "4"};
+            for (String rackStr : rackArr) {
+                WarehouseRack rack = new WarehouseRack();
+                rack.setWarehouseId(warehouse.getId());
+                rack.setAreaId(area.getId());
+                rack.setCode(rackStr);
+                rack.setName("货位" + rackStr);
+                rack.setStatus(1);
+                rackMapper.insert(rack);
+
+                for (int i = 1; i <= 10; i++) {
+                    WarehouseLocation location = new WarehouseLocation();
+                    location.setWarehouseId(warehouse.getId());
+                    location.setAreaId(area.getId());
+                    location.setRackId(rack.getId());
+                    location.setCode(String.valueOf(i));
+                    location.setName("货位" + i);
+                    location.setLocationType(1);
+                    location.setStatus(1);
+                    locationMapper.insert(location);
+                }
+            }
+        }
     }
 }

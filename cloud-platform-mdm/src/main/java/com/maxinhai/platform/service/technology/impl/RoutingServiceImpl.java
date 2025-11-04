@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -213,5 +214,20 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
             }
         }
         relService.saveBatch(relList);
+    }
+
+    @Override
+    public CompletableFuture<RoutingVO> getRoutingByProductCode(String productCode) {
+        RoutingVO routingVO = routingMapper.selectJoinOne(RoutingVO.class,
+                new MPJLambdaWrapper<Routing>()
+                        .innerJoin(Product.class, Product::getId, Routing::getProductId)
+                        // 查询条件
+                        .eq(Product::getCode, productCode)
+                        .eq(Routing::getVersion, "V1.0")
+                        // 字段别名
+                        .selectAll(Routing.class)
+                        .selectAs(Product::getCode, RoutingVO::getProductCode)
+                        .selectAs(Product::getName, RoutingVO::getProductName));
+        return CompletableFuture.completedFuture(routingVO);
     }
 }

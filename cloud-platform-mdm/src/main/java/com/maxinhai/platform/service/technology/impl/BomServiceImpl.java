@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -180,5 +181,20 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
             }
         }
         bomDetailService.saveBatch(bomDetailList);
+    }
+
+    @Override
+    public CompletableFuture<BomVO> getBomByProductCode(String productCode) {
+        BomVO bomVO = bomMapper.selectJoinOne(BomVO.class,
+                new MPJLambdaWrapper<Bom>()
+                        .innerJoin(Product.class, Product::getId, Bom::getProductId)
+                        // 查询条件
+                        .eq(Product::getCode, productCode)
+                        .eq(Bom::getVersion, "V1.0")
+                        // 字段别名
+                        .selectAll(Bom.class)
+                        .selectAs(Product::getCode, BomVO::getProductCode)
+                        .selectAs(Product::getName, BomVO::getProductName));
+        return CompletableFuture.completedFuture(bomVO);
     }
 }

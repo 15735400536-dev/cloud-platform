@@ -108,6 +108,7 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
 
         TaskOrder preTaskOrder = getPreTaskOrder(taskOrder.getWorkOrderId(), taskOrderId);
         if (Objects.nonNull(preTaskOrder) && !OrderStatus.REPORT.equals(preTaskOrder.getStatus())) {
+            log.error("派工单【{}】开工失败，上道工序未报工！", taskOrder.getId());
             throw new BusinessException("派工单开工失败，上道工序未报工！");
         }
 
@@ -167,6 +168,9 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         if (!OrderStatus.START.equals(taskOrder.getStatus())) {
             StringBuilder buffer = new StringBuilder("派工单暂停失败，");
             switch (taskOrder.getStatus()) {
+                case INIT:
+                    buffer.append("派工单未开工!");
+                    break;
                 case PAUSE:
                     buffer.append("派工单已暂停!");
                     break;
@@ -209,6 +213,9 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         if (!OrderStatus.PAUSE.equals(taskOrder.getStatus())) {
             StringBuilder buffer = new StringBuilder("派工单复工失败，");
             switch (taskOrder.getStatus()) {
+                case INIT:
+                    buffer.append("派工单未开工!");
+                    break;
                 case START:
                     buffer.append("派工单已开工!");
                     break;
@@ -251,6 +258,9 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         if (!OrderStatus.START.equals(taskOrder.getStatus())) {
             StringBuilder buffer = new StringBuilder("派工单复工失败，");
             switch (taskOrder.getStatus()) {
+                case INIT:
+                    buffer.append("派工单未开工!");
+                    break;
                 case PAUSE:
                     buffer.append("派工单已暂停!");
                     break;

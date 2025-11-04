@@ -139,6 +139,13 @@ public class UserController {
         return AjaxResult.success("导入成功!");
     }
 
+    @GetMapping("/queryUserListDuplicateAccount}")
+    @ApiOperation(value = "查询账号重复的用户信息", notes = "查询账号重复的用户信息")
+    public AjaxResult<List<Map<String, Object>>> queryUserListDuplicateAccount() {
+        return AjaxResult.success(userService.queryUserListDuplicateAccount());
+    }
+
+
     @Resource
     private JdbcTemplate jdbcTemplate;
 
