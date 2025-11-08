@@ -1,5 +1,6 @@
 package com.maxinhai.platform.feign;
 
+import com.maxinhai.platform.bo.UserBO;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.fallback.SystemFeignFallbackFactory;
 import com.maxinhai.platform.utils.AjaxResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(name = "cloud-platform-system",
         //configuration = FeignConfig.class,
@@ -27,10 +29,6 @@ public interface SystemFeignClient {
     @GetMapping("/user/findByAccount/{account}")
     AjaxResult<UserVO> findByAccount(@PathVariable("account") String account);
 
-    @GetMapping("/codeRule/generateCode/{codeRule}/{batchSize}")
-    AjaxResult<List<String>> generateCode(@PathVariable("codeRule") String codeRule,
-                                          @PathVariable("batchSize") Integer batchSize);
-
     @GetMapping("/user/existByUsername/{username}")
     AjaxResult<Boolean> existByUsername(@PathVariable("username") String username);
 
@@ -39,5 +37,15 @@ public interface SystemFeignClient {
 
     @PostMapping("/user/addUser")
     AjaxResult<Void> addUser(@RequestBody UserAddDTO param);
+
+    @GetMapping("/user/getUserList")
+    AjaxResult<List<UserBO>> getUserList();
+
+    @GetMapping("/user/getUserMap}")
+    AjaxResult<Map<String, String>> getUserMap();
+
+    @GetMapping("/codeRule/generateCode/{codeRule}/{batchSize}")
+    AjaxResult<List<String>> generateCode(@PathVariable("codeRule") String codeRule,
+                                          @PathVariable("batchSize") Integer batchSize);
 
 }

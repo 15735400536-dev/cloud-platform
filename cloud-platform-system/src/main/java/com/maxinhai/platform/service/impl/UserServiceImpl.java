@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.maxinhai.platform.bo.UserBO;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
@@ -25,6 +26,7 @@ import com.maxinhai.platform.service.UserService;
 import com.maxinhai.platform.vo.RoleVO;
 import com.maxinhai.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -177,5 +179,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public List<Map<String, Object>> queryUserListDuplicateAccount() {
         return userMapper.queryUserListDuplicateAccount();
+    }
+
+    @Override
+    @Cacheable(value = "user", key = "'all'") // 查询所有用户（缓存：key固定为"all"）
+    public List<UserBO> getUserList() {
+        List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>().select(User::getId, User::getAccount,
+                User::getUsername, User::getPhone, User::getSex, User::getEmail));
+        return BeanUtil.copyToList(userList, UserBO.class);
+    }
+
+    @Override
+    public Map<String, String> getUserMap() {
+        return getUserList().stream().collect(Collectors.toMap(UserBO::getId, UserBO::getUsername));
     }
 }

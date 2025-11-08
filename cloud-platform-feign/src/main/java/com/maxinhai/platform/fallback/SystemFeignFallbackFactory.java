@@ -1,5 +1,6 @@
 package com.maxinhai.platform.fallback;
 
+import com.maxinhai.platform.bo.UserBO;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.vo.DataDictVO;
@@ -9,6 +10,7 @@ import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class SystemFeignFallbackFactory implements FallbackFactory<SystemFeignClient> {
@@ -33,11 +35,6 @@ public class SystemFeignFallbackFactory implements FallbackFactory<SystemFeignCl
             }
 
             @Override
-            public AjaxResult<List<String>> generateCode(String codeRule, Integer batchSize) {
-                return AjaxResult.fail("服务调用失败!");
-            }
-
-            @Override
             public AjaxResult<Boolean> existByUsername(String username) {
                 return AjaxResult.fail("服务调用失败!");
             }
@@ -49,6 +46,21 @@ public class SystemFeignFallbackFactory implements FallbackFactory<SystemFeignCl
 
             @Override
             public AjaxResult<Void> addUser(UserAddDTO param) {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<List<UserBO>> getUserList() {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<Map<String, String>> getUserMap() {
+                return AjaxResult.fail("服务调用失败!");
+            }
+
+            @Override
+            public AjaxResult<List<String>> generateCode(String codeRule, Integer batchSize) {
                 return AjaxResult.fail("服务调用失败!");
             }
         };

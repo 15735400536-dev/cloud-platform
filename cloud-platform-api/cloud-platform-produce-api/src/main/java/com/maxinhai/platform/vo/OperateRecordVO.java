@@ -13,6 +13,12 @@ import java.util.Date;
 public class OperateRecordVO {
 
     /**
+     * 主键ID
+     */
+    @ApiModelProperty(value = "主键ID")
+    protected String id;
+
+    /**
      * 派工单ID
      */
     @ApiModelProperty(value = "派工单ID")
@@ -28,5 +34,24 @@ public class OperateRecordVO {
     @ApiModelProperty(value = "操作时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date operateTime;
+
+    /**
+     * 创建人
+     */
+    @ApiModelProperty(value = "创建人")
+    protected String createBy;
+
+    /**
+     * 创建人用户名
+     */
+    @ApiModelProperty(value = "创建人用户名")
+    private String creator;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date createTime;
 
 }

@@ -1,5 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
@@ -7,17 +8,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.dto.OperateRecordQueryDTO;
+import com.maxinhai.platform.enums.OperateType;
+import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.feign.SystemFeignClient;
+import com.maxinhai.platform.mapper.OperateRecordMapper;
+import com.maxinhai.platform.mapper.TaskOrderMapper;
 import com.maxinhai.platform.po.OperateRecord;
 import com.maxinhai.platform.po.Order;
 import com.maxinhai.platform.po.TaskOrder;
-import com.maxinhai.platform.enums.OperateType;
-import com.maxinhai.platform.mapper.OperateRecordMapper;
-import com.maxinhai.platform.mapper.TaskOrderMapper;
 import com.maxinhai.platform.service.OperateRecordService;
+import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.vo.OperateRecordVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -33,6 +37,8 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
     private OperateRecordMapper operateRecordMapper;
     @Resource
     private TaskOrderMapper taskOrderMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<OperateRecordVO> searchByPage(OperateRecordQueryDTO param) {
@@ -83,7 +89,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         List<OperateRecord> startRecords = recordList.stream()
                 .filter(operateRecord -> OperateType.START.equals(operateRecord.getOperateType()))
                 .collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(startRecords)) {
+        if (CollectionUtils.isEmpty(startRecords)) {
             throw new BusinessException("数据异常,开工记录不存在!");
         }
         if (startRecords.size() > 1) {
@@ -106,7 +112,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         List<OperateRecord> reportRecords = recordList.stream()
                 .filter(operateRecord -> OperateType.REPORT.equals(operateRecord.getOperateType()))
                 .collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(reportRecords)) {
+        if (CollectionUtils.isEmpty(reportRecords)) {
             throw new BusinessException("数据异常,报工记录不存在!");
         }
         if (reportRecords.size() > 1) {
@@ -168,5 +174,20 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
                 .map(TaskOrder::getId).collect(Collectors.toList());
         Map<String, Long> taskTimeMap = batchCalculateWorkTime(taskOrderIds);
         return taskTimeMap.values().stream().mapToLong(Long::longValue).sum();
+    }
+
+    @Override
+    public List<OperateRecordVO> getOperateRecords(String taskOrderId) {
+        AjaxResult<Map<String, String>> feignResult = systemFeignClient.getUserMap();
+        if (feignResult.getCode() != HttpStatus.OK.value()) {
+            throw new BusinessException(feignResult.getMsg());
+        }
+        Map<String, String> userMap = feignResult.getData();
+        List<OperateRecord> recordList = getOperateRecords(taskOrderId, OperateType.ALL);
+        return recordList.stream().map(record -> {
+            OperateRecordVO recordVO = BeanUtil.copyProperties(record, OperateRecordVO.class);
+            recordVO.setCreator(userMap.getOrDefault(recordVO.getCreateBy(), "匿名用户"));
+            return recordVO;
+        }).collect(Collectors.toList());
     }
 }

@@ -60,4 +60,11 @@ public interface OperateRecordService extends IService<OperateRecord> {
      */
     long calculateWorkOrderWorkTime(String workOrderId);
 
+    /**
+     * 根据派工单ID获取操作记录
+     * @param taskOrderId 派工单ID
+     * @return
+     */
+    List<OperateRecordVO> getOperateRecords(String taskOrderId);
+
 }

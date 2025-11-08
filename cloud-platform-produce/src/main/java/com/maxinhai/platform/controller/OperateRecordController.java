@@ -1,11 +1,10 @@
 package com.maxinhai.platform.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.OperateRecordQueryDTO;
 import com.maxinhai.platform.service.OperateRecordService;
-import com.maxinhai.platform.vo.OperateRecordVO;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.OperateRecordVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @RefreshScope
@@ -41,6 +41,12 @@ public class OperateRecordController {
     public AjaxResult<Void> removeOperateRecord(@RequestBody String[] ids) {
         operateRecordService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/getOperateRecords/{taskOrderId}")
+    @ApiOperation(value = "获取派工单操作记录", notes = "根据派工单ID获取操作记录")
+    public AjaxResult<List<OperateRecordVO>> getOperateRecords(@PathVariable("taskOrderId") String taskOrderId) {
+        return AjaxResult.success(operateRecordService.getOperateRecords(taskOrderId));
     }
 
 }

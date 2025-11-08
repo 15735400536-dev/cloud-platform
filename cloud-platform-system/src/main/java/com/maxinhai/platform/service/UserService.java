@@ -3,6 +3,7 @@ package com.maxinhai.platform.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.bo.UserBO;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
@@ -45,5 +46,13 @@ public interface UserService extends IService<User> {
     void saveExcelData(List<UserExcel> dataList);
 
     List<Map<String, Object>> queryUserListDuplicateAccount();
+
+    List<UserBO> getUserList();
+
+    /**
+     * 获取用户名集合，用户创建人、修改人回显
+     * @return 用户MAP
+     */
+    Map<String, String> getUserMap();
 
 }

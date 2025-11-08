@@ -3,6 +3,7 @@ package com.maxinhai.platform.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.maxinhai.platform.bo.UserBO;
 import com.maxinhai.platform.dto.UserAddDTO;
 import com.maxinhai.platform.dto.UserEditDTO;
 import com.maxinhai.platform.dto.UserQueryDTO;
@@ -143,6 +144,18 @@ public class UserController {
     @ApiOperation(value = "查询账号重复的用户信息", notes = "查询账号重复的用户信息")
     public AjaxResult<List<Map<String, Object>>> queryUserListDuplicateAccount() {
         return AjaxResult.success(userService.queryUserListDuplicateAccount());
+    }
+
+    @GetMapping("/getUserList}")
+    @ApiOperation(value = "查询全部用户列表", notes = "查询全部用户列表（基于缓存）")
+    public AjaxResult<List<UserBO>> getUserList() {
+        return AjaxResult.success(userService.getUserList());
+    }
+
+    @GetMapping("/getUserMap}")
+    @ApiOperation(value = "获取用户名集合，用户创建人、修改人回显", notes = "获取用户名集合，用户创建人、修改人回显")
+    public AjaxResult<Map<String, String>> getUserMap() {
+        return AjaxResult.success(userService.getUserMap());
     }
 
 
