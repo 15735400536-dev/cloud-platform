@@ -42,7 +42,7 @@ public interface TaskOrderService extends IService<TaskOrder> {
      * 获取上道派工单
      * @param workOrderId 工单ID
      * @param taskOrderId 派工单ID
-     * @return
+     * @return 上道派工单
      */
     TaskOrder getPreTaskOrder(String workOrderId, String taskOrderId);
 
@@ -50,41 +50,41 @@ public interface TaskOrderService extends IService<TaskOrder> {
      * 获取下道派工单
      * @param workOrderId 工单ID
      * @param taskOrderId 派工单ID
-     * @return
+     * @return 下道派工单
      */
     TaskOrder getNextTaskOrder(String workOrderId, String taskOrderId);
 
     /**
-     * 检测订单开工状态
+     * 检测订单开工状态（有工单开工，则订单开工）
      * @param workOrderId 工单ID
-     * @return true.已开工 false.未开工
+     * @return true.可开工 false.不可开工
      */
     boolean checkOrderStart(String workOrderId);
 
     /**
      * 检测订单报工状态
      * @param workOrderId 工单ID
-     * @return true.已报工 false.未报工
+     * @return true.可报工 false.不可报工
      */
     boolean checkOrderReport(String workOrderId);
 
     /**
-     * 检测工单开工状态
+     * 检测工单开工状态（第一道派工单开工，则工单可开工）
      * @param orderId 订单ID
-     * @return
+     * @return true.可开工 false.不可开工
      */
     boolean checkWorkOrderStart(String orderId);
 
     /**
      * 检测工单报工状态
      * @param orderId 订单ID
-     * @return
+     * @return true.可报工 false.不可报工
      */
     boolean checkWorkOrderReport(String orderId);
 
     /**
      * 统计今日工单完成数量
-     * @return
+     * @return 今日工单完成数量
      */
     long getTodayFinishTaskOrderCount();
 

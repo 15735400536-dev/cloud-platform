@@ -2,6 +2,7 @@ package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -14,7 +15,10 @@ import com.maxinhai.platform.listener.OperationCheckOrderEvent;
 import com.maxinhai.platform.mapper.OrderMapper;
 import com.maxinhai.platform.mapper.TaskOrderMapper;
 import com.maxinhai.platform.mapper.WorkOrderMapper;
-import com.maxinhai.platform.po.*;
+import com.maxinhai.platform.po.Order;
+import com.maxinhai.platform.po.Product;
+import com.maxinhai.platform.po.TaskOrder;
+import com.maxinhai.platform.po.WorkOrder;
 import com.maxinhai.platform.po.technology.Bom;
 import com.maxinhai.platform.po.technology.Operation;
 import com.maxinhai.platform.po.technology.Routing;
@@ -138,24 +142,28 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         taskOrder.setActualBeginTime(new Date());
         taskOrderMapper.updateById(taskOrder);
 
+        // 创建开工记录
+        operateRecordService.createRecord(OperateType.START, taskOrder.getId());
+
         // 更新工单状态
-        if (!checkWorkOrderStart(taskOrder.getWorkOrderId())) {
-            WorkOrder workOrder = workOrderMapper.selectById(taskOrder.getWorkOrderId());
-            workOrder.setOrderStatus(OrderStatus.START);
-            workOrder.setActualBeginTime(taskOrder.getActualBeginTime());
-            workOrderMapper.updateById(workOrder);
+        if (checkWorkOrderStart(taskOrder.getWorkOrderId())) {
+            // 当实际开工时间为null时，设置工单实际开工时间
+            workOrderMapper.update(new LambdaUpdateWrapper<WorkOrder>()
+                    .set(WorkOrder::getOrderStatus, OrderStatus.START)
+                    .set(WorkOrder::getActualBeginTime, taskOrder.getActualBeginTime())
+                    .eq(WorkOrder::getId, taskOrder.getWorkOrderId())
+                    .isNull(WorkOrder::getActualBeginTime));
         }
 
         // 更新订单状态
-        if (!checkOrderStart(taskOrder.getOrderId())) {
-            Order order = orderMapper.selectById(taskOrder.getOrderId());
-            order.setOrderStatus(OrderStatus.START);
-            order.setActualBeginTime(taskOrder.getActualBeginTime());
-            orderMapper.updateById(order);
+        if (checkOrderStart(taskOrder.getOrderId())) {
+            // 当实际开工时间为null时，设置订单实际开工时间
+            orderMapper.update(new LambdaUpdateWrapper<Order>()
+            .set(Order::getOrderStatus, OrderStatus.START)
+            .set(Order::getActualBeginTime, taskOrder.getActualBeginTime())
+            .eq(Order::getId, taskOrder.getOrderId())
+            .isNull(Order::getActualBeginTime));
         }
-
-        // 创建开工记录
-        operateRecordService.createRecord(OperateType.START, taskOrder.getId());
     }
 
     @Override
@@ -382,8 +390,9 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
     public boolean checkWorkOrderStart(String workOrderId) {
         List<TaskOrder> taskOrderList = taskOrderMapper.selectList(new LambdaQueryWrapper<TaskOrder>()
                 .select(TaskOrder::getId, TaskOrder::getWorkOrderId, TaskOrder::getStatus)
+                .eq(TaskOrder::getWorkOrderId, workOrderId)
                 .eq(TaskOrder::getStatus, OrderStatus.START)
-                .eq(TaskOrder::getWorkOrderId, workOrderId));
+                .eq(TaskOrder::getSort, 1));
         return !taskOrderList.isEmpty();
     }
 
