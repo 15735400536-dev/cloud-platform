@@ -119,7 +119,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
      */
 
     @Override
-    @Scheduled(initialDelay = 3000, fixedRate = 5000)
+    @Scheduled(initialDelay = 5000, fixedRate = 3000)
     public void getLiveSteamingUser() {
         Map<String, String> headers = new HashMap<>();
         String cookie = "enter_pc_once=1; UIFID_TEMP=28ea90c1b0cf804752225259882c701fb12323f08ef828fc1032b615e29efbbea06dc38c89faf9df392d4bd20a6e390645a731204708193bbdd23f4349c026fb59720c5db1bb4a1ae643f5b0553e6c46; hevc_supported=true; dy_swidth=1920; dy_sheight=1080; fpk1=U2FsdGVkX19vjvEtvh4IlyCaxOUeaVblEpRvSlAW2U4lI2K1I0FfOQSp4byxdKvj8SJaRukmvTzywA8qtRJ3+g==; fpk2=0e0369e2813db7deb26e5937c353aab4; s_v_web_id=verify_me448dy7_Tfsde2Dm_6GEq_4kA7_9NzQ_6CmLstNqPFgr; xgplayer_device_id=20656154195; xgplayer_user_id=604362628617; UIFID=28ea90c1b0cf804752225259882c701fb12323f08ef828fc1032b615e29efbbea06dc38c89faf9df392d4bd20a6e390698aaaf09c1da46c04218de191c80d221fe532392b4606414a0b2a493d09caec3c4d1b6344fa95803422be3dacef30f6349974c9812a0ce31f1ac29d99073933c892d41e32c5db9100f1bceb96b565e86bd2318171bd7379a6c67555beb193bc8759d00e02597b116af2722fdbb933fcf; is_dash_user=1; __security_mc_1_s_sdk_crypt_sdk=9bcebcc0-4356-883b; bd_ticket_guard_client_web_domain=2; passport_csrf_token=87ab3b391ef393f7537f0253dd6416c3; passport_csrf_token_default=87ab3b391ef393f7537f0253dd6416c3; d_ticket=afc14ce956f0df67d5084fa8568757c8ee8d0; n_mh=imZMMIWwPRng1tRBBpq52CaKAFQRTJGogxg7dP1uyAA; uid_tt=fdb85ce2161b28f4cbe7ea93e669e031; uid_tt_ss=fdb85ce2161b28f4cbe7ea93e669e031; sid_tt=80e60b1699453db025097dcf54008303; sessionid=80e60b1699453db025097dcf54008303; sessionid_ss=80e60b1699453db025097dcf54008303; is_staff_user=false; __security_mc_1_s_sdk_cert_key=7bb277c8-432a-b3d1; __security_server_data_status=1; live_use_vvc=%22false%22; h265ErrorNum=-1; passport_mfa_token=CjcD4a%2BkCCbXTPTw9%2B621UJUz8QLYvmk3HVwql6SryKbmLlWD%2BMbnmR7rlxlE0%2B2bF5vghLtcZVRGkoKPAAAAAAAAAAAAABPVnjfMC0PRuiQFcIoKotjXdRycWHrj4r5Qj0E2uibC3nUVLV9jHP%2FlPLC2Iduj5R8CxDsjfkNGPax0WwgAiIBA4x%2BXP8%3D; SEARCH_RESULT_LIST_TYPE=%22single%22; __druidClientInfo=JTdCJTIyY2xpZW50V2lkdGglMjIlM0EzMDQlMkMlMjJjbGllbnRIZWlnaHQlMjIlM0E2ODUlMkMlMjJ3aWR0aCUyMiUzQTMwNCUyQyUyMmhlaWdodCUyMiUzQTY4NSUyQyUyMmRldmljZVBpeGVsUmF0aW8lMjIlM0ExJTJDJTIydXNlckFnZW50JTIyJTNBJTIyTW96aWxsYSUyRjUuMCUyMChXaW5kb3dzJTIwTlQlMjAxMC4wJTNCJTIwV2luNjQlM0IlMjB4NjQpJTIwQXBwbGVXZWJLaXQlMkY1MzcuMzYlMjAoS0hUTUwlMkMlMjBsaWtlJTIwR2Vja28pJTIwQ2hyb21lJTJGMTM2LjAuMC4wJTIwU2FmYXJpJTJGNTM3LjM2JTIyJTdE; theme=%22light%22; shareRecommendGuideTagCount=3; my_rd=2; download_guide=%220%2F%2F1%22; publish_badge_show_info=%221%2C0%2C0%2C1757500613284%22; passport_assist_user=CkGeDtPI1nBUNesvHD8mRDFqGXcWBnTvYI1Iq5t-BpvLyUEcpT6Ubb20C93_izX0m_Ed07NwHk5DYQVCczZP3XPTIBpKCjwAAAAAAAAAAAAAT3VlXIqY9TWAGl3W57keNN3mEJz0f1RFpe4XrPA-Ife_ZkYAcYyg51BxKsneEApxQRQQ9-f7DRiJr9ZUIAEiAQP6NSYd; sid_guard=80e60b1699453db025097dcf54008303%7C1757511794%7C5184000%7CSun%2C+09-Nov-2025+13%3A43%3A14+GMT; sid_ucp_v1=1.0.0-KDA2ODM3MDUxOTE1OTdjY2JlYzIwODFlN2MxMjFlMjI2MTYzZGIyODQKIQjNuLDtpoyHBBDygIbGBhjvMSAMMLC1m5kGOAVA-wdIBBoCbGYiIDgwZTYwYjE2OTk0NTNkYjAyNTA5N2RjZjU0MDA4MzAz; ssid_ucp_v1=1.0.0-KDA2ODM3MDUxOTE1OTdjY2JlYzIwODFlN2MxMjFlMjI2MTYzZGIyODQKIQjNuLDtpoyHBBDygIbGBhjvMSAMMLC1m5kGOAVA-wdIBBoCbGYiIDgwZTYwYjE2OTk0NTNkYjAyNTA5N2RjZjU0MDA4MzAz; login_time=1757511793202; __security_mc_1_s_sdk_sign_data_key_web_protect=165812a2-426d-b78a; _bd_ticket_crypt_cookie=7b147e12024e5bee736bd7bd34f98cf2; __ac_nonce=068c2addc0007cdb041a6; __ac_signature=_02B4Z6wo00f01ccwlzAAAIDAGGtkfbodfo3HEJOAABkQae; douyin.com; xg_device_score=7.818598560905933; device_web_cpu_core=20; device_web_memory_size=8; architecture=amd64; home_can_add_dy_2_desktop=%220%22; stream_recommend_feed_params=%22%7B%5C%22cookie_enabled%5C%22%3Atrue%2C%5C%22screen_width%5C%22%3A1920%2C%5C%22screen_height%5C%22%3A1080%2C%5C%22browser_online%5C%22%3Atrue%2C%5C%22cpu_core_num%5C%22%3A20%2C%5C%22device_memory%5C%22%3A8%2C%5C%22downlink%5C%22%3A10%2C%5C%22effective_type%5C%22%3A%5C%224g%5C%22%2C%5C%22round_trip_time%5C%22%3A50%7D%22; SelfTabRedDotControl=%5B%7B%22id%22%3A%227321354226083301387%22%2C%22u%22%3A313%2C%22c%22%3A309%7D%2C%7B%22id%22%3A%227527666382473791527%22%2C%22u%22%3A14%2C%22c%22%3A14%7D%5D; strategyABtestKey=%221757588961.033%22; __live_version__=%221.1.3.9904%22; webcast_local_quality=null; live_can_add_dy_2_desktop=%221%22; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWl0ZXJhdGlvbi12ZXJzaW9uIjoxLCJiZC10aWNrZXQtZ3VhcmQtcmVlLXB1YmxpYy1rZXkiOiJCS0tSd2hpcll3VXExU0JnVTlGTEQ3T2tiNXRkQXpmQkRCVVk1aUs2OHJPaXZPUlVJNEgvcmFTekhRRmw3SnArOGJqY0tqWXNDRzBOUi83OWlSSklnL3M9IiwiYmQtdGlja2V0LWd1YXJkLXdlYi12ZXJzaW9uIjoyfQ%3D%3D; volume_info=%7B%22isUserMute%22%3Afalse%2C%22isMute%22%3Afalse%2C%22volume%22%3A0.233%7D; gulu_source_res=eyJwX2luIjoiMWNiYzdlMGU3OTFhOTYxMzEyMWJjY2MwOTBiMTgxNzdiNzk5N2Q1MmU1YThhZWZjZDQ0NDI2ZDM5ODZkNmUxZCJ9; WallpaperGuide=%7B%22showTime%22%3A0%2C%22closeTime%22%3A0%2C%22showCount%22%3A0%2C%22cursor1%22%3A202%2C%22cursor2%22%3A72%2C%22hoverTime%22%3A1754879694406%7D; odin_tt=acb8f414c022a61a65e99b0266a729b0008687bc493d1abe0be2be9cafb663c3e8037af2b43e675cfc18c27d365a37b1d539c771a73a9aed8ee1869275e449199c6ae48359eb4b702a50a06dca252afe; FOLLOW_LIVE_POINT_INFO=%22MS4wLjABAAAAMutji20RI-BreK3_03pd35nDj5AhhEaaLPg7Bh5efyuTIOcDYIVUilE5nBrtifz5%2F1757606400000%2F0%2F0%2F1757590927434%22; FOLLOW_NUMBER_YELLOW_POINT_INFO=%22MS4wLjABAAAAMutji20RI-BreK3_03pd35nDj5AhhEaaLPg7Bh5efyuTIOcDYIVUilE5nBrtifz5%2F1757606400000%2F0%2F0%2F1757591527435%22; stream_player_status_params=%22%7B%5C%22is_auto_play%5C%22%3A0%2C%5C%22is_full_screen%5C%22%3A0%2C%5C%22is_full_webscreen%5C%22%3A0%2C%5C%22is_mute%5C%22%3A0%2C%5C%22is_speed%5C%22%3A1%2C%5C%22is_visible%5C%22%3A1%7D%22; IsDouyinActive=true; playRecommendGuideTagCount=1; totalRecommendGuideTagCount=18; biz_trace_id=4878cacf; ttwid=1%7CH8ClIisyQoLCSznqG7alYZdyu7I2uBLTYR8_l3FuQtA%7C1757590572%7C463c37a758ad69318ebe4db19e21a4aaac9b416c7504b42de7430c787e97f15c; sdk_source_info=7e276470716a68645a606960273f276364697660272927676c715a6d6069756077273f276364697660272927666d776a68605a607d71606b766c6a6b5a7666776c7571273f275e58272927666a6b766a69605a696c6061273f27636469766027292762696a6764695a7364776c6467696076273f275e582729277672715a646971273f2763646976602729277f6b5a666475273f2763646976602729276d6a6e5a6b6a716c273f2763646976602729276c6b6f5a7f6367273f27636469766027292771273f2733323d363230353c3032303234272927676c715a75776a716a666a69273f2763646976602778; bit_env=ZGbHmhZEgWNzk5_3AF_bVJn0RXyVuwhfmKEJYiv7hxv_HQHm1Td1EfIoW70nRuzxPCLELc8__-F84e49jlYuwCTQjnfsmoK-JGmSqFJX5o7f4dtG2AaIhfw_n6H0tShDZG1yPujCrKJBSiBeBsKZyp5Fj-8wPbP708UxSlwSMzYHLCz870ZXS7CdeIglTPFuGr8Zv87KEwyP9XGtAIBP39K6gXBcsui7KwfXQGOkpHtsj9atKqIHCgc6FoVMsNVyU2xtGCCMbblxvyt36TVE0z2eTc2hgLtYBftPzHKS7MlfrKPsUSw_qPG38zc07vaa5F8yZBr5MRhcC_-SgPDuSykvNGSFvHVxnqXW-wozzntinBjg71kxdUNlv7VRjVy15YTVw-gmzYC2X9C_vmR3xXUKAJXl8OCFoCnovR9pC3vTAkw_rqOtiYD63guxe3VxxokpByjPpXC29xHoxZ8bYYEPU-1rZM_OsWF2Fjdcc0GQ79j70OdvpSJx_QbUOmNi; passport_auth_mix_state=i3qaduh35xua3k7caln3tcwweyuvfrm2; session_tlb_tag=sttt%7C4%7CgOYLFplFPbAlCX3PVACDA__________J-U400AxJxpxr7aXwUh9gfMXXXLMX7Yn5dYfmdzars2M%3D";
@@ -128,6 +128,8 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         HttpResponse execute = get.addHeaders(headers).timeout(3000).execute();
         JSONObject parseObj = JSONUtil.parseObj(execute.body());
         JSONArray jsonArray = parseObj.getJSONObject("data").getJSONArray("data");
+
+        List<Object> msdList = new ArrayList<>(jsonArray.size());
         for (Object object : jsonArray) {
             JSONObject jsonObject = (JSONObject) object;
             JSONObject owner = jsonObject.getJSONObject("room").getJSONObject("owner");
@@ -141,35 +143,33 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
             msg.set("nickname", nickname);
             msg.set("owner_user_id_str", owner_user_id_str);
             msg.set("title", title);
-            listHandler.leftPush(DOUYIN_LIVE_LIST, JSONUtil.toJsonStr(msg));
+            msdList.add(msg.toString());
         }
+        listHandler.leftPushAll(DOUYIN_LIVE_LIST, msdList);
     }
 
     @Override
-    @Scheduled(initialDelay = 3000, fixedRate = 2000)
+    @Scheduled(initialDelay = 3000, fixedRate = 3000)
     public void countUserActivityDuration() {
         // 更新在线用户状态
-//        String jsonStr = null;
-//        do {
-//            jsonStr = (String) listHandler.rightPop(DOUYIN_LIVE_LIST);
-//            if (StrUtil.isNotBlank(jsonStr)) {
-//                JSONObject msg = JSONUtil.parseObj(jsonStr);
-//                updateOnlineUser(msg.getStr("id_str"));
-//            }
-//        } while (StrUtil.isNotBlank(jsonStr));
-
         // 提高弹出元素速度，减少超时发生
         List<Object> msgList = null;
         do {
             msgList = listHandler.batchRightPop(DOUYIN_LIVE_LIST, 100);
+            Map<Object, Object> onlineUserStatusMap = new HashMap<>();
             for (Object msg : msgList) {
                 JSONObject jsonObject = JSONUtil.parseObj(msg.toString());
-                updateOnlineUser(jsonObject.getStr("id_str"));
+                // 改为批量更新
+                JSONObject info = buildOnlineStatus(true, jsonObject.getStr("id_str"));
+                onlineUserStatusMap.put(jsonObject.getStr("id_str"), info);
+            }
+            if(!CollectionUtils.isEmpty(onlineUserStatusMap)) {
+                hashHandler.setAll(ONLINE_USER_LIST, onlineUserStatusMap);
             }
         } while (!CollectionUtils.isEmpty(msgList));
     }
 
-    @Scheduled(initialDelay = 3000, fixedRate = 2000)
+    @Scheduled(initialDelay = 3000, fixedRate = 3000)
     public void updateAllUserStatus() {
         // 更新在线、离线用户状态
         if (!hashHandler.hasKey(ONLINE_USER_LIST)) {
@@ -177,20 +177,35 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         }
         long currentTimeMillis = System.currentTimeMillis();
         Map<Object, Object> hash = (Map<Object, Object>) hashHandler.getAll(ONLINE_USER_LIST);
-        hash.entrySet().stream().filter(entry -> {
-            if (entry.getValue() instanceof Map) {
-                Object account = entry.getKey();
-                JSONObject value = (JSONObject) entry.getValue();
-                Long ts = value.getLong("ts");
-                boolean flag = ts > currentTimeMillis - 1000;
-                updateUserStatus(flag, account.toString());
-                return flag;
-            } else {
-                return false;
-            }
-        }).forEach(entry -> {
-            log.debug("simulateUserAction: account: {} - info: {}", entry.getKey(), entry.getValue());
-        });
+
+        // 1. 提前计算时间阈值（避免重复计算）
+        long timeThreshold = System.currentTimeMillis() - 1000;
+
+        // 2. 流式处理：过滤有效条目并构建新Map（使用collect避免副作用）
+        Map<Object, Object> onlineUserStatusMap = hash.entrySet().stream()
+                // 仅过滤：value必须是JSONObject（排除非JSONObject的无效数据）
+                .filter(entry -> entry.getValue() instanceof JSONObject)
+                // 转换：提取ts并判断是否符合时间条件，保留所有有效条目（无论true/false）
+                .map(entry -> {
+                    JSONObject value = (JSONObject) entry.getValue();
+                    Long ts = value.getLong("ts"); // 若可能为null，建议先判断：value.optLong("ts", -1)
+                    boolean isWithinTime = ts != null && ts > timeThreshold;
+                    // 返回键和时间条件结果（true/false都保留）
+                    return new AbstractMap.SimpleEntry<>(entry.getKey(), isWithinTime);
+                })
+                // 收集：所有条目都保留，根据isWithinTime构建不同状态
+                .collect(Collectors.toMap(
+                        AbstractMap.SimpleEntry::getKey, // 键：原始account
+                        // 值：根据isWithinTime构建对应状态（true=在线，false=离线等）
+                        tempEntry -> {
+                            boolean flag = tempEntry.getValue();
+                            String account = tempEntry.getKey().toString();
+                            return buildOnlineStatus(flag, account); // 假设该方法可根据flag生成不同状态
+                        }
+                ));
+
+        // 3. 写入Redis
+        hashHandler.setAll(ONLINE_USER_LIST, onlineUserStatusMap);
     }
 
     @Override
@@ -245,14 +260,17 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
             }
         } else if (loginFlag && "wait".equals(orderStatus)) {
             // 指派派工单给在线用户
-            List<TaskOrder> taskOrderList = getTaskOrder();
+//            List<TaskOrder> taskOrderList = getTaskOrder();
+            // 旧的逻辑不靠谱，换新的
+            List<TaskOrder> taskOrderList = queryCanStartWorkTaskList();
             if (CollectionUtils.isEmpty(taskOrderList)) {
                 userStepMap.put(account, "none");
                 return;
             }
             // 查询300个派工单，按照已分配派工单排除，给没有任务的用户分配新的派工单，避免多个用户操作同一个派工单
             Map<String, TaskOrder> taskOrderMap = taskOrderList.stream().collect(Collectors.toMap(TaskOrder::getId, TaskOrder -> TaskOrder));
-            Set<String> taskOrderIds = taskOrderList.stream().map(TaskOrder::getId).collect(Collectors.toSet());
+            // Collectors.toSet()默认是HashSet，使用LinkedHashSet保持顺序一致性
+            Set<String> taskOrderIds = taskOrderList.stream().map(TaskOrder::getId).collect(Collectors.toCollection(LinkedHashSet::new));
             for (String taskOrderId : taskOrderIds) {
                 Collection<String> values = userTaskMap.values();
                 if (!values.contains(taskOrderId)) {
@@ -341,6 +359,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
 
     /**
      * 查询未开工的工单
+     *
      * @return 未开工的工单ID集合
      */
     public List<String> getWorkOrderList() {
@@ -352,7 +371,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
                 .eq(WorkOrder::getOrderStatus, OrderStatus.INIT)
                 .eq(Order::getOrderStatus, OrderStatus.INIT)
                 .orderByAsc(WorkOrder::getWorkOrderCode)
-                .last("limit 100"));
+                .last("limit 300"));
         return workOrderList.stream().map(WorkOrder::getId).collect(Collectors.toList());
     }
 
@@ -485,6 +504,22 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         return ajaxResult;
     }
 
+
+    /**
+     * 构建用户在线状态信息
+     *
+     * @param flag    在线标记：true.在线 false.离线
+     * @param account 账号
+     * @return
+     */
+    public JSONObject buildOnlineStatus(boolean flag, String account) {
+        JSONObject info = new JSONObject();
+        info.put("account", account);
+        info.put("online", flag);
+        info.put("ts", System.currentTimeMillis());
+        return info;
+    }
+
     /**
      * 更新用户在线状态
      *
@@ -527,5 +562,44 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         info.put("online", false);
         info.put("ts", System.currentTimeMillis());
         hashHandler.set(ONLINE_USER_LIST, account, info);
+    }
+
+    /**
+     * 查询工单下可以开工、暂停、复工、报工的派工单集合
+     *
+     * @return 可以开工、暂停、复工、报工的派工单集合
+     */
+    public List<TaskOrder> queryCanStartWorkTaskList() {
+        List<TaskOrder> resultList = new ArrayList<>(300);
+        List<TaskOrder> taskList = taskOrderMapper.queryCanStartTaskList();
+        Map<String, List<TaskOrder>> taskMap = taskList.stream().collect(Collectors.groupingBy(TaskOrder::getWorkOrderId));
+        Set<String> keySet = taskMap.keySet();
+        for (String workOrderId : keySet) {
+            List<TaskOrder> taskOrderList = taskMap.get(workOrderId);
+            TaskOrder canStartTask = findCanStartTask(taskOrderList);
+            if (Objects.nonNull(canStartTask)) {
+                resultList.add(canStartTask);
+            }
+        }
+        return resultList;
+    }
+
+    /**
+     * 查找工单下可以开工、暂停、复工、报工的派工单
+     *
+     * @param taskOrderList 派工单集合
+     * @return 可以开工、暂停、复工、报工的派工单
+     */
+    public TaskOrder findCanStartTask(List<TaskOrder> taskOrderList) {
+        if (CollectionUtils.isEmpty(taskOrderList)) {
+            return null;
+        }
+        for (TaskOrder taskOrder : taskOrderList) {
+            // 派工单不是报工状态，就继续交给用户操作
+            if (!OrderStatus.REPORT.equals(taskOrder.getStatus())) {
+                return taskOrder;
+            }
+        }
+        return null;
     }
 }
