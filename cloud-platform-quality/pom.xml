@@ -29,4 +29,35 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- 打包插件：完善配置，确保生成主清单 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <!-- 指定主类（确保类路径正确，存在 main 方法） -->
+                    <mainClass>com.maxinhai.platform.QualityApplication</mainClass>
+                    <!-- 可选：排除不必要的依赖（如果需要） -->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                <!-- 关键：添加 executions，执行 repackage 目标 -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <!-- 重新打包成可执行 JAR，生成主清单 -->
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
