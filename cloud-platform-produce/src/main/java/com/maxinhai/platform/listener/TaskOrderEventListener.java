@@ -2,6 +2,7 @@ package com.maxinhai.platform.listener;
 
 import com.maxinhai.platform.utils.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class TaskOrderEventListener {
 
+    @Value("${spring.profiles.active}")
+    private String env;
+
     // 使用@EventListener注解标记监听方法
     @Async
     @EventListener
@@ -28,7 +32,7 @@ public class TaskOrderEventListener {
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         AjaxResult ajaxResult = new RestTemplate().exchange(
-                        "http://localhost:10040/taskOrder/startWork/{taskOrderId}",
+                        "http://" + judgeEnv(env, "produce") + ":10040/taskOrder/startWork/{taskOrderId}",
                         HttpMethod.GET,
                         requestEntity,
                         AjaxResult.class,
@@ -50,7 +54,7 @@ public class TaskOrderEventListener {
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         AjaxResult ajaxResult = new RestTemplate().exchange(
-                        "http://localhost:10040/taskOrder/reportWork/{taskOrderId}",
+                        "http://" + judgeEnv(env, "produce") + ":10040/taskOrder/reportWork/{taskOrderId}",
                         HttpMethod.GET,
                         requestEntity,
                         AjaxResult.class,
@@ -72,7 +76,7 @@ public class TaskOrderEventListener {
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         AjaxResult ajaxResult = new RestTemplate().exchange(
-                        "http://localhost:10040/taskOrder/resumeWork/{taskOrderId}",
+                        "http://" + judgeEnv(env, "produce") + ":10040/taskOrder/resumeWork/{taskOrderId}",
                         HttpMethod.GET,
                         requestEntity,
                         AjaxResult.class,
@@ -82,6 +86,28 @@ public class TaskOrderEventListener {
 //        AjaxResult ajaxResult = new RestTemplate()
 //                .getForObject("http://localhost:10040/taskOrder/resumeWork/" + taskOrderEvent.getTaskOrderId(), AjaxResult.class);
         log.info("resumeWork ajaxResult: {}", ajaxResult.toString());
+    }
+
+    /**
+     * 根据环境判断使用localhost还是容器名
+     *
+     * @param env         环境
+     * @param serviceName 服务名称
+     * @return
+     */
+    public String judgeEnv(String env, String serviceName) {
+        String container = null;
+        switch (env) {
+            case "dev":
+                container = "localhost";
+                break;
+            case "prod":
+                container = "cloud-platform-" + serviceName;
+                break;
+            default:
+                throw new RuntimeException("Invalid env: " + env);
+        }
+        return container;
     }
 
 }

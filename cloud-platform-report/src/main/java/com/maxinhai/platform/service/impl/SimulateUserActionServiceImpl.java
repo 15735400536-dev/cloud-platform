@@ -27,6 +27,7 @@ import com.maxinhai.platform.service.SimulateUserActionService;
 import com.maxinhai.platform.utils.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -70,6 +71,8 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
     @Resource
     @Qualifier("ioIntensiveExecutor")
     public Executor ioIntensiveExecutor;
+    @Value("${spring.profiles.active}")
+    private String env;
 
     /**
      * 抖音关注正在直播账号
@@ -163,7 +166,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
                 JSONObject info = buildOnlineStatus(true, jsonObject.getStr("id_str"));
                 onlineUserStatusMap.put(jsonObject.getStr("id_str"), info);
             }
-            if(!CollectionUtils.isEmpty(onlineUserStatusMap)) {
+            if (!CollectionUtils.isEmpty(onlineUserStatusMap)) {
                 hashHandler.setAll(ONLINE_USER_LIST, onlineUserStatusMap);
             }
         } while (!CollectionUtils.isEmpty(msgList));
@@ -194,15 +197,13 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
                     return new AbstractMap.SimpleEntry<>(entry.getKey(), isWithinTime);
                 })
                 // 收集：所有条目都保留，根据isWithinTime构建不同状态
-                .collect(Collectors.toMap(
-                        AbstractMap.SimpleEntry::getKey, // 键：原始account
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, // 键：原始account
                         // 值：根据isWithinTime构建对应状态（true=在线，false=离线等）
                         tempEntry -> {
                             boolean flag = tempEntry.getValue();
                             String account = tempEntry.getKey().toString();
                             return buildOnlineStatus(flag, account); // 假设该方法可根据flag生成不同状态
-                        }
-                ));
+                        }));
 
         // 3. 写入Redis
         hashHandler.setAll(ONLINE_USER_LIST, onlineUserStatusMap);
@@ -344,16 +345,11 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
     public List<TaskOrder> getTaskOrder() {
         List<String> workOrderIds = getWorkOrderList();
         // 首道工序开工
-        List<TaskOrder> taskOrderList = taskOrderMapper.selectJoinList(TaskOrder.class, new MPJLambdaWrapper<TaskOrder>()
-                .innerJoin(WorkOrder.class, WorkOrder::getId, TaskOrder::getWorkOrderId)
-                .innerJoin(Order.class, Order::getId, TaskOrder::getOrderId)
+        List<TaskOrder> taskOrderList = taskOrderMapper.selectJoinList(TaskOrder.class, new MPJLambdaWrapper<TaskOrder>().innerJoin(WorkOrder.class, WorkOrder::getId, TaskOrder::getWorkOrderId).innerJoin(Order.class, Order::getId, TaskOrder::getOrderId)
                 // 字段别名
                 .select(TaskOrder::getId, TaskOrder::getStatus, TaskOrder::getSort)
                 // 查询条件
-                .eq(TaskOrder::getStatus, OrderStatus.INIT)
-                .in(WorkOrder::getId, workOrderIds)
-                .orderByAsc(TaskOrder::getSort)
-                .orderByAsc(WorkOrder::getId));
+                .eq(TaskOrder::getStatus, OrderStatus.INIT).in(WorkOrder::getId, workOrderIds).orderByAsc(TaskOrder::getSort).orderByAsc(WorkOrder::getId));
         return taskOrderList;
     }
 
@@ -363,15 +359,11 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
      * @return 未开工的工单ID集合
      */
     public List<String> getWorkOrderList() {
-        List<WorkOrder> workOrderList = workOrderMapper.selectJoinList(WorkOrder.class, new MPJLambdaWrapper<WorkOrder>()
-                .innerJoin(Order.class, Order::getId, WorkOrder::getOrderId)
+        List<WorkOrder> workOrderList = workOrderMapper.selectJoinList(WorkOrder.class, new MPJLambdaWrapper<WorkOrder>().innerJoin(Order.class, Order::getId, WorkOrder::getOrderId)
                 // 字段别名
                 .select(WorkOrder::getId)
                 // 查询条件
-                .eq(WorkOrder::getOrderStatus, OrderStatus.INIT)
-                .eq(Order::getOrderStatus, OrderStatus.INIT)
-                .orderByAsc(WorkOrder::getWorkOrderCode)
-                .last("limit 300"));
+                .eq(WorkOrder::getOrderStatus, OrderStatus.INIT).eq(Order::getOrderStatus, OrderStatus.INIT).orderByAsc(WorkOrder::getWorkOrderCode).last("limit 300"));
         return workOrderList.stream().map(WorkOrder::getId).collect(Collectors.toList());
     }
 
@@ -387,7 +379,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("sa-token", "internal");
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<JSONObject> requestEntity = new HttpEntity<>(param, headers);
-        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10010/api/auth/login", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "system") + ":10010/api/auth/login", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
         return ajaxResult;
     }
 
@@ -408,7 +400,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("Authorization", token);
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<JSONObject> requestEntity = new HttpEntity<>(param, headers);
-        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10010/api/auth/register", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "system") + ":10010/api/auth/register", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
         return ajaxResult;
     }
 
@@ -440,7 +432,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("Authorization", userTokenMap.get(account));
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<OrderAddDTO> requestEntity = new HttpEntity<>(param, headers);
-        ajaxResult = new RestTemplate().exchange("http://localhost:10040/order/addOrder", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
+        ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "produce") + ":10040/order/addOrder", HttpMethod.POST, requestEntity, AjaxResult.class).getBody();
         return ajaxResult;
     }
 
@@ -455,7 +447,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("Authorization", userTokenMap.get(account));
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/startWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "produce") + ":10040/taskOrder/startWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
         return ajaxResult;
     }
 
@@ -470,7 +462,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("Authorization", userTokenMap.get(account));
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/pauseWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "produce") + ":10040/taskOrder/pauseWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
         return ajaxResult;
     }
 
@@ -485,7 +477,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("Authorization", userTokenMap.get(account));
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/resumeWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "produce") + ":10040/taskOrder/resumeWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
         return ajaxResult;
     }
 
@@ -500,7 +492,7 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         headers.add("Authorization", userTokenMap.get(account));
         // 封装请求头和请求参数（GET请求无请求体，可传null）
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        AjaxResult ajaxResult = new RestTemplate().exchange("http://localhost:10040/taskOrder/reportWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
+        AjaxResult ajaxResult = new RestTemplate().exchange("http://" + judgeEnv(env, "produce") + ":10040/taskOrder/reportWork/{taskOrderId}", HttpMethod.GET, requestEntity, AjaxResult.class, taskOrderId).getBody();
         return ajaxResult;
     }
 
@@ -602,4 +594,27 @@ public class SimulateUserActionServiceImpl implements SimulateUserActionService 
         }
         return null;
     }
+
+    /**
+     * 根据环境判断使用localhost还是容器名
+     *
+     * @param env         环境
+     * @param serviceName 服务名称
+     * @return
+     */
+    public String judgeEnv(String env, String serviceName) {
+        String container = null;
+        switch (env) {
+            case "dev":
+                container = "localhost";
+                break;
+            case "prod":
+                container = "cloud-platform-" + serviceName;
+                break;
+            default:
+                throw new RuntimeException("Invalid env: " + env);
+        }
+        return container;
+    }
+
 }
