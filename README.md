@@ -39,3 +39,20 @@
 | minio        | 文件存储      | 9000、9001  | http://localhost:9001/browser |
 | elasticsearch | 分布式搜索引擎   | 9200、9300      | http://localhost:9200/ |
 | mongodb      | 非关系型数据库   | 27017       |  |
+
+### 清除端口占用进程
+```
+netstat -aon | findstr <PORT>
+taskkill /F /PID <PID>
+```
+
+### 解决Docker端口被占用问题
+```angular2html
+(HTTP code 500) server error - ports are not available: exposing port TCP 0.0.0.0:10010 -> 127.0.0.1:0: listen tcp 0.0.0.0:10010: 
+bind: An attempt was made to access a socket in a way forbidden by its access permissions.
+```
+```angular2html
+netstat -ano | findstr 6041
+net stop winnat
+net start winnat
+```
