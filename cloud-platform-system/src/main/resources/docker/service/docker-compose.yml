@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  cloud-platform-system:
+    # 使用Java 11基础镜像（轻量版JRE）
+    image: eclipse-temurin:11-jre-alpine
+    # 容器名称
+    container_name: cloud-platform-system
+    # 端口映射（宿主机端口:容器端口）
+    ports:
+      - "10010:10010"
+    # 自动重启策略（始终重启）
+    restart: always
+    # 环境变量配置（JVM参数）
+    environment:
+      # JVM初始内存512m，最大内存1024m
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - TZ=Asia/Shanghai # 1. 设置时区环境变量
+    # 挂载应用jar包（根据实际路径调整）
+    volumes:
+      - ./cloud-platform-system.jar:/app/app.jar
+    # 工作目录
+    working_dir: /app
+    # 启动命令
+    command: java $JAVA_OPTS -jar app.jar
+    # 统一网络
+    networks:
+      - docker_middleware-network
+
+  cloud-platform-produce:
+    # 使用Java 11基础镜像（轻量版JRE）
+    image: eclipse-temurin:11-jre-alpine
+    # 容器名称
+    container_name: cloud-platform-produce
+    # 端口映射（宿主机端口:容器端口）
+    ports:
+      - "10040:10040"
+    # 自动重启策略（始终重启）
+    restart: always
+    # 环境变量配置（JVM参数）
+    environment:
+      # JVM初始内存512m，最大内存1024m
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - TZ=Asia/Shanghai # 1. 设置时区环境变量
+    # 挂载应用jar包（根据实际路径调整）
+    volumes:
+      - ./cloud-platform-produce.jar:/app/app.jar
+    # 工作目录
+    working_dir: /app
+    # 启动命令
+    command: java $JAVA_OPTS -jar app.jar
+    # 统一网络
+    networks:
+      - docker_middleware-network
+
+  cloud-platform-quality:
+    # 使用Java 11基础镜像（轻量版JRE）
+    image: eclipse-temurin:11-jre-alpine
+    # 容器名称
+    container_name: cloud-platform-quality
+    # 端口映射（宿主机端口:容器端口）
+    ports:
+      - "10060:10060"
+    # 自动重启策略（始终重启）
+    restart: always
+    # 环境变量配置（JVM参数）
+    environment:
+      # JVM初始内存512m，最大内存1024m
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - TZ=Asia/Shanghai # 1. 设置时区环境变量
+    # 挂载应用jar包（根据实际路径调整）
+    volumes:
+      - ./cloud-platform-quality.jar:/app/app.jar
+    # 工作目录
+    working_dir: /app
+    # 启动命令
+    command: java $JAVA_OPTS -jar app.jar
+    # 统一网络
+    networks:
+      - docker_middleware-network
+
+  cloud-platform-report:
+    # 使用Java 11基础镜像（轻量版JRE）
+    image: eclipse-temurin:11-jre-alpine
+    # 容器名称
+    container_name: cloud-platform-report
+    # 端口映射（宿主机端口:容器端口）
+    ports:
+      - "10080:10080"
+    # 自动重启策略（始终重启）
+    restart: always
+    # 环境变量配置（JVM参数）
+    environment:
+      # JVM初始内存512m，最大内存1024m
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - TZ=Asia/Shanghai # 1. 设置时区环境变量
+    # 挂载应用jar包（根据实际路径调整）
+    volumes:
+      - ./cloud-platform-report.jar:/app/app.jar
+    # 工作目录
+    working_dir: /app
+    # 启动命令
+    command: java $JAVA_OPTS -jar app.jar
+    # 统一网络
+    networks:
+      - docker_middleware-network
+
+networks:
+  docker_middleware-network:
+    external: true  # 表明该网络是外部已创建的，无需 compose 再创建
