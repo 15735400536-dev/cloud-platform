@@ -1,0 +1,38 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: cloud-platform-system
+  cloud:
+    nacos:
+      config:
+        server-addr: nacos:8848
+        username: nacos
+        password: nacos
+        group: DEFAULT_GROUP
+        namespace: cloud-platform-prod
+        file-extension: yaml
+      discovery:
+        server-addr: nacos:8848
+        username: nacos
+        password: nacos
+  config:
+    import:
+      - "nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}"
+  #      - "nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}"
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER  # 切换为Ant路径匹配器，兼容Springfox
+
+xxl:
+  job:
+    admin:
+      addresses: http://xxl-job-admin:8080/xxl-job-admin  # 调度中心地址
+    executor:
+      appname: xxl-job-executor-demo  # 执行器名称，需与调度中心配置一致
+      address: http://cloud-platform-system:10011/ # 执行器地址，默认为空自动注册
+      ip: cloud-platform-system # 执行器IP，默认为空自动获取
+      port: 10011  # 执行器端口
+      logpath: /data/applogs/xxl-job/jobhandler  # 日志路径
+      logretentiondays: 30  # 日志保留天数
+    accessToken:  # 调度中心与执行器的通信令牌，非空时需一致

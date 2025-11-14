@@ -1,17 +1,15 @@
 server:
-  port: 10050
+  port: 10010
 spring:
   application:
-    name: cloud-platform-warehouse
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+    name: cloud-platform-system
   cloud:
     nacos:
       config:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
+        group: DEFAULT_GROUP
         file-extension: yaml
       discovery:
         server-addr: 127.0.0.1:8848
@@ -20,17 +18,20 @@ spring:
   config:
     import:
       - "nacos:${spring.application.name}.${spring.cloud.nacos.config.file-extension}"
-#      - "nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}"
+  #      - "nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}"
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER  # 切换为Ant路径匹配器，兼容Springfox
 
 xxl:
   job:
     admin:
       addresses: http://192.168.1.11:8080/xxl-job-admin  # 调度中心地址
     executor:
-      appname: xxl-job-executor-equip  # 执行器名称，需与调度中心配置一致
-      address: http://192.168.1.11:10013/ # 执行器地址，默认为空自动注册
+      appname: xxl-job-executor-demo  # 执行器名称，需与调度中心配置一致
+      address: http://192.168.1.11:10011/ # 执行器地址，默认为空自动注册
       ip: 192.168.1.11 # 执行器IP，默认为空自动获取
-      port: 10013  # 执行器端口
+      port: 10011  # 执行器端口
       logpath: /data/applogs/xxl-job/jobhandler  # 日志路径
       logretentiondays: 30  # 日志保留天数
     accessToken:  # 调度中心与执行器的通信令牌，非空时需一致
