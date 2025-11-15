@@ -1,9 +1,9 @@
 package com.maxinhai.platform.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
-import com.maxinhai.platform.po.ConnectConfig;
+import com.maxinhai.platform.po.MqttConfig;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface MqttConfigMapper extends MPJBaseMapper<ConnectConfig> {
+public interface MqttConfigMapper extends MPJBaseMapper<MqttConfig> {
 }

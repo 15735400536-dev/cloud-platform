@@ -12,7 +12,7 @@ import lombok.Data;
  * @Description: 连接配置
  */
 @Data
-@TableName("connect_config")
+@TableName("conn_connect")
 public class ConnectConfig extends RecordEntity {
 
     private String key;

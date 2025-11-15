@@ -1,6 +1,8 @@
 package com.maxinhai.platform.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.maxinhai.platform.enums.ContentType;
+import com.maxinhai.platform.enums.Method;
 import lombok.Data;
 
 /**
@@ -10,11 +12,13 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@TableName("api_config")
+@TableName("conn_api")
 public class ApiConfig extends RecordEntity {
 
     private String connectId;
-    private String method;
+    private String apiKey;
+    private Method method;
     private String url;
+    private ContentType contentType;
 
 }

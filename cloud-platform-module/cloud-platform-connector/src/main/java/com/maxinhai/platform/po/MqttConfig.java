@@ -10,10 +10,20 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@TableName("mqtt_config")
+@TableName("conn_mqtt")
 public class MqttConfig extends RecordEntity {
 
+    /**
+     * 连接ID
+     */
     private String connectId;
+    /**
+     * 订阅主题
+     */
     private String topic;
+    /**
+     * QoS等级（0/1/2）
+     */
+    private Integer qos;
 
 }

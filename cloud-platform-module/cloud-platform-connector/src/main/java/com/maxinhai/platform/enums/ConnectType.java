@@ -10,6 +10,7 @@ public enum ConnectType {
     API,
     MQTT,
     MQ,
-    WEBSOCKET;
+    WEBSOCKET,
+    WEBSERVICE,
 
 }

@@ -10,10 +10,17 @@ import lombok.Data;
  * @Description: 必须描述类做什么事情, 实现什么功能
  */
 @Data
-@TableName("mq_config")
+@TableName("conn_mq")
 public class MqConfig extends RecordEntity {
 
     private String connectId;
+    /**
+     * 交换机
+     */
+    private String exchange;
+    /**
+     * 订阅主题
+     */
     private String topic;
 
 }
