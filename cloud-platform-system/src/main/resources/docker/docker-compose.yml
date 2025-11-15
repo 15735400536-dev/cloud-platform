@@ -168,6 +168,28 @@ services:
     networks:
       - middleware-network
 
+  emqx:
+    image: emqx:5.8.8  # 指定 EMQX 版本
+    container_name: emqx
+    restart: always  # 容器退出后自动重启
+    environment:
+      # 设置 admin 账户初始密码（EMQX 5.x 支持该环境变量）
+      - EMQX_ADMIN_PASSWORD=MaXinHai!970923
+      # 可选：设置时区（避免日志时间与本地不一致）
+      - TZ=Asia/Shanghai
+    ports:
+      # 映射常用端口（根据需求选择，以下为典型端口）
+      - "1883:1883"    # MQTT 协议端口（TCP）
+      - "8883:8883"    # MQTT 协议端口（SSL/TLS）
+      - "8083:8083"    # MQTT 协议端口（WebSocket）
+      - "8084:8084"    # MQTT 协议端口（WebSocket over SSL/TLS）
+      - "18083:18083"  # EMQX Dashboard 管理界面端口
+    volumes:
+      # 持久化 EMQX 数据和配置（避免容器重启后数据丢失）
+      - emqx-data:/opt/emqx/data
+      - emqx-log:/opt/emqx/log
+      - emqx-etc:/opt/emqx/etc
+
 # 统一网络配置
 networks:
   middleware-network:
@@ -185,3 +207,6 @@ volumes:
   mongodb-data:
   elasticsearch-data:
   minio-data:
+  emqx-data:
+  emqx-log:
+  emqx-etc:
