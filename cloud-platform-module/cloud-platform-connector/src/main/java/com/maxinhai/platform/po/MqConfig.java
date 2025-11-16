@@ -7,7 +7,7 @@ import lombok.Data;
  * @ClassName：ApiConfig
  * @Author: XinHai.Ma
  * @Date: 2025/8/21 10:39
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: MQ配置详情
  */
 @Data
 @TableName("conn_mq")

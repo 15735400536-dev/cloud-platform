@@ -68,7 +68,7 @@ public class ApiHandler implements CommandLineRunner {
         Map<String, ConnectConfig> connectMap = connectList.stream().collect(Collectors.toMap(ConnectConfig::getId, ConnectConfig -> ConnectConfig));
         List<String> connectIds = connectList.stream().map(ConnectConfig::getId).collect(Collectors.toList());
         List<ApiConfig> apiConfigList = apiMapper.selectList(new LambdaQueryWrapper<ApiConfig>()
-                .select(ApiConfig::getConnectId, ApiConfig::getApiKey, ApiConfig::getUrl, ApiConfig::getMethod, ApiConfig::getMediaType)
+                .select(ApiConfig::getConnectId, ApiConfig::getApiKey, ApiConfig::getUrl, ApiConfig::getMethod)
                 .in(ApiConfig::getConnectId, connectIds));
 
         for (ApiConfig apiConfig : apiConfigList) {

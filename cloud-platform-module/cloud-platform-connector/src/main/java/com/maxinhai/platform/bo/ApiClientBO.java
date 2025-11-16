@@ -1,7 +1,6 @@
 package com.maxinhai.platform.bo;
 
 import com.maxinhai.platform.enums.ConnectType;
-import com.maxinhai.platform.enums.MediaType;
 import com.maxinhai.platform.enums.Method;
 import com.maxinhai.platform.po.ApiConfig;
 import com.maxinhai.platform.po.ConnectConfig;
@@ -22,7 +21,6 @@ public class ApiClientBO {
     private String password;
     private String apiKey;
     private Method method;
-    private MediaType mediaType;
     private String url;
 
     public static ApiClientBO build(ConnectConfig connectConfig, ApiConfig apiConfig) {
@@ -35,7 +33,6 @@ public class ApiClientBO {
         apiClient.setPassword(connectConfig.getPassword());
         apiClient.setApiKey(apiConfig.getApiKey());
         apiClient.setMethod(apiConfig.getMethod());
-        apiClient.setMediaType(apiConfig.getMediaType());
         apiClient.setUrl(apiConfig.getUrl());
         return apiClient;
     }
