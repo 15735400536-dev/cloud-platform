@@ -12,6 +12,7 @@ import com.maxinhai.platform.po.MqttConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -234,7 +235,7 @@ public class MqttHandler implements CommandLineRunner {
         callbackMap.put(clientId, mqttCallback);
     }
 
-    //@Scheduled(initialDelay = 5000, fixedDelay = 3000)
+    @Scheduled(initialDelay = 5000, fixedDelay = 60000)
     public void sendMsgTask() throws MqttException {
         JSONObject msg = new JSONObject();
         msg.set("source", "MQTT");
