@@ -1,7 +1,7 @@
 package com.maxinhai.platform.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.maxinhai.platform.enums.ContentType;
+import com.maxinhai.platform.enums.MediaType;
 import com.maxinhai.platform.enums.Method;
 import lombok.Data;
 
@@ -19,6 +19,6 @@ public class ApiConfig extends RecordEntity {
     private String apiKey;
     private Method method;
     private String url;
-    private ContentType contentType;
+    private MediaType mediaType;
 
 }

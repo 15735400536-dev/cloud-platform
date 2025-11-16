@@ -17,6 +17,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -30,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @ClassName：ApiHandler
  * @Author: XinHai.Ma
  * @Date: 2025/8/21 11:39
- * @Description: 必须描述类做什么事情, 实现什么功能
+ * @Description: MQ消息处理器
  */
 @Slf4j
 @Component
@@ -186,7 +187,7 @@ public class MqHandler implements CommandLineRunner {
         listenerContainerMap.put(cacheKey, container);
     }
 
-    //@Scheduled(initialDelay = 10000, fixedDelay = 5000)
+    @Scheduled(initialDelay = 3000, fixedDelay = 60000)
     public void sendMsgTask() {
         JSONObject msg = new JSONObject();
         msg.set("source", "MQ");
