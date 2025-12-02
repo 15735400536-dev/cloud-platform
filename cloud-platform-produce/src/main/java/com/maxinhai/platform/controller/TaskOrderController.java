@@ -2,10 +2,10 @@ package com.maxinhai.platform.controller;
 
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.maxinhai.platform.bo.DailyProcessFinishTaskOrderQtyBO;
 import com.maxinhai.platform.dto.TaskOrderQueryDTO;
-import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.enums.OrderStatus;
+import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.service.TaskOrderService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.DateUtils;
@@ -90,6 +90,12 @@ public class TaskOrderController {
                 .orderByAsc(TaskOrder::getActualEndTime));
         printGanttChart(taskOrderList);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/queryDailyProcessFinishTaskOrderQty")
+    @ApiOperation(value = "查询每天每道工序派工单完成数量", notes = "查询每天每道工序派工单完成数量")
+    public AjaxResult<List<DailyProcessFinishTaskOrderQtyBO>> queryDailyProcessFinishTaskOrderQty() {
+        return AjaxResult.success(taskOrderService.queryDailyProcessFinishTaskOrderQty());
     }
 
     private static final int BAR_LENGTH = 50; // 最长条形图长度

@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.dto.WorkOrderQueryDTO;
-import com.maxinhai.platform.po.*;
 import com.maxinhai.platform.enums.OrderStatus;
+import com.maxinhai.platform.mapper.OrderMapper;
 import com.maxinhai.platform.mapper.WorkOrderMapper;
+import com.maxinhai.platform.po.Order;
+import com.maxinhai.platform.po.Product;
+import com.maxinhai.platform.po.WorkOrder;
 import com.maxinhai.platform.po.technology.Bom;
 import com.maxinhai.platform.po.technology.Routing;
 import com.maxinhai.platform.service.WorkOrderService;
@@ -27,6 +30,8 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
     @Resource
     private WorkOrderMapper workOrderMapper;
+    @Resource
+    private OrderMapper orderMapper;
 
     @Override
     public Page<WorkOrderVO> searchByPage(WorkOrderQueryDTO param) {
@@ -80,4 +85,5 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
                 .eq(WorkOrder::getOrderStatus, OrderStatus.REPORT)
                 .between(WorkOrder::getActualEndTime, DateUtils.getBeginTimeOfToday(), DateUtils.getEndTimeOfToday()));
     }
+
 }

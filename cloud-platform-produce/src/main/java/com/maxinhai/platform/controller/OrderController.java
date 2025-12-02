@@ -7,6 +7,7 @@ import com.maxinhai.platform.service.TaskOrderService;
 import com.maxinhai.platform.service.WorkOrderService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.OrderProgressVO;
 import com.maxinhai.platform.vo.OrderVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RefreshScope
@@ -66,6 +68,37 @@ public class OrderController {
         result.put("todayFinishWorkOrderCount", workOrderService.getTodayFinishWorkOrderCount());
         result.put("todayFinishTaskOrderCount", taskOrderService.getTodayFinishTaskOrderCount());
         return AjaxResult.success(result);
+    }
+
+    private boolean apiSwitch = true;
+
+    @PostMapping("/orderProgress")
+    @ApiOperation(value = "订单进度统计", notes = "订单进度统计")
+    public AjaxResult<OrderProgressVO> orderProgress() {
+        apiSwitch = !apiSwitch;
+        if(apiSwitch) {
+            return AjaxResult.success(orderService.orderProgress());
+        } else {
+            return AjaxResult.success(orderService.orderProgressEx());
+        }
+    }
+
+    @PostMapping("/orderProgressNew")
+    @ApiOperation(value = "订单进度统计(新)", notes = "订单进度统计（效率高，减少数据库交互次数）")
+    public AjaxResult<OrderProgressVO> orderProgressNew() {
+        return AjaxResult.success(orderService.orderProgressEx1());
+    }
+
+    @PostMapping("/orderProgressNew1")
+    @ApiOperation(value = "订单进度统计(新1)", notes = "订单进度统计（效率高，减少数据库交互次数，减少查询时数据）")
+    public AjaxResult<OrderProgressVO> orderProgressNew1() {
+        return AjaxResult.success(orderService.orderProgressEx2());
+    }
+
+    @PostMapping("/orderProgressNew2")
+    @ApiOperation(value = "订单进度统计(新2)", notes = "订单进度统计（效率高，减少数据库交互次数，减少查询时数据，多线程异步查询，增加数据库瞬时压力）")
+    public AjaxResult<OrderProgressVO> orderProgressNew2() throws ExecutionException, InterruptedException {
+        return AjaxResult.success(orderService.orderProgressEx3());
     }
 
 }

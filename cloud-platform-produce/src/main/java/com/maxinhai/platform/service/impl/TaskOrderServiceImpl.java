@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.maxinhai.platform.bo.DailyProcessFinishTaskOrderQtyBO;
 import com.maxinhai.platform.dto.TaskOrderQueryDTO;
 import com.maxinhai.platform.enums.OperateType;
 import com.maxinhai.platform.enums.OrderStatus;
@@ -414,5 +415,10 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                 .innerJoin(Order.class, Order::getId, TaskOrder::getOrderId)
                 .eq(TaskOrder::getStatus, OrderStatus.REPORT)
                 .between(TaskOrder::getActualEndTime, DateUtils.getBeginTimeOfToday(), DateUtils.getEndTimeOfToday()));
+    }
+
+    @Override
+    public List<DailyProcessFinishTaskOrderQtyBO> queryDailyProcessFinishTaskOrderQty() {
+        return taskOrderMapper.queryDailyProcessFinishTaskOrderQty();
     }
 }

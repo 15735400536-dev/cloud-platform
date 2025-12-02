@@ -1,6 +1,7 @@
 package com.maxinhai.platform.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
+import com.maxinhai.platform.bo.DailyProcessFinishTaskOrderQtyBO;
 import com.maxinhai.platform.po.TaskOrder;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -37,5 +38,17 @@ public interface TaskOrderMapper extends MPJBaseMapper<TaskOrder> {
             ")" +
             "order by task.work_order_id, task.sort asc")
     List<TaskOrder> queryCanStartTaskList();
+
+    /**
+     * 查询每天每道工序派工单完成数量
+     * @return 每天每道工序派工单完成数量
+     */
+    @Select(value = "select date(task.actual_end_time) as daily, task.operation_id, op.code as operation_code, op.name as operation_name, count(*) as qty " +
+            "from prod_task_order task " +
+            "inner join mdm_operation op on task.operation_id = op.id " +
+            "where task.del_flag = 0 and task.status = 4 " +
+            "group by date(task.actual_end_time), task.operation_id, op.code, op.name " +
+            "order by date(task.actual_end_time) ")
+    List<DailyProcessFinishTaskOrderQtyBO> queryDailyProcessFinishTaskOrderQty();
 
 }

@@ -2,9 +2,12 @@ package com.maxinhai.platform.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.bo.DailyProcessFinishTaskOrderQtyBO;
 import com.maxinhai.platform.dto.TaskOrderQueryDTO;
 import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.vo.TaskOrderVO;
+
+import java.util.List;
 
 public interface TaskOrderService extends IService<TaskOrder> {
 
@@ -87,5 +90,11 @@ public interface TaskOrderService extends IService<TaskOrder> {
      * @return 今日工单完成数量
      */
     long getTodayFinishTaskOrderCount();
+
+    /**
+     * 查询每天每道工序派工单完成数量
+     * @return 每天每道工序派工单完成数量
+     */
+    List<DailyProcessFinishTaskOrderQtyBO> queryDailyProcessFinishTaskOrderQty();
 
 }
