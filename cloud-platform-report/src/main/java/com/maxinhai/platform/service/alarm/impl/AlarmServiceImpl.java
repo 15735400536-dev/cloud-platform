@@ -1,6 +1,5 @@
 package com.maxinhai.platform.service.alarm.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,19 +10,17 @@ import com.maxinhai.platform.dto.alarm.AlarmQueryDTO;
 import com.maxinhai.platform.dto.alarm.RealTimeAlarmDTO;
 import com.maxinhai.platform.enums.AlarmStatus;
 import com.maxinhai.platform.handler.StringHandler;
-import com.maxinhai.platform.mapper.alarm.AlarmImageMapper;
 import com.maxinhai.platform.mapper.alarm.AlarmMapper;
 import com.maxinhai.platform.mapper.alarm.AlgorithmMapper;
 import com.maxinhai.platform.po.alarm.Alarm;
 import com.maxinhai.platform.po.alarm.AlarmImage;
 import com.maxinhai.platform.po.alarm.Algorithm;
+import com.maxinhai.platform.service.alarm.AlarmImageService;
 import com.maxinhai.platform.service.alarm.AlarmService;
-import com.maxinhai.platform.utils.ImageBase64Utils;
 import com.maxinhai.platform.vo.alarm.AlarmVO;
 import com.maxinhai.platform.vo.alarm.CountAlarmInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -40,7 +37,7 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, Alarm> implements
 
     private final AlgorithmMapper algorithmMapper;
     private final AlarmMapper alarmMapper;
-    private final AlarmImageMapper alarmImageMapper;
+    private final AlarmImageService alarmImageService;
     private final StringHandler stringHandler;
     // 算法缓存
     private static final Map<String, Algorithm> algorithmMap = new ConcurrentHashMap<>();
@@ -73,8 +70,8 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, Alarm> implements
     @Override
     public void remove(String[] ids) {
         List<String> alarmIds = Arrays.stream(ids).collect(Collectors.toList());
-        alarmImageMapper.deleteBatchIds(alarmIds);
-        alarmImageMapper.delete(new LambdaQueryWrapper<AlarmImage>().in(AlarmImage::getAlarmId, alarmIds));
+        alarmMapper.deleteBatchIds(alarmIds);
+        alarmImageService.remove(new LambdaQueryWrapper<AlarmImage>().in(AlarmImage::getAlarmId, alarmIds));
     }
 
     @Override
@@ -161,43 +158,11 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, Alarm> implements
         List<String> imgs = (List<String>) stringHandler.get(alarmImageKey);
 
         // 异步处理图片（IO密集型操作异步化，主线程快速返回）
-        asyncHandleAlarmImages(alarm.getId(), imgs);
+        alarmImageService.asyncHandleAlarmImages(alarm.getId(), imgs);
 
         // 删除Redis缓存
         stringHandler.delete(alarmInfoKey);
         stringHandler.delete(alarmImageKey);
-    }
-
-    /**
-     * 异步处理图片：Base64转文件 + 批量插入数据库
-     *
-     * @param alarmId 告警记录ID
-     * @param imgs    Base64图片列表
-     */
-    @Async("ioIntensiveExecutor") // 指定异步线程池
-    public void asyncHandleAlarmImages(String alarmId, List<String> imgs) {
-        try {
-            // 收集所有图片数据，准备批量插入
-            List<AlarmImage> alarmImageList = new ArrayList<>(imgs.size());
-            for (String imgStr : imgs) {
-                AlarmImage alarmImage = new AlarmImage();
-                alarmImage.setAlarmId(alarmId);
-                String saveFileName = DateUtil.format(new Date(), "yyyyMMdd_HHmmss_SSS") + ".jpg";
-                String savePath = ImageBase64Utils.base64ToImage(imgStr, saveFileName);
-                alarmImage.setImageName(saveFileName);
-                alarmImage.setImageUrl(savePath);
-                alarmImageList.add(alarmImage);
-            }
-
-            // 批量插入数据库（减少数据库交互次数）
-            if (!alarmImageList.isEmpty()) {
-                alarmImageMapper.batchInsert(alarmImageList); // 需在Mapper中实现批量插入方法
-            }
-        } catch (Exception e) {
-            // 异常处理：记录日志（必要时可加重试机制）
-            log.error("异步处理告警图片失败，alarmId：{}，错误信息：{}", alarmId, e.getMessage());
-            // 若需要重试，可使用Spring的Retry注解，或手动实现重试逻辑
-        }
     }
 
     /**
