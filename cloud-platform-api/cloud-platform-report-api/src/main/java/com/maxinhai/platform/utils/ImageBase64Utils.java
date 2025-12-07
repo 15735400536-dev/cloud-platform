@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Locale;
 
 /**
  * 基于Hutool 5.8.39的图片与Base64互转工具类
@@ -14,12 +16,6 @@ import java.io.IOException;
  */
 public class ImageBase64Utils {
 
-    /**
-     * 默认图片保存根路径（项目根目录下的 image-base64-output 文件夹）
-     * 多系统自动适配：Hutool的FileUtil自动处理路径分隔符（\或/）
-     */
-    private static final String DEFAULT_SAVE_ROOT_PATH = FileUtil.file(System.getProperty("user.dir"), "image-base64-output").getAbsolutePath();
-
     // ------------------------------ 常量：Base64数据头前缀 ------------------------------
     private static final String BASE64_IMAGE_PREFIX = "data:image/";
     private static final String BASE64_SUFFIX = ";base64,";
@@ -27,12 +23,14 @@ public class ImageBase64Utils {
     // ------------------------------------------------------------------------
     // 功能1：本地图片文件 → Base64编码（支持带数据头/不带数据头）
     // ------------------------------------------------------------------------
+
     /**
      * 本地图片转Base64（带数据头，如 data:image/png;base64,xxx）
+     *
      * @param imageFilePath 本地图片绝对路径（例：D:/test/1.png 或 /Users/test/2.jpg 或 /home/test/3.png）
      * @return 带格式数据头的Base64字符串
      * @throws IllegalArgumentException 参数非法时抛出
-     * @throws IOException 图片读取失败时抛出
+     * @throws IOException              图片读取失败时抛出
      */
     public static String imageToBase64(String imageFilePath) throws IOException {
         // 1. 参数校验
@@ -64,6 +62,7 @@ public class ImageBase64Utils {
 
     /**
      * 本地图片转Base64（不带数据头，纯编码字符串）
+     *
      * @param imageFilePath 本地图片绝对路径
      * @return 纯Base64编码（无 data:image/xxx;base64, 前缀）
      * @throws IOException 图片读取失败时抛出
@@ -80,26 +79,29 @@ public class ImageBase64Utils {
     // ------------------------------------------------------------------------
     // 功能2：Base64编码 → 图片文件（保存到本地，兼容多系统）
     // ------------------------------------------------------------------------
+
     /**
      * Base64转图片并保存到本地（使用默认保存路径）
+     *
      * @param base64Str Base64字符串（支持带数据头或不带，例：data:image/png;base64,xxx 或 xxx）
-     * @param fileName 保存的图片文件名（必须带后缀，例：test.png、demo.jpg）
+     * @param fileName  保存的图片文件名（必须带后缀，例：test.png、demo.jpg）
      * @return 图片保存后的绝对路径（兼容当前系统格式）
      * @throws IllegalArgumentException 参数非法时抛出
-     * @throws IOException 目录创建失败或文件写入失败时抛出
+     * @throws IOException              目录创建失败或文件写入失败时抛出
      */
     public static String base64ToImage(String base64Str, String fileName) throws IOException {
-        return base64ToImage(base64Str, fileName, DEFAULT_SAVE_ROOT_PATH);
+        return base64ToImage(base64Str, fileName, getDefaultSaveRootPath());
     }
 
     /**
      * Base64转图片并保存到本地（自定义保存路径）
-     * @param base64Str Base64字符串（支持带/不带数据头）
-     * @param fileName 保存的图片文件名（必须带后缀，例：test.png、demo.jpg）
+     *
+     * @param base64Str          Base64字符串（支持带/不带数据头）
+     * @param fileName           保存的图片文件名（必须带后缀，例：test.png、demo.jpg）
      * @param customSaveRootPath 自定义保存根路径（例：D:/my-images 或 /Users/my-images 或 /home/my-images）
      * @return 图片保存后的绝对路径
      * @throws IllegalArgumentException 参数非法时抛出
-     * @throws IOException 目录创建失败或文件写入失败时抛出
+     * @throws IOException              目录创建失败或文件写入失败时抛出
      */
     public static String base64ToImage(String base64Str, String fileName, String customSaveRootPath) throws IOException {
         // 1. 核心参数校验
@@ -136,9 +138,11 @@ public class ImageBase64Utils {
     }
 
     // ------------------------------ 辅助方法：手动去除Base64数据头 ------------------------------
+
     /**
      * 手动去除Base64字符串中的数据头（替代不存在的stripPrefix方法）
      * 处理逻辑：如果包含 "data:image/" 和 ";base64,"，则截取后面的纯编码部分
+     *
      * @param base64Str 带数据头或不带数据头的Base64字符串
      * @return 纯Base64编码
      */
@@ -156,8 +160,34 @@ public class ImageBase64Utils {
     }
 
     // ------------------------------ 辅助方法：获取默认保存路径 ------------------------------
+
+    /**
+     * 获取默认保存根路径
+     * 根据不同操作系统返回对应的标准存储路径，使用Path.of()拼接
+     *
+     * @return 跨平台兼容的默认保存根路径（Path对象）
+     */
     public static String getDefaultSaveRootPath() {
-        return DEFAULT_SAVE_ROOT_PATH;
+        // 1. 获取操作系统类型（转小写方便判断）
+        String osName = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+        Path rootPath;
+
+        // 2. 根据不同系统确定基础根路径
+        if (osName.contains("win")) {
+            // Windows系统：优先使用用户文档目录（C:\Users\用户名\Documents）
+            rootPath = Path.of("C:", "Coalbot", "images");
+        } else if (osName.contains("mac")) {
+            // macOS系统：用户文档目录（/Users/用户名/Documents）
+            rootPath = Path.of("Users", "Coalbot", "images");
+        } else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
+            // Linux/Unix系统：用户主目录（/home/用户名）或特定数据目录
+            rootPath = Path.of("home", "Coalbot", "images");
+        } else {
+            // 其他未知系统：使用用户主目录作为 fallback
+            String userHome = System.getProperty("user.home");
+            rootPath = Path.of(userHome, "Coalbot", "images");
+        }
+        return rootPath.toString();
     }
 
 }
