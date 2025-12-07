@@ -1,5 +1,6 @@
 package com.maxinhai.platform.interceptor;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.maxinhai.platform.config.JwtConfig;
 import com.maxinhai.platform.feign.SystemFeignClient;
@@ -43,21 +44,21 @@ public class AuthInterceptor implements HandlerInterceptor, Ordered {
             return false;
         }
 
-        // 3. 移除 Bearer 前缀（如果有）
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
-        }
-
-        // 内部标识，放行
+        // 3. 内部标识，放行
         if("internal".equals(token)) {
             return true;
         }
 
+        // 4. 移除 Bearer 前缀（如果有）
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
         try {
-            // 4. 解析 Token 获取账号
+            // 5. 解析 Token 获取账号
             String account = jwtConfig.getAccountFromToken(token);
 
-            // 5. 检查 Token 是否有效（与 Redis 中存储的 Token 比对）
+            // 6. 检查 Token 是否有效（与 Redis 中存储的 Token 比对）
             String redisToken = (String) redisTemplate.opsForValue().get("auth:token:" + account);
             if (redisToken == null || !redisToken.equals(token)) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -66,7 +67,7 @@ public class AuthInterceptor implements HandlerInterceptor, Ordered {
                 return false;
             }
 
-            // 6. 验证 Token
+            // 7. 验证 Token
             if (!jwtConfig.validateToken(token, account)) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setCharacterEncoding("UTF-8"); // 强制响应流用 UTF-8 编码
@@ -74,7 +75,7 @@ public class AuthInterceptor implements HandlerInterceptor, Ordered {
                 return false;
             }
 
-            // 7. 获取用户信息并设置到 ThreadLocal 中
+            // 8. 获取用户信息并设置到 ThreadLocal 中
             UserVO user = systemFeignClient.findByAccount(account).getData();
             LoginUserContext.set(user.getId(), "userId", user.getId());
             LoginUserContext.set(user.getId(), "account", user.getAccount());
@@ -92,6 +93,9 @@ public class AuthInterceptor implements HandlerInterceptor, Ordered {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         // 1. 从请求头中获取 Token
         String token = request.getHeader("Authorization");
+        if(StrUtil.isEmpty(token) || "internal".equals(token)) {
+            return;
+        }
         // 2. 解析 Token 获取用户ID
         String userId = jwtConfig.getUserIdFromToken(token);
         // 3. 清除登录用户上下文
