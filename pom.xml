@@ -27,6 +27,7 @@
         <module>cloud-platform-project</module>
         <module>cloud-platform-zlmediakit</module>
         <module>cloud-platform-admin</module>
+        <module>cloud-platform-algorithm</module>
     </modules>
 
     <properties>
