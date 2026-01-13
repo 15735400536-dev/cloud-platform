@@ -29,6 +29,7 @@
         <module>cloud-platform-admin</module>
         <module>cloud-platform-algorithm</module>
         <module>cloud-platform-data-reporting</module>
+        <module>cloud-platform-robot</module>
     </modules>
 
     <properties>
