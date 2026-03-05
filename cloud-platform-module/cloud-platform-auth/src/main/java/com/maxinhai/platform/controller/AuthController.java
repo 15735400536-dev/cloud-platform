@@ -77,6 +77,9 @@ public class AuthController {
         userAddDTO.setUsername(param.getUsername());
         // 密码加密
         userAddDTO.setPassword(passwordEncoder.encode(param.getPassword()));
+        userAddDTO.setPhone(param.getPhone());
+        userAddDTO.setSex("未知");
+        userAddDTO.setEmail("2485460305@qq.com");
         systemFeignClient.addUser(userAddDTO);
         return AjaxResult.success("注册成功!");
     }
