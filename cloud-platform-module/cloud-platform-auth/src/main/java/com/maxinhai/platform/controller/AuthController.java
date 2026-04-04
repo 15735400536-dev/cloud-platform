@@ -75,11 +75,10 @@ public class AuthController {
         UserAddDTO userAddDTO = new UserAddDTO();
         userAddDTO.setAccount(param.getAccount());
         userAddDTO.setUsername(param.getUsername());
-        // 密码加密
-        userAddDTO.setPassword(passwordEncoder.encode(param.getPassword()));
+        userAddDTO.setPassword(param.getPassword());
         userAddDTO.setPhone(param.getPhone());
-        userAddDTO.setSex("未知");
-        userAddDTO.setEmail("2485460305@qq.com");
+        userAddDTO.setSex(param.getSex());
+        userAddDTO.setEmail(param.getEmail());
         systemFeignClient.addUser(userAddDTO);
         return AjaxResult.success("注册成功!");
     }
