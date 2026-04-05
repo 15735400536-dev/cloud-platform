@@ -29,8 +29,18 @@ public interface UserFollowService extends IService<UserFollow> {
      */
     boolean getFollowByUserIdAndFollowId(@Param("userId") String userId, @Param("followId") String followId);
 
+    /**
+     * 关注用户
+     * @param param 关注参数
+     * @return 操作结果：TRUE.成功 FALSE.失败
+     */
     boolean follow(FollowDTO param);
 
+    /**
+     * 取消关注
+     * @param param 取关参数
+     * @return 操作结果：TRUE.成功 FALSE.失败
+     */
     boolean cancel(CancelDTO param);
 
     /**
