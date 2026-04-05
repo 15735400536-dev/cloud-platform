@@ -1,6 +1,7 @@
 package com.maxinhai.platform.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.maxinhai.platform.po.User;
 import com.maxinhai.platform.po.UserFollow;
 import com.maxinhai.platform.vo.UserFollowVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,5 +39,24 @@ public interface UserFollowMapper extends BaseMapper<UserFollow> {
             "WHERE  f.del_flag = 0 AND u.del_flag = 0 " +
             "AND f.user_id = #{userId} AND f.follow_id = #{followId}")
     UserFollow getFollowByUserIdAndFollowId(@Param("userId") String userId, @Param("followId") String followId);
+
+    @Select(value = "SELECT u.id, u.account, u.username " +
+            "FROM sys_user u " +
+            "WHERE u.del_flag = 0 " +
+            "AND NOT EXISTS( " +
+            " SELECT 1 " +
+            " FROM mdm_user_follow follow " +
+            " WHERE follow.del_flag = 0 " +
+            " AND follow.user_id = u.id" +
+            ")")
+    List<User> getUnfollowedUserList();
+
+    @Select(value = "SELECT follow.user_id, follow.follow_id, COUNT(*) " +
+            "FROM mdm_user_follow follow " +
+            "WHERE follow.del_flag = 0 " +
+            "AND follow.user_id = #{userId} " +
+            "GROUP BY follow.user_id, follow.follow_id " +
+            "HAVING COUNT(*) > 1")
+    List<User> getDuplicateFollowedUserList(@Param("userId") String userId);
 
 }

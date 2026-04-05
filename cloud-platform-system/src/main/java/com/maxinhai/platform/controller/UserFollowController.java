@@ -5,6 +5,7 @@ import com.maxinhai.platform.dto.follow.FollowDTO;
 import com.maxinhai.platform.service.UserFollowService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.vo.UserFollowVO;
+import com.maxinhai.platform.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +37,25 @@ public class UserFollowController {
     @ApiOperation(value = "关注用户", notes = "根据用户ID和关注用户ID关注用户")
     @PostMapping("/follow")
     public AjaxResult<Boolean> follow(@RequestBody FollowDTO param) {
-        return AjaxResult.success(true);
+        return AjaxResult.success(userFollowService.follow(param));
     }
 
     @ApiOperation(value = "取消关注用户", notes = "根据用户ID和关注用户ID取消关注用户")
     @PostMapping("/cancel")
     public AjaxResult<Boolean> cancel(@RequestBody CancelDTO param) {
-        return AjaxResult.success(true);
+        return AjaxResult.success( userFollowService.cancel(param));
+    }
+
+    @ApiOperation(value = "查询[没关注过任何人]的用户列表", notes = "查询[没关注过任何人]的用户列表")
+    @PostMapping("/getUnfollowedUserList")
+    public AjaxResult<List<UserVO>> getUnfollowedUserList() {
+        return AjaxResult.success(userFollowService.getUnfollowedUserList());
+    }
+
+    @ApiOperation(value = "根据用户ID查询重复关注用户列表数据", notes = "根据用户ID查询重复关注用户列表数据")
+    @GetMapping("/getDuplicateFollowedUserList/{userId}")
+    public AjaxResult<List<UserVO>> getDuplicateFollowedUserList(@PathVariable("userId") String userId) {
+        return AjaxResult.success(userFollowService.getDuplicateFollowedUserList(userId));
     }
 
 }

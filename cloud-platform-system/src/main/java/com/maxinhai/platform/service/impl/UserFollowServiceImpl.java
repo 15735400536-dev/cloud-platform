@@ -1,6 +1,6 @@
 package com.maxinhai.platform.service.impl;
 
-import com.alibaba.nacos.common.utils.CollectionUtils;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.maxinhai.platform.dto.follow.CancelDTO;
@@ -12,9 +12,11 @@ import com.maxinhai.platform.po.UserFollow;
 import com.maxinhai.platform.po.User;
 import com.maxinhai.platform.service.UserFollowService;
 import com.maxinhai.platform.vo.UserFollowVO;
+import com.maxinhai.platform.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -38,8 +40,15 @@ public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFol
 
     @PostConstruct
     public void initData() {
-        List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>()
-                .select(User::getId, User::getAccount, User::getUsername));
+        List<User> userList = followMapper.getUnfollowedUserList();
+
+        if(CollectionUtils.isEmpty(userList)) {
+            List<User> allUserList = userMapper.selectList(new LambdaQueryWrapper<User>()
+                    .select(User::getId, User::getAccount, User::getUsername));
+            if(!CollectionUtils.isEmpty(allUserList)) {
+                userList.addAll(allUserList);
+            }
+        }
 
         for (User user : userList) {
             ioIntensiveExecutor.execute(() -> {
@@ -115,5 +124,23 @@ public class UserFollowServiceImpl extends ServiceImpl<UserFollowMapper, UserFol
         UserFollow follow = followMapper.getFollowByUserIdAndFollowId(param.getUserId(), param.getFollowId());
         int row = followMapper.deleteById(follow.getId());
         return row > 0;
+    }
+
+    @Override
+    public List<UserVO> getUnfollowedUserList() {
+        List<User> unfollowedUserList = followMapper.getUnfollowedUserList();
+        if(unfollowedUserList.size() <= 500) {
+            return BeanUtil.copyToList(unfollowedUserList, UserVO.class);
+        }
+        return BeanUtil.copyToList(unfollowedUserList.subList(0,500), UserVO.class);
+    }
+
+    @Override
+    public List<UserVO> getDuplicateFollowedUserList(String userId) {
+        List<User> duplicateFollowedUserList = followMapper.getDuplicateFollowedUserList(userId);
+        if(duplicateFollowedUserList.size() <= 500) {
+            return BeanUtil.copyToList(duplicateFollowedUserList, UserVO.class);
+        }
+        return BeanUtil.copyToList(duplicateFollowedUserList.subList(0,500), UserVO.class);
     }
 }

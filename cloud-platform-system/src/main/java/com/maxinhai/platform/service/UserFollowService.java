@@ -5,6 +5,7 @@ import com.maxinhai.platform.dto.follow.CancelDTO;
 import com.maxinhai.platform.dto.follow.FollowDTO;
 import com.maxinhai.platform.po.UserFollow;
 import com.maxinhai.platform.vo.UserFollowVO;
+import com.maxinhai.platform.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,5 +32,18 @@ public interface UserFollowService extends IService<UserFollow> {
     boolean follow(FollowDTO param);
 
     boolean cancel(CancelDTO param);
+
+    /**
+     * 查询 没关注过任何人 的用户列表
+     * @return 用户列表
+     */
+    List<UserVO> getUnfollowedUserList();
+
+    /**
+     * 根据用户ID查询重复关注用户列表数据
+     * @param userId 用户ID
+     * @return 重复关注用户列表数据
+     */
+    List<UserVO> getDuplicateFollowedUserList(String userId);
 
 }

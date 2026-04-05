@@ -3,6 +3,7 @@ package com.maxinhai.platform.mapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.po.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -14,6 +15,9 @@ public interface UserMapper extends MPJBaseMapper<User> {
 
     @Select(value = "SELECT DISTINCT account, username FROM sys_user WHERE del_flag = 0")
     List<User> getUserList();
+
+    @Select(value = "select id, account, username from sys_user where del_flag = 0 order by create_time asc limit #{limit} offset #{offset}")
+    List<User> selectUserList(@Param("limit") int limit, @Param("offset") int offset);
 
     /**
      * 查询未绑定任何角色的用户列表

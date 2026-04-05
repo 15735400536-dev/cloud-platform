@@ -19,6 +19,7 @@ import com.maxinhai.platform.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -115,11 +116,14 @@ public class UserController {
     @GetMapping("/findByAccount/{account}")
     @ApiOperation(value = "根据账号获取用户信息", notes = "根据账号获取用户信息")
     public AjaxResult<UserVO> findByAccount(@PathVariable("account") String account) {
-        User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getAccount, account));
-        if (user == null) {
-            return AjaxResult.success("用户不存在!");
+        List<User> userList = userService.list(new LambdaQueryWrapper<User>().eq(User::getAccount, account));
+        if (CollectionUtils.isEmpty(userList)) {
+            return AjaxResult.fail("用户不存在!");
         }
-        return AjaxResult.success(BeanUtil.toBean(user, UserVO.class));
+        if (userList.size() > 1) {
+            return AjaxResult.fail("存在多个相同账号!账号：{}" + account);
+        }
+        return AjaxResult.success(BeanUtil.toBean(userList.get(0), UserVO.class));
     }
 
     @PostMapping("/importExcel")
@@ -140,19 +144,19 @@ public class UserController {
         return AjaxResult.success("导入成功!");
     }
 
-    @GetMapping("/queryUserListDuplicateAccount}")
+    @GetMapping("/queryUserListDuplicateAccount")
     @ApiOperation(value = "查询账号重复的用户信息", notes = "查询账号重复的用户信息")
     public AjaxResult<List<Map<String, Object>>> queryUserListDuplicateAccount() {
         return AjaxResult.success(userService.queryUserListDuplicateAccount());
     }
 
-    @GetMapping("/getUserList}")
+    @GetMapping("/getUserList")
     @ApiOperation(value = "查询全部用户列表", notes = "查询全部用户列表（基于缓存）")
     public AjaxResult<List<UserBO>> getUserList() {
         return AjaxResult.success(userService.getUserList());
     }
 
-    @GetMapping("/getUserMap}")
+    @GetMapping("/getUserMap")
     @ApiOperation(value = "获取用户名集合，用户创建人、修改人回显", notes = "获取用户名集合，用户创建人、修改人回显")
     public AjaxResult<Map<String, String>> getUserMap() {
         return AjaxResult.success(userService.getUserMap());
