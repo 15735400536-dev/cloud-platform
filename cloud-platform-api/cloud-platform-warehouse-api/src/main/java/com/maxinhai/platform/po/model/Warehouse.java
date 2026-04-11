@@ -26,6 +26,10 @@ public class Warehouse extends RecordEntity {
      */
     private String name;
     /**
+     * 仓库类型：PT-普通总仓、LS-线边仓、YL-原料仓、CP-成品仓、BJ-备件仓、WH-危化仓
+     */
+    private String type;
+    /**
      * 状态：0-禁用，1-启用
      */
     private Integer status;

@@ -52,6 +52,21 @@ public interface TaskOrderMapper extends MPJBaseMapper<TaskOrder> {
             "  from prod_work_order wo " +
             "  where wo.del_flag = 0 " +
             "  and wo.order_status in (0,1,2,3) " +
+            "  order by wo.order_id asc " +
+            "  limit #{count} " +
+            ") " +
+            "and task.status in (0,1,2,3) " +
+            "order by task.sort asc")
+    List<TaskOrder> queryCanStartTaskList(Integer count);
+
+    @Select(value = "select task.work_order_id, task.id, task.sort, task.status " +
+            "from prod_task_order task " +
+            "where task.del_flag = 0 " +
+            "and task.work_order_id in (" +
+            "  select wo.id " +
+            "  from prod_work_order wo " +
+            "  where wo.del_flag = 0 " +
+            "  and wo.order_status in (0,1,2,3) " +
             "  and wo.plan_begin_time between #{beginTime} and #{endTime} " +
             "  order by wo.order_id asc " +
             "  limit 1000" +

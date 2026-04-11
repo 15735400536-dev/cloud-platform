@@ -70,6 +70,7 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
                 new MPJLambdaWrapper<Warehouse>()
                         .like(StrUtil.isNotBlank(param.getCode()), Warehouse::getCode, param.getCode())
                         .like(StrUtil.isNotBlank(param.getName()), Warehouse::getName, param.getName())
+                        .eq(StrUtil.isNotBlank(param.getType()) && "ALL".equals(param.getType()), Warehouse::getType, param.getType())
                         .orderByDesc(Warehouse::getCreateTime));
         return pageResult;
     }

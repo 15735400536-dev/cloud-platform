@@ -56,4 +56,11 @@ public class OrderProgressVO {
     @ApiModelProperty(value = "实际完工天数（派工单）")
     private long  actualFinishDays;
 
+    @ApiModelProperty(value = "订单完工天数")
+    private long orderFinishDays;
+    @ApiModelProperty(value = "工单完工天数")
+    private long workOrderFinishDays;
+    @ApiModelProperty(value = "派工单完工天数")
+    private long taskOrderFinishDays;
+
 }

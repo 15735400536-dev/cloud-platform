@@ -22,8 +22,8 @@ public class TaskOrderVO {
     /**
      * 订单状态
      */
-    @ApiModelProperty(value = "订单状态")
-    private OrderStatus orderStatus;
+    @ApiModelProperty(value = "派工单状态")
+    private OrderStatus status;
     /**
      * 计划开始时间
      */
@@ -90,5 +90,12 @@ public class TaskOrderVO {
      */
     @ApiModelProperty(value = "派工单顺修")
     private Integer sort;
+
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date createTime;
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date updateTime;
 
 }

@@ -5,23 +5,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * 订单状态
- */
 @Getter
 @AllArgsConstructor
-public enum OrderStatus {
+public enum WarehouseType {
 
-    ALL(-1, "全部"),
-    INIT(0, "初始"),
-    START(1, "开工"),
-    PAUSE(2, "暂停"),
-    RESUME(3, "复工"),
-    REPORT(4, "报工");
+    PT("PT", "普通总仓"),
+    LS("LS", "线边仓"),
+    YL("YL", "原料仓"),
+    CP("CP", "成品仓"),
+    BJ("BJ", "备件仓"),
+    WH("WH", "危化仓");
 
     @EnumValue
-    private Integer key;
+    private String code;
     @JsonValue
-    private String value;
+    private String name;
 
 }

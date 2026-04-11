@@ -30,6 +30,10 @@ public class WarehouseArea extends RecordEntity {
      */
     private String name;
     /**
+     * 库区类型：01-良品区、02-待检区、03-不良品区、04-退货区、05-返修区、06-缓冲/周转区、07-线边补货区
+     */
+    private String type;
+    /**
      * 状态：0-禁用，1-启用
      */
     private Integer status;

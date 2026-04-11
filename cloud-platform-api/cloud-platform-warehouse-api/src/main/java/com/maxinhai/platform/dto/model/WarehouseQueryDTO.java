@@ -20,5 +20,10 @@ public class WarehouseQueryDTO extends PageSearch<WarehouseVO> {
      */
     @ApiModelProperty(value = "仓库名称")
     private String name;
+    /**
+     * 仓库类型：PT-普通总仓、LS-线边仓、YL-原料仓、CP-成品仓、BJ-备件仓、WH-危化仓
+     */
+    @ApiModelProperty(value = "仓库类型：PT-普通总仓、LS-线边仓、YL-原料仓、CP-成品仓、BJ-备件仓、WH-危化仓")
+    private String type;
 
 }

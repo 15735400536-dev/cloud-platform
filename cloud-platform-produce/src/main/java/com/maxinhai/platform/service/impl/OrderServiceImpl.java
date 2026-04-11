@@ -65,8 +65,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                         .innerJoin(Routing.class, Routing::getId, Order::getRoutingId)
                         // 查询条件
                         .eq(StrUtil.isNotBlank(param.getOrderCode()), Order::getOrderCode, param.getOrderCode())
-                        .eq(Objects.nonNull(param.getOrderType()), Order::getOrderType, param.getOrderType())
-                        .eq(Objects.nonNull(param.getOrderStatus()), Order::getOrderStatus, param.getOrderStatus())
+                        .eq(Objects.nonNull(param.getOrderType()) && !Objects.equals(-1, param.getOrderType()), Order::getOrderType, param.getOrderType())
+                        .eq(Objects.nonNull(param.getOrderStatus()) && !OrderStatus.ALL.equals(param.getOrderStatus()), Order::getOrderStatus, param.getOrderStatus())
                         // 字段映射
                         .selectAll(Order.class)
                         .selectAs(Product::getCode, OrderVO::getProductCode)
@@ -244,37 +244,83 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public OrderProgressVO orderProgressEx() {
-        OrderProgressVO resultVO = new OrderProgressVO();
-        resultVO.setOrderTotalQty(orderMapper.countOrderTotalQty());
-        resultVO.setOrderFinishQty(orderMapper.countOrderFinishQty());
-        resultVO.setOrderUnFinishQty(orderMapper.countOrderUnFinishQty());
-        resultVO.setOrderProgress(resultVO.getOrderTotalQty() == 0 ? "0.00%" : NumberUtil.formatPercent(NumberUtil.div(resultVO.getOrderFinishQty(), resultVO.getOrderTotalQty(), 4), 2));
+        // 问题 1：1 个接口 = 15 次 SQL 查询（性能灾难）
+        // 问题 2：无任何缓存，每次都查库
+        // 问题 3：统计全表数据，非常消耗数据库与内存
+        // 问题 4：被高频率调用，并发爆炸
+//        OrderProgressVO resultVO = new OrderProgressVO();
+//        resultVO.setOrderTotalQty(orderMapper.countOrderTotalQty());
+//        resultVO.setOrderFinishQty(orderMapper.countOrderFinishQty());
+//        resultVO.setOrderUnFinishQty(orderMapper.countOrderUnFinishQty());
+//        resultVO.setOrderProgress(resultVO.getOrderTotalQty() == 0 ? "0.00%" : NumberUtil.formatPercent(NumberUtil.div(resultVO.getOrderFinishQty(), resultVO.getOrderTotalQty(), 4), 2));
+//
+//        resultVO.setWorkOrderTotalQty(orderMapper.countWorkOrderTotalQty());
+//        resultVO.setWorkOrderFinishQty(orderMapper.countWorkOrderFinishQty());
+//        resultVO.setWorkOrderUnFinishQty(orderMapper.countWorkOrderUnFinishQty());
+//        resultVO.setWorkOrderProgress(resultVO.getWorkOrderTotalQty() == 0 ? "0.00%" : NumberUtil.formatPercent(NumberUtil.div(resultVO.getWorkOrderFinishQty(), resultVO.getWorkOrderTotalQty(), 4), 2));
+//
+//        resultVO.setTaskOrderTotalQty(orderMapper.countTaskOrderTotalQty());
+//        resultVO.setTaskOrderFinishQty(orderMapper.countTaskOrderFinishQty());
+//        resultVO.setTaskOrderUnFinishQty(orderMapper.countTaskOrderUnFinishQty());
+//        resultVO.setTaskOrderProgress(resultVO.getTaskOrderTotalQty() == 0 ? "0.00%" : NumberUtil.formatPercent(NumberUtil.div(resultVO.getTaskOrderFinishQty(), resultVO.getTaskOrderTotalQty(), 4), 2));
+//
+//        resultVO.setOrderTodayFinishQty(orderMapper.countOrderTodayFinishQty());
+//        resultVO.setWorkOrderTodayFinishQty(orderMapper.countWorkOrderTodayFinishQty());
+//        resultVO.setTaskOrderTodayFinishQty(orderMapper.countTaskOrderTodayFinishQty());
+//
+//        long orderFinishDays = orderMapper.countOrderFinishDays();
+//        long workOrderFinishDays = orderMapper.countWorkOrderFinishDays();
+//        long taskOrderFinishDays = orderMapper.countTaskOrderFinishDays();
+//        resultVO.setOrderAvgFinishQty(resultVO.getOrderFinishQty() == 0 || orderFinishDays == 0 ? 0 : NumberUtil.div(resultVO.getOrderFinishQty(), orderFinishDays, 2, RoundingMode.HALF_UP));
+//        resultVO.setWorkOrderAvgFinishQty(resultVO.getWorkOrderFinishQty() == 0 || workOrderFinishDays == 0 ? 0 : NumberUtil.div(resultVO.getWorkOrderFinishQty(), workOrderFinishDays, 2, RoundingMode.HALF_UP));
+//        resultVO.setTaskOrderAvgFinishQty(resultVO.getTaskOrderFinishQty() == 0 || taskOrderFinishDays == 0 ? 0 : NumberUtil.div(resultVO.getTaskOrderFinishQty(), taskOrderFinishDays, 2, RoundingMode.HALF_UP));
+//
+//        resultVO.setExpectedFinishDays(NumberUtil.div(BigDecimal.valueOf(resultVO.getTaskOrderUnFinishQty()), BigDecimal.valueOf(resultVO.getTaskOrderAvgFinishQty()), 0, RoundingMode.HALF_UP).intValue());
+//        resultVO.setExpectedRealTimeFinishDays(NumberUtil.div(BigDecimal.valueOf(resultVO.getTaskOrderUnFinishQty()), BigDecimal.valueOf(resultVO.getTaskOrderTodayFinishQty()), 0, RoundingMode.HALF_UP).intValue());
+//        resultVO.setActualFinishDays(orderMapper.countTaskOrderFinishDays());
+//        return resultVO;
 
-        resultVO.setWorkOrderTotalQty(orderMapper.countWorkOrderTotalQty());
-        resultVO.setWorkOrderFinishQty(orderMapper.countWorkOrderFinishQty());
-        resultVO.setWorkOrderUnFinishQty(orderMapper.countWorkOrderUnFinishQty());
-        resultVO.setWorkOrderProgress(resultVO.getWorkOrderTotalQty() == 0 ? "0.00%" : NumberUtil.formatPercent(NumberUtil.div(resultVO.getWorkOrderFinishQty(), resultVO.getWorkOrderTotalQty(), 4), 2));
+        // 1次SQL查询所有统计数据
+        OrderProgressVO resultVO = orderMapper.countAllProgressData();
 
-        resultVO.setTaskOrderTotalQty(orderMapper.countTaskOrderTotalQty());
-        resultVO.setTaskOrderFinishQty(orderMapper.countTaskOrderFinishQty());
-        resultVO.setTaskOrderUnFinishQty(orderMapper.countTaskOrderUnFinishQty());
-        resultVO.setTaskOrderProgress(resultVO.getTaskOrderTotalQty() == 0 ? "0.00%" : NumberUtil.formatPercent(NumberUtil.div(resultVO.getTaskOrderFinishQty(), resultVO.getTaskOrderTotalQty(), 4), 2));
+        // 计算进度
+        resultVO.setOrderProgress(calcProgress(resultVO.getOrderFinishQty(), resultVO.getOrderTotalQty()));
+        resultVO.setWorkOrderProgress(calcProgress(resultVO.getWorkOrderFinishQty(), resultVO.getWorkOrderTotalQty()));
+        resultVO.setTaskOrderProgress(calcProgress(resultVO.getTaskOrderFinishQty(), resultVO.getTaskOrderTotalQty()));
 
-        resultVO.setOrderTodayFinishQty(orderMapper.countOrderTodayFinishQty());
-        resultVO.setWorkOrderTodayFinishQty(orderMapper.countWorkOrderTodayFinishQty());
-        resultVO.setTaskOrderTodayFinishQty(orderMapper.countTaskOrderTodayFinishQty());
+        // 计算平均值
+        long orderFinishDays = resultVO.getOrderFinishDays();
+        long workFinishDays = resultVO.getWorkOrderFinishDays();
+        long taskFinishDays = resultVO.getTaskOrderFinishDays();
 
-        long orderFinishDays = orderMapper.countOrderFinishDays();
-        long workOrderFinishDays = orderMapper.countWorkOrderFinishDays();
-        long taskOrderFinishDays = orderMapper.countTaskOrderFinishDays();
-        resultVO.setOrderAvgFinishQty(resultVO.getOrderFinishQty() == 0 || orderFinishDays == 0 ? 0 : NumberUtil.div(resultVO.getOrderFinishQty(), orderFinishDays, 2, RoundingMode.HALF_UP));
-        resultVO.setWorkOrderAvgFinishQty(resultVO.getWorkOrderFinishQty() == 0 || workOrderFinishDays == 0 ? 0 : NumberUtil.div(resultVO.getWorkOrderFinishQty(), workOrderFinishDays, 2, RoundingMode.HALF_UP));
-        resultVO.setTaskOrderAvgFinishQty(resultVO.getTaskOrderFinishQty() == 0 || taskOrderFinishDays == 0 ? 0 : NumberUtil.div(resultVO.getTaskOrderFinishQty(), taskOrderFinishDays, 2, RoundingMode.HALF_UP));
+        resultVO.setOrderAvgFinishQty(calcAvg(resultVO.getOrderFinishQty(), orderFinishDays));
+        resultVO.setWorkOrderAvgFinishQty(calcAvg(resultVO.getWorkOrderFinishQty(), workFinishDays));
+        resultVO.setTaskOrderAvgFinishQty(calcAvg(resultVO.getTaskOrderFinishQty(), taskFinishDays));
 
-        resultVO.setExpectedFinishDays(NumberUtil.div(BigDecimal.valueOf(resultVO.getTaskOrderUnFinishQty()), BigDecimal.valueOf(resultVO.getTaskOrderAvgFinishQty()), 0, RoundingMode.HALF_UP).intValue());
-        resultVO.setExpectedRealTimeFinishDays(NumberUtil.div(BigDecimal.valueOf(resultVO.getTaskOrderUnFinishQty()), BigDecimal.valueOf(resultVO.getTaskOrderTodayFinishQty()), 0, RoundingMode.HALF_UP).intValue());
-        resultVO.setActualFinishDays(orderMapper.countTaskOrderFinishDays());
+        // 计算预计天数
+        resultVO.setExpectedFinishDays(calcDays(resultVO.getTaskOrderUnFinishQty(), resultVO.getTaskOrderAvgFinishQty()));
+        resultVO.setExpectedRealTimeFinishDays(calcDays(resultVO.getTaskOrderUnFinishQty(), resultVO.getTaskOrderTodayFinishQty()));
+        resultVO.setActualFinishDays((int) taskFinishDays);
+
         return resultVO;
+    }
+
+    // 工具方法：计算进度百分比
+    private String calcProgress(long finish, long total) {
+        if (total == 0) return "0.00%";
+        return NumberUtil.formatPercent(NumberUtil.div(finish, total, 4), 2);
+    }
+
+    // 工具方法：计算平均值
+    private double calcAvg(long qty, long days) {
+        if (qty == 0 || days == 0) return 0;
+        return NumberUtil.div(qty, days, 2, RoundingMode.HALF_UP);
+    }
+
+    // 工具方法：计算天数
+    private int calcDays(long unFinish, double avg) {
+        if (avg <= 0) return 0;
+        return NumberUtil.div(BigDecimal.valueOf(unFinish), BigDecimal.valueOf(avg), 0, RoundingMode.HALF_UP).intValue();
     }
 
     @Override

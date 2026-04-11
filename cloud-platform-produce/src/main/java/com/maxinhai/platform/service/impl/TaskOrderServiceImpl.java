@@ -60,13 +60,19 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
     public Page<TaskOrderVO> searchByPage(TaskOrderQueryDTO param) {
         return taskOrderMapper.selectJoinPage(param.getPage(), TaskOrderVO.class,
                 new MPJLambdaWrapper<TaskOrder>()
-                        .innerJoin(Product.class, Product::getId, Order::getProductId)
-                        .innerJoin(Bom.class, Bom::getId, Order::getBomId)
-                        .innerJoin(Routing.class, Routing::getId, Order::getRoutingId)
+                        .innerJoin(Order.class, Order::getId, TaskOrder::getOrderId)
+                        .innerJoin(WorkOrder.class, WorkOrder::getId, TaskOrder::getWorkOrderId)
+                        .innerJoin(Product.class, Product::getId, TaskOrder::getProductId)
+                        .innerJoin(Bom.class, Bom::getId, TaskOrder::getBomId)
+                        .innerJoin(Routing.class, Routing::getId, TaskOrder::getRoutingId)
                         .innerJoin(Operation.class, Operation::getId, TaskOrder::getOperationId)
                         // 查询条件
+                        .like(StrUtil.isNotBlank(param.getOrderCode()), Order::getOrderCode, param.getOrderCode())
+                        .like(StrUtil.isNotBlank(param.getWorkOrderCode()), WorkOrder::getWorkOrderCode, param.getWorkOrderCode())
                         .like(StrUtil.isNotBlank(param.getTaskOrderCode()), TaskOrder::getTaskOrderCode, param.getTaskOrderCode())
-                        .eq(Objects.nonNull(param.getStatus()), TaskOrder::getStatus, param.getStatus())
+                        .eq(Objects.nonNull(param.getStatus()) && !OrderStatus.ALL.equals(param.getStatus()), TaskOrder::getStatus, param.getStatus())
+                        .between(Objects.nonNull(param.getActualBeginTime()) && Objects.nonNull(param.getActualEndTime()),
+                                TaskOrder::getActualEndTime, param.getActualBeginTime(), param.getActualEndTime())
                         // 字段映射
                         .selectAll(TaskOrder.class)
                         .selectAs(Product::getCode, TaskOrderVO::getProductCode)
@@ -176,7 +182,8 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         if (Objects.isNull(taskOrder)) {
             throw new BusinessException("派工单不存在！");
         }
-        if (!OrderStatus.START.equals(taskOrder.getStatus())) {
+        if (!OrderStatus.START.equals(taskOrder.getStatus())
+                && !OrderStatus.RESUME.equals(taskOrder.getStatus())) {
             StringBuilder buffer = new StringBuilder("派工单暂停失败，");
             switch (taskOrder.getStatus()) {
                 case INIT:
@@ -184,9 +191,6 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                     break;
                 case PAUSE:
                     buffer.append("派工单已暂停!派工单ID：").append(taskOrder.getId());
-                    break;
-                case RESUME:
-                    buffer.append("派工单已复工!派工单ID：").append(taskOrder.getId());
                     break;
                 case REPORT:
                     buffer.append("派工单已报工!派工单ID：").append(taskOrder.getId());
@@ -243,17 +247,17 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
             throw new BusinessException(buffer.toString());
         }
         // 更新派工单状态
-        taskOrder.setStatus(OrderStatus.START);
+        taskOrder.setStatus(OrderStatus.RESUME);
         taskOrderMapper.updateById(taskOrder);
 
         // 更新工单状态
         WorkOrder workOrder = workOrderMapper.selectById(taskOrder.getWorkOrderId());
-        workOrder.setOrderStatus(OrderStatus.START);
+        workOrder.setOrderStatus(OrderStatus.RESUME);
         workOrderMapper.updateById(workOrder);
 
         // 更新订单状态
         Order order = orderMapper.selectById(taskOrder.getOrderId());
-        order.setOrderStatus(OrderStatus.START);
+        order.setOrderStatus(OrderStatus.RESUME);
         orderMapper.updateById(order);
 
         // 创建复工记录
@@ -266,7 +270,8 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
         if (Objects.isNull(taskOrder)) {
             throw new BusinessException("派工单不存在！");
         }
-        if (!OrderStatus.START.equals(taskOrder.getStatus())) {
+        if (!OrderStatus.START.equals(taskOrder.getStatus())
+                && !OrderStatus.RESUME.equals(taskOrder.getStatus())) {
             StringBuilder buffer = new StringBuilder("派工单复工失败，");
             switch (taskOrder.getStatus()) {
                 case INIT:
@@ -274,9 +279,6 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                     break;
                 case PAUSE:
                     buffer.append("派工单已暂停!派工单ID：").append(taskOrder.getId());
-                    break;
-                case RESUME:
-                    buffer.append("派工单已复工!派工单ID：").append(taskOrder.getId());
                     break;
                 case REPORT:
                     buffer.append("派工单已报工!派工单ID：").append(taskOrder.getId());

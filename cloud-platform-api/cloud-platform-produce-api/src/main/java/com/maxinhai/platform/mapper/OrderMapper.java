@@ -3,6 +3,7 @@ package com.maxinhai.platform.mapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.bo.OrderInfoBO;
 import com.maxinhai.platform.po.Order;
+import com.maxinhai.platform.vo.OrderProgressVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -203,4 +204,25 @@ public interface OrderMapper extends MPJBaseMapper<Order> {
             "FROM prod_task_order WHERE del_flag = 0")
     OrderInfoBO countTaskOrderSimpleInfo();
 
+    @Select("SELECT "
+            + "(SELECT COUNT(*) FROM prod_order) AS orderTotalQty, "
+            + "(SELECT COUNT(*) FROM prod_order WHERE order_status=4) AS orderFinishQty, "
+            + "(SELECT COUNT(*) FROM prod_order WHERE order_status!=4) AS orderUnFinishQty, "
+
+            + "(SELECT COUNT(*) FROM prod_work_order) AS workOrderTotalQty, "
+            + "(SELECT COUNT(*) FROM prod_work_order WHERE order_status=4) AS workOrderFinishQty, "
+            + "(SELECT COUNT(*) FROM prod_work_order WHERE order_status!=4) AS workOrderUnFinishQty, "
+
+            + "(SELECT COUNT(*) FROM prod_task_order) AS taskOrderTotalQty, "
+            + "(SELECT COUNT(*) FROM prod_task_order WHERE status=4) AS taskOrderFinishQty, "
+            + "(SELECT COUNT(*) FROM prod_task_order WHERE status!=4) AS taskOrderUnFinishQty, "
+
+            + "(SELECT COUNT(*) FROM prod_order WHERE actual_end_time >= CURRENT_DATE) AS orderTodayFinishQty, "
+            + "(SELECT COUNT(*) FROM prod_work_order WHERE actual_end_time >= CURRENT_DATE) AS workOrderTodayFinishQty, "
+            + "(SELECT COUNT(*) FROM prod_task_order WHERE actual_end_time >= CURRENT_DATE) AS taskOrderTodayFinishQty, "
+
+            + "(SELECT COUNT(DISTINCT DATE(actual_end_time)) FROM prod_order WHERE order_status=4) AS orderFinishDays, "
+            + "(SELECT COUNT(DISTINCT DATE(actual_end_time)) FROM prod_work_order WHERE order_status=4) AS workOrderFinishDays, "
+            + "(SELECT COUNT(DISTINCT DATE(actual_end_time)) FROM prod_task_order WHERE status=4) AS taskOrderFinishDays ")
+    OrderProgressVO countAllProgressData();
 }

@@ -42,7 +42,7 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
                         .innerJoin(Routing.class, Routing::getId, Order::getRoutingId)
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getWorkOrderCode()), WorkOrder::getWorkOrderCode, param.getWorkOrderCode())
-                        .eq(Objects.nonNull(param.getOrderStatus()), WorkOrder::getOrderStatus, param.getOrderStatus())
+                        .eq(Objects.nonNull(param.getOrderStatus()) && !OrderStatus.ALL.equals(param.getOrderStatus()), WorkOrder::getOrderStatus, param.getOrderStatus())
                         // 字段映射
                         .selectAll(WorkOrder.class)
                         .selectAs(Product::getCode, WorkOrderVO::getProductCode)
