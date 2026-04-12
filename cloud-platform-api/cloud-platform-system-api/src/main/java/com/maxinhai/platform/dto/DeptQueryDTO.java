@@ -2,6 +2,7 @@ package com.maxinhai.platform.dto;
 
 import com.maxinhai.platform.vo.DeptVO;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -17,18 +18,22 @@ public class DeptQueryDTO extends PageSearch<DeptVO> {
     /**
      * 部门编码
      */
+    @ApiModelProperty("部门编码")
     private String code;
     /**
      * 部门名称
      */
+    @ApiModelProperty("部门名称")
     private String name;
     /**
      * 父部门ID（自关联字段）
      */
+    @ApiModelProperty("父部门ID")
     private String parentId;
     /**
      * 部门负责人ID，关联用户表
      */
+    @ApiModelProperty("部门负责人ID")
     private String leaderId;
 
 }
