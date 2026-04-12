@@ -27,7 +27,7 @@ public class WorkOrderController {
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询工单信息", notes = "根据查询条件分页查询工单信息")
     public AjaxResult<PageResult<WorkOrderVO>> searchByPage(@RequestBody WorkOrderQueryDTO param) {
-        return AjaxResult.success(PageResult.convert(workOrderService.searchByPage(param)));
+        return AjaxResult.success(PageResult.convert(workOrderService.searchByPageEx(param)));
     }
 
     @GetMapping("/getInfo/{id}")

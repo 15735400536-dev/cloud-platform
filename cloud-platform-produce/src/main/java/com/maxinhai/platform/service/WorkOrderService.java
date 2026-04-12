@@ -10,6 +10,8 @@ public interface WorkOrderService extends IService<WorkOrder> {
 
     Page<WorkOrderVO> searchByPage(WorkOrderQueryDTO param);
 
+    Page<WorkOrderVO> searchByPageEx(WorkOrderQueryDTO param);
+
     WorkOrderVO getInfo(String id);
 
     void remove(String[] ids);
@@ -19,7 +21,5 @@ public interface WorkOrderService extends IService<WorkOrder> {
      * @return
      */
     long getTodayFinishWorkOrderCount();
-
-
 
 }

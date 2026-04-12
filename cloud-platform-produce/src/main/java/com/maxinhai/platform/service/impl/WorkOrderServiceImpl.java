@@ -1,6 +1,8 @@
 package com.maxinhai.platform.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -18,9 +20,11 @@ import com.maxinhai.platform.utils.DateUtils;
 import com.maxinhai.platform.vo.WorkOrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -42,7 +46,8 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
                         .innerJoin(Routing.class, Routing::getId, Order::getRoutingId)
                         // 查询条件
                         .like(StrUtil.isNotBlank(param.getWorkOrderCode()), WorkOrder::getWorkOrderCode, param.getWorkOrderCode())
-                        .eq(Objects.nonNull(param.getOrderStatus()) && !OrderStatus.ALL.equals(param.getOrderStatus()), WorkOrder::getOrderStatus, param.getOrderStatus())
+                        .eq(Objects.nonNull(param.getOrderStatus()) && !OrderStatus.ALL.equals(param.getOrderStatus()),
+                                WorkOrder::getOrderStatus, param.getOrderStatus())
                         // 字段映射
                         .selectAll(WorkOrder.class)
                         .selectAs(Product::getCode, WorkOrderVO::getProductCode)
@@ -53,6 +58,26 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
                         .selectAs(Routing::getName, WorkOrderVO::getRoutingName)
                         // 排序
                         .orderByDesc(WorkOrder::getCreateTime));
+    }
+
+    @Override
+    public Page<WorkOrderVO> searchByPageEx(WorkOrderQueryDTO param) {
+        Page<WorkOrder> workOrderPage = workOrderMapper.selectPage(new Page<>(param.getCurrent(), param.getSize()), new LambdaQueryWrapper<WorkOrder>()
+                // 查询条件
+                .like(StrUtil.isNotBlank(param.getWorkOrderCode()), WorkOrder::getWorkOrderCode, param.getWorkOrderCode())
+                .eq(Objects.nonNull(param.getOrderStatus()) && !OrderStatus.ALL.equals(param.getOrderStatus()),
+                        WorkOrder::getOrderStatus, param.getOrderStatus())
+                // 排序
+                .orderByDesc(WorkOrder::getCreateTime));
+        List<WorkOrder> records = workOrderPage.getRecords();
+        Page<WorkOrderVO> pageResult = new Page<>();
+        BeanUtil.copyProperties(workOrderPage, pageResult);
+        if(!CollectionUtils.isEmpty(records)){
+            List<String> workOrderIds = records.stream().map(WorkOrder::getId).collect(Collectors.toList());
+            List<WorkOrderVO> dataList = workOrderMapper.findWorkOrderDetailByIds(workOrderIds);
+            pageResult.setRecords(dataList);
+        }
+        return pageResult;
     }
 
     @Override
