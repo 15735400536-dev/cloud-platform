@@ -14,6 +14,8 @@ public interface OperateRecordService extends IService<OperateRecord> {
 
     Page<OperateRecordVO> searchByPage(OperateRecordQueryDTO param);
 
+    Page<OperateRecordVO> searchByPageEx(OperateRecordQueryDTO param);
+
     OperateRecordVO getInfo(String id);
 
     void remove(String[] ids);

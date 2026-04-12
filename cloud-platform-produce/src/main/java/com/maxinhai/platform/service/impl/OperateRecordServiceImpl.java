@@ -1,6 +1,7 @@
 package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
@@ -15,18 +16,20 @@ import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.mapper.OperateRecordMapper;
 import com.maxinhai.platform.mapper.TaskOrderMapper;
 import com.maxinhai.platform.po.OperateRecord;
-import com.maxinhai.platform.po.Order;
 import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.service.OperateRecordService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.vo.OperateRecordVO;
+import com.maxinhai.platform.vo.TaskOrderVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,7 +50,67 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
                         .innerJoin(TaskOrder.class, TaskOrder::getId, OperateRecord::getTaskOrderId)
                         .eq(StrUtil.isNotBlank(param.getTaskOrderId()), OperateRecord::getTaskOrderId, param.getTaskOrderId())
                         .eq(Objects.nonNull(param.getOperateType()), OperateRecord::getOperateType, param.getOperateType())
-                        .orderByDesc(Order::getCreateTime));
+                        .orderByDesc(OperateRecord::getCreateTime));
+    }
+
+    @Override
+    public Page<OperateRecordVO> searchByPageEx(OperateRecordQueryDTO param) {
+        // 1. 查询分页数据（PO）
+        Page<OperateRecord> operateRecordPage = operateRecordMapper.selectPage(
+                new Page<>(param.getCurrent(), param.getSize()),
+                new LambdaQueryWrapper<OperateRecord>()
+                        .eq(StrUtil.isNotBlank(param.getTaskOrderId()), OperateRecord::getTaskOrderId, param.getTaskOrderId())
+                        .eq(Objects.nonNull(param.getOperateType()), OperateRecord::getOperateType, param.getOperateType())
+                        .orderByDesc(OperateRecord::getCreateTime)
+        );
+
+        // 2. 获取 PO 列表
+        List<OperateRecord> records = operateRecordPage.getRecords();
+        if (CollectionUtils.isEmpty(records)) {
+            // 空数据直接返回
+            Page<OperateRecordVO> emptyPage = new Page<>();
+            emptyPage.setTotal(operateRecordPage.getTotal());
+            emptyPage.setSize(operateRecordPage.getSize());
+            emptyPage.setCurrent(operateRecordPage.getCurrent());
+            emptyPage.setRecords(Collections.emptyList());
+            return emptyPage;
+        }
+
+        // 3. 提取 taskOrderIds，批量查询详情
+        List<String> taskOrderIds = records.stream()
+                .map(OperateRecord::getTaskOrderId)
+                .filter(StrUtil::isNotBlank)
+                .collect(Collectors.toList());
+
+        Map<String, TaskOrderVO> taskOrderMap = new HashMap<>();
+        if (CollUtil.isNotEmpty(taskOrderIds)) {
+            taskOrderMap = taskOrderMapper.findTaskDetailByIds(taskOrderIds).stream()
+                    .collect(Collectors.toMap(TaskOrderVO::getId, Function.identity()));
+        }
+
+        // 4. PO 转 VO，并赋值关联数据（关键修复！）
+        Map<String, TaskOrderVO> finalTaskOrderMap = taskOrderMap;
+        List<OperateRecordVO> voList = records.stream().map(po -> {
+            OperateRecordVO vo = new OperateRecordVO();
+            // PO 拷贝到 VO
+            BeanUtils.copyProperties(po, vo);
+
+            // 赋值工单信息
+            TaskOrderVO taskOrderVO = finalTaskOrderMap.get(po.getTaskOrderId());
+            if (taskOrderVO != null) {
+                BeanUtils.copyProperties(taskOrderVO, vo);
+            }
+            return vo;
+        }).collect(Collectors.toList());
+
+        // 5. 组装最终分页
+        Page<OperateRecordVO> pageResult = new Page<>();
+        pageResult.setCurrent(operateRecordPage.getCurrent());
+        pageResult.setSize(operateRecordPage.getSize());
+        pageResult.setTotal(operateRecordPage.getTotal());
+        pageResult.setRecords(voList);
+
+        return pageResult;
     }
 
     @Override

@@ -15,6 +15,16 @@ public class TaskOrderVO {
     @ApiModelProperty(value = "主键ID")
     private String id;
     /**
+     * 订单编码
+     */
+    @ApiModelProperty(value = "订单编码")
+    private String orderCode;
+    /**
+     * 工单编码
+     */
+    @ApiModelProperty(value = "工单编码")
+    private String workOrderCode;
+    /**
      * 派工单编码
      */
     @ApiModelProperty(value = "派工单编码")
