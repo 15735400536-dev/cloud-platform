@@ -32,6 +32,7 @@ import com.maxinhai.platform.vo.DailyOpTaskOrderVO;
 import com.maxinhai.platform.vo.DailyTaskOrderVO;
 import com.maxinhai.platform.vo.TaskOrderVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,6 +86,30 @@ public class TaskOrderServiceImpl extends ServiceImpl<TaskOrderMapper, TaskOrder
                         .selectAs(Operation::getName, TaskOrderVO::getOperationName)
                         // 排序
                         .orderByDesc(TaskOrder::getCreateTime));
+    }
+
+    @Override
+    public Page<TaskOrderVO> searchByPageEx(TaskOrderQueryDTO param) {
+        Page<TaskOrder> taskOrderPage = taskOrderMapper.selectPage(new Page<>(param.getCurrent(), param.getSize()), new LambdaQueryWrapper<TaskOrder>()
+                // 查询条件
+                .like(StrUtil.isNotBlank(param.getTaskOrderCode()), TaskOrder::getTaskOrderCode, param.getTaskOrderCode())
+                .eq(Objects.nonNull(param.getStatus()) && !OrderStatus.ALL.equals(param.getStatus()), TaskOrder::getStatus, param.getStatus())
+                .between(Objects.nonNull(param.getActualBeginTime()) && Objects.nonNull(param.getActualEndTime()),
+                        TaskOrder::getActualEndTime, param.getActualBeginTime(), param.getActualEndTime())
+                // 查询字段
+                .select(TaskOrder::getId)
+                // 排序
+                .orderByDesc(TaskOrder::getCreateTime));
+        Page<TaskOrderVO> pageResult = new Page<>();
+        BeanUtils.copyProperties(taskOrderPage, pageResult);
+        List<TaskOrder> records = taskOrderPage.getRecords();
+        if(!CollectionUtils.isEmpty(records)) {
+            List<String> taskOrderIds = records.stream().map(TaskOrder::getId).collect(Collectors.toList());
+            List<TaskOrderVO> dataList = taskOrderMapper.findTaskDetailByIds(taskOrderIds);
+            pageResult.setRecords(dataList);
+        }
+
+        return pageResult;
     }
 
     @Override

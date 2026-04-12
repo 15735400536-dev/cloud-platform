@@ -13,7 +13,23 @@ import java.util.List;
 
 public interface TaskOrderService extends IService<TaskOrder> {
 
+    /**
+     * 分页查询（7张表关联+分页统计+时间范围查询，这种查询非常慢）
+     * @param param 分页查询参数
+     * @return 分页数据
+     */
     Page<TaskOrderVO> searchByPage(TaskOrderQueryDTO param);
+
+    /**
+     * 分页查询优化版（方案3）
+     * @param param 分页查询参数
+     * 优化方案：
+     *     方案1：给主表和关联表新建索引（最简单、最稳、最推荐），结论：单表有400W数据，新建索引查询效率提升不大；
+     *     方案2：宽表冗余，将关联表查询字段加到宽表（适合高并发、统计型接口），优点：无join，缺点：改动大，数据需要同步更新，有冗余数据；
+     *     方案3：延迟关联/分步查询：分页先查主表 + 后关联子表，优点：改动小，缺点：未在主表存储的字段无法条件查询；
+     * @return 分页数据
+     */
+    Page<TaskOrderVO> searchByPageEx(TaskOrderQueryDTO param);
 
     TaskOrderVO getInfo(String id);
 

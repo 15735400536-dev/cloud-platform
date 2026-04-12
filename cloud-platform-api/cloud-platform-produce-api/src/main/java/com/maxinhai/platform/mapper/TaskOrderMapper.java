@@ -4,6 +4,7 @@ import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.bo.DailyProcessFinishTaskOrderQtyBO;
 import com.maxinhai.platform.bo.DailyTaskOrderBO;
 import com.maxinhai.platform.po.TaskOrder;
+import com.maxinhai.platform.vo.TaskOrderVO;
 import com.maxinhai.platform.vo.worktime.CountTaskFinishQtyVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -57,7 +58,7 @@ public interface TaskOrderMapper extends MPJBaseMapper<TaskOrder> {
             ") " +
             "and task.status in (0,1,2,3) " +
             "order by task.sort asc")
-    List<TaskOrder> queryCanStartTaskList(Integer count);
+    List<TaskOrder> queryCanStartTaskListByCount(Integer count);
 
     @Select(value = "select task.work_order_id, task.id, task.sort, task.status " +
             "from prod_task_order task " +
@@ -132,5 +133,42 @@ public interface TaskOrderMapper extends MPJBaseMapper<TaskOrder> {
             "and so.del_flag = 0 " +
             "group by so.id, so.order_code")
     List<CountTaskFinishQtyVO> countTaskFinishQtyByOrderId();
+
+    /**
+     * 根据ID集合批量查询详情（多表关联，超快）
+     */
+    @Select({
+            "<script>",
+            "SELECT ",
+            "    t.*, ",
+            "    t1.order_code, ",
+            "    t2.work_order_code, ",
+            "    t3.id as product_id, ",
+            "    t3.code as product_code, ",
+            "    t3.name as product_name, ",
+            "    t4.id as bom_id, ",
+            "    t4.code as bom_code, ",
+            "    t4.name as bom_name, ",
+            "    t5.id as routing_id, ",
+            "    t5.code as routing_code, ",
+            "    t5.name as routing_name, ",
+            "    t6.id as operation_id, ",
+            "    t6.code as operation_code, ",
+            "    t6.name as operation_name ",
+            "FROM prod_task_order t ",
+            "INNER JOIN prod_order t1 ON t1.id = t.order_id ",
+            "INNER JOIN prod_work_order t2 ON t2.id = t.work_order_id ",
+            "INNER JOIN mdm_product t3 ON t3.id = t.product_id ",
+            "INNER JOIN mdm_bom t4 ON t4.id = t.bom_id ",
+            "INNER JOIN mdm_routing t5 ON t5.id = t.routing_id ",
+            "INNER JOIN mdm_operation t6 ON t6.id = t.operation_id ",
+            "WHERE t.del_flag = 0 ",
+            "AND t.id IN ",
+            "    <foreach collection='ids' item='id' open='(' separator=',' close=')'>",
+            "        #{id}",
+            "    </foreach>",
+            "</script>"
+    })
+    List<TaskOrderVO> findTaskDetailByIds(@Param("ids") List<String> ids);
 
 }

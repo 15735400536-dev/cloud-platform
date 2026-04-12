@@ -38,7 +38,7 @@ public class TaskOrderQueryDTO extends PageSearch<TaskOrderVO> {
     private Date actualEndTime;
 
     public Date getActualBeginTime() {
-        return Objects.isNull(this.actualBeginTime) ? DateUtil.offsetDay(new Date(), -90) : this.actualBeginTime;
+        return Objects.isNull(this.actualBeginTime) ? DateUtil.offsetDay(new Date(), -30) : this.actualBeginTime;
     }
 
     public Date getActualEndTime() {
