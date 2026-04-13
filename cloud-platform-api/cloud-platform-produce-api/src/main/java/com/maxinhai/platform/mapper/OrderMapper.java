@@ -4,6 +4,7 @@ import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.bo.OrderInfoBO;
 import com.maxinhai.platform.po.Order;
 import com.maxinhai.platform.vo.OrderProgressVO;
+import com.maxinhai.platform.vo.OrderStatisticsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -225,4 +226,60 @@ public interface OrderMapper extends MPJBaseMapper<Order> {
             + "(SELECT COUNT(DISTINCT DATE(actual_end_time)) FROM prod_work_order WHERE order_status=4) AS workOrderFinishDays, "
             + "(SELECT COUNT(DISTINCT DATE(actual_end_time)) FROM prod_task_order WHERE status=4) AS taskOrderFinishDays ")
     OrderProgressVO countAllProgressData();
+
+    /**
+     * 获取订单统计（每个表只扫描1次，总共3次扫描）
+     * @return
+     */
+    @Select(value = "SELECT " +
+            "  po.total AS totalOrderCount, " +
+            "  po.finish AS finishOrderCount, " +
+            "  po.unfinish AS unFinishOrderCount, " +
+            "  po.init AS initOrderCount, " +
+            "  po.todayFinish AS todayFinishOrderCount, " +
+            "     " +
+            "  pwo.total AS totalWorkOrderCount, " +
+            "  pwo.finish AS finishWorkOrderCount, " +
+            "  pwo.unfinish AS unFinishWorkOrderCount, " +
+            "  pwo.init AS initWorkOrderCount, " +
+            "  pwo.todayFinish AS todayFinishWorkOrderCount, " +
+            "   " +
+            "  pto.total AS totalTaskOrderCount, " +
+            "  pto.finish AS finishTaskOrderCount, " +
+            "  pto.unfinish AS unFinishTaskOrderCount, " +
+            "  pto.init AS initTaskOrderCount, " +
+            "  pto.todayFinish AS todayFinishTaskOrderCount " +
+            " " +
+            "FROM ( " +
+            "  SELECT " +
+            "    COUNT(*) AS total, " +
+            "    SUM(CASE WHEN order_status = 4 THEN 1 ELSE 0 END) AS finish, " +
+            "    SUM(CASE WHEN order_status IN (1,2,3) THEN 1 ELSE 0 END) AS unfinish, " +
+            "    SUM(CASE WHEN order_status = 0 THEN 1 ELSE 0 END) AS init, " +
+            "    SUM(CASE WHEN order_status = 4 AND actual_end_time >= CURRENT_DATE AND actual_end_time < CURRENT_DATE + INTERVAL '1 day' THEN 1 ELSE 0 END) AS todayFinish " +
+            "  FROM prod_order " +
+            "  WHERE del_flag = 0 " +
+            ") po " +
+            "CROSS JOIN ( " +
+            "  SELECT " +
+            "    COUNT(*) AS total, " +
+            "    SUM(CASE WHEN order_status = 4 THEN 1 ELSE 0 END) AS finish, " +
+            "    SUM(CASE WHEN order_status IN (1,2,3) THEN 1 ELSE 0 END) AS unfinish, " +
+            "    SUM(CASE WHEN order_status = 0 THEN 1 ELSE 0 END) AS init, " +
+            "    SUM(CASE WHEN order_status = 4 AND actual_end_time >= CURRENT_DATE AND actual_end_time < CURRENT_DATE + INTERVAL '1 day' THEN 1 ELSE 0 END) AS todayFinish " +
+            "  FROM prod_work_order " +
+            "  WHERE del_flag = 0 " +
+            ") pwo " +
+            "CROSS JOIN ( " +
+            "  SELECT " +
+            "    COUNT(*) AS total, " +
+            "    SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) AS finish, " +
+            "    SUM(CASE WHEN status IN (1,2,3) THEN 1 ELSE 0 END) AS unfinish, " +
+            "    SUM(CASE WHEN status = 0 THEN 1 ELSE 0 END) AS init, " +
+            "    SUM(CASE WHEN status = 4 AND actual_end_time >= CURRENT_DATE AND actual_end_time < CURRENT_DATE + INTERVAL '1 day' THEN 1 ELSE 0 END) AS todayFinish " +
+            "  FROM prod_task_order " +
+            "  WHERE del_flag = 0 " +
+            ") pto ")
+    OrderStatisticsVO getOrderStatistics();
+
 }
