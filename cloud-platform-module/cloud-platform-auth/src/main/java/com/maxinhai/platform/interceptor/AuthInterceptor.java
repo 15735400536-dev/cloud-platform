@@ -82,9 +82,9 @@ public class AuthInterceptor implements HandlerInterceptor, Ordered {
             LoginUserContext.set(user.getId(), "username", user.getUsername());
             return true;
         } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_OK);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setCharacterEncoding("UTF-8"); // 强制响应流用 UTF-8 编码
-            response.getWriter().write(JSON.toJSONString(AjaxResult.success(HttpServletResponse.SC_OK, "Token 验证失败", null)));
+            response.getWriter().write(JSON.toJSONString(AjaxResult.success(HttpServletResponse.SC_UNAUTHORIZED, "Token 验证失败", null)));
             return false;
         }
     }
