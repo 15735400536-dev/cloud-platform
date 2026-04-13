@@ -71,7 +71,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public void remove(String[] ids) {
-        userMapper.deleteBatchIds(Arrays.stream(ids).collect(Collectors.toList()));
+        List<String> userIds = Arrays.stream(ids).collect(Collectors.toList());
+        userMapper.deleteBatchIds(userIds);
+        // 删除关联角色
+        userRoleRelMapper.delete(new LambdaQueryWrapper<UserRoleRel>().in(UserRoleRel::getUserId, userIds));
     }
 
     @Override

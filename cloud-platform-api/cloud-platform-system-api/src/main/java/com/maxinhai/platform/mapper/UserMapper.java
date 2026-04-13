@@ -2,6 +2,10 @@ package com.maxinhai.platform.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.po.User;
+import com.maxinhai.platform.vo.report.UserGrowthTrendOfDayVO;
+import com.maxinhai.platform.vo.report.UserGrowthTrendOfMonthVO;
+import com.maxinhai.platform.vo.report.UserGrowthTrendOfYearVO;
+import com.maxinhai.platform.vo.report.UserStatisticsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -71,5 +75,54 @@ public interface UserMapper extends MPJBaseMapper<User> {
             "AND account = username " +
             "AND password <> '" + password + "'")
     int updateUserPassword();
+
+    @Select(value = "SELECT (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0) AS totalUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0 AND create_time >= CURRENT_DATE AND create_time < CURRENT_DATE + INTERVAL '1 day') AS newUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0 AND sex = '男') AS menUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0 AND sex = '女') AS womenUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0 AND sex = '未知') AS unknownUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_login_log WHERE del_flag = 0 AND create_time >= CURRENT_DATE AND create_time < CURRENT_DATE + INTERVAL '1 day') AS todayLoginUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_login_log WHERE del_flag = 0 AND create_time >= date_trunc('month', now()) AND create_time < date_trunc('month', now()) + INTERVAL '1 month') AS monthLoginUserCount, " +
+            "  (SELECT COUNT(id) FROM sys_login_log WHERE del_flag = 0 AND create_time >= date_trunc('year', now()) AND create_time < date_trunc('year', now()) + INTERVAL '1 year') AS yearLoginUserCount ")
+    UserStatisticsVO getUserStatistics();
+
+    /**
+     * 按天统计新增用户
+     * @return
+     */
+    @Select(value = "SELECT " +
+            "    DATE(create_time) AS stat_date, " +
+            "    COUNT(id) AS user_count " +
+            "FROM sys_user " +
+            "WHERE del_flag = 0 " +
+            "GROUP BY DATE(create_time) " +
+            "ORDER BY stat_date ASC")
+    List<UserGrowthTrendOfDayVO> getUserGrowthTrendOfDay();
+
+    /**
+     * 按月统计新增用户
+     * @return
+     */
+    @Select(value = "SELECT " +
+            "    TO_CHAR(create_time, 'YYYY-MM') AS stat_month, " +
+            "    COUNT(id) AS user_count " +
+            "FROM sys_user " +
+            "WHERE del_flag = 0 " +
+            "GROUP BY TO_CHAR(create_time, 'YYYY-MM') " +
+            "ORDER BY stat_month ASC")
+    List<UserGrowthTrendOfMonthVO> getUserGrowthTrendOfMonth();
+
+    /**
+     * 按年统计新增用户
+     * @return
+     */
+    @Select(value = "SELECT " +
+            "    TO_CHAR(create_time, 'YYYY') AS stat_year, " +
+            "    COUNT(id) AS user_count " +
+            "FROM sys_user " +
+            "WHERE del_flag = 0 " +
+            "GROUP BY TO_CHAR(create_time, 'YYYY') " +
+            "ORDER BY stat_year ASC")
+    List<UserGrowthTrendOfYearVO> getUserGrowthTrendOfYear();
 
 }
