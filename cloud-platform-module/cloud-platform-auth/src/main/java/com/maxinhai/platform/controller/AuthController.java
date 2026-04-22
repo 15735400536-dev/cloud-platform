@@ -123,7 +123,7 @@ public class AuthController {
             LoginLog loginLog = new LoginLog();
             loginLog.setAccount(data.getAccount());
             loginLog.setUsername(data.getUsername());
-            loginLog.setLoginIp(ClientInfoUtils.getIpAddress(request));
+            loginLog.setLoginIp(ClientInfoUtils.getSafeIpAddress(request));
             loginLog.setLoginTime(new Date());
             loginLog.setLoginPlatform(ClientInfoUtils.parseUserAgent(request));
             // 发布用户登录事件

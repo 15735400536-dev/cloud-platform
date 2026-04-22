@@ -33,6 +33,53 @@ public class ClientInfoUtils {
             "REMOTE_ADDR"
     };
 
+    // 仅信任内网代理（非常重要）
+    private static boolean isInnerProxy(String ip) {
+        return ip.startsWith("10.") || ip.startsWith("192.168.") || ip.startsWith("172.")
+                || "127.0.0.1".equals(ip) || "localhost".equals(ip);
+    }
+
+    /**
+     * 安全获取客户端IP（防伪造，企业级）
+     */
+    public static String getSafeIpAddress(HttpServletRequest request) {
+        // 1. 先拿真实TCP链接IP（不可伪造）
+        String realIp = request.getRemoteAddr();
+
+        // 2. 如果是内网代理（Nginx/网关/SLB），才信任X-Forwarded-For
+        if (isInnerProxy(realIp)) {
+            // 只从可信代理头获取IP
+            String xff = request.getHeader("X-Forwarded-For");
+            if (StringUtils.hasText(xff) && !"unknown".equalsIgnoreCase(xff)) {
+                // 取最后一段，不是第一段！！！（防伪造关键）
+                String[] ips = xff.split(",");
+                for (int i = ips.length - 1; i >= 0; i--) {
+                    String ip = ips[i].trim();
+                    if (StringUtils.hasText(ip) && !"unknown".equalsIgnoreCase(ip)) {
+                        return ip;
+                    }
+                }
+            }
+
+            // 兼容网关配置 X-Real-IP
+            String realIpHeader = request.getHeader("X-Real-IP");
+            if (StringUtils.hasText(realIpHeader) && !"unknown".equalsIgnoreCase(realIpHeader)) {
+                return realIpHeader;
+            }
+        }
+
+        // 3. 都没有 → 返回真实TCP IP（最安全）
+        return realIp;
+    }
+
+    public static String getSafeIpAddress() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            return "unknown";
+        }
+        return getSafeIpAddress(attributes.getRequest());
+    }
+
     /**
      * 获取客户端IP地址
      *
