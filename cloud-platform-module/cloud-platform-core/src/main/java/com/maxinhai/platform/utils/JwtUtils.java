@@ -1,10 +1,14 @@
 package com.maxinhai.platform.utils;
 
+import cn.hutool.core.util.StrUtil;
 import com.maxinhai.platform.exception.BusinessException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +84,7 @@ public class JwtUtils {
     /**
      * 检查 Token 是否过期
      */
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -115,6 +119,24 @@ public class JwtUtils {
     public Boolean validateToken(String token, String account) {
         final String accountFromToken = getAccountFromToken(token);
         return (accountFromToken.equals(account) && !isTokenExpired(token));
+    }
+
+    /**
+     * 获取当前请求头token（TODO 异步线程下，或获取不到请求上下文，需要改进）
+     *
+     * @return
+     */
+    public String getToken() {
+        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attrs == null) {
+            return "anonymous";
+        }
+        HttpServletRequest request = attrs.getRequest();
+        String token = request.getHeader("Authorization");
+        if(StrUtil.isNotBlank(token) && "internal".equals(token)) {
+            return "anonymous";
+        }
+        return token;
     }
 
 }
