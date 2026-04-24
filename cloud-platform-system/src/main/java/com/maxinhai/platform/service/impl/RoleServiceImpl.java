@@ -81,7 +81,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     @CachePut(value = "role", key = "#result.id") // 新增用户（缓存：新增后将结果存入缓存）
     public Role add(RoleAddDTO param) {
         boolean unique = commonCodeCheckService.isCodeUnique(Role.class, Role::getRoleKey, param.getRoleKey());
-        if (unique) {
+        if (!unique) {
             throw new BusinessException("角色【" + param.getRoleKey() + "】已存在!");
         }
         Role role = BeanUtil.toBean(param, Role.class);

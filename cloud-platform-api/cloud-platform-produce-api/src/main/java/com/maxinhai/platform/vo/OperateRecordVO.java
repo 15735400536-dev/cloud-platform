@@ -74,6 +74,12 @@ public class OperateRecordVO {
     private String operationCode;
     @ApiModelProperty(value = "工序名称")
     private String operationName;
+
+    /**
+     * 操作人
+     */
+    @ApiModelProperty(value = "操作人")
+    private String operator;
     /**
      * 操作类型
      */

@@ -1,8 +1,11 @@
 package com.maxinhai.platform.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * @ClassName：CustomerVO
@@ -65,7 +68,7 @@ public class CustomerVO {
      * 客户等级：1-VIP，2 - 重要，3 - 普通，4 - 潜在（用于分层服务）
      */
     @ApiModelProperty(value = "客户等级：1-VIP，2 - 重要，3 - 普通，4 - 潜在（用于分层服务）")
-    private Integer customer_level;
+    private Integer level;
     /**
      * 客户来源（如 “官网咨询”“转介绍”“展会”）
      */
@@ -81,5 +84,12 @@ public class CustomerVO {
      */
     @ApiModelProperty(value = "备注（如特殊需求、合作历史等）")
     private String remark;
+
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date createTime;
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date updateTime;
 
 }

@@ -1,8 +1,6 @@
 package com.maxinhai.platform.controller;
 
 import com.maxinhai.platform.mapper.OrderMapper;
-import com.maxinhai.platform.mapper.TaskOrderMapper;
-import com.maxinhai.platform.mapper.WorkOrderMapper;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.vo.OrderStatisticsVO;
 import io.swagger.annotations.Api;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
     private final OrderMapper orderMapper;
-    private final WorkOrderMapper workOrderMapper;
-    private final TaskOrderMapper taskOrderMapper;
 
     @PostMapping("/getOrderStatistics")
     @ApiOperation(value = "订单统计", notes = "订单统计")

@@ -78,6 +78,6 @@ public class WorkCenterServiceImpl extends ServiceImpl<WorkCenterMapper, WorkCen
             throw new BusinessException("工作中心【" + param.getCode() + "】已存在!");
         }
         WorkCenter workCenter = BeanUtil.toBean(param, WorkCenter.class);
-        workCenterMapper.updateById(workCenter);
+        workCenterMapper.insert(workCenter);
     }
 }

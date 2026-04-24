@@ -1,10 +1,14 @@
 package com.maxinhai.platform.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.maxinhai.platform.dto.worktime.UserWorkTimeQueryDTO;
 import com.maxinhai.platform.vo.worktime.*;
 
 import java.util.List;
 
 public interface WorkTimeService {
+
+    Page<UserWorkTimeVO> searchPage(UserWorkTimeQueryDTO param);
 
     /**
      * 获取员工工时

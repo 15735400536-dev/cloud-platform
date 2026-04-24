@@ -18,5 +18,10 @@ public class ProductAddDTO {
      */
     @ApiModelProperty(value = "产品名称")
     private String name;
+    /**
+     * 产品描述
+     */
+    @ApiModelProperty(value = "产品描述")
+    private String description;
 
 }

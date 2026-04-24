@@ -1,19 +1,19 @@
 package com.maxinhai.platform.controller;
 
 import com.maxinhai.platform.annotation.ApiLog;
+import com.maxinhai.platform.dto.worktime.UserWorkTimeQueryDTO;
 import com.maxinhai.platform.service.WorkTimeService;
 import com.maxinhai.platform.utils.AjaxResult;
+import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.worktime.CountTaskFinishQtyVO;
 import com.maxinhai.platform.vo.worktime.OrderWorkTimeVO;
+import com.maxinhai.platform.vo.worktime.UserWorkTimeVO;
 import com.maxinhai.platform.vo.worktime.WorkOrderWorkTimeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,6 +27,12 @@ public class WorkTimeController {
 
     @Resource
     private WorkTimeService workTimeService;
+
+    @PostMapping("/searchByPage")
+    @ApiOperation(value = "分页查询用户工时", notes = "根据查询条件分页查询用户工时")
+    public AjaxResult<PageResult<UserWorkTimeVO>> searchByPage(@RequestBody UserWorkTimeQueryDTO param) {
+        return AjaxResult.success(PageResult.convert(workTimeService.searchPage(param)));
+    }
 
     @ApiLog("根据工单ID获取工单工时")
     @GetMapping("/getWorkOrderWorkTime/{workOrderId}")

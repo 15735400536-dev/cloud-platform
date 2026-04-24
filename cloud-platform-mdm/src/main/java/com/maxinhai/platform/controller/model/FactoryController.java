@@ -1,11 +1,14 @@
 package com.maxinhai.platform.controller.model;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.dto.model.FactoryAddDTO;
 import com.maxinhai.platform.dto.model.FactoryEditDTO;
 import com.maxinhai.platform.dto.model.FactoryQueryDTO;
+import com.maxinhai.platform.po.ComboBox;
+import com.maxinhai.platform.po.model.Factory;
 import com.maxinhai.platform.service.model.FactoryService;
 import com.maxinhai.platform.utils.AjaxResult;
+import com.maxinhai.platform.utils.ComboBoxUtils;
 import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.model.FactoryVO;
 import io.swagger.annotations.Api;
@@ -13,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/factory")
@@ -53,6 +58,18 @@ public class FactoryController {
     public AjaxResult<Void> removeFactory(@RequestBody String[] ids) {
         factoryService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/getComboBox")
+    @ApiOperation(value = "获取工厂下拉框", notes = "获取工厂下拉框")
+    public AjaxResult<List<ComboBox>> getComboBox() {
+        List<Factory> factoryList = factoryService.list(new LambdaQueryWrapper<Factory>()
+                .select(Factory::getId, Factory::getName)
+                .orderByDesc(Factory::getCreateTime));
+        List<ComboBox> comboBoxList = factoryList.stream().map(factory -> {
+            return ComboBoxUtils.convert(factory, Factory::getId, Factory::getName);
+        }).collect(Collectors.toList());
+        return AjaxResult.success(comboBoxList);
     }
 
 }

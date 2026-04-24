@@ -18,6 +18,7 @@ import com.maxinhai.platform.mapper.TaskOrderMapper;
 import com.maxinhai.platform.po.OperateRecord;
 import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.service.OperateRecordService;
+import com.maxinhai.platform.service.OperatorService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.vo.OperateRecordVO;
 import com.maxinhai.platform.vo.TaskOrderVO;
@@ -42,6 +43,8 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
     private TaskOrderMapper taskOrderMapper;
     @Resource
     private SystemFeignClient systemFeignClient;
+    @Resource
+    private OperatorService operatorService;
 
     @Override
     public Page<OperateRecordVO> searchByPage(OperateRecordQueryDTO param) {
@@ -89,6 +92,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         }
 
         // 4. PO 转 VO，并赋值关联数据（关键修复！）
+        Map<String, String> operator = operatorService.getOperator();
         Map<String, TaskOrderVO> finalTaskOrderMap = taskOrderMap;
         List<OperateRecordVO> voList = records.stream().map(po -> {
             OperateRecordVO vo = new OperateRecordVO();
@@ -100,6 +104,9 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
             if (taskOrderVO != null) {
                 BeanUtils.copyProperties(taskOrderVO, vo);
             }
+
+            // 复制操作人
+            vo.setOperator(operator.getOrDefault(po.getCreateBy(), "anonymous"));
             return vo;
         }).collect(Collectors.toList());
 

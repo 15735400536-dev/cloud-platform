@@ -68,7 +68,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Override
     public void add(MenuAddDTO param) {
         boolean unique = commonCodeCheckService.isCodeUnique(Menu.class, Menu::getMenuName, param.getMenuName());
-        if (unique) {
+        if (!unique) {
             throw new BusinessException("菜单【" + param.getMenuName() + "】已存在!");
         }
         Menu user = BeanUtil.toBean(param, Menu.class);
@@ -81,7 +81,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<Menu> menuList = menuMapper.selectList(new LambdaQueryWrapper<Menu>()
                 .select(Menu::getId, Menu::getParentId, Menu::getMenuName, Menu::getMenuType, Menu::getUrl,
                         Menu::getComponent, Menu::getIcon, Menu::getStatus, Menu::getIsFrame, Menu::getSort)
-                .eq(Menu::getStatus, 1));
+                .eq(Menu::getStatus, 1)
+                .orderByAsc(Menu::getCreateTime));
         List<MenuTreeVO> treeVOList = menuList.stream()
                 .map(MenuTreeVO::convert)
                 .collect(Collectors.toList());

@@ -63,7 +63,7 @@ public class CustomerAddDTO {
      * 客户等级：1-VIP，2 - 重要，3 - 普通，4 - 潜在（用于分层服务）
      */
     @ApiModelProperty(value = "客户等级：1-VIP，2 - 重要，3 - 普通，4 - 潜在（用于分层服务）")
-    private Integer customer_level;
+    private Integer level;
     /**
      * 客户来源（如 “官网咨询”“转介绍”“展会”）
      */

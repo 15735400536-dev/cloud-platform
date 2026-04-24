@@ -3,6 +3,7 @@ package com.maxinhai.platform.mapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.bo.DailyProcessFinishTaskOrderQtyBO;
 import com.maxinhai.platform.bo.DailyTaskOrderBO;
+import com.maxinhai.platform.bo.TaskOrderProcessSortBO;
 import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.vo.TaskOrderVO;
 import com.maxinhai.platform.vo.worktime.CountTaskFinishQtyVO;
@@ -170,5 +171,54 @@ public interface TaskOrderMapper extends MPJBaseMapper<TaskOrder> {
             "</script>"
     })
     List<TaskOrderVO> findTaskDetailByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 查找派工单中的工序顺序号集合
+     * @return 工序顺序号集合
+     */
+    @Select(value = "SELECT " +
+            "    sort, " +
+            "    COUNT(*) AS repeat_count " +
+            "FROM " +
+            "    prod_task_order " +
+            "WHERE status IN (0,1,2,3) " +
+            "GROUP BY " +
+            "    sort " +
+            "HAVING " +
+            "    COUNT(*) > 0 " +
+            "ORDER BY " +
+            "    sort ASC")
+    List<TaskOrderProcessSortBO> selectProcessSort();
+
+    /**
+     * 根据工序顺序号查找可操作的派工单集合
+     * @param sort 工序顺序号
+     * @return 可操作的派工单集合
+     */
+    @Select(value = "SELECT " +
+            "  task.work_order_id, " +
+            "  task.id, " +
+            "  task.sort, " +
+            "  task.status " +
+            "FROM prod_task_order task " +
+            "WHERE " +
+            "  task.del_flag = 0 " +
+            "  AND task.status in (0,1,2,3) " +
+            "  AND task.sort = #{sort} " +
+            "  AND ( " +
+            "    #{sort} = 1 " +
+            "    OR EXISTS ( " +
+            "      SELECT 1 " +
+            "      FROM prod_task_order t2 " +
+            "      WHERE " +
+            "        t2.del_flag = 0 " +
+            "        AND t2.status = 4 " +
+            "        AND t2.sort = #{sort} - 1 " +
+            "        AND t2.work_order_id = task.work_order_id " +
+            "    ) " +
+            "  ) " +
+            "ORDER BY task.create_time DESC " +
+            "LIMIT 100")
+    List<TaskOrder> selectOperableTaskOrderList(Integer sort);
 
 }

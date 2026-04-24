@@ -82,7 +82,7 @@ public class MenuController {
         );
     }
 
-    @GetMapping("/getMenuTree}")
+    @GetMapping("/getMenuTree")
     @ApiOperation(value = "获取菜单树状结构", notes = "获取菜单树状结构")
     public AjaxResult<List<MenuTreeVO>> getMenuTree() {
         return AjaxResult.success(menuService.getMenuTree());

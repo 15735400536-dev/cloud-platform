@@ -1,10 +1,15 @@
 package com.maxinhai.platform.controller.model;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.dto.model.ProductionLineAddDTO;
 import com.maxinhai.platform.dto.model.ProductionLineEditDTO;
 import com.maxinhai.platform.dto.model.ProductionLineQueryDTO;
+import com.maxinhai.platform.po.ComboBox;
+import com.maxinhai.platform.po.model.ProductionLine;
 import com.maxinhai.platform.service.model.ProductionLineService;
 import com.maxinhai.platform.utils.AjaxResult;
+import com.maxinhai.platform.utils.ComboBoxUtils;
 import com.maxinhai.platform.utils.PageResult;
 import com.maxinhai.platform.vo.model.ProductionLineVO;
 import io.swagger.annotations.Api;
@@ -12,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/productionLine")
@@ -52,6 +59,19 @@ public class ProductionLineController {
     public AjaxResult<Void> removeProductionLine(@RequestBody String[] ids) {
         productionLineService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/getComboBox")
+    @ApiOperation(value = "获取产线下拉框", notes = "根据车间ID获取产线下拉框")
+    public AjaxResult<List<ComboBox>> getComboBox(@RequestParam(value = "workshopId",required = false) String workshopId) {
+        List<ProductionLine> productionLineList = productionLineService.list(new LambdaQueryWrapper<ProductionLine>()
+                .select(ProductionLine::getId, ProductionLine::getName)
+                .eq(StrUtil.isNotBlank(workshopId), ProductionLine::getWorkshopId, workshopId)
+                .orderByDesc(ProductionLine::getCreateTime));
+        List<ComboBox> comboBoxList = productionLineList.stream().map(productionLine -> {
+            return ComboBoxUtils.convert(productionLine, ProductionLine::getId, ProductionLine::getName);
+        }).collect(Collectors.toList());
+        return AjaxResult.success(comboBoxList);
     }
 
 }

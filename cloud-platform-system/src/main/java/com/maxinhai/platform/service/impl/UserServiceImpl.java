@@ -14,6 +14,7 @@ import com.maxinhai.platform.dto.UserQueryDTO;
 import com.maxinhai.platform.dto.UserRoleDTO;
 import com.maxinhai.platform.excel.UserExcel;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.handler.StringHandler;
 import com.maxinhai.platform.listener.UserExcelListener;
 import com.maxinhai.platform.mapper.RoleMapper;
 import com.maxinhai.platform.mapper.UserMapper;
@@ -54,14 +55,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private PasswordEncoder passwordEncoder;
     @Resource
     private UserExcelListener userExcelListener;
+    @Resource
+    private StringHandler stringHandler;
 
     @Override
     public Page<UserVO> searchByPage(UserQueryDTO param) {
-        return userMapper.selectJoinPage(param.getPage(), UserVO.class,
-                new MPJLambdaWrapper<User>()
+        List<String> tokenKeys = stringHandler.scanKeysWithPrefix("auth:token:");
+
+        // 1. 分页查询
+        Page<User> userPage = userMapper.selectPage(new Page<>(param.getCurrent(), param.getSize()),
+                new LambdaQueryWrapper<User>()
                         .like(StrUtil.isNotBlank(param.getAccount()), User::getAccount, param.getAccount())
                         .like(StrUtil.isNotBlank(param.getUsername()), User::getUsername, param.getUsername())
-                        .orderByDesc(User::getCreateTime));
+                        .orderByDesc(User::getCreateTime)
+        );
+
+        // 2. 转 VO
+        List<UserVO> voList = userPage.getRecords().stream()
+                .map(user -> {
+                    UserVO build = UserVO.build(user);
+                    build.setOnline(tokenKeys.contains("auth:token:" + user.getAccount()));
+                    return build;
+                })
+                .collect(Collectors.toList());
+
+        // 3. 组装分页返回
+        Page<UserVO> pageResult = new Page<>();
+        pageResult.setRecords(voList);
+        pageResult.setTotal(userPage.getTotal());
+        pageResult.setSize(userPage.getSize());
+        pageResult.setCurrent(userPage.getCurrent());
+        pageResult.setPages(userPage.getPages());
+        return pageResult;
     }
 
     @Override

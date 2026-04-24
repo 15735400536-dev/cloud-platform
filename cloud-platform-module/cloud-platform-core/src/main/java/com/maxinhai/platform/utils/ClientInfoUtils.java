@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Random;
 
 /**
  * 客户端信息工具类，用于获取IP地址、MAC地址和解析User-Agent
@@ -32,6 +33,66 @@ public class ClientInfoUtils {
             "HTTP_VIA",
             "REMOTE_ADDR"
     };
+
+    /**
+     * 全平台：Windows/Mac/Linux/Android/iOS/微信/爬虫 完整UA数组
+     */
+    private static final String[] USER_AGENT_ARRAY = {
+            // Windows Chrome
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            // Windows Edge
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+            // Windows Firefox
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
+            // Windows Opera
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 OPR/125.0.0.0",
+            // IE11
+            "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",
+
+            // Mac Chrome
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+            // Mac Edge
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0",
+            // Mac Safari
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+            // Mac Firefox
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:126.0) Gecko/20100101 Firefox/126.0",
+
+            // Linux Chrome
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+            // Linux Firefox
+            "Mozilla/5.0 (X11; Linux x86_64; rv:126.0) Gecko/20100101 Firefox/126.0",
+
+            // Android Chrome
+            "Mozilla/5.0 (Linux; Android 14; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.161 Mobile Safari/537.36",
+            // Android Edge
+            "Mozilla/5.0 (Linux; Android 14; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.161 Mobile Safari/537.36 EdgA/145.0.0.0",
+            // 安卓微信浏览器
+            "Mozilla/5.0 (Linux; Android 14; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/122.0.0.0 Mobile Safari/537.36 MicroMessenger/8.0.47.0(0x28002F51) WeChat/arm64",
+
+            // iPhone Safari
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1",
+            // iPhone Chrome
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/145.0.7632.124 Mobile/15E148 Safari/604.1",
+            // iOS 微信浏览器
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.47(0x28002F51) NetType/WIFI Language/zh_CN",
+
+            // 搜索引擎爬虫
+            "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+            "Mozilla/5.0 (compatible; Bingbot/2.0; +http://www.bing.com/bingbot.htm)"
+    };
+
+    private static final Random RANDOM = new Random();
+
+    /**
+     * 随机获取一个 User-Agent
+     * @return 随机UA字符串
+     */
+    public static String getRandomUserAgent() {
+        int index = RANDOM.nextInt(USER_AGENT_ARRAY.length);
+        return USER_AGENT_ARRAY[index];
+    }
 
     // 仅信任内网代理（非常重要）
     private static boolean isInnerProxy(String ip) {

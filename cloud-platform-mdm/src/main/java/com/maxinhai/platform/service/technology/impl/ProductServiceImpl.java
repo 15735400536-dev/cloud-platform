@@ -102,7 +102,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         List<Product> saveList = new ArrayList<>(dataList.size());
         for (int i = 0; i < dataList.size(); i++) {
             ProductExcelBO excelBO = dataList.get(i);
-            Product product = new Product(excelBO.getCode(), excelBO.getName());
+            Product product = new Product(excelBO.getCode(), excelBO.getName(), null);
             saveList.add(product);
         }
         this.saveBatch(saveList);

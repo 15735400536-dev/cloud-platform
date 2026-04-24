@@ -21,5 +21,7 @@ public class WorkCenterQueryDTO extends PageSearch<WorkCenterVO> {
      */
     @ApiModelProperty(value = "加工中心名称")
     private String name;
+    @ApiModelProperty(value = "车间ID")
+    private String workshopId;
 
 }
