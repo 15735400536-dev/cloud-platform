@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.MaterialAddDTO;
 import com.maxinhai.platform.dto.MaterialEditDTO;
 import com.maxinhai.platform.dto.MaterialQueryDTO;
@@ -11,10 +10,16 @@ import com.maxinhai.platform.vo.MaterialVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
 
 @RefreshScope
 @RestController
@@ -24,6 +29,7 @@ public class MaterialController {
 
     @Resource
     private MaterialService materialService;
+    private static final String TEMPLATE_PATH = "material.xlsx";
 
     @PostMapping("/searchByPage")
     @ApiOperation(value = "分页查询物料信息", notes = "根据查询条件分页查询物料信息")
@@ -75,6 +81,34 @@ public class MaterialController {
         // 调用服务进行导入
         materialService.importExcel(file);
         return AjaxResult.success("Excel数据导入成功！");
+    }
+
+    @GetMapping("/downloadTemplate")
+    @ApiOperation(value = "下载物料导入模板", notes = "下载物料导入模板")
+    public void downloadTemplate(HttpServletResponse response) throws IOException {
+        // 1. 从 resources 目录读取文件
+        ClassPathResource resource = new ClassPathResource(TEMPLATE_PATH);
+        InputStream inputStream = resource.getInputStream();
+
+        // 2. 设置响应头（浏览器下载必备）
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+
+        // 防止中文文件名乱码
+        String fileName = URLEncoder.encode("导入模板.xlsx", "UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+
+        // 3. 写出文件到浏览器
+        ServletOutputStream outputStream = response.getOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, len);
+        }
+
+        // 4. 关闭流
+        inputStream.close();
+        outputStream.close();
     }
 
 }

@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName：FileStorageServiceImpl
@@ -225,7 +226,7 @@ public class FileStorageServiceImpl implements FileStorageService {
                         .method(Method.GET)
                         .bucket(minIOConfig.getBucketName())
                         .object(objectName)
-                        .expiry(minIOConfig.getUrlExpire())
+                        .expiry(minIOConfig.getUrlExpire(), TimeUnit.SECONDS)
                         .build()
         );
     }

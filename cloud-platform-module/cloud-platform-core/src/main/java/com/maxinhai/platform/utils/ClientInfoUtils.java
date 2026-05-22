@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -96,6 +97,9 @@ public class ClientInfoUtils {
 
     // 仅信任内网代理（非常重要）
     private static boolean isInnerProxy(String ip) {
+        if(Objects.isNull(ip) || ip.isEmpty()) {
+            return false;
+        }
         return ip.startsWith("10.") || ip.startsWith("192.168.") || ip.startsWith("172.")
                 || "127.0.0.1".equals(ip) || "localhost".equals(ip);
     }

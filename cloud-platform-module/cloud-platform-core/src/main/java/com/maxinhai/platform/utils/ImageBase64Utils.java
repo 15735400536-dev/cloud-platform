@@ -12,7 +12,7 @@ import java.util.Date;
  * @ClassName：ImageBase64Utils
  * @Author: XinHai.Ma
  * @Date: 2025/12/2 18:25
- * @Description: 图片 Base64 转换工具类
+ * @Description: 图片与Base64编码互转工具类，支持格式：jpeg、jpg、png
  */
 public class ImageBase64Utils {
 

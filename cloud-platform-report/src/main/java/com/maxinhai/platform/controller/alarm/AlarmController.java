@@ -85,7 +85,7 @@ public class AlarmController {
     @ApiOperation(value = "调用实时告警接口", notes = "测试实时告警接口")
     public AjaxResult<List<AjaxResult<Void>>> callApi() throws ExecutionException, InterruptedException, IOException {
         String TARGET_URL = "http://localhost:10080/alarm/realTimeAlarm";
-        String TEST_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbG91ZC1wbGF0Zm9ybSIsImV4cCI6MTc2NDc2MzUyNSwidXNlcklkIjoiMTk3MDgzMTY4MjI5NDcwNjE3NyIsImlhdCI6MTc2NDY3NzEyNSwiYWNjb3VudCI6Indhbmd4aWZlbmciLCJ1c2VybmFtZSI6IueOi-eGmeWHpCJ9.j5ZKDZRpX_W4N-lmFTjspU82iArJWtHSJ_1-g3jz9hh08DdV94osLGcoYHZ7tnlTBmzZvqZko5bYJS7ZjAxbaA";
+        String TEST_TOKEN = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjbG91ZC1wbGF0Zm9ybSIsImV4cCI6MTc2NDg1MTMxMiwidXNlcklkIjoiMTk3MDgzMTY4MjI5NDcwNjE3NyIsImlhdCI6MTc2NDc2NDkxMiwiYWNjb3VudCI6Indhbmd4aWZlbmciLCJ1c2VybmFtZSI6IueOi-eGmeWHpCJ9.2_5R531fcaItB-jQ6HyIz1qqiOB8vkCvCeWHhsvMtb6wXgajY1TnASNz4A-gj-AuYlrA9H4qMbMddoy1GJetQw";
         List<String> imgs = Lists.newArrayList(ImageBase64Utils.imageToBase64("C:\\Users\\MaXinHai\\Pictures\\v2-d2e6cbd40426e70d82fb2b090f92923d_1440w.jpg"),
                 ImageBase64Utils.imageToBase64("C:\\Users\\MaXinHai\\Pictures\\v2-77bafa0f24ae7643638c605dbacf7a62_1440w.jpg"),
                 ImageBase64Utils.imageToBase64("C:\\Users\\MaXinHai\\Pictures\\v2-66de663a460fdbd022169017a7ee0756_1440w.jpg"));

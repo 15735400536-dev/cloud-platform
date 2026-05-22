@@ -11,7 +11,9 @@ import com.maxinhai.platform.dto.MongoPageQueryDTO;
 import com.maxinhai.platform.dto.RealTimeCheckDTO;
 import com.maxinhai.platform.handler.MqHandler;
 import com.maxinhai.platform.handler.MqttHandler;
+import com.maxinhai.platform.mapper.MqttConfigMapper;
 import com.maxinhai.platform.po.JsonRecord;
+import com.maxinhai.platform.po.MqttConfig;
 import com.maxinhai.platform.service.RealTimeCheckService;
 import com.maxinhai.platform.service.RetryCallApiService;
 import com.maxinhai.platform.utils.AjaxResult;
@@ -21,6 +23,7 @@ import com.maxinhai.platform.vo.PageResultVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.amqp.core.Message;
@@ -33,11 +36,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/algorithm")
 @Api(tags = "设备管理接口")
@@ -46,6 +51,7 @@ public class RealTimeCheckController {
 
     private final RealTimeCheckService realTimeCheckService;
     private final RetryCallApiService retryCallApi;
+    private final MqttConfigMapper mqttMapper;
 
     @PostMapping(value = "realTimeCheck")
     @ApiOperation(value = "算法实时检测", notes = "根据图片算法实时检测")
@@ -110,11 +116,11 @@ public class RealTimeCheckController {
     @Resource
     private MqHandler mqHandler;
 
-    @Scheduled(initialDelay = 3000, fixedDelay = 3000)
+//    @Scheduled(initialDelay = 3000, fixedDelay = 60000)
     public void sendMqttMsg() throws MqttException {
-//        mqttHandler.sendMessage("emqx", "/topic/mqtt_test", String.format("客户端：【%s】，消息：Hello Docker MQTT!!!", "emqx"));
-//        mqttHandler.sendMessage("docker_emqx", "/topic/mqtt_test", String.format("客户端：【%s】，消息：Hello Docker MQTT!!!", "docker_emqx"));
-//        mqttHandler.sendMessage("192.168.1.12_emqx", "/topic/mqtt_test", String.format("客户端：【%s】，消息：Hello Docker MQTT!!!", "192.168.1.12_emqx"));
+        mqttHandler.sendMessage("emqx", "/topic/mqtt_test", String.format("客户端：【%s】，消息：Hello Docker MQTT!!!", "emqx"));
+        mqttHandler.sendMessage("docker_emqx", "/topic/mqtt_test", String.format("客户端：【%s】，消息：Hello Docker MQTT!!!", "docker_emqx"));
+        mqttHandler.sendMessage("192.168.1.12_emqx", "/topic/mqtt_test", String.format("客户端：【%s】，消息：Hello Docker MQTT!!!", "192.168.1.12_emqx"));
 
         mqHandler.sendMessage("mq", "default.exchange:algorithm_control", "算法控制!!!");
         mqHandler.sendMessage("mq", "default.exchange:algorithm_status", "算法状态!!!");
@@ -128,19 +134,19 @@ public class RealTimeCheckController {
     @MqttSubscribe(clientId = "emqx", topic = "/topic/mqtt_test")
     public void receiveMqttMsg(MqttMessage message) {
         String payload = new String(message.getPayload());
-        System.out.println("收到MQTT消息（emqx）：" + payload + "，QoS：" + message.getQos());
+        log.info("收到MQTT消息（emqx）：{}，QoS：{}", payload, message.getQos());
     }
 
     @MqttSubscribe(clientId = "docker_emqx", topic = "/topic/mqtt_test")
     public void receiveMqttMsg1(MqttMessage message) {
         String payload = new String(message.getPayload());
-        System.out.println("收到MQTT消息（docker_emqx）：" + payload + "，QoS：" + message.getQos());
+        log.info("收到MQTT消息（docker_emqx）：{}，QoS：{}", payload, message.getQos());
     }
 
     @MqttSubscribe(clientId = "192.168.1.12_emqx", topic = "/topic/mqtt_test")
     public void receiveMqttMsg2(MqttMessage message) {
         String payload = new String(message.getPayload());
-        System.out.println("收到MQTT消息（192.168.1.12_emqx）：" + payload + "，QoS：" + message.getQos());
+        log.info("收到MQTT消息（192.168.1.12_emqx）：{}，QoS：{}", payload, message.getQos());
     }
 
     /**
@@ -148,7 +154,7 @@ public class RealTimeCheckController {
      */
     @MqSubscribe(clientId = "mq", routingKey = "/rabbitmq/test")
     public void receiveMqMsg(Message message) {
-        System.out.println("【RabbitMQ消息】：" + new String(message.getBody(), StandardCharsets.UTF_8));
+        log.info("【RabbitMQ消息】：{}", new String(message.getBody(), StandardCharsets.UTF_8));
     }
 
     /**
@@ -156,7 +162,7 @@ public class RealTimeCheckController {
      */
     @MqSubscribe(clientId = "mq", routingKey = "default.exchange:algorithm_control")
     public void receiveMqMsg1(Message message) {
-        System.out.println("【算法控制消息】：" + new String(message.getBody(), StandardCharsets.UTF_8));
+        log.info("【算法控制消息】：{}", new String(message.getBody(), StandardCharsets.UTF_8));
     }
 
     /**
@@ -164,7 +170,7 @@ public class RealTimeCheckController {
      */
     @MqSubscribe(clientId = "mq", routingKey = "default.exchange:algorithm_status")
     public void receiveMqMsg2(Message message) {
-        System.out.println("【算法状态消息】：" + new String(message.getBody(), StandardCharsets.UTF_8));
+        log.info("【算法状态消息】：{}", new String(message.getBody(), StandardCharsets.UTF_8));
     }
 
     /**
@@ -172,17 +178,36 @@ public class RealTimeCheckController {
      */
     @MqSubscribe(clientId = "mq", exchange = "default.exchange", queue = "algorithm_status")
     public void receiveMqMsg3(Message message) {
-        System.out.println("【算法状态消息1】：" + new String(message.getBody(), StandardCharsets.UTF_8));
+        log.info("【算法状态消息1】：{}", new String(message.getBody(), StandardCharsets.UTF_8));
     }
 
     @MqSubscribe(clientId = "mq", queue = "algorithm_control")
     public void receiveMqMsg4(Message message) {
-        System.out.println("【算法控制消息1】：" + new String(message.getBody(), StandardCharsets.UTF_8));
+        log.info("【算法控制消息1】：{}", new String(message.getBody(), StandardCharsets.UTF_8));
     }
 
     @MqSubscribe(clientId = "mq", queue = "maxinhai")
     public void receiveMqMsg5(Message message) {
-        System.out.println("【maxinhai】：" + new String(message.getBody(), StandardCharsets.UTF_8));
+        log.info("【maxinhai】：{}", new String(message.getBody(), StandardCharsets.UTF_8));
+    }
+
+//    @PostConstruct
+    public void initMqttConfig() {
+        String[] arr = {"brain", "eye", "ear", "nose", "tongue", "tooth", "throat", "tonsil", "heart", "Lung",
+                "trachea", "esophagus", "liver", "stomach", "spleen", "pancreas", "uterus", "bladder", "rectum",
+                "bone", "joint", "muscle", "ligament", "tendon", "eyeball", "skin", "blood", "cochlea"};
+        for (String str : arr) {
+            MqttConfig mqttConfig = new MqttConfig();
+            mqttConfig.setConnectId("emqx");
+            mqttConfig.setTopic("/topic/body/" + str);
+            mqttConfig.setQos(0);
+            mqttConfig.setDelFlag(0);
+            mqttConfig.setCreateBy("maxinhai");
+            mqttConfig.setCreateTime(LocalDateTime.now());
+            mqttConfig.setUpdateBy("maxinhai");
+            mqttConfig.setUpdateTime(LocalDateTime.now());
+            mqttMapper.insert(mqttConfig);
+        }
     }
 
 }

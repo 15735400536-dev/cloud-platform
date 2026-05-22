@@ -1,6 +1,6 @@
 package com.maxinhai.platform.controller;
 
-import com.maxinhai.platform.bo.ApiParam;
+import com.maxinhai.platform.bo.ApiParamBO;
 import com.maxinhai.platform.dto.CustomSqlAddDTO;
 import com.maxinhai.platform.dto.CustomViewAddDTO;
 import com.maxinhai.platform.dto.CustomViewEditDTO;
@@ -148,65 +148,65 @@ public class ViewController {
     @GetMapping("/api")
     public AjaxResult<String> api() throws IOException {
         String result = apiHandler.execute("/view/apiDelete", List.of(
-                new ApiParam(ApiParamType.STRING, "id", "20251116")
+                new ApiParamBO(ApiParamType.STRING, "id", "20251116")
         ));
         log.info("callApiDelete: {}", result);
 
         result = apiHandler.execute("/view/apiPut", List.of(
-                new ApiParam(ApiParamType.STRING, "name", "test"),
-                new ApiParam(ApiParamType.STRING, "sql", "select * from test")
+                new ApiParamBO(ApiParamType.STRING, "name", "test"),
+                new ApiParamBO(ApiParamType.STRING, "sql", "select * from test")
         ));
         log.info("callApiPut: {}", result);
 
         result = apiHandler.execute("/view/apiPost", List.of(
-                new ApiParam(ApiParamType.STRING, "username", "admin"),
-                new ApiParam(ApiParamType.NUMBER, "age", 25)
+                new ApiParamBO(ApiParamType.STRING, "username", "admin"),
+                new ApiParamBO(ApiParamType.NUMBER, "age", 25)
         ));
         log.info("callApiPost: {}", result);
 
         result = apiHandler.execute("/view/apiPostWithParams", List.of(
-                new ApiParam(ApiParamType.STRING, "id", "2001"),
-                new ApiParam(ApiParamType.STRING, "content", "test content")
+                new ApiParamBO(ApiParamType.STRING, "id", "2001"),
+                new ApiParamBO(ApiParamType.STRING, "content", "test content")
         ));
         log.info("callApiPostWithParams: {}", result);
 
         result = apiHandler.execute("/view/apiPostWithFormData", List.of(
-                new ApiParam(ApiParamType.STRING, "type", "uploadFile"),
-                new ApiParam(ApiParamType.NUMBER, "size", 1024),
-                new ApiParam(ApiParamType.FILE, "image", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg")
+                new ApiParamBO(ApiParamType.STRING, "type", "uploadFile"),
+                new ApiParamBO(ApiParamType.NUMBER, "size", 1024),
+                new ApiParamBO(ApiParamType.FILE, "image", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg")
         ));
         log.info("apiPostWithFormData: {}", result);
 
         result = apiHandler.execute("/view/apiPostWithFormData", List.of(
-                new ApiParam(ApiParamType.STRING, "sql", "select * from sys_user"),
-                new ApiParam(ApiParamType.NUMBER, "dataSourceId", "mysql"),
-                new ApiParam(ApiParamType.FILE, "image", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg")
+                new ApiParamBO(ApiParamType.STRING, "sql", "select * from sys_user"),
+                new ApiParamBO(ApiParamType.NUMBER, "dataSourceId", "mysql"),
+                new ApiParamBO(ApiParamType.FILE, "image", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg")
         ));
         log.info("callApiPostWithFormData: {}", result);
 
         result = apiHandler.execute("/view/apiWithPathVariable", List.of(
-                new ApiParam(ApiParamType.STRING, "name", "MaXinHai")
+                new ApiParamBO(ApiParamType.STRING, "name", "MaXinHai")
         ));
         log.info("callApiWithPathVariable: {}", result);
 
         result = apiHandler.execute("/view/apiGet", List.of(
-                new ApiParam(ApiParamType.STRING, "name", "李四")
+                new ApiParamBO(ApiParamType.STRING, "name", "李四")
         ));
         log.info("callapiGet: {}", result);
 
         result = apiHandler.execute("/view/apiPostWithFormDatas", List.of(
-                new ApiParam(ApiParamType.STRING, "sql", "select * from sys_test"),
-                new ApiParam(ApiParamType.NUMBER, "dataSourceId", "pgsql"),
-                new ApiParam(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg"),
-                new ApiParam(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e8dffee7fd205a33e2f53c4905568a35_1440w.jpg"),
-                new ApiParam(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-af3561f32c2746f9e01e22469070737d_1440w.jpg")
+                new ApiParamBO(ApiParamType.STRING, "sql", "select * from sys_test"),
+                new ApiParamBO(ApiParamType.NUMBER, "dataSourceId", "pgsql"),
+                new ApiParamBO(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg"),
+                new ApiParamBO(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e8dffee7fd205a33e2f53c4905568a35_1440w.jpg"),
+                new ApiParamBO(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-af3561f32c2746f9e01e22469070737d_1440w.jpg")
         ));
         log.info("apiPostWithFormDatas: {}", result);
 
         result = apiHandler.execute("/view/uploadFile", List.of(
-                new ApiParam(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg"),
-                new ApiParam(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e8dffee7fd205a33e2f53c4905568a35_1440w.jpg"),
-                new ApiParam(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-af3561f32c2746f9e01e22469070737d_1440w.jpg")
+                new ApiParamBO(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e43ede5c4b1cfef59ba6fbf22843640e_1440w.jpg"),
+                new ApiParamBO(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-e8dffee7fd205a33e2f53c4905568a35_1440w.jpg"),
+                new ApiParamBO(ApiParamType.FILE, "files", "C:\\Users\\MaXinHai\\Pictures\\v2-af3561f32c2746f9e01e22469070737d_1440w.jpg")
         ));
         log.info("uploadFile: {}", result);
 

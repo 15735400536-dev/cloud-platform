@@ -31,6 +31,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.maxinhai</groupId>
+            <artifactId>cloud-platform-mail</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- 替换原来的spring-retry依赖 -->
         <dependency>
             <groupId>org.springframework.retry</groupId>

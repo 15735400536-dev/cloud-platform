@@ -16,6 +16,7 @@
 | cloud-platform-quality   | 质量管理模块   | 10060 |
 | cloud-platform-zlm       | zlm流媒体服务 | 10070 |
 | cloud-platform-admin     | 监控服务     | 10000 |
+| cloud-platform-algorithm | 算法服务     | 10090 |
 
 ## 项目
 | 项目标识                        | 项目名称 | 项目端口  |
