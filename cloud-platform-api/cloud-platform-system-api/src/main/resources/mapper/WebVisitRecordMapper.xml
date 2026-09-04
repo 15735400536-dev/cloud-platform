@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maxinhai.platform.mapper.WebVisitRecordMapper">
+
+    <insert id="insertBatch">
+        INSERT INTO web_visit_record
+        (
+        id, client_id, browser_name, browser_version, day, duration_ms, public_ip, start_time, time_str, title, url,
+        del_flag, create_by, create_time, update_by, update_time
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.clientId},
+            #{item.browserName},
+            #{item.browserVersion},
+            #{item.day},
+            #{item.durationMs},
+            #{item.publicIp},
+            #{item.startTime},
+            #{item.timeStr},
+            #{item.title},
+            #{item.url},
+            #{item.delFlag},
+            #{item.createBy},
+            #{item.createTime},
+            #{item.updateBy},
+            #{item.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectRecordList" parameterType="com.maxinhai.platform.dto.UserVisitLogQueryDTO"
+            resultType="com.maxinhai.platform.vo.WebVisitRecordVO">
+        SELECT
+            client_id,
+            public_ip,
+            get_url_host_v1(url) AS host,
+            start_time,
+            duration_ms
+        FROM
+            web_visit_record
+        <where>
+            <if test="query.visitDate != null">
+                AND to_timestamp(start_time / 1000)::date = #{query.visitDate}
+            </if>
+            <if test="query.clientId != null and query.clientId != ''">
+                AND client_id = #{query.clientId}
+            </if>
+        </where>
+    </select>
+
+<!--    <select id="selectUserDailyHostDurationStat" parameterType="com.maxinhai.platform.dto.UserVisitLogQueryDTO"-->
+<!--            resultType="com.maxinhai.platform.vo.UserVisitDurationStatVO">-->
+<!--        SELECT-->
+<!--        client_id,-->
+<!--        get_url_host(url) AS host,-->
+<!--        to_timestamp(start_time / 1000)::date AS visit_day,-->
+<!--        SUM(duration_ms) AS total_duration_ms,-->
+<!--        SUM(duration_ms) / 1000 AS total_duration_sec-->
+<!--        FROM web_visit_record-->
+<!--        <where>-->
+<!--            <if test="query.visitDate != null and query.visitDate != ''">-->
+<!--                AND to_timestamp(start_time / 1000)::date = #{query.visitDate}-->
+<!--            </if>-->
+<!--            <if test="query.clientId != null and query.clientId != ''">-->
+<!--                AND client_id = #{query.clientId}-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        GROUP BY client_id, host, to_timestamp(start_time / 1000)::date-->
+<!--        ORDER BY total_duration_ms DESC-->
+<!--    </select>-->
+
+    <select id="selectUserDailyHostDurationStat" parameterType="com.maxinhai.platform.dto.UserVisitLogQueryDTO"
+            resultType="com.maxinhai.platform.vo.UserVisitDurationStatVO">
+        SELECT
+        t.client_id,
+        t.host,
+        t.visit_day,
+        SUM(t.duration_ms) AS total_duration_ms,
+        SUM(t.duration_ms) / 1000 AS total_duration_sec
+        FROM (
+        SELECT
+        client_id,
+        get_url_host_v1(url) AS host,
+        to_timestamp(start_time / 1000)::date AS visit_day,
+        duration_ms
+        FROM web_visit_record
+        <where>
+            <if test="query.visitDate != null">
+                AND to_timestamp(start_time / 1000)::date = #{query.visitDate}
+            </if>
+            <if test="query.clientId != null and query.clientId != ''">
+                AND client_id = #{query.clientId}
+            </if>
+        </where>
+        ) t
+        GROUP BY t.client_id, t.host, t.visit_day
+        ORDER BY total_duration_ms DESC
+    </select>
+
+</mapper>
