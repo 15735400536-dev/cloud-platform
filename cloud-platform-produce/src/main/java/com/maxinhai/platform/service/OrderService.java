@@ -8,6 +8,7 @@ import com.maxinhai.platform.po.Order;
 import com.maxinhai.platform.vo.OrderProgressVO;
 import com.maxinhai.platform.vo.OrderVO;
 
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public interface OrderService extends IService<Order> {
@@ -59,5 +60,20 @@ public interface OrderService extends IService<Order> {
      * @return 统计结果
      */
     OrderProgressVO orderProgressEx3() throws ExecutionException, InterruptedException;
+
+    /**
+     * 创建电机订单
+     * @param productCode
+     * @param orderCount
+     * @param planBeginTime
+     * @param planEndTime
+     * @param routingCode
+     * @param routingVersion
+     * @param bomCode
+     * @param bomVersion
+     */
+    void createOrder(String productCode, Integer orderCount, Date planBeginTime, Date planEndTime,
+                     String routingCode, String routingVersion,
+                     String bomCode, String bomVersion);
 
 }

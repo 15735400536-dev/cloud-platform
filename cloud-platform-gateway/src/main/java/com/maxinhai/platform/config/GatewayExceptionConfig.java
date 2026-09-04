@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
+import reactor.netty.channel.AbortedException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,6 +24,14 @@ public class GatewayExceptionConfig {
     public ErrorWebExceptionHandler errorWebExceptionHandler(ObjectMapper objectMapper) {
         return (exchange, ex) -> {
             ServerHttpResponse response = exchange.getResponse();
+
+            // ===================== 新增：直接屏蔽客户端断开连接异常 =====================
+            if (ex instanceof AbortedException ||
+                    ex.getMessage() != null && ex.getMessage().contains("Connection has been closed BEFORE send operation")) {
+                // 不返回任何响应，直接结束，不打印错误日志
+                return Mono.empty();
+            }
+
             response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
             // 统一返回结果

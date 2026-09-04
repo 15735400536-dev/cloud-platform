@@ -22,11 +22,19 @@ public class IssueOrderDetailVO {
      */
     @ApiModelProperty(value = "物料ID")
     private String materialId;
+    @ApiModelProperty(value = "物料编码")
+    private String materialCode;
+    @ApiModelProperty(value = "物料名称")
+    private String materialName;
     /**
      * 货位ID
      */
     @ApiModelProperty(value = "货位ID")
     private String locationId;
+    @ApiModelProperty(value = "货位编码")
+    private String locationCode;
+    @ApiModelProperty(value = "货位名称")
+    private String locationName;
     /**
      * 批次号
      */

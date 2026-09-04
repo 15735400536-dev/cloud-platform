@@ -5,7 +5,9 @@ import com.alibaba.excel.read.listener.ReadListener;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.maxinhai.platform.bo.MaterialExcelBO;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.mapper.MaterialTypeMapper;
 import com.maxinhai.platform.po.Material;
+import com.maxinhai.platform.po.MaterialType;
 import com.maxinhai.platform.service.MaterialService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -16,6 +18,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +31,8 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
     @Lazy
     @Resource
     private MaterialService materialService;
+    @Resource
+    private MaterialTypeMapper materialTypeMapper;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
@@ -85,8 +90,16 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
                 .map(Material::getCode)
                 .collect(Collectors.toList());
         if (!CollectionUtils.isEmpty(existCodeList)) {
-            throw new BusinessException("物料编码【" + StringUtils.collectionToDelimitedString(materialCodeList, ",") + "】已存在！");
+            throw new BusinessException("物料编码【" + StringUtils.collectionToDelimitedString(existCodeList, ",") + "】已存在！");
         }
+
+        List<String> materialTypeCodeList = dataList.stream().map(MaterialExcelBO::getMaterialType).distinct().collect(Collectors.toList());
+        Map<String, String> materialTypeMap = materialTypeMapper.selectList(new LambdaQueryWrapper<MaterialType>()
+                        .select(MaterialType::getId, MaterialType::getCode, com.maxinhai.platform.po.MaterialType::getName)
+                        .in(MaterialType::getCode, materialTypeCodeList))
+                .stream()
+                .collect(Collectors.toMap(MaterialType::getCode, MaterialType::getId));
+
         // 保存数据
         List<Material> materialList = dataList.stream().map(data -> {
             Material material = new Material();
@@ -97,6 +110,7 @@ public class MaterialExcelListener implements ReadListener<MaterialExcelBO> {
             material.setDrawingNo(data.getDrawingNo());
             material.setMaterial(data.getMaterial());
             material.setRemark(data.getRemark());
+            material.setMaterialTypeId(materialTypeMap.getOrDefault(data.getMaterialType(), "0"));
             return material;
         }).collect(Collectors.toList());
         materialService.saveBatch(materialList);

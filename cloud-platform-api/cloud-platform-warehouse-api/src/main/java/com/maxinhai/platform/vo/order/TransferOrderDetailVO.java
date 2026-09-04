@@ -22,16 +22,28 @@ public class TransferOrderDetailVO {
      */
     @ApiModelProperty(value = "物料ID")
     private String materialId;
+    @ApiModelProperty(value = "物料编码")
+    private String materialCode;
+    @ApiModelProperty(value = "物料名称")
+    private String materialName;
     /**
      * 源货位ID
      */
     @ApiModelProperty(value = "源货位ID")
     private String sourceLocationId;
+    @ApiModelProperty(value = "源货位编码")
+    private String sourceLocationCode;
+    @ApiModelProperty(value = "源货位名称")
+    private String sourceLocationName;
     /**
      * 目标货位ID
      */
     @ApiModelProperty(value = "目标货位ID")
     private String targetLocationId;
+    @ApiModelProperty(value = "目标货位编码")
+    private String targetLocationCode;
+    @ApiModelProperty(value = "目标货位名称")
+    private String targetLocationName;
     /**
      * 批次号
      */

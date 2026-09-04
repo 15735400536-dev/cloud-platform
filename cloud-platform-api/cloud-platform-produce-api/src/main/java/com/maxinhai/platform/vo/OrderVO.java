@@ -36,6 +36,11 @@ public class OrderVO {
     @ApiModelProperty(value = "订单状态")
     private OrderStatus orderStatus;
     /**
+     * 订单数量
+     */
+    @ApiModelProperty(value = "订单数量")
+    private Integer qty;
+    /**
      * 计划开始时间
      */
     @ApiModelProperty(value = "计划开始时间")

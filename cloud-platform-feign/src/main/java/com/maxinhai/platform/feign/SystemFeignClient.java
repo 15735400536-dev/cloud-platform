@@ -41,7 +41,7 @@ public interface SystemFeignClient {
     @GetMapping("/user/getUserList")
     AjaxResult<List<UserBO>> getUserList();
 
-    @GetMapping("/user/getUserMap}")
+    @GetMapping("/user/getUserMap")
     AjaxResult<Map<String, String>> getUserMap();
 
     @GetMapping("/codeRule/generateCode/{codeRule}/{batchSize}")

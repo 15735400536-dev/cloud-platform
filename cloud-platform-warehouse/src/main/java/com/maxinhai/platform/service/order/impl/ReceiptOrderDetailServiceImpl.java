@@ -9,6 +9,8 @@ import com.maxinhai.platform.dto.order.ReceiptOrderDetailAddDTO;
 import com.maxinhai.platform.dto.order.ReceiptOrderDetailEditDTO;
 import com.maxinhai.platform.dto.order.ReceiptOrderDetailQueryDTO;
 import com.maxinhai.platform.mapper.order.ReceiptOrderDetailMapper;
+import com.maxinhai.platform.po.Material;
+import com.maxinhai.platform.po.model.WarehouseLocation;
 import com.maxinhai.platform.po.order.ReceiptOrderDetail;
 import com.maxinhai.platform.service.order.ReceiptOrderDetailService;
 import com.maxinhai.platform.vo.order.ReceiptOrderDetailVO;
@@ -31,13 +33,29 @@ public class ReceiptOrderDetailServiceImpl extends ServiceImpl<ReceiptOrderDetai
     public Page<ReceiptOrderDetailVO> searchByPage(ReceiptOrderDetailQueryDTO param) {
         return receiptOrderDetailMapper.selectJoinPage(param.getPage(), ReceiptOrderDetailVO.class,
                 new MPJLambdaWrapper<ReceiptOrderDetail>()
+                        .leftJoin(Material.class, Material::getId, ReceiptOrderDetail::getMaterialId)
+                        .leftJoin(WarehouseLocation.class, WarehouseLocation::getId, ReceiptOrderDetail::getLocationId)
                         .like(StrUtil.isNotBlank(param.getReceiptOrderId()), ReceiptOrderDetail::getReceiptOrderId, param.getReceiptOrderId())
-                        .orderByDesc(ReceiptOrderDetail::getCreateTime));
+                        .orderByDesc(ReceiptOrderDetail::getCreateTime)
+                        .selectAll(ReceiptOrderDetail.class)
+                        .selectAs(Material::getCode, ReceiptOrderDetailVO::getMaterialCode)
+                        .selectAs(Material::getName, ReceiptOrderDetailVO::getMaterialName)
+                        .selectAs(WarehouseLocation::getCode, ReceiptOrderDetailVO::getLocationCode)
+                        .selectAs(WarehouseLocation::getName, ReceiptOrderDetailVO::getLocationName));
     }
 
     @Override
     public ReceiptOrderDetailVO getInfo(String id) {
-        return receiptOrderDetailMapper.selectJoinOne(ReceiptOrderDetailVO.class, new MPJLambdaWrapper<ReceiptOrderDetail>().eq(ReceiptOrderDetail::getId, id));
+        return receiptOrderDetailMapper.selectJoinOne(ReceiptOrderDetailVO.class,
+                new MPJLambdaWrapper<ReceiptOrderDetail>()
+                        .leftJoin(Material.class, Material::getId, ReceiptOrderDetail::getMaterialId)
+                        .leftJoin(WarehouseLocation.class, WarehouseLocation::getId, ReceiptOrderDetail::getLocationId)
+                        .eq(ReceiptOrderDetail::getId, id)
+                        .selectAll(ReceiptOrderDetail.class)
+                        .selectAs(Material::getCode, ReceiptOrderDetailVO::getMaterialCode)
+                        .selectAs(Material::getName, ReceiptOrderDetailVO::getMaterialName)
+                        .selectAs(WarehouseLocation::getCode, ReceiptOrderDetailVO::getLocationCode)
+                        .selectAs(WarehouseLocation::getName, ReceiptOrderDetailVO::getLocationName));
     }
 
     @Override

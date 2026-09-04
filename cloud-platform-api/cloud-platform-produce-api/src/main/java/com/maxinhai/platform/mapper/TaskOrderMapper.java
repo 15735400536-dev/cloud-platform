@@ -221,4 +221,73 @@ public interface TaskOrderMapper extends MPJBaseMapper<TaskOrder> {
             "LIMIT 100")
     List<TaskOrder> selectOperableTaskOrderList(Integer sort);
 
+    /**
+     * 根据派工单ID查询同一个工单下的所有派工单
+     * @param taskOrderId 派工单ID
+     * @return
+     */
+    @Select(value = "SELECT id, work_order_id, order_id, status, sort " +
+            "FROM prod_task_order " +
+            "WHERE del_flag = 0 " +
+            "AND work_order_id = ( " +
+            "    SELECT work_order_id FROM prod_task_order WHERE id = #{taskOrderId} LIMIT 1 " +
+            ") " +
+            "ORDER BY sort ASC")
+    List<TaskOrder> selectTaskOrderListByTaskOrderId(String taskOrderId);
+
+    /**
+     * 工单能否开工-根据工单ID查询工单下派工单是否全部初始化状态
+     * @param workOrderId 工单ID
+     * @return 初始化记录数量
+     */
+    @Select(value = "select count(1) from prod_task_order " +
+            "where del_flag = 0 " +
+            "and status = 0 " +
+            "and work_order_id = #{workOrderId}")
+    int countInitTask(@Param("workOrderId") String workOrderId);
+
+    /**
+     * 工单是否暂停-根据工单ID查询工单下是否存在暂停记录
+     * @param workOrderId 工单ID
+     * @return 暂停记录数量
+     */
+    @Select(value = "select count(1) from prod_task_order " +
+            "where del_flag = 0 " +
+            "and status = 2 " +
+            "and work_order_id = #{workOrderId} " +
+            "limit 1")
+    int countPauseTask(@Param("workOrderId") String workOrderId);
+
+    /**
+     * 工单能否复工-根据工单ID查询工单下派工单是否存在初始、暂停记录
+     * @param workOrderId 工单ID
+     * @return 初始、暂停记录数量
+     */
+    @Select(value = "select count(1) from prod_task_order " +
+            "where del_flag = 0 " +
+            "and status in (0,2) " +
+            "and work_order_id = #{workOrderId}")
+    int countInitAndPauseTask(@Param("workOrderId") String workOrderId);
+
+    /**
+     * 工单能否报工-根据工单ID查询工单下派工单是否全部报工
+     * @param workOrderId 工单ID
+     * @return 报工记录数量
+     */
+    @Select(value = "select count(1) from prod_task_order " +
+            "where del_flag = 0 " +
+            "and status = 4 " +
+            "and work_order_id = #{workOrderId}")
+    int countReportTask(@Param("workOrderId") String workOrderId);
+
+    /**
+     * 根据工单ID查询工单下派工单数量
+     * @param workOrderId 工单ID
+     * @return 派工单数量
+     */
+    @Select(value = "select count(1) from prod_task_order " +
+            "where work_order_id = #{workOrderId} " +
+            "and status = 0")
+    int countTask(@Param("workOrderId") String workOrderId);
+
 }

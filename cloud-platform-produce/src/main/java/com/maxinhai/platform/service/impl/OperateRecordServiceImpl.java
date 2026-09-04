@@ -20,6 +20,7 @@ import com.maxinhai.platform.po.TaskOrder;
 import com.maxinhai.platform.service.OperateRecordService;
 import com.maxinhai.platform.service.OperatorService;
 import com.maxinhai.platform.utils.AjaxResult;
+import com.maxinhai.platform.utils.JwtUtils;
 import com.maxinhai.platform.vo.OperateRecordVO;
 import com.maxinhai.platform.vo.TaskOrderVO;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,8 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
     private SystemFeignClient systemFeignClient;
     @Resource
     private OperatorService operatorService;
+    @Resource
+    private JwtUtils jwtUtils;
 
     @Override
     public Page<OperateRecordVO> searchByPage(OperateRecordQueryDTO param) {
@@ -139,6 +142,20 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         record.setOperateType(operateType);
         record.setOperateTime(new Date());
         operateRecordMapper.insert(record);
+    }
+
+    @Override
+    public OperateRecord generateRecord(OperateType operateType, String taskOrderId) {
+        OperateRecord record = new OperateRecord();
+        record.setTaskOrderId(taskOrderId);
+        record.setOperateType(operateType);
+        record.setOperateTime(new Date());
+        record.setDelFlag(0);
+        record.setCreateBy(jwtUtils.getUserIdFromToken(jwtUtils.getToken()));
+        record.setCreateTime(new Date());
+        record.setUpdateBy(jwtUtils.getUserIdFromToken(jwtUtils.getToken()));
+        record.setUpdateTime(new Date());
+        return record;
     }
 
     @Override
@@ -256,6 +273,7 @@ public class OperateRecordServiceImpl extends ServiceImpl<OperateRecordMapper, O
         List<OperateRecord> recordList = getOperateRecords(taskOrderId, OperateType.ALL);
         return recordList.stream().map(record -> {
             OperateRecordVO recordVO = BeanUtil.copyProperties(record, OperateRecordVO.class);
+            recordVO.setOperator(userMap.getOrDefault(recordVO.getCreateBy(), "匿名用户"));
             recordVO.setCreator(userMap.getOrDefault(recordVO.getCreateBy(), "匿名用户"));
             return recordVO;
         }).collect(Collectors.toList());

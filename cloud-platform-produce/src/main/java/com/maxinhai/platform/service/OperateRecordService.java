@@ -28,6 +28,14 @@ public interface OperateRecordService extends IService<OperateRecord> {
     void createRecord(OperateType operateType, String taskOrderId);
 
     /**
+     * 生成派工单操作记录
+     * @param operateType 操作类型
+     * @param taskOrderId 派工单ID
+     * @return
+     */
+    OperateRecord generateRecord(OperateType operateType, String taskOrderId);
+
+    /**
      * 根据派工单ID、操作类型查询派工单操作记录
      * @param taskOrderId 派工单ID
      * @param operateType 操作类型

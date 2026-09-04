@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.Objects;
 
 @RefreshScope
 @RestController
@@ -68,7 +69,7 @@ public class MaterialController {
     @ApiOperation(value = "导入物料数据", notes = "根据Excel模板导入物料数据")
     public AjaxResult<Void> importExcel(@RequestParam("file") MultipartFile file) {
         // 验证文件是否为空
-        if (file.isEmpty()) {
+        if (Objects.isNull(file) || file.isEmpty()) {
             return AjaxResult.fail("请选择要上传的Excel文件！");
         }
 

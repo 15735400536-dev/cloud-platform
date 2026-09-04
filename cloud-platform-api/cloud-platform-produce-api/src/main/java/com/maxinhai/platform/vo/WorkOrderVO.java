@@ -63,27 +63,27 @@ public class WorkOrderVO {
      */
     @ApiModelProperty(value = "产品ID")
     private String productId;
-    @ApiModelProperty(value = "产品ID")
+    @ApiModelProperty(value = "产品编码")
     private String productCode;
-    @ApiModelProperty(value = "产品ID")
+    @ApiModelProperty(value = "产品名称")
     private String productName;
     /**
      * BOM ID
      */
     @ApiModelProperty(value = "物料清单ID")
     private String bomId;
-    @ApiModelProperty(value = "物料清单ID")
+    @ApiModelProperty(value = "物料清单编码")
     private String bomCode;
-    @ApiModelProperty(value = "物料清单ID")
+    @ApiModelProperty(value = "物料清单名称")
     private String bomName;
     /**
      * 工艺路线ID
      */
     @ApiModelProperty(value = "工艺路线ID")
     private String routingId;
-    @ApiModelProperty(value = "主键ID")
+    @ApiModelProperty(value = "工艺路线编码")
     private String routingCode;
-    @ApiModelProperty(value = "主键ID")
+    @ApiModelProperty(value = "工艺路线名称")
     private String routingName;
 
     @ApiModelProperty(value = "创建时间")

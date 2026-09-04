@@ -25,10 +25,32 @@ public class RoutingExcelBO {
     private String operationCode;
     @ExcelProperty(value = "工序名称")
     private String operationName;
-    @ExcelProperty(value = "标准工时")
+    /**
+     * 是否关键工序
+     */
+    @ExcelProperty(value = "关键工序")
+    private String isKey;
+    /**
+     * 准备工时(分钟)
+     */
+    @ExcelProperty(value = "准备工时(分钟)")
+    private BigDecimal setupTime;
+    /**
+     * 单件工时/标准工时(分钟)
+     */
+    @ExcelProperty(value = "单件工时(分钟)")
     private BigDecimal workTime;
     @ExcelProperty(value = "工序描述")
     private String description;
+    @ExcelProperty(value = "工序号")
+    private String operationSort;
+
+    @ExcelProperty(value = "车间")
+    private String workshop;
+    @ExcelProperty(value = "工序号")
+    private String workCenter;
+    @ExcelProperty(value = "设备编号")
+    private String equip;
 
     @Data
     @NoArgsConstructor

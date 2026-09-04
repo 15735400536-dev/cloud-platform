@@ -13,6 +13,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RefreshScope
 @RestController
@@ -54,6 +55,13 @@ public class BomDetailController {
     public AjaxResult<Void> removeBomDetail(@RequestBody String[] ids) {
         bomDetailService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @GetMapping("/queryBomDetail/{productCode}/{bomVersion}")
+    @ApiOperation(value = "根据产品编码和版本号查询BOM明细", notes = "根据产品编码和版本号查询BOM明细")
+    public AjaxResult<List<BomDetailVO>> queryBomDetail(@PathVariable("productCode") String productCode,
+                                                        @PathVariable("bomVersion") String bomVersion) {
+        return AjaxResult.success(bomDetailService.queryBomDetail(productCode, bomVersion));
     }
 
 }

@@ -2,20 +2,21 @@ package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.maxinhai.platform.bo.OrderInfoBO;
+import com.maxinhai.platform.bo.ProductBomAndRoutingBO;
 import com.maxinhai.platform.dto.OrderAddDTO;
 import com.maxinhai.platform.dto.OrderQueryDTO;
 import com.maxinhai.platform.enums.OrderStatus;
 import com.maxinhai.platform.exception.BusinessException;
-import com.maxinhai.platform.mapper.OrderMapper;
-import com.maxinhai.platform.mapper.RoutingOperationRelMapper;
-import com.maxinhai.platform.mapper.TaskOrderMapper;
-import com.maxinhai.platform.mapper.WorkOrderMapper;
+import com.maxinhai.platform.feign.MdmFeignClient;
+import com.maxinhai.platform.feign.SystemFeignClient;
+import com.maxinhai.platform.mapper.*;
 import com.maxinhai.platform.po.Order;
 import com.maxinhai.platform.po.Product;
 import com.maxinhai.platform.po.TaskOrder;
@@ -25,11 +26,17 @@ import com.maxinhai.platform.po.technology.Routing;
 import com.maxinhai.platform.po.technology.RoutingOperationRel;
 import com.maxinhai.platform.service.OrderInfoService;
 import com.maxinhai.platform.service.OrderService;
+import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.DateUtils;
 import com.maxinhai.platform.vo.OrderProgressVO;
 import com.maxinhai.platform.vo.OrderVO;
+import com.maxinhai.platform.vo.technology.BomDetailVO;
+import com.maxinhai.platform.vo.technology.BomInfoVO;
+import com.maxinhai.platform.vo.technology.OperationVO;
+import com.maxinhai.platform.vo.technology.RoutingInfoVO;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -54,7 +61,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private RoutingOperationRelMapper routingOperationRelMapper;
     @Resource
+    private ProductMapper productMapper;
+    @Resource
     private OrderInfoService orderInfoService;
+    @Resource
+    private SystemFeignClient systemFeign;
+    @Resource
+    private MdmFeignClient mdmFeign;
 
     @Override
     public Page<OrderVO> searchByPage(OrderQueryDTO param) {
@@ -142,6 +155,184 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 taskOrder.setRoutingId(workOrder.getRoutingId());
                 taskOrder.setOperationId(rel.getOperationId());
                 taskOrder.setSort(rel.getSort());
+                taskOrder.setOrderId(order.getId());
+                taskOrder.setWorkOrderId(workOrder.getId());
+                taskOrderMapper.insert(taskOrder);
+            }
+        }
+    }
+
+//    @PostConstruct
+    public void initData() {
+        List<ProductBomAndRoutingBO> productBomAndRoutingBOS = orderMapper.queryProductBomAndRouting();
+        if (CollectionUtils.isEmpty(productBomAndRoutingBOS)) {
+            return;
+        }
+
+        AjaxResult<List<String>> ajaxResult = systemFeign.generateCode("order", productBomAndRoutingBOS.size());
+        if (ajaxResult.getCode() != HttpStatus.OK.value()) {
+            log.error("生成订单编码出错: {}", ajaxResult.getMsg());
+            return;
+        }
+
+        List<String> ordderCodeList = ajaxResult.getData();
+        for (int i = 0; i < productBomAndRoutingBOS.size(); i++) {
+            ProductBomAndRoutingBO productBomAndRoutingBO = productBomAndRoutingBOS.get(i);
+
+            // 构建创建订单参数
+            OrderAddDTO param = new OrderAddDTO();
+            param.setOrderCode(ordderCodeList.get(i));
+            param.setQty(RandomUtil.randomInt(10));
+            param.setOrderType(1);
+            param.setPlanBeginTime(new Date());
+            param.setPlanEndTime(DateUtil.offsetDay(param.getPlanBeginTime(), 30));
+            param.setProductId(productBomAndRoutingBO.getProductId());
+            param.setBomId(productBomAndRoutingBO.getBomId());
+            param.setRoutingId(productBomAndRoutingBO.getRoutingId());
+            // 调用方法
+            add(param);
+        }
+    }
+
+    /**
+     * 递归查找电机半成品BOM
+     * @param productCode
+     * @param bomVersion
+     * @param bomInfoVOList
+     */
+    private void queryBomInfo(String productCode, String bomVersion, List<BomInfoVO> bomInfoVOList)  {
+        // 查询BOM
+        AjaxResult<BomInfoVO> bomInfoAjaxResult = mdmFeign.queryBomInfo(productCode, bomVersion);
+        if (bomInfoAjaxResult.getCode() != HttpStatus.OK.value()) {
+            log.error("查询产品【{}】版本号【{}】BOM失败: {}", productCode, bomVersion, bomInfoAjaxResult.getMsg());
+            return;
+        }
+        BomInfoVO bomInfoVO = bomInfoAjaxResult.getData();
+        bomInfoVOList.add(bomInfoVO);
+        List<BomDetailVO> bomDetailList = bomInfoVO.getBomDetailList();
+        for (BomDetailVO bomDetailVO : bomDetailList) {
+            queryBomInfo(bomDetailVO.getMaterialCode(), bomVersion, bomInfoVOList);
+        }
+    }
+
+    /**
+     * 创建电机订单
+     *
+     * @param productCode
+     * @param routingCode
+     * @param routingVersion
+     * @param bomCode
+     * @param bomVersion
+     * @param orderCount
+     */
+    public void createOrder(String productCode, Integer orderCount, Date planBeginTime, Date planEndTime,
+                             String routingCode, String routingVersion,
+                             String bomCode, String bomVersion) {
+
+        // 查询电机BOM
+        AjaxResult<BomInfoVO> bomInfoAjaxResult = mdmFeign.queryBomInfo(productCode, bomVersion);
+        if (bomInfoAjaxResult.getCode() != HttpStatus.OK.value()) {
+            log.error("查询产品【{}】版本号【{}】BOM失败: {}", productCode, bomVersion, bomInfoAjaxResult.getMsg());
+            return;
+        }
+
+        // 查询电机工艺路线
+        AjaxResult<RoutingInfoVO> routingInfoAjaxResult = mdmFeign.queryRoutingInfo(productCode, routingVersion);
+        if (routingInfoAjaxResult.getCode() != HttpStatus.OK.value()) {
+            log.error("查询产品【{}】版本号【{}】工艺路线明细失败: {}", productCode, routingVersion, routingInfoAjaxResult.getMsg());
+            return;
+        }
+        BomInfoVO bomInfoVO = bomInfoAjaxResult.getData();
+        RoutingInfoVO routingInfoVO = routingInfoAjaxResult.getData();
+
+        // 生成订单编码
+        AjaxResult<List<String>> codeRuleAjaxResult = systemFeign.generateCode("order", 1);
+        if (codeRuleAjaxResult.getCode() != HttpStatus.OK.value()) {
+            log.error("生成订单编号失败: {}", codeRuleAjaxResult.getMsg());
+            return;
+        }
+
+        // 创建订单
+        Order order = new Order();
+        order.setOrderCode(codeRuleAjaxResult.getData().get(0));
+        order.setQty(orderCount);
+        order.setOrderType(1);
+        order.setOrderTime(new Date());
+        order.setOrderStatus(OrderStatus.INIT);
+        order.setPlanBeginTime(planBeginTime);
+        order.setPlanEndTime(planEndTime);
+        order.setProductId(bomInfoVO.getProductId());
+        order.setBomId(bomInfoVO.getId());
+        order.setRoutingId(routingInfoVO.getId());
+        orderMapper.insert(order);
+
+        // 获取BOM明细
+        List<BomDetailVO> bomDetailVOList = bomInfoVO.getBomDetailList();
+
+        // 递归查找电机半成品BOM
+        List<BomInfoVO> bomInfoVOList = new ArrayList<>();
+        for (BomDetailVO bomDetailVO : bomDetailVOList) {
+            String materialCode = bomDetailVO.getMaterialCode();
+            queryBomInfo(materialCode, bomVersion, bomInfoVOList);
+        }
+        bomInfoVOList.add(bomInfoVO);
+
+        // 查询产品信息
+        List<String> productCodeList = bomInfoVOList.stream().map(BomInfoVO::getProductCode).collect(Collectors.toList());
+        Map<String, String> productMap = productMapper.selectList(new LambdaQueryWrapper<Product>()
+                        .select(Product::getId, Product::getCode, Product::getName)
+                        .in(Product::getCode, productCodeList))
+                .stream()
+                .collect(Collectors.toMap(Product::getCode, Product::getId));
+
+        Map<String, BomInfoVO> bomInfoMap = bomInfoVOList.stream().collect(Collectors.toMap(BomInfoVO::getProductCode, BomInfoVO->BomInfoVO));
+        for (Map.Entry<String, BomInfoVO> entry : bomInfoMap.entrySet()) {
+            String productCodeKey = entry.getKey();
+            BomInfoVO bomInfoVC = entry.getValue();
+
+            // 生成工单编码
+            AjaxResult<List<String>> codeRuleAjaxResult1 = systemFeign.generateCode("workOrder", 1);
+            if (codeRuleAjaxResult1.getCode() != HttpStatus.OK.value()) {
+                log.error("生成工单编号失败: {}", codeRuleAjaxResult1.getMsg());
+                continue;
+            }
+
+            // 查询产品工艺路线
+            AjaxResult<RoutingInfoVO> routingDetailAjaxResult = mdmFeign.queryRoutingInfo(productCodeKey, routingVersion);
+            if (routingDetailAjaxResult.getCode() != HttpStatus.OK.value()) {
+                log.error("查询产品【{}】版本号【{}】工艺路线明细失败: {}", productCodeKey, routingVersion, routingDetailAjaxResult.getMsg());
+                continue;
+            }
+            RoutingInfoVO routingInfoVO1 = routingDetailAjaxResult.getData();
+
+            // 创建工单
+            WorkOrder workOrder = new WorkOrder();
+            workOrder.setWorkOrderCode(codeRuleAjaxResult1.getData().get(0));
+            workOrder.setQty(1);
+            workOrder.setOrderStatus(OrderStatus.INIT);
+            workOrder.setPlanBeginTime(order.getPlanBeginTime());
+            workOrder.setPlanEndTime(order.getPlanEndTime());
+            workOrder.setProductId(productMap.get(productCodeKey));
+            workOrder.setBomId(bomInfoVC.getId());
+            workOrder.setRoutingId(routingInfoVO1.getId());
+            workOrder.setOrderId(order.getId());
+            workOrderMapper.insert(workOrder);
+
+            // 创建派工单
+            List<OperationVO> opVoList = routingInfoVO.getOperationList();
+            for (int i = 0; i < opVoList.size(); i++) {
+                Integer opSort = i + 1;
+                OperationVO opVo = opVoList.get(i);
+                TaskOrder taskOrder = new TaskOrder();
+                taskOrder.setTaskOrderCode(workOrder.getWorkOrderCode() + "_" + opSort);
+                taskOrder.setStatus(OrderStatus.INIT);
+                taskOrder.setPlanBeginTime(order.getPlanBeginTime());
+                taskOrder.setPlanEndTime(order.getPlanEndTime());
+                taskOrder.setProductId(workOrder.getProductId());
+                taskOrder.setBomId(workOrder.getBomId());
+                taskOrder.setRoutingId(workOrder.getRoutingId());
+                taskOrder.setOperationId(opVo.getId());
+                taskOrder.setSort(opSort);
                 taskOrder.setOrderId(order.getId());
                 taskOrder.setWorkOrderId(workOrder.getId());
                 taskOrderMapper.insert(taskOrder);

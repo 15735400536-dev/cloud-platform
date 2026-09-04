@@ -14,6 +14,7 @@ import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.feign.SystemFeignClient;
 import com.maxinhai.platform.listener.RoutingExcelListener;
 import com.maxinhai.platform.mapper.OperationMapper;
 import com.maxinhai.platform.mapper.ProductMapper;
@@ -27,6 +28,8 @@ import com.maxinhai.platform.po.technology.RoutingOperationRel;
 import com.maxinhai.platform.service.CommonCodeCheckService;
 import com.maxinhai.platform.service.technology.RoutingOperationRelService;
 import com.maxinhai.platform.service.technology.RoutingService;
+import com.maxinhai.platform.vo.technology.OperationVO;
+import com.maxinhai.platform.vo.technology.RoutingInfoVO;
 import com.maxinhai.platform.vo.technology.RoutingVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -58,6 +61,8 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
     private ProductMapper productMapper;
     @Resource
     private OperationMapper operationMapper;
+    @Resource
+    private SystemFeignClient systemFeignClient;
 
     @Override
     public Page<RoutingVO> searchByPage(RoutingQueryDTO param) {
@@ -201,9 +206,12 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
                     operation = operationMap.get(excelBO.getOperationCode());
                 } else {
                     operation = new Operation();
-                    operation.setCode(excelBO.getOperationCode());
+                    List<String> codeList = systemFeignClient.generateCode("GX", 1).getData();
+                    operation.setCode(codeList.get(0));
                     operation.setName(excelBO.getOperationName());
+                    operation.setSetupTime(excelBO.getSetupTime());
                     operation.setWorkTime(excelBO.getWorkTime());
+                    operation.setIsKey("是".equals(excelBO.getIsKey()) ? Boolean.TRUE : Boolean.FALSE);
                     operation.setStatus(1);
                     operationMapper.insert(operation);
                 }
@@ -229,5 +237,32 @@ public class RoutingServiceImpl extends ServiceImpl<RoutingMapper, Routing> impl
                         .selectAs(Product::getCode, RoutingVO::getProductCode)
                         .selectAs(Product::getName, RoutingVO::getProductName));
         return CompletableFuture.completedFuture(routingVO);
+    }
+
+    @Override
+    public List<OperationVO> queryRoutingDetail(String productCode, String routingVersion) {
+        return routingMapper.selectJoinList(OperationVO.class,
+                new MPJLambdaWrapper<Routing>()
+                        .innerJoin(Product.class, Product::getId, Routing::getProductId)
+                        .innerJoin(RoutingOperationRel.class, RoutingOperationRel::getRoutingId, Routing::getId)
+                        .innerJoin(Operation.class, Operation::getId, RoutingOperationRel::getOperationId)
+                        // 查询条件
+                        .eq(StrUtil.isNotBlank(productCode), Product::getCode, productCode)
+                        .eq(StrUtil.isNotBlank(routingVersion), Routing::getVersion, routingVersion)
+                        // 字段别名
+                        .selectAll(Operation.class)
+                        .selectAs(Product::getCode, RoutingVO::getProductCode)
+                        .selectAs(Product::getName, RoutingVO::getProductName));
+    }
+
+    @Override
+    public RoutingInfoVO queryRoutingInfo(String productCode, String routingVersion) {
+        RoutingInfoVO routingInfoVO = routingMapper.queryRoutingByProductCodeAndVersion(productCode, routingVersion);
+        if(Objects.isNull(routingInfoVO)) {
+            throw new BusinessException("产品【" + productCode + "】版本号【" + routingVersion + "】工艺路线不存在！");
+        }
+        List<OperationVO> operationVOList = routingMapper.queryOperationByProductCodeAndVersion(productCode, routingVersion);
+        routingInfoVO.setOperationList(operationVOList);
+        return routingInfoVO;
     }
 }

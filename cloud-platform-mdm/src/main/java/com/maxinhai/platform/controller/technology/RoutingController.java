@@ -4,9 +4,11 @@ import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
 import com.maxinhai.platform.service.technology.RoutingService;
-import com.maxinhai.platform.vo.technology.RoutingVO;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.technology.OperationVO;
+import com.maxinhai.platform.vo.technology.RoutingInfoVO;
+import com.maxinhai.platform.vo.technology.RoutingVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RefreshScope
 @RestController
@@ -58,7 +61,7 @@ public class RoutingController {
     }
 
     @PostMapping("/importExcel")
-    @ApiOperation(value = "导入BOM数据", notes = "根据Excel模板导入BOM数据")
+    @ApiOperation(value = "导入工艺路线数据", notes = "根据Excel模板导入工艺路线数据")
     public AjaxResult<Void> importExcel(@RequestParam("file") MultipartFile file) {
         // 验证文件是否为空
         if (file.isEmpty()) {
@@ -74,6 +77,20 @@ public class RoutingController {
         // 调用服务进行导入
         routingService.importExcel(file);
         return AjaxResult.success("Excel数据导入成功！");
+    }
+
+    @PostMapping("/queryRoutingDetail/{productCode}/{routingVersion}")
+    @ApiOperation(value = "根据产品编码和版本号查询工艺路线明细", notes = "根据产品编码和版本号查询工艺路线明细")
+    public AjaxResult<List<OperationVO>> queryRoutingDetail(@PathVariable("productCode") String productCode,
+                                                            @PathVariable("routingVersion") String routingVersion) {
+        return AjaxResult.success("查询成功！", routingService.queryRoutingDetail(productCode, routingVersion));
+    }
+
+    @GetMapping(value = "/queryRoutingInfo/{productCode}/{routingVersion}")
+    @ApiOperation(value = "根据产品编码和版本号查询工艺路线信息", notes = "根据产品编码和版本号查询工艺路线信息")
+    public AjaxResult<RoutingInfoVO> queryRoutingInfo(@PathVariable("productCode") String productCode,
+                                                      @PathVariable("routingVersion") String routingVersion) {
+        return AjaxResult.success("查询成功！", routingService.queryRoutingInfo(productCode, routingVersion));
     }
 
 }

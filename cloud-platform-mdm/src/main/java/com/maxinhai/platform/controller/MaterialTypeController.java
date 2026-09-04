@@ -1,6 +1,5 @@
 package com.maxinhai.platform.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.maxinhai.platform.dto.MaterialTypeAddDTO;
 import com.maxinhai.platform.dto.MaterialTypeEditDTO;
 import com.maxinhai.platform.dto.MaterialTypeQueryDTO;
@@ -13,9 +12,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 @RefreshScope
 @RestController
@@ -63,6 +64,25 @@ public class MaterialTypeController {
     @ApiOperation(value = "获取物料类型树状结构", notes = "获取物料类型树状结构")
     public AjaxResult<List<MaterialTypeTreeVO>> getTree() {
         return AjaxResult.success(materialTypeService.getMaterialTypeTree());
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入物料类型", notes = "根据excel模板导入物料类型")
+    public AjaxResult<Void> importExcel(@RequestParam("file") MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        // 调用服务进行导入
+        materialTypeService.importExcel(file);
+        return AjaxResult.success("Excel数据导入成功！");
     }
 
 }

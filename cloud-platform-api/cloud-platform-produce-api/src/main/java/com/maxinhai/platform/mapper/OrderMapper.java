@@ -2,11 +2,14 @@ package com.maxinhai.platform.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.bo.OrderInfoBO;
+import com.maxinhai.platform.bo.ProductBomAndRoutingBO;
 import com.maxinhai.platform.po.Order;
 import com.maxinhai.platform.vo.OrderProgressVO;
 import com.maxinhai.platform.vo.OrderStatisticsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface OrderMapper extends MPJBaseMapper<Order> {
@@ -281,5 +284,30 @@ public interface OrderMapper extends MPJBaseMapper<Order> {
             "  WHERE del_flag = 0 " +
             ") pto ")
     OrderStatisticsVO getOrderStatistics();
+    
+    @Select(value = "SELECT " +
+            "  a.id AS product_id, " +
+            "  a.code AS product_code, " +
+            "  a.name AS product_name, " +
+            "  b.id AS bom_id, " +
+            "  b.code AS bom_code, " +
+            "  b.name AS bom_name, " +
+            "  b.version AS bom_version, " +
+            "  c.id AS routing_id, " +
+            "  c.code AS routing_code, " +
+            "  c.name AS routing_name, " +
+            "  c.version AS routing_version " +
+            "FROM " +
+            "  mdm_product a " +
+            "  INNER JOIN mdm_bom b ON a.id = b.product_id " +
+            "  INNER JOIN mdm_routing c ON a.id = c.product_id " +
+            "WHERE " +
+            "  a.del_flag = 0 " +
+            "  AND b.del_flag = 0 " +
+            "  AND c.del_flag = 0 " +
+            "  AND a.code IN ('01-02-01-001', '01-02-02-001', '01-01-01-001', '03-02-01-001', '03-01-01-001', '03-01-02-001', '01-02-02-002', '01-01-02-001') " +
+            "  AND b.version = 'v4.0' " +
+            "  AND c.version = 'v4.0'")
+    List<ProductBomAndRoutingBO> queryProductBomAndRouting();
 
 }

@@ -9,6 +9,8 @@ import com.maxinhai.platform.dto.order.TransferOrderDetailAddDTO;
 import com.maxinhai.platform.dto.order.TransferOrderDetailEditDTO;
 import com.maxinhai.platform.dto.order.TransferOrderDetailQueryDTO;
 import com.maxinhai.platform.mapper.order.TransferOrderDetailMapper;
+import com.maxinhai.platform.po.Material;
+import com.maxinhai.platform.po.model.WarehouseLocation;
 import com.maxinhai.platform.po.order.TransferOrderDetail;
 import com.maxinhai.platform.service.order.TransferOrderDetailService;
 import com.maxinhai.platform.vo.order.TransferOrderDetailVO;
@@ -29,15 +31,39 @@ public class TransferOrderDetailServiceImpl extends ServiceImpl<TransferOrderDet
     
     @Override
     public Page<TransferOrderDetailVO> searchByPage(TransferOrderDetailQueryDTO param) {
-        return transferOrderDetailMapper.selectJoinPage(param.getPage(), TransferOrderDetailVO.class,
+        Page<TransferOrderDetailVO> page = param.getPage();
+        page.setOptimizeCountSql(false);
+        return transferOrderDetailMapper.selectJoinPage(page, TransferOrderDetailVO.class,
                 new MPJLambdaWrapper<TransferOrderDetail>()
+                        .leftJoin(Material.class, Material::getId, TransferOrderDetail::getMaterialId)
+                        .leftJoin(WarehouseLocation.class, WarehouseLocation::getId, TransferOrderDetail::getTargetLocationId)
+                        .leftJoin(WarehouseLocation.class, WarehouseLocation::getId, TransferOrderDetail::getSourceLocationId)
                         .eq(StrUtil.isNotBlank(param.getTransferOrderId()), TransferOrderDetail::getTransferOrderId, param.getTransferOrderId())
-                        .orderByDesc(TransferOrderDetail::getCreateTime));
+                        .orderByDesc(TransferOrderDetail::getCreateTime)
+                        .selectAll(TransferOrderDetail.class)
+                        .selectAs(Material::getCode, TransferOrderDetailVO::getMaterialCode)
+                        .selectAs(Material::getName, TransferOrderDetailVO::getMaterialName)
+                        .selectAs(WarehouseLocation::getCode, TransferOrderDetailVO::getSourceLocationCode)
+                        .selectAs(WarehouseLocation::getName, TransferOrderDetailVO::getSourceLocationName)
+                        .selectAs(WarehouseLocation::getCode, TransferOrderDetailVO::getTargetLocationCode)
+                        .selectAs(WarehouseLocation::getName, TransferOrderDetailVO::getTargetLocationName));
     }
 
     @Override
     public TransferOrderDetailVO getInfo(String id) {
-        return transferOrderDetailMapper.selectJoinOne(TransferOrderDetailVO.class, new MPJLambdaWrapper<TransferOrderDetail>().eq(TransferOrderDetail::getId, id));
+        return transferOrderDetailMapper.selectJoinOne(TransferOrderDetailVO.class,
+                new MPJLambdaWrapper<TransferOrderDetail>()
+                        .leftJoin(Material.class, Material::getId, TransferOrderDetail::getMaterialId)
+                        .leftJoin(WarehouseLocation.class, WarehouseLocation::getId, TransferOrderDetail::getTargetLocationId)
+                        .leftJoin(WarehouseLocation.class, WarehouseLocation::getId, TransferOrderDetail::getSourceLocationId)
+                        .eq(TransferOrderDetail::getId, id)
+                        .selectAll(TransferOrderDetail.class)
+                        .selectAs(Material::getCode, TransferOrderDetailVO::getMaterialCode)
+                        .selectAs(Material::getName, TransferOrderDetailVO::getMaterialName)
+                        .selectAs(WarehouseLocation::getCode, TransferOrderDetailVO::getSourceLocationCode)
+                        .selectAs(WarehouseLocation::getName, TransferOrderDetailVO::getSourceLocationName)
+                        .selectAs(WarehouseLocation::getCode, TransferOrderDetailVO::getTargetLocationCode)
+                        .selectAs(WarehouseLocation::getName, TransferOrderDetailVO::getTargetLocationName));
     }
 
     @Override

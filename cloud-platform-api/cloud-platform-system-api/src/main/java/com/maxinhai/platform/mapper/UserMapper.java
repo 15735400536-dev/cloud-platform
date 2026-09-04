@@ -82,6 +82,7 @@ public interface UserMapper extends MPJBaseMapper<User> {
             "  (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0 AND sex = '女') AS womenUserCount, " +
             "  (SELECT COUNT(id) FROM sys_user WHERE del_flag = 0 AND sex = '未知') AS unknownUserCount, " +
             "  (SELECT COUNT(id) FROM sys_login_log WHERE del_flag = 0 AND create_time >= CURRENT_DATE AND create_time < CURRENT_DATE + INTERVAL '1 day') AS todayLoginUserCount, " +
+            "" +
             "  (SELECT COUNT(id) FROM sys_login_log WHERE del_flag = 0 AND create_time >= date_trunc('month', now()) AND create_time < date_trunc('month', now()) + INTERVAL '1 month') AS monthLoginUserCount, " +
             "  (SELECT COUNT(id) FROM sys_login_log WHERE del_flag = 0 AND create_time >= date_trunc('year', now()) AND create_time < date_trunc('year', now()) + INTERVAL '1 year') AS yearLoginUserCount ")
     UserStatisticsVO getUserStatistics();

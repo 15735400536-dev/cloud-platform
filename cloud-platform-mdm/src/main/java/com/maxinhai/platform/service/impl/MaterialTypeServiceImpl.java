@@ -2,14 +2,17 @@ package com.maxinhai.platform.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.maxinhai.platform.bo.MaterialTypeExcelBO;
 import com.maxinhai.platform.dto.MaterialTypeAddDTO;
 import com.maxinhai.platform.dto.MaterialTypeEditDTO;
 import com.maxinhai.platform.dto.MaterialTypeQueryDTO;
 import com.maxinhai.platform.exception.BusinessException;
+import com.maxinhai.platform.listener.MaterialTypeExcelListener;
 import com.maxinhai.platform.mapper.MaterialTypeMapper;
 import com.maxinhai.platform.po.MaterialType;
 import com.maxinhai.platform.service.CommonCodeCheckService;
@@ -19,8 +22,10 @@ import com.maxinhai.platform.vo.MaterialTypeTreeVO;
 import com.maxinhai.platform.vo.MaterialTypeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +38,8 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
     private MaterialTypeMapper materialTypeMapper;
     @Resource
     private CommonCodeCheckService commonCodeCheckService;
+    @Resource
+    private MaterialTypeExcelListener materialTypeExcelListener;
 
     @Override
     public Page<MaterialTypeVO> searchByPage(MaterialTypeQueryDTO param) {
@@ -88,5 +95,18 @@ public class MaterialTypeServiceImpl extends ServiceImpl<MaterialTypeMapper, Mat
                 .collect(Collectors.toList());
         // 按照父级ID构建树状结构
         return TreeNodeUtils.buildTree(treeVOList, "0");
+    }
+
+    @Override
+    public void importExcel(MultipartFile file) {
+        try {
+            // 调用EasyExcel读取文件
+            EasyExcel.read(file.getInputStream(), MaterialTypeExcelBO.class, materialTypeExcelListener)
+                    .sheet() // 读取第一个sheet
+                    .doRead(); // 执行读取操作
+        } catch (IOException e) {
+            log.error("Excel数据导入失败", e);
+            throw new BusinessException("Excel数据导入失败：" + e.getMessage());
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.github.yulichang.base.MPJBaseMapper;
 import com.maxinhai.platform.bo.TaskOrderWorkTimeBO;
 import com.maxinhai.platform.po.OperateRecord;
 import com.maxinhai.platform.vo.worktime.UserWorkTimeVO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -222,5 +223,15 @@ public interface OperateRecordMapper extends MPJBaseMapper<OperateRecord> {
             "</script>"
     })
     List<UserWorkTimeVO> selectUserTaskOrderWorkTimeByUserIds(@Param("userIds") List<String> userIds);
+
+    @Insert("<script>" +
+            "INSERT INTO prod_operate_record " +
+            "(id, task_order_id, operate_type, operate_time, del_flag, create_by, create_time, update_by, update_time) " +
+            "VALUES " +
+            "<foreach collection=\"list\" item=\"item\" separator=\",\">" +
+            "(#{item.id},#{item.taskOrderId},#{item.operateType},#{item.operateTime},#{item.delFlag},#{item.createBy},#{item.createTime},#{item.updateBy},#{item.updateTime})" +
+            "</foreach>" +
+            "</script>")
+    int insertBatch(@Param("list") List<OperateRecord> recordList);
 
 }

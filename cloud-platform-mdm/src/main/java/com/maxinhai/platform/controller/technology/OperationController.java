@@ -11,8 +11,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @RefreshScope
 @RestController
@@ -54,6 +56,25 @@ public class OperationController {
     public AjaxResult<Void> removeOperation(@RequestBody String[] ids) {
         operationService.remove(ids);
         return AjaxResult.success();
+    }
+
+    @PostMapping("/importExcel")
+    @ApiOperation(value = "导入工序数据", notes = "根据Excel模板导入工序数据")
+    public AjaxResult<Void> importExcel(@RequestParam("file") MultipartFile file) {
+        // 验证文件是否为空
+        if (Objects.isNull(file) || file.isEmpty()) {
+            return AjaxResult.fail("请选择要上传的Excel文件！");
+        }
+
+        // 验证文件格式
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls")) {
+            return AjaxResult.fail("请上传Excel格式的文件（.xlsx或.xls）");
+        }
+
+        // 调用服务进行导入
+        operationService.importExcel(file);
+        return AjaxResult.success("Excel数据导入成功！");
     }
 
 }

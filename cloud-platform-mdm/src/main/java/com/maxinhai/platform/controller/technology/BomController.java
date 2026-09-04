@@ -6,6 +6,7 @@ import com.maxinhai.platform.dto.technology.BomQueryDTO;
 import com.maxinhai.platform.service.technology.BomService;
 import com.maxinhai.platform.utils.AjaxResult;
 import com.maxinhai.platform.utils.PageResult;
+import com.maxinhai.platform.vo.technology.BomInfoVO;
 import com.maxinhai.platform.vo.technology.BomVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -74,6 +75,13 @@ public class BomController {
         // 调用服务进行导入
         bomService.importExcel(file);
         return AjaxResult.success("Excel数据导入成功！");
+    }
+
+    @GetMapping("/queryBomInfo/{productCode}/{bomVersion}")
+    @ApiOperation(value = "根据产品编码和版本号查询BOM信息", notes = "根据产品编码和版本号查询BOM信息")
+    public AjaxResult<BomInfoVO> queryBomInfo(@PathVariable("productCode") String productCode,
+                                              @PathVariable("bomVersion") String bomVersion) {
+        return AjaxResult.success("查询成功!", bomService.queryBomInfo(productCode, bomVersion));
     }
 
 }

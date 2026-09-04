@@ -7,6 +7,7 @@ import com.maxinhai.platform.dto.technology.BomAddDTO;
 import com.maxinhai.platform.dto.technology.BomEditDTO;
 import com.maxinhai.platform.dto.technology.BomQueryDTO;
 import com.maxinhai.platform.po.technology.Bom;
+import com.maxinhai.platform.vo.technology.BomInfoVO;
 import com.maxinhai.platform.vo.technology.BomVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,5 +39,7 @@ public interface BomService extends IService<Bom> {
     void saveExcelData(List<BomExcelBO> dataList);
 
     CompletableFuture<BomVO> getBomByProductCode(String productCode);
+
+    BomInfoVO queryBomInfo(String productCode, String bomVersion);
 
 }

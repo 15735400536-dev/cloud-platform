@@ -2,6 +2,7 @@ package com.maxinhai.platform.service.order;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maxinhai.platform.dto.order.IssueDTO;
 import com.maxinhai.platform.dto.order.IssueOrderAddDTO;
 import com.maxinhai.platform.dto.order.IssueOrderEditDTO;
 import com.maxinhai.platform.dto.order.IssueOrderQueryDTO;
@@ -25,5 +26,17 @@ public interface IssueOrderService extends IService<IssueOrder> {
      * @param id 主键ID
      */
     void issue(String id);
+
+    /**
+     * 根据出库单ID全部出库
+     * @param orderId 出库单ID
+     */
+    void fullIssue(String orderId);
+
+    /**
+     * 部分出库
+     * @param dto
+     */
+    void partialOut(IssueDTO dto);
 
 }

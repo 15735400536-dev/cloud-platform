@@ -23,7 +23,15 @@ public class Operation extends RecordEntity {
      */
     private String description;
     /**
-     * 标准工时
+     * 是否关键工序
+     */
+    private Boolean isKey;
+    /**
+     * 准备工时(分钟)
+     */
+    private BigDecimal setupTime;
+    /**
+     * 单件工时/标准工时(分钟)
      */
     private BigDecimal workTime;
     /**

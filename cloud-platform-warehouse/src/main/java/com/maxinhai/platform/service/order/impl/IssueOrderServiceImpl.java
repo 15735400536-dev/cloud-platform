@@ -3,12 +3,11 @@ package com.maxinhai.platform.service.order.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.maxinhai.platform.dto.order.IssueOrderAddDTO;
-import com.maxinhai.platform.dto.order.IssueOrderEditDTO;
-import com.maxinhai.platform.dto.order.IssueOrderQueryDTO;
+import com.maxinhai.platform.dto.order.*;
 import com.maxinhai.platform.enums.OperateType;
 import com.maxinhai.platform.exception.BusinessException;
 import com.maxinhai.platform.feign.SystemFeignClient;
@@ -27,6 +26,7 @@ import com.maxinhai.platform.vo.order.IssueOrderVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -153,4 +153,121 @@ public class IssueOrderServiceImpl extends ServiceImpl<IssueOrderMapper, IssueOr
         }
         inventoryService.updateBatchById(updateInventories);
     }
+
+    @Override
+    public void fullIssue(String orderId) {
+        // 1. 查询明细
+        List<IssueOrderDetail> detailList = issueOrderDetailMapper.selectList(new LambdaQueryWrapper<IssueOrderDetail>()
+                .eq(IssueOrderDetail::getIssueOrderId, orderId));
+        if (CollectionUtils.isEmpty(detailList)) {
+            throw new RuntimeException("出库明细不存在");
+        }
+
+        List<IssueDetailDTO> issueDetailList = new ArrayList<>();
+        for (IssueOrderDetail detail : detailList) {
+            // 全部出库数量 = 计划数量 - 已出库数量
+            BigDecimal outQty = detail.getPlanQty().subtract(detail.getActualQty());
+            if (outQty.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new RuntimeException("该明细已全部出库，无需重复操作");
+            }
+
+            IssueDetailDTO issueDetail = new IssueDetailDTO();
+            issueDetail.setIssueDetailId(detail.getId());
+            issueDetail.setIssueQty(outQty);
+            issueDetailList.add(issueDetail);
+        }
+        // 封装参数调用通用出库逻辑
+        IssueDTO dto = new IssueDTO();
+        dto.setIssueOrderId(detailList.get(0).getIssueOrderId());
+        dto.setIssueDetailList(issueDetailList);
+        partialOut(dto);
+    }
+
+    @Override
+    public void partialOut(IssueDTO dto) {
+        String detailId = ""; // dto.getDetailId();
+        BigDecimal outQty = BigDecimal.ZERO; // dto.getOutQty();
+
+        // 1. 参数校验
+        if (outQty.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("出库数量必须大于0");
+        }
+
+        // 2. 查询出库明细、主单
+        IssueOrderDetail detail = issueOrderDetailMapper.selectById(detailId);
+        if (detail == null) {
+            throw new RuntimeException("出库明细不存在");
+        }
+        IssueOrder mainOrder = issueOrderMapper.selectById(detail.getIssueOrderId());
+        if (mainOrder == null) {
+            throw new RuntimeException("出库主单不存在");
+        }
+
+        // 3. 单据状态校验：仅【已审核】单据允许出库
+        if (!Integer.valueOf(2).equals(mainOrder.getStatus())) {
+            throw new RuntimeException("仅已审核状态的出库单可执行出库操作");
+        }
+
+        // 4. 校验剩余可出库数量
+        BigDecimal remainQty = detail.getPlanQty().subtract(detail.getActualQty());
+        if (outQty.compareTo(remainQty) > 0) {
+            throw new RuntimeException("本次出库数量超出剩余可出库数量，剩余：" + remainQty);
+        }
+
+        // 5. 查询对应库存（仓库+货位+物料+批次唯一库存）
+        Inventory inventory = inventoryMapper.selectOne(
+                new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<Inventory>()
+                        .eq(Inventory::getWarehouseId, mainOrder.getWarehouseId())
+                        .eq(Inventory::getLocationId, detail.getLocationId())
+                        .eq(Inventory::getMaterialId, detail.getMaterialId())
+                        .eq(Inventory::getBatchNo, detail.getBatchNo())
+        );
+        if (inventory == null) {
+            throw new RuntimeException("未查询到对应批次库存，无法出库");
+        }
+
+        // 6. 校验可用库存充足
+        if (inventory.getAvailableQty().compareTo(outQty) < 0) {
+            throw new RuntimeException("可用库存不足，当前可用：" + inventory.getAvailableQty());
+        }
+
+        // 7. 更新明细实际出库数量
+        BigDecimal newActual = detail.getActualQty().add(outQty);
+        LambdaUpdateWrapper<IssueOrderDetail> detailUpd = new LambdaUpdateWrapper<>();
+        detailUpd.eq(IssueOrderDetail::getId, detailId)
+                .set(IssueOrderDetail::getActualQty, newActual);
+        issueOrderDetailMapper.update(null, detailUpd);
+
+        // 8. 扣减库存总数量、可用数量
+        LambdaUpdateWrapper<Inventory> invUpd = new LambdaUpdateWrapper<>();
+        invUpd.eq(Inventory::getId, inventory.getId())
+                .setSql("qty = qty - " + outQty)
+                .setSql("available_qty = available_qty - " + outQty);
+        inventoryMapper.update(null, invUpd);
+
+        // 9. 判断当前主单所有明细是否全部出库完成，更新主单状态为已完成(3)
+        checkAndUpdateMainOrderStatus(detail.getIssueOrderId());
+    }
+
+    /**
+     * 校验出库单所有明细是否全部出库，更新主单状态
+     */
+    private void checkAndUpdateMainOrderStatus(String orderId) {
+        // 查询该单下所有明细
+        List<IssueOrderDetail> detailList = issueOrderDetailMapper.selectList(
+                new LambdaQueryWrapper<IssueOrderDetail>()
+                        .eq(IssueOrderDetail::getIssueOrderId, orderId)
+        );
+        // 判断是否存在未出库完毕的明细
+        boolean allFinish = detailList.stream().allMatch(d ->
+                d.getActualQty().compareTo(d.getPlanQty()) >= 0
+        );
+        if (allFinish) {
+            LambdaUpdateWrapper<IssueOrder> issueOrder = new LambdaUpdateWrapper<>();
+            issueOrder.eq(IssueOrder::getId, orderId)
+                      .set(IssueOrder::getStatus, 3); // 3=已完成
+            issueOrderMapper.update(null, issueOrder);
+        }
+    }
+
 }

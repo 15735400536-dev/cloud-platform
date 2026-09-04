@@ -3,6 +3,7 @@ package com.maxinhai.platform.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.maxinhai.platform.bo.RoutingExcelBO;
+import com.maxinhai.platform.mapper.RoutingMapper;
 import com.maxinhai.platform.service.technology.RoutingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -20,6 +21,8 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
     @Lazy
     @Resource
     private RoutingService routingService;
+    @Resource
+    private RoutingMapper routingMapper;
 
     // 批量处理阈值，达到该数量就进行一次处理
     private static final int BATCH_COUNT = 100;
@@ -63,6 +66,7 @@ public class RoutingExcelListener implements ReadListener<RoutingExcelBO> {
         if (CollectionUtils.isEmpty(dataList)) {
             return;
         }
+
         log.info("开始保存 {} 条数据到数据库", dataList.size());
         // 保存数据
         routingService.saveExcelData(dataList);

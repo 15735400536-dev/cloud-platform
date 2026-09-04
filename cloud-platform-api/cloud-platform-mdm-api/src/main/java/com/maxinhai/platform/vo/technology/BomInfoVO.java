@@ -1,0 +1,57 @@
+package com.maxinhai.platform.vo.technology;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
+
+@Data
+@ApiModel(description = "物料BOM信息VO")
+public class BomInfoVO {
+
+    @ApiModelProperty(value = "主键ID")
+    private String id;
+    /**
+     * BOM编码
+     */
+    @ApiModelProperty(value = "BOM编码")
+    private String code;
+    /**
+     * BOM名称
+     */
+    @ApiModelProperty(value = "BOM名称")
+    private String name;
+    /**
+     * 版本号
+     */
+    @ApiModelProperty(value = "版本号")
+    private String version;
+    /**
+     * BOM描述
+     */
+    @ApiModelProperty(value = "BOM描述")
+    private String description;
+    /**
+     * 产品ID
+     */
+    @ApiModelProperty(value = "产品ID")
+    private String productId;
+    @ApiModelProperty(value = "产品编码")
+    private String productCode;
+    @ApiModelProperty(value = "产品名称")
+    private String productName;
+
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date createTime;
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    protected Date updateTime;
+
+    @ApiModelProperty(value = "BOM明细")
+    private List<BomDetailVO> bomDetailList;
+
+}

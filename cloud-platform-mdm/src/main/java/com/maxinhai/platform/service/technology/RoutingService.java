@@ -7,6 +7,8 @@ import com.maxinhai.platform.dto.technology.RoutingAddDTO;
 import com.maxinhai.platform.dto.technology.RoutingEditDTO;
 import com.maxinhai.platform.dto.technology.RoutingQueryDTO;
 import com.maxinhai.platform.po.technology.Routing;
+import com.maxinhai.platform.vo.technology.OperationVO;
+import com.maxinhai.platform.vo.technology.RoutingInfoVO;
 import com.maxinhai.platform.vo.technology.RoutingVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,5 +47,21 @@ public interface RoutingService extends IService<Routing> {
     void saveExcelData(List<RoutingExcelBO> dataList);
 
     CompletableFuture<RoutingVO> getRoutingByProductCode(String productCode);
+
+    /**
+     * 根据产品编码和版本号查询工艺路线明细
+     * @param productCode
+     * @param routingVersion
+     * @return
+     */
+    List<OperationVO> queryRoutingDetail(String productCode, String routingVersion);
+
+    /**
+     * 根据产品编码和版本号查询工艺路线信息
+     * @param productCode
+     * @param routingVersion
+     * @return
+     */
+    RoutingInfoVO queryRoutingInfo(String productCode, String routingVersion);
 
 }

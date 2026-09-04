@@ -24,6 +24,8 @@ import com.maxinhai.platform.po.technology.BomDetail;
 import com.maxinhai.platform.service.technology.BomDetailService;
 import com.maxinhai.platform.service.technology.BomService;
 import com.maxinhai.platform.service.CommonCodeCheckService;
+import com.maxinhai.platform.vo.technology.BomDetailVO;
+import com.maxinhai.platform.vo.technology.BomInfoVO;
 import com.maxinhai.platform.vo.technology.BomVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -164,6 +166,9 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
             // 创建BOM
             Bom bom = new Bom();
             Product product = productMap.get(key.getProductCode());
+            if (Objects.isNull(product)) {
+                throw new BusinessException("产品【" + key.getProductCode() + "】不存在！");
+            }
             bom.setCode(key.getProductCode() + "_" + key.getVersion());
             bom.setName(product.getName() + "_" + key.getVersion());
             bom.setVersion(key.getVersion());
@@ -196,5 +201,16 @@ public class BomServiceImpl extends ServiceImpl<BomMapper, Bom> implements BomSe
                         .selectAs(Product::getCode, BomVO::getProductCode)
                         .selectAs(Product::getName, BomVO::getProductName));
         return CompletableFuture.completedFuture(bomVO);
+    }
+
+    @Override
+    public BomInfoVO queryBomInfo(String productCode, String bomVersion) {
+        BomInfoVO bomInfoVO = bomMapper.queryBomInfo(productCode, bomVersion);
+        if (Objects.isNull(bomInfoVO)) {
+            throw new BusinessException("产品【" + productCode + "】版本号【" + bomVersion + "】BOM不存在！");
+        }
+        List<BomDetailVO> bomDetailVOS = bomMapper.queryBomDetail(productCode, bomVersion);
+        bomInfoVO.setBomDetailList(bomDetailVOS);
+        return bomInfoVO;
     }
 }

@@ -8,6 +8,7 @@ import com.maxinhai.platform.dto.MaterialTypeQueryDTO;
 import com.maxinhai.platform.po.MaterialType;
 import com.maxinhai.platform.vo.MaterialTypeTreeVO;
 import com.maxinhai.platform.vo.MaterialTypeVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,5 +28,11 @@ public interface MaterialTypeService extends IService<MaterialType> {
      * 获取物料类型树状结构
      */
     List<MaterialTypeTreeVO> getMaterialTypeTree();
+
+    /**
+     * 根据excel模板导入物料类型
+     * @param file
+     */
+    void importExcel(MultipartFile file);
 
 }

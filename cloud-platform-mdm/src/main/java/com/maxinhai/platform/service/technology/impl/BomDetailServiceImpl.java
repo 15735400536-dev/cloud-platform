@@ -9,7 +9,10 @@ import com.maxinhai.platform.dto.technology.BomDetailAddDTO;
 import com.maxinhai.platform.dto.technology.BomDetailEditDTO;
 import com.maxinhai.platform.dto.technology.BomDetailQueryDTO;
 import com.maxinhai.platform.mapper.BomDetailMapper;
+import com.maxinhai.platform.mapper.BomMapper;
 import com.maxinhai.platform.po.Material;
+import com.maxinhai.platform.po.Product;
+import com.maxinhai.platform.po.technology.Bom;
 import com.maxinhai.platform.po.technology.BomDetail;
 import com.maxinhai.platform.service.technology.BomDetailService;
 import com.maxinhai.platform.vo.technology.BomDetailVO;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,6 +30,8 @@ public class BomDetailServiceImpl extends ServiceImpl<BomDetailMapper, BomDetail
 
     @Resource
     private BomDetailMapper bomDetailMapper;
+    @Resource
+    private BomMapper bomMapper;
 
     @Override
     public Page<BomDetailVO> searchByPage(BomDetailQueryDTO param) {
@@ -71,5 +77,20 @@ public class BomDetailServiceImpl extends ServiceImpl<BomDetailMapper, BomDetail
     public void add(BomDetailAddDTO param) {
         BomDetail user = BeanUtil.toBean(param, BomDetail.class);
         bomDetailMapper.insert(user);
+    }
+
+    @Override
+    public List<BomDetailVO> queryBomDetail(String productCode, String bomVersion) {
+        return bomMapper.selectJoinList(BomDetailVO.class, new MPJLambdaWrapper<Bom>()
+                .innerJoin(Product.class, Product::getId, Bom::getProductId)
+                .innerJoin(BomDetail.class, BomDetail::getBomId, Bom::getId)
+                .innerJoin(Material.class, Material::getId, BomDetail::getMaterialId)
+                // 查询条件
+                .eq(StrUtil.isNotBlank(productCode), Product::getCode, productCode)
+                .eq(StrUtil.isNotBlank(bomVersion), Bom::getVersion, bomVersion)
+                // 字段别名
+                .selectAll(BomDetail.class)
+                .selectAs(Material::getCode, BomDetailVO::getMaterialCode)
+                .selectAs(Material::getName, BomDetailVO::getMaterialName));
     }
 }

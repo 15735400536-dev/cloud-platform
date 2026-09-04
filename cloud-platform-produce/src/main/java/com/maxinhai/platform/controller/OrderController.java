@@ -1,6 +1,7 @@
 package com.maxinhai.platform.controller;
 
 import com.maxinhai.platform.annotation.ApiLog;
+import com.maxinhai.platform.dto.CreateMotorOrderDTO;
 import com.maxinhai.platform.dto.OrderAddDTO;
 import com.maxinhai.platform.dto.OrderQueryDTO;
 import com.maxinhai.platform.service.OrderService;
@@ -79,7 +80,7 @@ public class OrderController {
     @ApiOperation(value = "订单进度统计", notes = "订单进度统计")
     public AjaxResult<OrderProgressVO> orderProgress() {
         apiSwitch = !apiSwitch;
-        if(apiSwitch) {
+        if (apiSwitch) {
             return AjaxResult.success(orderService.orderProgress());
         } else {
             return AjaxResult.success(orderService.orderProgressEx());
@@ -105,6 +106,15 @@ public class OrderController {
     @ApiOperation(value = "订单进度统计(新2)", notes = "订单进度统计（效率高，减少数据库交互次数，减少查询时数据，多线程异步查询，增加数据库瞬时压力）")
     public AjaxResult<OrderProgressVO> orderProgressNew2() throws ExecutionException, InterruptedException {
         return AjaxResult.success(orderService.orderProgressEx3());
+    }
+
+    @ApiLog("创建电机订单")
+    @PostMapping("/createMotorOrder")
+    @ApiOperation(value = "创建电机订单", notes = "创建电机订单")
+    public AjaxResult<OrderProgressVO> createMotorOrder(@RequestBody CreateMotorOrderDTO param) {
+        orderService.createOrder(param.getProductCode(), param.getOrderCount(), param.getPlanBeginTime(), param.getPlanEndTime(),
+                param.getRoutingCode(), param.getRoutingVersion(), param.getBomCode(), param.getBomVersion());
+        return AjaxResult.success("创建电机订单成功！");
     }
 
 }

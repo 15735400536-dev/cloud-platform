@@ -73,6 +73,25 @@ public interface TaskOrderService extends IService<TaskOrder> {
     TaskOrder getPreTaskOrder(String workOrderId, String taskOrderId);
 
     /**
+     * 获取上一道工序派工单（数据库直接查询，无需查全量列表）、
+     *
+     * @param workOrderId 工单ID
+     * @param currentSort 当前工序排序号
+     * @return 上道工序，无则null
+     */
+    TaskOrder getPreTaskOrder(String workOrderId, Integer currentSort);
+
+    /**
+     * 获取上一道工序派工单（缓存查询，减少数据库查询）
+     *
+     * @param orderId 订单ID
+     * @param workOrderId 工单ID
+     * @param currentSort 当前工序排序号
+     * @return 上道工序，无则null
+     */
+    TaskOrder getPreTaskOrderByCache(String orderId, String workOrderId, Integer currentSort);
+
+    /**
      * 获取下道派工单
      *
      * @param workOrderId 工单ID
@@ -82,36 +101,72 @@ public interface TaskOrderService extends IService<TaskOrder> {
     TaskOrder getNextTaskOrder(String workOrderId, String taskOrderId);
 
     /**
-     * 检测订单开工状态（有工单开工，则订单开工）
-     *
-     * @param workOrderId 工单ID
-     * @return true.可开工 false.不可开工
-     */
-    boolean checkOrderStart(String workOrderId);
-
-    /**
-     * 检测订单报工状态
-     *
-     * @param workOrderId 工单ID
-     * @return true.可报工 false.不可报工
-     */
-    boolean checkOrderReport(String workOrderId);
-
-    /**
-     * 检测工单开工状态（第一道派工单开工，则工单可开工）
+     * 检测订单开工状态（订单下工单全部为初始状态，订单可开工）
      *
      * @param orderId 订单ID
      * @return true.可开工 false.不可开工
      */
-    boolean checkWorkOrderStart(String orderId);
+    boolean checkOrderStart(String orderId);
+
+    /**
+     * 检测订单报工状态
+     *
+     * @param orderId 订单ID
+     * @return true.可报工 false.不可报工
+     */
+    boolean checkOrderReport(String orderId);
+
+    /**
+     * 检测订单暂停态
+     *
+     * @param orderId 订单ID
+     * @return true.可暂停 false.不可暂停
+     */
+    boolean checkOrderPause(String orderId);
+
+    /**
+     * 检测订单复工状态
+     *
+     * @param orderId 订单ID
+     * @return true.可复工 false.不可复工
+     */
+    boolean checkOrderResume(String orderId);
+
+    /**
+     * 检测工单开工状态（工单下派工单全部为初始化，可开工）
+     *
+     * @param orderId 订单ID
+     * @param workOrderId 工单ID
+     * @return true.可开工 false.不可开工
+     */
+    boolean checkWorkOrderStart(String orderId, String workOrderId);
 
     /**
      * 检测工单报工状态
      *
      * @param orderId 订单ID
+     * @param workOrderId 工单ID
      * @return true.可报工 false.不可报工
      */
-    boolean checkWorkOrderReport(String orderId);
+    boolean checkWorkOrderReport(String orderId, String workOrderId);
+
+    /**
+     * 检测工单暂停状态
+     *
+     * @param orderId 订单ID
+     * @param workOrderId 工单ID
+     * @return true.可暂停 false.不可暂停
+     */
+    boolean checkWorkOrderPause(String orderId, String workOrderId);
+
+    /**
+     * 检测工单复工状态
+     *
+     * @param orderId 订单ID
+     * @param workOrderId 工单ID
+     * @return true.可复工 false.不可复工
+     */
+    boolean checkWorkOrderResume(String orderId, String workOrderId);
 
     /**
      * 统计今日工单完成数量

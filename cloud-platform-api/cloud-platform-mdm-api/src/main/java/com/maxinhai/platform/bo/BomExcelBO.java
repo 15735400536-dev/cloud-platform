@@ -15,10 +15,14 @@ public class BomExcelBO {
 
     @ExcelProperty("产品编码")
     private String productCode;
+    @ExcelProperty("产品名称")
+    private String productName;
     @ExcelProperty("版本号")
     private String version;
     @ExcelProperty("物料编码")
     private String materialCode;
+    @ExcelProperty("物料名称")
+    private String materialName;
     @ExcelProperty("物料数量")
     private BigDecimal qty;
 
